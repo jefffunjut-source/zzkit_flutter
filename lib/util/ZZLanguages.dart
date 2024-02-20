@@ -25,8 +25,8 @@ const String kHello = 'hello';
 
 abstract class ZZLanguages extends Translations {
   static Locale? get locale {
-    String? languageCode = APP.prefs.getString("kPrefsLanguageCode");
-    String? countryCode = APP.prefs.getString("kPrefsCountryCode");
+    String? languageCode = App.prefs.getString("kPrefsLanguageCode");
+    String? countryCode = App.prefs.getString("kPrefsCountryCode");
     if (languageCode != null && languageCode.isNotEmpty) {
       return Locale(languageCode, countryCode);
     }
@@ -37,8 +37,8 @@ abstract class ZZLanguages extends Translations {
   static const fallbackLocaleCn = Locale('zh', 'CN');
 
   static void changeLocale(Locale newLocale) {
-    APP.prefs.setString("kPrefsLanguageCode", newLocale.languageCode);
-    APP.prefs.setString("kPrefsCountryCode", newLocale.countryCode ?? "");
+    App.prefs.setString("kPrefsLanguageCode", newLocale.languageCode);
+    App.prefs.setString("kPrefsCountryCode", newLocale.countryCode ?? "");
     Get.updateLocale(newLocale);
   }
 

@@ -24,7 +24,7 @@ enum ZZAppBarIcon {
   closeblack,
 }
 
-ZZAppManager APP = ZZAppManager();
+ZZAppManager App = ZZAppManager();
 
 /************************
  *    全局常量（不可变）   *
@@ -44,11 +44,6 @@ GlobalKey<NavigatorState> kNavigatorKey = GlobalKey<NavigatorState>();
 BuildContext kContext = kNavigatorKey.currentState!.overlay!.context;
 
 /// Dio
-const String kAppVersion = "V8.5.2";
-const kTest = false ? ".test" : "";
-ValueNotifier<String> kAPIHostNotifier =
-    ValueNotifier<String>("https://app$kTest.55haitao.com");
-ValueNotifier<String> kUserTokenNotifier = ValueNotifier<String>('');
 late Dio kDio;
 
 /// Geometry常量
@@ -66,12 +61,12 @@ const kColorGrey99 = Color(0xFF999999);
 const kColorGreyCC = Color(0xFFCCCCCC);
 const kColorGreyF5 = Color(0xFFF5F5F5);
 const kColorRed = Color(0xFFFF604B);
-Gradient kColorGradientOrangeRed = APP.grandientColor(
+Gradient kColorGradientOrangeRed = App.grandientColor(
     beginColor: const Color(0xFFFF694B),
     endColor: const Color(0xFFFF5063),
     beginAlign: Alignment.centerLeft,
     endAlign: Alignment.centerRight);
-Gradient kColorGradientRedYellow = APP.grandientColor(
+Gradient kColorGradientRedYellow = App.grandientColor(
     beginColor: const Color(0xFFFF4A5E),
     endColor: const Color(0xFFFF9869),
     beginAlign: Alignment.centerLeft,
@@ -85,4 +80,3 @@ EventBus kEventBus = EventBus();
  ************************/
 bool gIsKeyboardVisible = false;
 bool gIsHomeInit = false;
-Map<dynamic, dynamic>? gMessageExtras;

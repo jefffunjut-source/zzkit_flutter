@@ -73,7 +73,7 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:
-                          APP.textStyle(color: Colors.white, fontSize: 10.sp),
+                          App.textStyle(color: Colors.white, fontSize: 10.sp),
                     ),
                   ),
                 )

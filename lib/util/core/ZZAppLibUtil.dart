@@ -234,11 +234,11 @@ extension ZZAppLibUtil on ZZAppManager {
     return completer.future;
   }
 
-  bool getNewInstallOrUpdate() {
+  bool getNewInstallOrUpdate(String currentVersion) {
     if (isNewInstallOrUpdate != null) return isNewInstallOrUpdate!;
-    String? appPrefsVersion = APP.prefs.getString(kPrefsAppVersion);
-    APP.prefs.setString(kPrefsAppVersion, kAppVersion);
-    if (appPrefsVersion == null || appPrefsVersion != kAppVersion) {
+    String? appPrefsVersion = App.prefs.getString(kPrefsAppVersion);
+    App.prefs.setString(kPrefsAppVersion, currentVersion);
+    if (appPrefsVersion == null || appPrefsVersion != currentVersion) {
       return true;
     }
     return false;

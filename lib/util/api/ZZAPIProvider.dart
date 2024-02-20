@@ -99,7 +99,6 @@ class ZZAPIRequest {
       // if (kDebugMode) {
       if (kDebugMode) {
         print('==========++++++++++API==========++++++++++');
-        print(kAPIHostNotifier.value);
         print('dio.options.headers =  ${kDio.options.headers}');
         print('baseUrl =  ${kDio.options.baseUrl}');
         print("url = $url");
@@ -164,11 +163,11 @@ class ZZAPIRequest {
       } else {
         if (resp.msg != null) {
           if (kDebugMode) {
-            APP.toast("Oops,catch a server error:\n\n" + resp.msg!,
+            App.toast("Oops,catch a server error:\n\n" + resp.msg!,
                 duration: 3, pageName: pageName);
           } else {
             if (noToast == null || noToast == false) {
-              APP.toast(resp.msg!, pageName: pageName);
+              App.toast(resp.msg!, pageName: pageName);
             }
           }
         }
@@ -183,7 +182,7 @@ class ZZAPIRequest {
         return ZZAPIResponse(null, null);
       } else if (e is TypeError) {
         if (kDebugMode) {
-          APP.toast("Oops,catch a type error:\n\n$e\n\n${e.stackTrace}",
+          App.toast("Oops,catch a type error:\n\n$e\n\n${e.stackTrace}",
               duration: 3, pageName: pageName);
           return ZZAPIResponse(
               null, ZZAPIError(code: "100", errorMessage: e.toString()));
@@ -194,14 +193,14 @@ class ZZAPIRequest {
         // 豁免该类报错
       } else {
         if (kDebugMode) {
-          APP.toast("Oops,catch an error:\n\n$e",
+          App.toast("Oops,catch an error:\n\n$e",
               duration: 3, pageName: pageName);
         } else {
           String errorString = e.toString();
           if (kDebugMode) {
             print("请求失败 url = $url ------ response = $errorString ");
           }
-          APP.toast('Please try again!', pageName: pageName);
+          App.toast('Please try again!', pageName: pageName);
         }
       }
       // }

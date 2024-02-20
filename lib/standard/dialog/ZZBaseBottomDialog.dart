@@ -30,7 +30,7 @@ abstract class ZZBaseBottomDialog {
   }
 
   TextStyle? titleTextStyle() {
-    return APP.textStyle(color: kColorBlack, fontSize: 22.sp, bold: true);
+    return App.textStyle(color: kColorBlack, fontSize: 22.sp, bold: true);
   }
 
   bool enableClose() {

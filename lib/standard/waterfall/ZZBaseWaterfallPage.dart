@@ -112,7 +112,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     return ZZBaseScaffold(
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
-          : APP.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
+          : App.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
       body: Obx(() => (controller as ZZBaseWaterfallController).nodata.value
           ? Center(
               child: ZZNoDataWidget(nodata: true),

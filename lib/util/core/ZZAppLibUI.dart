@@ -215,7 +215,7 @@ extension ZZAppLibUI on ZZAppManager {
         child: Text(
           title ?? "",
           style: titleStyle ??
-              APP.textStyle(color: kColorBlack, fontSize: 18.sp, bold: true),
+              App.textStyle(color: kColorBlack, fontSize: 18.sp, bold: true),
         ),
       ),
       centerTitle: centerTitle ?? true,
@@ -275,8 +275,8 @@ extension ZZAppLibUI on ZZAppManager {
       labelColor: labelColor ?? Colors.white,
       unselectedLabelColor: unselectedLabelColor ?? kColorBlack,
       labelStyle:
-          APP.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
-      unselectedLabelStyle: APP.textStyle(color: Colors.white, fontSize: 14.sp),
+          App.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
+      unselectedLabelStyle: App.textStyle(color: Colors.white, fontSize: 14.sp),
       controller: controller,
     );
   }
@@ -313,10 +313,10 @@ extension ZZAppLibUI on ZZAppManager {
       indicatorSize: TabBarIndicatorSize.label,
       labelColor: labelColor ?? kColorBlack,
       labelStyle: labelStyle ??
-          APP.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
+          App.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
       unselectedLabelColor: unselectedLabelColor ?? kColorGrey99,
       unselectedLabelStyle: unselectedLabelStyle ??
-          APP.textStyle(color: Colors.white, fontSize: 14.sp),
+          App.textStyle(color: Colors.white, fontSize: 14.sp),
       controller: controller,
     );
   }

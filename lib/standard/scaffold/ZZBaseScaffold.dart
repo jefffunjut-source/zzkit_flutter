@@ -123,7 +123,7 @@ class ZZBaseScaffoldState extends ScaffoldState {
                       nodata: nodata,
                       hintText: nodataHintText,
                     ))
-                : APP.empty()
+                : App.empty()
           ])),
     );
   }

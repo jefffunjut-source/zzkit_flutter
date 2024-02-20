@@ -48,10 +48,10 @@ class ZZNoDataWidget extends StatelessWidget {
                   R.assetsImgIcPlaceholderNoData
                       .addPrefix(kAssetImagePrefixName) ??
                   ""),
-              APP.space(height: 24.w),
+              App.space(height: 24.w),
               Text(
                 hintText ?? "暂无数据",
-                style: APP.textStyle(color: kColorGrey66, fontSize: 16.sp),
+                style: App.textStyle(color: kColorGrey66, fontSize: 16.sp),
                 strutStyle: const StrutStyle(height: 1.5),
                 textAlign: TextAlign.center,
               ),
@@ -60,7 +60,7 @@ class ZZNoDataWidget extends StatelessWidget {
         ),
       );
     } else {
-      return APP.empty();
+      return App.empty();
     }
   }
 }

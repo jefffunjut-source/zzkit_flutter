@@ -35,7 +35,7 @@ class ZZBaseListController extends GetxController {
       page = 1;
       nodata.value = false;
       if (dataSource.isEmpty) {
-        APP.show();
+        App.show();
       }
     } else {
       page = page + 1;
@@ -48,11 +48,11 @@ class ZZBaseListController extends GetxController {
     response.rows = rows;
     nodata.value = false;
     if (page == 1) {
-      APP.dismiss();
+      App.dismiss();
     }
     ZZAPIError? error = response.error;
     if (error != null) {
-      APP.toast(error.errorMessage);
+      App.toast(error.errorMessage);
       refreshController.loadComplete();
       refreshController.refreshCompleted();
     } else {
@@ -147,7 +147,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     return ZZBaseScaffold(
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
-          : APP.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
+          : App.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
       body: Obx(() => (controller as ZZBaseListController).nodata.value
           ? Center(
               child: ZZNoDataWidget(nodata: true),

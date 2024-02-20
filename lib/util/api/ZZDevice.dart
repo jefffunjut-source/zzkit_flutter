@@ -72,7 +72,7 @@ class ZZDevice {
   }
 
   static String? userToken() {
-    String? token = APP.prefs.getString(kPrefsUserToken);
+    String? token = App.prefs.getString(kPrefsUserToken);
     return token;
   }
 }

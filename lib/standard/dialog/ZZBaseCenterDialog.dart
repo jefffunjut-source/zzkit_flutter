@@ -59,11 +59,11 @@ abstract class ZZBaseCenterDialog {
   }
 
   TextStyle leftButtonTextStyle() {
-    return APP.textStyle(color: kColorRed, fontSize: 16.sp, bold: true);
+    return App.textStyle(color: kColorRed, fontSize: 16.sp, bold: true);
   }
 
   TextStyle rightButtonTextStyle() {
-    return APP.textStyle(color: kColorWhite, fontSize: 16.sp, bold: true);
+    return App.textStyle(color: kColorWhite, fontSize: 16.sp, bold: true);
   }
 
   Color? leftButtonBackgroundColor() {
