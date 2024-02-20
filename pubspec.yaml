@@ -1,0 +1,83 @@
+name: zzkit
+description: "A new Flutter package project."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  shared_preferences: ^2.2.2
+  dio: ^5.4.1
+  flutter_screenutil: ^5.9.0
+  flutter_staggered_grid_view: ^0.7.0
+  webview_flutter: ^4.7.0
+  pull_to_refresh: ^2.0.0
+  introduction_screen: ^3.1.12
+  device_info_plus: ^9.1.2
+  crypto: ^3.0.3
+  flutter_easyloading: ^3.0.5
+  flutter_markdown: ^0.6.19
+  flutter_keyboard_visibility: ^5.4.1
+  cupertino_icons: ^1.0.6
+  event_bus: ^2.0.0
+  wechat_assets_picker: ^9.0.0-dev.2
+  wechat_camera_picker: ^4.2.0-dev.3 
+  photo_manager: ^3.0.0-dev.5
+  characters: ^1.3.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  assets:
+    # assets-generator-begin
+    # assets/img/*
+    - assets/img/flutter.png
+    - assets/img/fullscreen.jpg
+    - assets/img/ic_bg_rebate_dialog.png
+    - assets/img/ic_launchscreen.png
+    - assets/img/ic_nav_add_black.png
+    - assets/img/ic_nav_back_black.png
+    - assets/img/ic_nav_back_gray.png
+    - assets/img/ic_nav_back_white.png
+    - assets/img/ic_nav_back_white_shadow.png
+    - assets/img/ic_nav_buyer_help_black.png
+    - assets/img/ic_nav_buyer_service_black.png
+    - assets/img/ic_nav_close_black.png
+    - assets/img/ic_nav_forward_black.png
+    - assets/img/ic_nav_forward_gray.png
+    - assets/img/ic_nav_more_black.png
+    - assets/img/ic_nav_notice.png
+    - assets/img/ic_nav_post_black.png
+    - assets/img/ic_nav_search.png
+    - assets/img/ic_nav_service_black.png
+    - assets/img/ic_nav_service_gray.png
+    - assets/img/ic_nav_setting_black.png
+    - assets/img/ic_nav_share_black.png
+    - assets/img/ic_nav_share_white.png
+    - assets/img/ic_placeholder_no_data.png
+    - assets/img/ic_tab_deal.png
+    - assets/img/ic_tab_deal_selected.png
+    - assets/img/ic_tab_me.png
+    - assets/img/ic_tab_me_selected.png
+    - assets/img/ic_tab_sns.png
+    - assets/img/ic_tab_sns_selected.png
+    - assets/img/ic_tab_store.png
+    - assets/img/ic_tab_store_selected.png
+    - assets/img/img1.jpg
+    - assets/img/img2.jpg
+    - assets/img/img3.jpg
+    # assets-generator-end
+
