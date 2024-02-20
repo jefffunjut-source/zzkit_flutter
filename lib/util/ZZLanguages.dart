@@ -43,9 +43,7 @@ abstract class ZZLanguages extends Translations {
   }
 
   Map<String, String>? wordsMapForDifferentLanguage(
-      ZZLanguageType languageType) {
-    return null;
-  }
+      ZZLanguageType languageType);
 
   @override
   Map<String, Map<String, String>> get keys => {

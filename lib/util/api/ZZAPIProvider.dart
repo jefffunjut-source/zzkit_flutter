@@ -19,7 +19,7 @@ class ZZAPIUrl {
 
 abstract class ZZAPIProvider {
   /// 初始化dio
-  Future<bool> initialDio();
+  Future<bool> initDio();
 
   /// 更新dio
   void updateDio();
