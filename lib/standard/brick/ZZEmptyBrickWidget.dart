@@ -2,7 +2,7 @@
 library zzkit;
 
 import 'package:flutter/material.dart';
-import 'package:zzkit/standard/brick/common/ZZBaseBrickWidget.dart';
+import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrickWidget.dart';
 
 class ZZEmptyBrickWidget extends ZZBaseBrickWidget<ZZEmptyBrickObject> {
   @override

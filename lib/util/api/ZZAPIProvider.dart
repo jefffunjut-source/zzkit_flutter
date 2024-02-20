@@ -7,11 +7,11 @@ import 'package:dio/io.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart' as DioFormData;
 import 'package:flutter/foundation.dart';
-import 'package:zzkit/util/ZZExtension.dart';
-import 'package:zzkit/util/api/ZZDevice.dart';
-import 'package:zzkit/util/api/response/ht_response_dynamic_resource.dart';
-import 'package:zzkit/util/core/ZZAppConsts.dart';
-import 'package:zzkit/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/ZZExtension.dart';
+import 'package:zzkit_flutter/util/api/ZZDevice.dart';
+import 'package:zzkit_flutter/util/api/response/ht_response_dynamic_resource.dart';
+import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 enum ZZAPIReqType { post, get, delete, put }
 

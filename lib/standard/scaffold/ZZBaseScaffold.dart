@@ -3,9 +3,9 @@ library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zzkit/standard/widget/ZZNoDataWidget.dart';
-import 'package:zzkit/util/core/ZZAppConsts.dart';
-import 'package:zzkit/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
+import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 // ignore: must_be_immutable
 class ZZBaseScaffold extends Scaffold {
@@ -96,7 +96,7 @@ class ZZBaseScaffoldState extends ScaffoldState {
       hiddenBackbtn = thisWidget.hiddenBackbtn;
       isHomePage = thisWidget.isHomePage;
     } else {
-      assert(false, "this is not MRBaseScaffold");
+      assert(false, "this is not ZZBaseScaffold");
     }
   }
 
@@ -126,6 +126,5 @@ class ZZBaseScaffoldState extends ScaffoldState {
                 : APP.empty()
           ])),
     );
-    // }
   }
 }

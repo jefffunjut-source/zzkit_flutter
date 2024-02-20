@@ -1,5 +1,5 @@
-name: zzkit
-description: "A new Flutter package project."
+name: zzkit_flutter
+description: "A useful Flutter package project."
 version: 0.0.1
 homepage:
 
@@ -44,10 +44,6 @@ flutter:
   assets:
     # assets-generator-begin
     # assets/img/*
-    - assets/img/flutter.png
-    - assets/img/fullscreen.jpg
-    - assets/img/ic_bg_rebate_dialog.png
-    - assets/img/ic_launchscreen.png
     - assets/img/ic_nav_add_black.png
     - assets/img/ic_nav_back_black.png
     - assets/img/ic_nav_back_gray.png
@@ -68,16 +64,5 @@ flutter:
     - assets/img/ic_nav_share_black.png
     - assets/img/ic_nav_share_white.png
     - assets/img/ic_placeholder_no_data.png
-    - assets/img/ic_tab_deal.png
-    - assets/img/ic_tab_deal_selected.png
-    - assets/img/ic_tab_me.png
-    - assets/img/ic_tab_me_selected.png
-    - assets/img/ic_tab_sns.png
-    - assets/img/ic_tab_sns_selected.png
-    - assets/img/ic_tab_store.png
-    - assets/img/ic_tab_store_selected.png
-    - assets/img/img1.jpg
-    - assets/img/img2.jpg
-    - assets/img/img3.jpg
     # assets-generator-end
 

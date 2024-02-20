@@ -164,13 +164,13 @@ extension ZZAppLibUI on ZZAppManager {
       case ZZAppBarIcon.none:
         return null;
       case ZZAppBarIcon.backblack:
-        return R.assetsImgIcNavBackBlack;
+        return R.assetsImgIcNavBackBlack.addPrefix(kAssetImagePrefixName);
       case ZZAppBarIcon.backwhite:
-        return R.assetsImgIcNavBackWhite;
+        return R.assetsImgIcNavBackWhite.addPrefix(kAssetImagePrefixName);
       case ZZAppBarIcon.closeblack:
-        return R.assetsImgIcNavCloseBlack;
+        return R.assetsImgIcNavCloseBlack.addPrefix(kAssetImagePrefixName);
       default:
-        return R.assetsImgIcNavBackBlack;
+        return R.assetsImgIcNavBackBlack.addPrefix(kAssetImagePrefixName);
     }
   }
 

@@ -3,12 +3,12 @@ library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zzkit/standard/scaffold/ZZBaseScaffold.dart';
-import 'package:zzkit/standard/brick/common/ZZBaseBrickWidget.dart';
-import 'package:zzkit/standard/widget/ZZNoDataWidget.dart';
-import 'package:zzkit/util/api/ZZAPIProvider.dart';
-import 'package:zzkit/util/core/ZZAppConsts.dart';
-import 'package:zzkit/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
+import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrickWidget.dart';
+import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
+import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
+import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 typedef ZZAppApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse>

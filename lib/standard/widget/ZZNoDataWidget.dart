@@ -3,9 +3,10 @@ library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zzkit/r.dart';
-import 'package:zzkit/util/core/ZZAppConsts.dart';
-import 'package:zzkit/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/r.dart';
+import 'package:zzkit_flutter/util/ZZExtension.dart';
+import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 class ZZNoDataWidget extends StatelessWidget {
   bool? nodata;
@@ -43,7 +44,10 @@ class ZZNoDataWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(img ?? R.assetsImgIcPlaceholderNoData),
+              Image.asset(img ??
+                  R.assetsImgIcPlaceholderNoData
+                      .addPrefix(kAssetImagePrefixName) ??
+                  ""),
               APP.space(height: 24.w),
               Text(
                 hintText ?? "暂无数据",

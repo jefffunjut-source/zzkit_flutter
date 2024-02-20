@@ -4,9 +4,10 @@ library zzkit;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zzkit/r.dart';
-import 'package:zzkit/util/core/ZZAppConsts.dart';
-import 'package:zzkit/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/r.dart';
+import 'package:zzkit_flutter/util/ZZExtension.dart';
+import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 class ZZNoticeController extends GetxController {
   RxString noticeNumber = "".obs;
@@ -49,7 +50,8 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset(R.assetsImgIcNavNotice),
+          Image.asset(
+              R.assetsImgIcNavNotice.addPrefix(kAssetImagePrefixName) ?? ""),
           Obx(() => controller.noticeNumber.value.isNotEmpty
               ? Positioned(
                   left: width / 2 + 2,

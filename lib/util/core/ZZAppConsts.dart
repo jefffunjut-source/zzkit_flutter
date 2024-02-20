@@ -3,7 +3,7 @@ library zzkit;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:zzkit/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,6 +29,9 @@ ZZAppManager APP = ZZAppManager()..initSomething();
 /************************
  *    全局常量（不可变）   *
  ************************/
+/// ZZKit Package名称
+const String kAssetImagePrefixName = "packages/zzkit_flutter/";
+
 /// 页面名称
 const String kPageTest = "kPageTest";
 

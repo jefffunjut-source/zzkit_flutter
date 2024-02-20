@@ -175,6 +175,16 @@ extension ZZExtensionString on String {
     }
     return Colors.white;
   }
+
+  /// 拼接前缀字符串
+  String? addPrefix(String str) {
+    return "$str$this";
+  }
+
+  /// 拼接后缀字符串
+  String? append(String str) {
+    return "$this$str";
+  }
 }
 
 extension ZZExtensionInt on int {
