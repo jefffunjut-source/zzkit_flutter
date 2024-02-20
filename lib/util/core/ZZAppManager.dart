@@ -24,7 +24,6 @@ import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
-import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 
 import 'ZZAppConsts.dart';
 
@@ -56,7 +55,6 @@ class ZZAppManager {
 
   Future<bool> initSomething() async {
     prefs = await SharedPreferences.getInstance();
-    ZZAPIProvider.initailDio();
     return true;
   }
 }

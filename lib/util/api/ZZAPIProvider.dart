@@ -7,9 +7,6 @@ import 'package:dio/io.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart' as DioFormData;
 import 'package:flutter/foundation.dart';
-import 'package:zzkit_flutter/util/ZZExtension.dart';
-import 'package:zzkit_flutter/util/api/ZZDevice.dart';
-import 'package:zzkit_flutter/util/api/response/ht_response_dynamic_resource.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
@@ -20,64 +17,15 @@ class ZZAPIUrl {
   static const dynamicResource = "/common/dynamic_resource";
 }
 
-class ZZAPIProvider {
-  static void initailDio() async {
-    String deviceId = await ZZDevice.deviceId() ?? "";
-    String os = await ZZDevice.os() ?? "";
-    String model = await ZZDevice.model() ?? "";
-    String platform = ZZDevice.platform();
-    double scale = ZZDevice.scale();
-    String userToken = ZZDevice.userToken() ?? "";
-    kUserTokenNotifier.addListener(() {
-      kDio.options.baseUrl = kAPIHostNotifier.value;
-    });
-    kDio = Dio(BaseOptions(
-      baseUrl: kAPIHostNotifier.value,
-    )
-      ..headers["v"] = "v3.1"
-      ..headers["n"] = deviceId
-      ..headers["client-v"] = kAppVersion.replaceFirst("V", "")
-      ..headers["p"] = platform
-      ..headers["os"] = os
-      ..headers["model"] = model
-      ..headers["net-type"] = "4G"
-      ..headers["scale"] = scale
-      ..headers["w"] = kScreenWidth.toString()
-      ..headers["h"] = kScreenHeight.toString()
-      ..headers["t"] = ""
-      ..headers["api-token"] = ""
-      ..headers["token"] = userToken
-      ..followRedirects = true
-      ..maxRedirects = 100);
-  }
+abstract class ZZAPIProvider {
+  /// 初始化dio
+  Future<bool> initialDio();
 
-  static void updateDio() {
-    String time = ZZDevice.secondsSince1970();
-    kDio.options.headers["t"] = time;
-    kDio.options.headers["api-token"] = "$time@55haitao".parse2MD5String();
-    kDio.options.headers["token"] = kUserTokenNotifier.value;
-  }
+  /// 更新dio
+  void updateDio();
 
-  static dynamic process(String url, Map<String, dynamic> json) {
-    dynamic resp;
-    switch (url) {
-      case ZZAPIUrl.test:
-        {
-          ZZCommonResponse response = ZZCommonResponse();
-          response.code = "0";
-          response.msg = "";
-          break;
-        }
-      case ZZAPIUrl.dynamicResource:
-        resp = HtResponseDynamicResource.fromJson(json);
-        break;
-      default:
-        {
-          resp = ZZCommonResponse.fromJson(json);
-        }
-    }
-    return resp;
-  }
+  /// 处理response和model的映射
+  dynamic process(String url, Map<String, dynamic> json);
 }
 
 class ZZAPIError {
@@ -96,7 +44,7 @@ class ZZAPIResponse<T> {
 }
 
 class ZZAPIRequest {
-  // 0 post 1 get 2 delete
+  ZZAPIProvider provider;
   ZZAPIReqType? type;
   final String apiUrl;
   Map? data;
@@ -107,7 +55,8 @@ class ZZAPIRequest {
   bool? noToast;
 
   ZZAPIRequest(
-      {this.type = ZZAPIReqType.post,
+      {required this.provider,
+      this.type = ZZAPIReqType.post,
       required this.apiUrl,
       this.data,
       this.dataFromMap,
@@ -121,7 +70,7 @@ class ZZAPIRequest {
     ZZAPIError? error;
     String url = apiUrl;
 
-    ZZAPIProvider.updateDio();
+    provider.updateDio();
 
     try {
       // 支持Charles抓包
@@ -205,7 +154,7 @@ class ZZAPIRequest {
       if (body is String) {
         body = jsonDecode(body);
       }
-      resp = ZZAPIProvider.process(url, body);
+      resp = provider.process(url, body);
 
       assert(resp != null, "处理映射关系");
       if (resp.code == 0 || resp.code == "0") {

@@ -24,7 +24,7 @@ enum ZZAppBarIcon {
   closeblack,
 }
 
-ZZAppManager APP = ZZAppManager()..initSomething();
+ZZAppManager APP = ZZAppManager();
 
 /************************
  *    全局常量（不可变）   *
