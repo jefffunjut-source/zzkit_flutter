@@ -1,8 +1,10 @@
-// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides
+// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_new
 library zzkit;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrickWidget.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrickWidget.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
@@ -22,40 +24,79 @@ class ZZBaseListController extends GetxController {
   RxBool nodata = false.obs;
   RxList<dynamic> dataSource = <dynamic>[].obs;
 
+  // 是否启用shimmer
+  bool? shimmer;
+  double? shimmerBrickHeight;
+  Widget? shimmerCustomWidget;
+
+  // Refresh描述
+  String? refreshingIdleText;
+  String? refreshingReleaseText;
+  String? refreshingText;
+  String? refreshingCompleteText;
+  String? refreshingLoadingText;
+  String? refreshingNoDataText;
+
   // UI描述
   EdgeInsetsGeometry? margin;
   EdgeInsetsGeometry? padding;
-  int? colorHex;
+  EdgeInsetsGeometry? brickMargin;
+  EdgeInsetsGeometry? brickPadding;
+  int? brickColor;
 
-  ZZBaseListController({this.margin, this.padding, this.colorHex});
+  ZZBaseListController(
+      {this.shimmer = false,
+      this.shimmerBrickHeight,
+      this.shimmerCustomWidget,
+      this.refreshingIdleText = "下拉可以刷新哦",
+      this.refreshingReleaseText = "释放刷新",
+      this.refreshingText = "正在加载",
+      this.refreshingCompleteText = "完成",
+      this.refreshingLoadingText = "正在加载中...",
+      this.refreshingNoDataText = "已经到底咯",
+      this.margin,
+      this.padding,
+      this.brickMargin,
+      this.brickPadding,
+      this.brickColor});
 
-  Future<ZZAPIResponse> beginTransaction(
-      bool nextPage, ZZAppApiRequestCallback apiRequest) async {
+  Future<ZZAPIResponse?> beginTransaction(
+      bool nextPage, ZZAppApiRequestCallback? apiRequest) async {
     if (nextPage == false) {
       page = 1;
       nodata.value = false;
       if (dataSource.isEmpty) {
-        App.show();
+        shimmer ?? false ? null : App.show();
       }
     } else {
       page = page + 1;
     }
-    ZZAPIResponse response = await apiRequest();
-    return response;
+    if (apiRequest != null) {
+      ZZAPIResponse response = await apiRequest();
+      return response;
+    } else {
+      return null;
+    }
   }
 
-  void endTransaction(ZZAPIResponse response, List? rows) {
-    response.rows = rows;
+  void endTransaction(ZZAPIResponse? response, List? rows) {
+    response?.rows = rows;
     nodata.value = false;
     if (page == 1) {
-      App.dismiss();
+      shimmer ?? false ? null : App.dismiss();
     }
-    ZZAPIError? error = response.error;
+    ZZAPIError? error = response?.error;
     if (error != null) {
       App.toast(error.errorMessage);
       refreshController.loadComplete();
       refreshController.refreshCompleted();
     } else {
+      dataSource.removeWhere((element) {
+        if (element is ZZShimmerBrickObject) {
+          return true;
+        }
+        return false;
+      });
       if (page == 1) {
         dataSource.clear();
         if (rows?.isEmpty ?? true) {
@@ -91,22 +132,51 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   }
 
   void getData(bool nextPage) async {
-    (widget.controller as ZZBaseListController).fetchData(nextPage);
+    ZZBaseListController controller = widget.controller as ZZBaseListController;
+
+    /// Shimmer
+    if (controller.shimmer ?? false) {
+      bool hasShimmer = false;
+      for (var object in controller.dataSource) {
+        if (object is ZZShimmerBrickObject) {
+          hasShimmer = true;
+          break;
+        }
+      }
+      if (!hasShimmer) {
+        List arr = List.empty(growable: true);
+        for (int i = 0; i < controller.pageSize; i++) {
+          var shimmer = ZZShimmerBrickObject()
+            ..height = controller.shimmerBrickHeight
+            ..customWidget = controller.shimmerCustomWidget
+            ..widget = ZZShimmerBrickWidget();
+          arr.add(shimmer);
+        }
+        controller.dataSource.addAll(arr);
+        // controller.refreshController.refreshCompleted();
+        // controller.refreshController.loadComplete();
+      }
+    }
+
+    /// Real data
+    controller.fetchData(nextPage);
   }
 
   Widget homeBody() {
+    ZZBaseListController controller = widget.controller as ZZBaseListController;
     return SmartRefresher(
-      controller: (widget.controller as ZZBaseListController).refreshController,
+      controller: controller.refreshController,
       enablePullUp: true,
-      header: const ClassicHeader(
-        idleText: "下拉可以刷新哦",
-        releaseText: "释放刷新",
-        refreshingText: "正在加载",
-        completeText: "完成",
+      enablePullDown: true,
+      header: ClassicHeader(
+        idleText: controller.refreshingIdleText,
+        releaseText: controller.refreshingReleaseText,
+        refreshingText: controller.refreshingText,
+        completeText: controller.refreshingCompleteText,
       ),
-      footer: const ClassicFooter(
-        loadingText: "正在加载中...",
-        noDataText: "已经到底咯",
+      footer: ClassicFooter(
+        loadingText: controller.refreshingLoadingText,
+        noDataText: controller.refreshingNoDataText,
       ),
       onRefresh: () async {
         getData(false);
@@ -118,22 +188,18 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              ZZBaseBrickObject object =
-                  (widget.controller as ZZBaseListController).dataSource[index];
-              if (object.margin != null || object.padding != null) {
-                return Container(
-                    color: object.padding != null
-                        ? Color(object.colorHex ?? 0xFFFFFFFF)
-                        : null,
-                    margin: object.margin,
-                    padding: object.padding,
-                    child: object.widget);
-              } else {
-                return object.widget;
-              }
+              ZZBaseBrickObject object = controller.dataSource[index];
+              object.margin ??= controller.brickMargin;
+              object.padding ??= controller.brickPadding;
+              return Container(
+                  color: object.padding != null
+                      ? Color(object.colorHex ?? 0xFFFFFFFF)
+                      : null,
+                  margin: object.margin,
+                  padding: object.padding,
+                  child: object.widget);
             },
-            childCount:
-                (widget.controller as ZZBaseListController).dataSource.length,
+            childCount: controller.dataSource.length,
           ),
         ),
       ]),
@@ -156,7 +222,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
               ? Container(
                   margin: controller.margin,
                   padding: controller.padding,
-                  color: Color(controller.colorHex ?? 0xFFFFFFFF),
+                  color: Color(controller.brickColor ?? 0xFFFFFFFF),
                   child: homeBody(),
                 )
               : homeBody()),

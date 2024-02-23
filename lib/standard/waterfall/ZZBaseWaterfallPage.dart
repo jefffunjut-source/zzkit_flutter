@@ -24,9 +24,21 @@ class ZZBaseWaterfallController extends ZZBaseListController {
       {required this.crossAxisCount,
       this.mainAxisSpacing,
       this.crossAxisSpacing,
+      // 瀑布流不考虑shimmer动画，加载shimmer前无法预知高度
+      // super.shimmer,
+      // super.shimmerBrickHeight,
+      // super.shimmerBrickObject,
+      super.refreshingIdleText,
+      super.refreshingReleaseText,
+      super.refreshingText,
+      super.refreshingCompleteText,
+      super.refreshingLoadingText,
+      super.refreshingNoDataText,
       super.margin,
       super.padding,
-      super.colorHex})
+      super.brickMargin,
+      super.brickPadding,
+      super.brickColor})
       : super();
 }
 
@@ -47,23 +59,24 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
   }
 
   void getData(bool nextPage) async {
-    (widget.controller as ZZBaseWaterfallController).fetchData(nextPage);
+    ZZBaseWaterfallController controller = widget.controller;
+    controller.fetchData(nextPage);
   }
 
   Widget homeBody() {
+    ZZBaseWaterfallController controller = widget.controller;
     return SmartRefresher(
-      controller:
-          (widget.controller as ZZBaseWaterfallController).refreshController,
+      controller: controller.refreshController,
       enablePullUp: true,
-      header: const ClassicHeader(
-        idleText: "下拉可以刷新哦",
-        releaseText: "释放刷新",
-        refreshingText: "正在加载",
-        completeText: "完成",
+      header: ClassicHeader(
+        idleText: controller.refreshingIdleText,
+        releaseText: controller.refreshingReleaseText,
+        refreshingText: controller.refreshingText,
+        completeText: controller.refreshingCompleteText,
       ),
-      footer: const ClassicFooter(
-        loadingText: "正在加载中...",
-        noDataText: "已经到底咯",
+      footer: ClassicFooter(
+        loadingText: controller.refreshingLoadingText,
+        noDataText: controller.refreshingNoDataText,
       ),
       onRefresh: () async {
         getData(false);
@@ -73,32 +86,19 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
       },
       child: CustomScrollView(slivers: <Widget>[
         SliverMasonryGrid.count(
-          crossAxisCount:
-              (widget.controller as ZZBaseWaterfallController).crossAxisCount,
-          mainAxisSpacing: (widget.controller as ZZBaseWaterfallController)
-                  .mainAxisSpacing ??
-              0,
-          crossAxisSpacing: (widget.controller as ZZBaseWaterfallController)
-                  .crossAxisSpacing ??
-              0,
-          childCount: (widget.controller as ZZBaseWaterfallController)
-              .dataSource
-              .length,
+          crossAxisCount: controller.crossAxisCount,
+          mainAxisSpacing: controller.mainAxisSpacing ?? 0,
+          crossAxisSpacing: controller.crossAxisSpacing ?? 0,
+          childCount: controller.dataSource.length,
           itemBuilder: (context, index) {
-            ZZBaseBrickObject object =
-                (widget.controller as ZZBaseWaterfallController)
-                    .dataSource[index];
-            if (object.margin != null || object.padding != null) {
-              return Container(
-                  color: object.padding != null
-                      ? Color(object.colorHex ?? 0xFFFFFFFF)
-                      : null,
-                  margin: object.margin,
-                  padding: object.padding,
-                  child: object.widget);
-            } else {
-              return object.widget;
-            }
+            ZZBaseBrickObject object = controller.dataSource[index];
+            return Container(
+                color: object.padding != null
+                    ? Color(object.colorHex ?? 0xFFFFFFFF)
+                    : null,
+                margin: object.margin,
+                padding: object.padding,
+                child: object.widget);
           },
         )
       ]),
@@ -121,7 +121,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
               ? Container(
                   margin: controller.margin,
                   padding: controller.padding,
-                  color: Color(controller.colorHex ?? 0xFFFFFFFF),
+                  color: Color(controller.brickColor ?? 0xFFFFFFFF),
                   child: homeBody(),
                 )
               : homeBody()),
