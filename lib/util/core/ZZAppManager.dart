@@ -47,9 +47,6 @@ class ZZAppManager {
   // 上一页面
   String? prePageName;
 
-  // 当前Tab页码
-  int tabIndex = 0;
-
   // app是否新安装或更新
   bool? isNewInstallOrUpdate;
 

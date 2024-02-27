@@ -4,7 +4,3 @@ library zzkit;
 class ZZEventKeyboard {
   bool? visible;
 }
-
-class ZZEventChangeTab {
-  late int index;
-}
