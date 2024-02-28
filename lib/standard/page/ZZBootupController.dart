@@ -9,7 +9,7 @@ class ZZBootupController extends GetxController {
 
   /// 用户隐私阻塞弹窗
   RxBool enablePrivacyPrompt = false.obs;
-  late Future<dynamic> Function() privacyPrompt;
+  late Future Function() privacyPrompt;
 
   /// 多语言
   Translations? translations;
