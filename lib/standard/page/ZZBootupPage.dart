@@ -12,22 +12,44 @@ import 'package:zzkit_flutter/util/ZZEvent.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
-class ZZBootupPage extends StatelessWidget {
+class ZZBootupPage extends StatefulWidget {
   const ZZBootupPage({super.key});
 
   @override
+  ZZBootupPageState createState() {
+    return ZZBootupPageState();
+  }
+}
+
+class ZZBootupPageState extends State<ZZBootupPage> {
+  @override
   Widget build(BuildContext context) {
     ZZBootupController controller = Get.find();
-    return ScreenUtilInit(
+    _checkPrivacy();
+    return Obx(() => ScreenUtilInit(
         designSize: const Size(414.0, 896.0),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
           return _mainMaterialApp(child);
         },
-        child: App.getNewInstallOrUpdate(controller.appVersion)
-            ? controller.onboardPage ?? const ZZHomePage()
-            : const ZZHomePage());
+        child: controller.enablePrivacyPrompt.value
+            ? Container()
+            : (App.getNewInstallOrUpdate(controller.appVersion)
+                ? (controller.onboardPage ?? const ZZHomePage())
+                : const ZZHomePage())));
+  }
+
+  void _checkPrivacy() async {
+    ZZBootupController controller = Get.find();
+    if (controller.enablePrivacyPrompt.value == false) {
+      return;
+    }
+    Future.delayed(const Duration(milliseconds: 100)).then((value) {
+      controller.privacyPrompt().then((value) {
+        controller.enablePrivacyPrompt.value = false;
+      });
+    });
   }
 
   GetMaterialApp _mainMaterialApp(Widget? child) {

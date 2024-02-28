@@ -7,6 +7,10 @@ class ZZBootupController extends GetxController {
   /// 当前app版本号
   late String appVersion;
 
+  /// 用户隐私阻塞弹窗
+  RxBool enablePrivacyPrompt = false.obs;
+  late Future<dynamic> Function() privacyPrompt;
+
   /// 多语言
   Translations? translations;
   Locale? locale;

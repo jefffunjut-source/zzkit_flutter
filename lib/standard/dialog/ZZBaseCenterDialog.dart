@@ -102,8 +102,8 @@ abstract class ZZBaseCenterDialog {
 
   void rightButtonTap() {}
 
-  void show() {
-    showDialog(
+  Future<dynamic> show() async {
+    var ret = await showDialog(
       context: kContext,
       barrierDismissible: barrierDismissible(),
       builder: (BuildContext context) {
@@ -218,5 +218,6 @@ abstract class ZZBaseCenterDialog {
         );
       },
     );
+    return ret;
   }
 }
