@@ -102,6 +102,14 @@ abstract class ZZBaseCenterDialog {
 
   void rightButtonTap() {}
 
+  bool useCustomLeftButtonTap() {
+    return false;
+  }
+
+  bool useCustomRightButtonTap() {
+    return false;
+  }
+
   Future<dynamic> show() async {
     var ret = await showDialog(
       context: kContext,
@@ -137,7 +145,9 @@ abstract class ZZBaseCenterDialog {
                                 flex: 1,
                                 child: GestureDetector(
                                     onTap: () {
-                                      Get.back();
+                                      if (!useCustomLeftButtonTap()) {
+                                        Get.back();
+                                      }
                                       leftButtonTap();
                                     },
                                     child: Container(
@@ -169,7 +179,9 @@ abstract class ZZBaseCenterDialog {
                           flex: 1,
                           child: GestureDetector(
                             onTap: () {
-                              Get.back();
+                              if (!useCustomRightButtonTap()) {
+                                Get.back();
+                              }
                               rightButtonTap();
                             },
                             child: Container(
