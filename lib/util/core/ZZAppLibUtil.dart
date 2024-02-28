@@ -243,4 +243,8 @@ extension ZZAppLibUtil on ZZAppManager {
     }
     return false;
   }
+
+  void save(String key, var value) {
+    Get.put(key);
+  }
 }

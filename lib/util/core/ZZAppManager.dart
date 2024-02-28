@@ -41,12 +41,6 @@ class ZZAppManager {
   // sp
   late SharedPreferences prefs;
 
-  // 当前页面
-  String? pageName;
-
-  // 上一页面
-  String? prePageName;
-
   // app是否新安装或更新
   bool? isNewInstallOrUpdate;
 
