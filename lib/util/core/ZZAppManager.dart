@@ -38,11 +38,8 @@ class ZZAppManager {
   }
   ZZAppManager.internal();
 
-  // sp
+  // shared preference
   late SharedPreferences prefs;
-
-  // app是否新安装或更新
-  bool? isNewInstallOrUpdate;
 
   Future<bool> initSomething() async {
     prefs = await SharedPreferences.getInstance();

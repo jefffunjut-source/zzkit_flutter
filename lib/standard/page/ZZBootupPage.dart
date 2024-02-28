@@ -35,7 +35,7 @@ class ZZBootupPageState extends State<ZZBootupPage> {
         },
         child: controller.enablePrivacyPrompt.value
             ? Container()
-            : (App.getNewInstallOrUpdate(controller.appVersion)
+            : ((App.getNewInstallOrUpdate(controller.appVersion) ?? false)
                 ? (controller.onboardPage ?? const ZZHomePage())
                 : const ZZHomePage())));
   }

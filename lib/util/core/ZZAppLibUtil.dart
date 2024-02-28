@@ -234,8 +234,9 @@ extension ZZAppLibUtil on ZZAppManager {
     return completer.future;
   }
 
-  bool getNewInstallOrUpdate(String currentVersion) {
-    if (isNewInstallOrUpdate != null) return isNewInstallOrUpdate!;
+  bool? getNewInstallOrUpdate(String currentVersion) {
+    bool? isNewInstallOrUpdate = prefs.getBool("isNewInstallOrUpdate");
+    if (isNewInstallOrUpdate != null) return isNewInstallOrUpdate;
     String? appPrefsVersion = App.prefs.getString(kPrefsAppVersion);
     App.prefs.setString(kPrefsAppVersion, currentVersion);
     if (appPrefsVersion == null || appPrefsVersion != currentVersion) {
