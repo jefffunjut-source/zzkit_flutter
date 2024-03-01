@@ -37,6 +37,8 @@ class R {
   static final String assetsImgIcNavShareBlack = 'assets/img/ic_nav_share_black.png';
   /// ![](http://127.0.0.1:9527/assets/img/ic_nav_share_white.png)
   static final String assetsImgIcNavShareWhite = 'assets/img/ic_nav_share_white.png';
+  /// ![](http://127.0.0.1:9527/assets/img/ic_placeholder_image.png)
+  static final String assetsImgIcPlaceholderImage = 'assets/img/ic_placeholder_image.png';
   /// ![](http://127.0.0.1:9527/assets/img/ic_placeholder_no_data.png)
   static final String assetsImgIcPlaceholderNoData = 'assets/img/ic_placeholder_no_data.png';
 }

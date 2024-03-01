@@ -13,6 +13,7 @@ dependencies:
   get: ^4.6.6
   shared_preferences: ^2.2.2
   dio: ^5.4.1
+  cached_network_image: ^3.3.1
   shimmer: ^3.0.0
   webview_flutter: ^4.7.0
   flutter_screenutil: ^5.9.0
@@ -63,6 +64,7 @@ flutter:
     - assets/img/ic_nav_setting_black.png
     - assets/img/ic_nav_share_black.png
     - assets/img/ic_nav_share_white.png
+    - assets/img/ic_placeholder_image.png
     - assets/img/ic_placeholder_no_data.png
     # assets-generator-end
 
