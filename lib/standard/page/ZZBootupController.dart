@@ -2,8 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zzkit_flutter/standard/page/ZZHomePage.dart';
 
 class ZZBootupController extends GetxController {
+  /// canvas画布的宽高（设计稿的宽高）
+  double? canvasWidth;
+  double? canvasHeight;
+
   /// 当前app版本号
   late String appVersion;
 
@@ -16,8 +21,10 @@ class ZZBootupController extends GetxController {
   Locale? locale;
   Locale? fallbackLocale;
 
-  /// 广告页面
+  /// 开屏闪页介绍页面
   StatefulWidget? onboardPage;
+
+  bool debugOnboardPage = false;
 
   /// 当前Tab页码
   RxInt tabIndex = 0.obs;
@@ -50,4 +57,9 @@ class ZZBootupController extends GetxController {
 
   /// app生命周期状态
   Rx<AppLifecycleState> state = AppLifecycleState.hidden.obs;
+
+  /// 闪页结束跳转广告或主页
+  void offAdOrMainPage() {
+    Get.offAll(const ZZHomePage());
+  }
 }

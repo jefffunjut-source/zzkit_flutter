@@ -26,18 +26,21 @@ class ZZBootupPageState extends State<ZZBootupPage> {
   Widget build(BuildContext context) {
     ZZBootupController controller = Get.find();
     _checkPrivacy();
-    return Obx(() => ScreenUtilInit(
-        designSize: const Size(414.0, 896.0),
+    return ScreenUtilInit(
+        designSize: Size(
+            controller.canvasWidth ?? 414.0, controller.canvasHeight ?? 896.0),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
           return _mainMaterialApp(child);
         },
-        child: controller.enablePrivacyPrompt.value
-            ? Container()
-            : ((App.getNewInstallOrUpdate(controller.appVersion) ?? false)
-                ? (controller.onboardPage ?? const ZZHomePage())
-                : const ZZHomePage())));
+        child: controller.debugOnboardPage
+            ? controller.onboardPage
+            : Obx(() => controller.enablePrivacyPrompt.value
+                ? Container()
+                : ((App.getNewInstallOrUpdate(controller.appVersion) ?? false)
+                    ? (controller.onboardPage ?? const ZZHomePage())
+                    : const ZZHomePage())));
   }
 
   void _checkPrivacy() async {
