@@ -65,8 +65,13 @@ abstract class ZZBaseBottomDialog {
     return true;
   }
 
+  Color? barrierColor() {
+    return null;
+  }
+
   void show() {
     showModalBottomSheet(
+        barrierColor: barrierColor(),
         context: kContext,
         enableDrag: true,
         isScrollControlled: true,

@@ -53,6 +53,7 @@ double kStatusBarHeight = ScreenUtil().statusBarHeight;
 double kBottomBarHeight = ScreenUtil().bottomBarHeight;
 
 /// 颜色常量
+const kColorTransparent = Color(0x00000000);
 const kColorBlack = Color(0xFF000000);
 const kColorWhite = Color(0xFFFFFFFF);
 const kColorGrey33 = Color(0xFF333333);

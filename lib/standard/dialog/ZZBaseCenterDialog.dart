@@ -14,6 +14,10 @@ abstract class ZZBaseCenterDialog {
     return true;
   }
 
+  Color? barrierColor() {
+    return null;
+  }
+
   EdgeInsetsGeometry contentPadding() {
     return EdgeInsets.zero;
   }
@@ -39,7 +43,7 @@ abstract class ZZBaseCenterDialog {
   }
 
   double buttonHeight() {
-    return 40;
+    return 48;
   }
 
   int buttonCount() {
@@ -114,6 +118,7 @@ abstract class ZZBaseCenterDialog {
     var ret = await showDialog(
       context: kContext,
       barrierDismissible: barrierDismissible(),
+      barrierColor: barrierColor(),
       builder: (BuildContext context) {
         return AlertDialog(
           contentPadding: contentPadding(),
