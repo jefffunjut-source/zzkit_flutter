@@ -1,9 +1,11 @@
 // ignore_for_file: use_key_in_widget_constructors, file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
+import 'package:zzkit_flutter/standard/widget/ZZCountdownWidget.dart';
 import 'package:zzkit_flutter/standard/widget/ZZImageWidget.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 
@@ -49,6 +51,22 @@ class ZZAdPageState extends State<ZZAdPage> {
                 height: kScreenHeight,
                 fit: BoxFit.cover,
                 url: adData?.pic,
+              ),
+            ),
+            Positioned(
+              right: 30,
+              top: 30 + kStatusBarHeight,
+              child: GestureDetector(
+                onTap: () {
+                  ZZBootupController controller = Get.find();
+                  controller.offAdOrMainPage();
+                },
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.black.withAlpha(30),
+                  child: ZZCountdownWidget(),
+                ),
               ),
             )
           ],
