@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zzkit_flutter/standard/page/ZZAdPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZHomePage.dart';
 
 class ZZBootupController extends GetxController {
@@ -14,7 +15,11 @@ class ZZBootupController extends GetxController {
 
   /// 用户隐私阻塞弹窗
   RxBool enablePrivacyPrompt = false.obs;
-  late Future Function() privacyPrompt;
+  late Future Function() agreePrivacyBlock;
+
+  /// 广告阻塞
+  bool triedAd = false;
+  Future<ZZAdData?> Function()? adBlock;
 
   /// 多语言
   Translations? translations;
@@ -60,6 +65,25 @@ class ZZBootupController extends GetxController {
 
   /// 闪页结束跳转广告或主页
   void offAdOrMainPage() {
-    Get.offAll(const ZZHomePage());
+    if (triedAd) {
+      Get.offAll(const ZZHomePage());
+    } else {
+      Get.offAll(ZZAdPage());
+    }
   }
+}
+
+class ZZAdData {
+  // 广告ID
+  String? id;
+  // 广告标题
+  String? title;
+  // 广告图
+  String? pic;
+  // 广告类型
+  String? type;
+  // 广告跳转ID
+  String? linkData;
+  // 打开广告前是否需要登录
+  String? needLogin;
 }

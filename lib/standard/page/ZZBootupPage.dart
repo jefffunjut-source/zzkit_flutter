@@ -6,6 +6,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/page/ZZ404Page.dart';
+import 'package:zzkit_flutter/standard/page/ZZAdPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/page/ZZHomePage.dart';
 import 'package:zzkit_flutter/util/ZZEvent.dart';
@@ -39,8 +40,9 @@ class ZZBootupPageState extends State<ZZBootupPage> {
             : Obx(() => controller.enablePrivacyPrompt.value
                 ? Container()
                 : ((App.getNewInstallOrUpdate(controller.appVersion) ?? false)
-                    ? (controller.onboardPage ?? const ZZHomePage())
-                    : const ZZHomePage())));
+                    ? (controller.onboardPage ??
+                        (controller.triedAd ? const ZZHomePage() : ZZAdPage()))
+                    : (controller.triedAd ? const ZZHomePage() : ZZAdPage()))));
   }
 
   void _checkPrivacy() async {
@@ -49,7 +51,7 @@ class ZZBootupPageState extends State<ZZBootupPage> {
       return;
     }
     Future.delayed(const Duration(milliseconds: 100)).then((value) {
-      controller.privacyPrompt().then((value) {
+      controller.agreePrivacyBlock().then((value) {
         controller.enablePrivacyPrompt.value = false;
       });
     });

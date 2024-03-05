@@ -12,11 +12,6 @@ import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 enum ZZAPIReqType { post, get, delete, put }
 
-class ZZAPIUrl {
-  static const test = "/api/test";
-  static const dynamicResource = "/common/dynamic_resource";
-}
-
 abstract class ZZAPIProvider {
   /// 初始化dio
   Future<bool> initDio();

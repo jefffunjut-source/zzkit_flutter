@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
@@ -101,7 +102,7 @@ class ZZImageWidget extends StatelessWidget {
             color: kColorTransparent),
         child: ClipRRect(
           clipper: clipper,
-          child: Stack(children: [
+          child: Stack(alignment: Alignment.center, children: [
             (width != null && height != null)
                 ? CachedNetworkImage(
                     width: width,
@@ -180,7 +181,7 @@ class ZZImageWidget extends StatelessWidget {
                 ? ClipRRect(
                     clipper: clipper,
                     child: Stack(
-                      alignment: Alignment.bottomCenter,
+                      alignment: Alignment.center,
                       children: [
                         base64 != null
                             ? Image.memory(
