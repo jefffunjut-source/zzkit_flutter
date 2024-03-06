@@ -41,8 +41,12 @@ class ZZBootupPageState extends State<ZZBootupPage> {
                 ? Container()
                 : ((App.getNewInstallOrUpdate(controller.appVersion) ?? false)
                     ? (controller.onboardPage ??
-                        (controller.triedAd ? const ZZHomePage() : ZZAdPage()))
-                    : (controller.triedAd ? const ZZHomePage() : ZZAdPage()))));
+                        (controller.triedAd || controller.disableAd
+                            ? const ZZHomePage()
+                            : ZZAdPage()))
+                    : (controller.triedAd || controller.disableAd
+                        ? const ZZHomePage()
+                        : ZZAdPage()))));
   }
 
   void _checkPrivacy() async {

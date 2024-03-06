@@ -18,8 +18,10 @@ class ZZBootupController extends GetxController {
   late Future Function() agreePrivacyBlock;
 
   /// 广告阻塞
+  bool disableAd = false;
   bool triedAd = false;
   Future<ZZAdData?> Function()? adBlock;
+  double adCountdown = 5;
 
   /// 多语言
   Translations? translations;

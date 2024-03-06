@@ -1,14 +1,18 @@
+// ignore_for_file: unused_import, use_key_in_widget_constructors
+
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
+import 'package:zzkit_flutter/util/ZZExtension.dart';
 
 class ZZCountdownWidget extends StatefulWidget {
   @override
-  _ZZCountdownWidgetState createState() => _ZZCountdownWidgetState();
+  ZZCountdownWidgetState createState() => ZZCountdownWidgetState();
 }
 
-class _ZZCountdownWidgetState extends State<ZZCountdownWidget> {
+class ZZCountdownWidgetState extends State<ZZCountdownWidget> {
   late Timer _timer;
   double _countdown = 5;
   double _progress = 1.0;
@@ -16,11 +20,13 @@ class _ZZCountdownWidgetState extends State<ZZCountdownWidget> {
   @override
   void initState() {
     super.initState();
+    ZZBootupController controller = Get.find();
+    _countdown = controller.adCountdown;
     startCountdown();
   }
 
   void startCountdown() {
-    const oneTenthSec = const Duration(milliseconds: 100);
+    const oneTenthSec = Duration(milliseconds: 100);
     _timer = Timer.periodic(
       oneTenthSec,
       (Timer timer) {
@@ -29,6 +35,11 @@ class _ZZCountdownWidgetState extends State<ZZCountdownWidget> {
         } else {
           setState(() {
             _countdown -= 0.1;
+            if (_countdown < 0) {
+              _countdown = 0;
+              ZZBootupController controller = Get.find();
+              controller.offAdOrMainPage();
+            }
             _progress = max(0, _countdown / 5);
           });
         }
@@ -48,32 +59,37 @@ class _ZZCountdownWidgetState extends State<ZZCountdownWidget> {
       alignment: Alignment.center,
       children: [
         Container(
-          width: 100,
-          height: 100,
+          decoration: BoxDecoration(
+              color: Colors.black.withAlpha(100),
+              borderRadius: const BorderRadius.all(Radius.circular(52))),
+          width: 52,
+          height: 52,
+          padding: const EdgeInsets.all(4),
           child: CustomPaint(
-            painter: CountdownPainter(progress: _progress),
+            painter: ZZCountdownPainter(progress: _progress),
           ),
         ),
         Text(
-          "跳过\n${_countdown.toStringAsFixed(1)}秒",
+          "跳过\n${_countdown.toStringAsFixed(0)}秒",
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(
+              color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
 }
 
-class CountdownPainter extends CustomPainter {
+class ZZCountdownPainter extends CustomPainter {
   final double progress;
 
-  CountdownPainter({required this.progress});
+  ZZCountdownPainter({required this.progress});
 
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
       ..color = Colors.orange
-      ..strokeWidth = 6
+      ..strokeWidth = 4
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 

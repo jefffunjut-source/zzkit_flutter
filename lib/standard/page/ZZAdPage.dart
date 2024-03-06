@@ -61,12 +61,7 @@ class ZZAdPageState extends State<ZZAdPage> {
                   ZZBootupController controller = Get.find();
                   controller.offAdOrMainPage();
                 },
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  color: Colors.black.withAlpha(30),
-                  child: ZZCountdownWidget(),
-                ),
+                child: ZZCountdownWidget(),
               ),
             )
           ],
