@@ -60,8 +60,7 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
         children: [
           widget.noticeImage ??
               Image.asset(
-                  R.assetsImgIcNavNotice.addPrefix(kAssetImagePrefixName) ??
-                      ""),
+                  R.assetsImgIcNavNotice.addPrefix(zzPackagePrefix) ?? ""),
           Obx(() => controller.noticeNumber.value.isNotEmpty
               ? Positioned(
                   left: width / 2 + (widget.noticeXFromCenter ?? 2),
@@ -70,7 +69,7 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
                     height: 12.w,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(88.w),
-                        color: kColorRed,
+                        color: zzColorRed,
                         border: Border.all(color: Colors.red, width: 1.w)),
                     padding: EdgeInsets.symmetric(horizontal: 2.w),
                     alignment: Alignment.center,
@@ -82,8 +81,7 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style:
-                          App.textStyle(color: Colors.white, fontSize: 10.sp),
+                      style: ZZ.textStyle(color: Colors.white, fontSize: 10.sp),
                     ),
                   ),
                 )

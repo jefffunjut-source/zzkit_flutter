@@ -28,7 +28,7 @@ class ZZTabNavigationBarState extends State<ZZTabNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60.w + kBottomBarHeight,
+      height: 60.w + zzBottomBarHeight,
       child: Row(
         children: widget.items
             .map((e) => Expanded(
@@ -70,7 +70,7 @@ class TabIconsState extends State<ZZTabIconWidget> {
         }
       },
       child: Container(
-        padding: EdgeInsets.only(bottom: kBottomBarHeight / 2.0),
+        padding: EdgeInsets.only(bottom: zzBottomBarHeight / 2.0),
         color: Colors.transparent,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -85,9 +85,9 @@ class TabIconsState extends State<ZZTabIconWidget> {
                 child: Text(
                   widget.tabIconData.label!,
                   style: widget.isSelected
-                      ? App.textStyle(
-                          color: kColorRed, fontSize: 12.sp, bold: true)
-                      : App.textStyle(color: kColorBlack, fontSize: 12.sp),
+                      ? ZZ.textStyle(
+                          color: zzColorRed, fontSize: 12.sp, bold: true)
+                      : ZZ.textStyle(color: zzColorBlack, fontSize: 12.sp),
                 ),
               )
           ],

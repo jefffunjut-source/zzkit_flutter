@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names, slash_for_doc_comments, dead_code
 library zzkit;
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 import 'package:event_bus/event_bus.dart';
@@ -24,60 +23,50 @@ enum ZZAppBarIcon {
   closeblack,
 }
 
-ZZAppManager App = ZZAppManager();
+ZZAppManager ZZ = ZZAppManager();
 
 /************************
  *    全局常量（不可变）   *
  ************************/
 /// ZZKit Package名称
-const String kAssetImagePrefixName = "packages/zzkit_flutter/";
-
-/// 页面名称
-const String kPageTest = "kPageTest";
-
-/// 沙盒存储的Key常量名称
-const kPrefsAppVersion = "kPrefsAppVersion";
-const kPrefsUserToken = "kPrefsUserToken";
+const String zzPackagePrefix = "packages/zzkit_flutter/";
 
 /// Context
-GlobalKey<NavigatorState> kNavigatorKey = GlobalKey<NavigatorState>();
-BuildContext kContext = kNavigatorKey.currentState!.overlay!.context;
-
-/// Dio
-late Dio kDio;
+GlobalKey<NavigatorState> zzNavigatorKey = GlobalKey<NavigatorState>();
+BuildContext zzContext = zzNavigatorKey.currentState!.overlay!.context;
 
 /// Geometry常量
-double kScreenWidth = ScreenUtil().screenWidth;
-double kScreenHeight = ScreenUtil().screenHeight;
-double kStatusBarHeight = ScreenUtil().statusBarHeight;
-double kBottomBarHeight = ScreenUtil().bottomBarHeight;
+double zzScreenWidth = ScreenUtil().screenWidth;
+double zzScreenHeight = ScreenUtil().screenHeight;
+double zzStatusBarHeight = ScreenUtil().statusBarHeight;
+double zzBottomBarHeight = ScreenUtil().bottomBarHeight;
 
 /// 颜色常量
-const kColorTransparent = Color(0x00000000);
-const kColorBlack = Color(0xFF000000);
-const kColorWhite = Color(0xFFFFFFFF);
-const kColorGrey33 = Color(0xFF333333);
-const kColorGrey66 = Color(0xFF666666);
-const kColorGrey99 = Color(0xFF999999);
-const kColorGreyCC = Color(0xFFCCCCCC);
-const kColorGreyF5 = Color(0xFFF5F5F5);
-const kColorRed = Color(0xFFFF604B);
-Gradient kColorGradientOrangeRed = App.grandientColor(
+const zzColorTransparent = Color(0x00000000);
+const zzColorBlack = Color(0xFF000000);
+const zzColorWhite = Color(0xFFFFFFFF);
+const zzColorGrey33 = Color(0xFF333333);
+const zzColorGrey66 = Color(0xFF666666);
+const zzColorGrey99 = Color(0xFF999999);
+const zzColorGreyCC = Color(0xFFCCCCCC);
+const zzColorGreyF5 = Color(0xFFF5F5F5);
+const zzColorRed = Color(0xFFFF604B);
+Gradient zzColorGradientOrangeRed = ZZ.grandientColor(
     beginColor: const Color(0xFFFF694B),
     endColor: const Color(0xFFFF5063),
     beginAlign: Alignment.centerLeft,
     endAlign: Alignment.centerRight);
-Gradient kColorGradientRedYellow = App.grandientColor(
+Gradient zzColorGradientRedYellow = ZZ.grandientColor(
     beginColor: const Color(0xFFFF4A5E),
     endColor: const Color(0xFFFF9869),
     beginAlign: Alignment.centerLeft,
     endAlign: Alignment.centerRight);
 
 /// EventBug
-EventBus kEventBus = EventBus();
+EventBus zzEventBus = EventBus();
 
 /************************
  *     全局常量（可变）    *
  ************************/
-bool gIsKeyboardVisible = false;
-bool gIsHomeInit = false;
+bool zzIsKeyboardVisible = false;
+bool zzIsHomeInit = false;

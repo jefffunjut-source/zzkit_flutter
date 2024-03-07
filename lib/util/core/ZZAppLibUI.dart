@@ -164,13 +164,13 @@ extension ZZAppLibUI on ZZAppManager {
       case ZZAppBarIcon.none:
         return null;
       case ZZAppBarIcon.backblack:
-        return R.assetsImgIcNavBackBlack.addPrefix(kAssetImagePrefixName);
+        return R.assetsImgIcNavBackBlack.addPrefix(zzPackagePrefix);
       case ZZAppBarIcon.backwhite:
-        return R.assetsImgIcNavBackWhite.addPrefix(kAssetImagePrefixName);
+        return R.assetsImgIcNavBackWhite.addPrefix(zzPackagePrefix);
       case ZZAppBarIcon.closeblack:
-        return R.assetsImgIcNavCloseBlack.addPrefix(kAssetImagePrefixName);
+        return R.assetsImgIcNavCloseBlack.addPrefix(zzPackagePrefix);
       default:
-        return R.assetsImgIcNavBackBlack.addPrefix(kAssetImagePrefixName);
+        return R.assetsImgIcNavBackBlack.addPrefix(zzPackagePrefix);
     }
   }
 
@@ -200,8 +200,8 @@ extension ZZAppLibUI on ZZAppManager {
                 if (onLeftIconTap != null) {
                   onLeftIconTap();
                 } else {
-                  if (Navigator.of(kContext).canPop()) {
-                    Navigator.of(kContext).pop();
+                  if (Navigator.of(zzContext).canPop()) {
+                    Navigator.of(zzContext).pop();
                   }
                 }
               },
@@ -215,7 +215,7 @@ extension ZZAppLibUI on ZZAppManager {
         child: Text(
           title ?? "",
           style: titleStyle ??
-              App.textStyle(color: kColorBlack, fontSize: 18.sp, bold: true),
+              ZZ.textStyle(color: zzColorBlack, fontSize: 18.sp, bold: true),
         ),
       ),
       centerTitle: centerTitle ?? true,
@@ -242,7 +242,7 @@ extension ZZAppLibUI on ZZAppManager {
   TabBar tabbarRoundedRectangle({
     required List<String> tabs,
     TabController? controller,
-    Color? indicatorColor = kColorRed,
+    Color? indicatorColor = zzColorRed,
     double? indicatorRadius,
     Gradient? indicatorGradient,
     EdgeInsetsGeometry? indicatorPadding,
@@ -269,14 +269,14 @@ extension ZZAppLibUI on ZZAppManager {
       indicator: BoxDecoration(
           color: indicatorColor,
           borderRadius: BorderRadius.circular(indicatorRadius ?? 22.w),
-          gradient: indicatorGradient ?? kColorGradientRedYellow),
+          gradient: indicatorGradient ?? zzColorGradientRedYellow),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 6.w, bottom: 10.w, left: 0.w, right: 0.w),
       labelColor: labelColor ?? Colors.white,
-      unselectedLabelColor: unselectedLabelColor ?? kColorBlack,
+      unselectedLabelColor: unselectedLabelColor ?? zzColorBlack,
       labelStyle:
-          App.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
-      unselectedLabelStyle: App.textStyle(color: Colors.white, fontSize: 14.sp),
+          ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
+      unselectedLabelStyle: ZZ.textStyle(color: Colors.white, fontSize: 14.sp),
       controller: controller,
     );
   }
@@ -284,7 +284,7 @@ extension ZZAppLibUI on ZZAppManager {
   TabBar tabbarUnderline({
     required List<String> tabs,
     TabController? controller,
-    Color? indicatorColor = kColorRed,
+    Color? indicatorColor = zzColorRed,
     double? indicatorRadius,
     Gradient? indicatorGradient,
     EdgeInsetsGeometry? indicatorPadding,
@@ -306,17 +306,17 @@ extension ZZAppLibUI on ZZAppManager {
       indicator: BoxDecoration(
           color: indicatorColor,
           borderRadius: BorderRadius.circular(indicatorRadius ?? 6.w),
-          gradient: indicatorGradient ?? kColorGradientRedYellow),
+          gradient: indicatorGradient ?? zzColorGradientRedYellow),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 35.w, bottom: 8.w, left: 2.w, right: 2.w),
       indicatorWeight: indicatorWeight ?? 4.w,
       indicatorSize: TabBarIndicatorSize.label,
-      labelColor: labelColor ?? kColorBlack,
+      labelColor: labelColor ?? zzColorBlack,
       labelStyle: labelStyle ??
-          App.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
-      unselectedLabelColor: unselectedLabelColor ?? kColorGrey99,
+          ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
+      unselectedLabelColor: unselectedLabelColor ?? zzColorGrey99,
       unselectedLabelStyle: unselectedLabelStyle ??
-          App.textStyle(color: Colors.white, fontSize: 14.sp),
+          ZZ.textStyle(color: Colors.white, fontSize: 14.sp),
       controller: controller,
     );
   }
@@ -349,7 +349,7 @@ extension ZZAppLibUI on ZZAppManager {
 
   Widget customMarkdownBody(String content) {
     return MarkdownBody(
-      styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(kContext)).copyWith(
+      styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(zzContext)).copyWith(
         a: const TextStyle(
             color: Color(0xFF333333),
             decoration: TextDecoration.underline,
@@ -368,7 +368,6 @@ extension ZZAppLibUI on ZZAppManager {
         if (href != null) {
           ZZAppUrlAnalysisResult res = _analyzeUrl(href);
           if (res.category == "deals") {
-            Get.to(kPageTest, arguments: {"dealId": res.value});
           } else if (res.category == "topic") {
           } else if (res.category == "store") {
           } else {

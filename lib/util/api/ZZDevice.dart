@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+const zzKeyUserToken = "zzKeyUserToken";
+
 class ZZDevice {
   static double scale() {
-    MediaQueryData mediaQuery = MediaQueryData.fromView(View.of(kContext));
+    MediaQueryData mediaQuery = MediaQueryData.fromView(View.of(zzContext));
     double screenScale = mediaQuery.devicePixelRatio;
     return screenScale;
   }
@@ -72,7 +74,7 @@ class ZZDevice {
   }
 
   static String? userToken() {
-    String? token = App.prefs.getString(kPrefsUserToken);
+    String? token = ZZ.prefs.getString(zzKeyUserToken);
     return token;
   }
 }

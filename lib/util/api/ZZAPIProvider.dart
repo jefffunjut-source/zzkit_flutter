@@ -12,6 +12,9 @@ import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 enum ZZAPIReqType { post, get, delete, put }
 
+/// Dio
+late Dio zzDio;
+
 abstract class ZZAPIProvider {
   /// 初始化dio
   Future<bool> initDio();
@@ -70,7 +73,7 @@ class ZZAPIRequest {
     try {
       // 支持Charles抓包
       // ignore: deprecated_member_use
-      (kDio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+      (zzDio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
           (HttpClient client) {
         // client.findProxy = (uri) {
         // 进行抓包的主机IP和端口
@@ -94,8 +97,8 @@ class ZZAPIRequest {
       // if (kDebugMode) {
       if (kDebugMode) {
         print('==========++++++++++API==========++++++++++');
-        print('dio.options.headers =  ${kDio.options.headers}');
-        print('baseUrl =  ${kDio.options.baseUrl}');
+        print('dio.options.headers =  ${zzDio.options.headers}');
+        print('baseUrl =  ${zzDio.options.baseUrl}');
         print("url = $url");
         print("parm = $params");
         print("data = $data");
@@ -107,12 +110,12 @@ class ZZAPIRequest {
         case ZZAPIReqType.post:
           {
             if (dataFromMap != null) {
-              response = await kDio.post(url,
+              response = await zzDio.post(url,
                   data: DioFormData.FormData.fromMap(dataFromMap!),
                   queryParameters: params,
                   cancelToken: cancelToken);
             } else {
-              response = await kDio.post(url,
+              response = await zzDio.post(url,
                   data: data,
                   queryParameters: params,
                   cancelToken: cancelToken);
@@ -121,19 +124,19 @@ class ZZAPIRequest {
           }
         case ZZAPIReqType.get:
           {
-            response = await kDio.get(url,
+            response = await zzDio.get(url,
                 queryParameters: params, cancelToken: cancelToken);
             break;
           }
         case ZZAPIReqType.delete:
           {
-            response = await kDio.delete(url,
+            response = await zzDio.delete(url,
                 queryParameters: params, cancelToken: cancelToken);
             break;
           }
         case ZZAPIReqType.put:
           {
-            response = await kDio.put(url,
+            response = await zzDio.put(url,
                 data: data, queryParameters: params, cancelToken: cancelToken);
             break;
           }
@@ -158,11 +161,11 @@ class ZZAPIRequest {
       } else {
         if (resp.msg != null) {
           if (kDebugMode) {
-            App.toast("Oops,catch a server error:\n\n" + resp.msg!,
+            ZZ.toast("Oops,catch a server error:\n\n" + resp.msg!,
                 duration: 3, pageName: pageName);
           } else {
             if (noToast == null || noToast == false) {
-              App.toast(resp.msg!, pageName: pageName);
+              ZZ.toast(resp.msg!, pageName: pageName);
             }
           }
         }
@@ -177,7 +180,7 @@ class ZZAPIRequest {
         return ZZAPIResponse(null, null);
       } else if (e is TypeError) {
         if (kDebugMode) {
-          App.toast("Oops,catch a type error:\n\n$e\n\n${e.stackTrace}",
+          ZZ.toast("Oops,catch a type error:\n\n$e\n\n${e.stackTrace}",
               duration: 3, pageName: pageName);
           return ZZAPIResponse(
               null, ZZAPIError(code: "100", errorMessage: e.toString()));
@@ -188,14 +191,14 @@ class ZZAPIRequest {
         // 豁免该类报错
       } else {
         if (kDebugMode) {
-          App.toast("Oops,catch an error:\n\n$e",
+          ZZ.toast("Oops,catch an error:\n\n$e",
               duration: 3, pageName: pageName);
         } else {
           String errorString = e.toString();
           if (kDebugMode) {
             print("请求失败 url = $url ------ response = $errorString ");
           }
-          App.toast('Please try again!', pageName: pageName);
+          ZZ.toast('Please try again!', pageName: pageName);
         }
       }
       // }

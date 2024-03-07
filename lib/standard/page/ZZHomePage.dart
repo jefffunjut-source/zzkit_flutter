@@ -20,7 +20,7 @@ class ZZHomePageState extends State<ZZHomePage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    gIsHomeInit = true;
+    zzIsHomeInit = true;
   }
 
   @override

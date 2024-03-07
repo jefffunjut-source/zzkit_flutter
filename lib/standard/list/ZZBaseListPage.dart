@@ -73,7 +73,7 @@ class ZZBaseListController extends GetxController {
       page = 1;
       nodata.value = false;
       if (dataSource.isEmpty) {
-        shimmer ?? false ? null : App.show();
+        shimmer ?? false ? null : ZZ.show();
       }
     } else {
       page = page + 1;
@@ -90,11 +90,11 @@ class ZZBaseListController extends GetxController {
     response?.rows = rows;
     nodata.value = false;
     if (page == 1) {
-      shimmer ?? false ? null : App.dismiss();
+      shimmer ?? false ? null : ZZ.dismiss();
     }
     ZZAPIError? error = response?.error;
     if (error != null) {
-      App.toast(error.errorMessage);
+      ZZ.toast(error.errorMessage);
       refreshController.loadComplete();
       refreshController.refreshCompleted();
     } else {
@@ -222,7 +222,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     return ZZBaseScaffold(
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
-          : App.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
+          : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
       body: Obx(() => (controller as ZZBaseListController).nodata.value
           ? Center(
               child: ZZNoDataWidget(nodata: true),

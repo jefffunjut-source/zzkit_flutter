@@ -116,14 +116,14 @@ class ZZBaseScaffoldState extends ScaffoldState {
             nodata ?? false
                 ? Positioned(
                     left: 0,
-                    top: nodataNavigatorHidden! ? 0 : kStatusBarHeight + 48.w,
+                    top: nodataNavigatorHidden! ? 0 : zzStatusBarHeight + 48.w,
                     right: 0,
                     bottom: 0,
                     child: ZZNoDataWidget(
                       nodata: nodata,
                       hintText: nodataHintText,
                     ))
-                : App.empty()
+                : ZZ.empty()
           ])),
     );
   }

@@ -3,7 +3,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
@@ -95,11 +94,11 @@ class ZZImageWidget extends StatelessWidget {
         padding: padding,
         decoration: BoxDecoration(
             border: Border.all(
-                color: borderColor ?? kColorTransparent,
+                color: borderColor ?? zzColorTransparent,
                 width: borderWidth ?? 0),
             borderRadius:
                 BorderRadius.circular((radius ?? 0) + (borderWidth ?? 0)),
-            color: kColorTransparent),
+            color: zzColorTransparent),
         child: ClipRRect(
           clipper: clipper,
           child: Stack(alignment: Alignment.center, children: [
@@ -111,7 +110,7 @@ class ZZImageWidget extends StatelessWidget {
                     imageUrl: url!,
                     placeholder: (context, url) {
                       return Container(
-                        color: kColorTransparent,
+                        color: zzColorTransparent,
                         child: const SizedBox(
                             child: Center(
                           child: CupertinoActivityIndicator(
@@ -123,7 +122,7 @@ class ZZImageWidget extends StatelessWidget {
                     errorWidget: (context, url, e) {
                       return Center(
                         child: Image.asset(R.assetsImgIcPlaceholderImage
-                                .addPrefix(kAssetImagePrefixName) ??
+                                .addPrefix(zzPackagePrefix) ??
                             ""),
                       );
                     })
@@ -132,7 +131,7 @@ class ZZImageWidget extends StatelessWidget {
                     imageUrl: url!,
                     placeholder: (context, url) {
                       return Container(
-                        color: kColorTransparent,
+                        color: zzColorTransparent,
                         child: const SizedBox(
                             child: Center(
                           child: CupertinoActivityIndicator(
@@ -144,7 +143,7 @@ class ZZImageWidget extends StatelessWidget {
                     errorWidget: (context, url, e) {
                       return Center(
                         child: Image.asset(R.assetsImgIcPlaceholderImage
-                                .addPrefix(kAssetImagePrefixName) ??
+                                .addPrefix(zzPackagePrefix) ??
                             ""),
                       );
                     }),
@@ -172,11 +171,11 @@ class ZZImageWidget extends StatelessWidget {
             padding: padding,
             decoration: BoxDecoration(
                 border: Border.all(
-                    color: borderColor ?? kColorTransparent,
+                    color: borderColor ?? zzColorTransparent,
                     width: borderWidth ?? 0),
                 borderRadius:
                     BorderRadius.circular((radius ?? 0) + (borderWidth ?? 0)),
-                color: kColorTransparent),
+                color: zzColorTransparent),
             child: (width != null && height != null)
                 ? ClipRRect(
                     clipper: clipper,

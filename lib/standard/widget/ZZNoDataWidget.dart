@@ -39,19 +39,18 @@ class ZZNoDataWidget extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.only(
               top: paddingTop, left: 24.w, right: 24.w, bottom: paddingBottom),
-          width: kScreenWidth,
+          width: zzScreenWidth,
           color: bgColor ?? Colors.white,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(img ??
-                  R.assetsImgIcPlaceholderNoData
-                      .addPrefix(kAssetImagePrefixName) ??
+                  R.assetsImgIcPlaceholderNoData.addPrefix(zzPackagePrefix) ??
                   ""),
-              App.space(height: 24.w),
+              ZZ.space(height: 24.w),
               Text(
                 hintText ?? "暂无数据",
-                style: App.textStyle(color: kColorGrey66, fontSize: 16.sp),
+                style: ZZ.textStyle(color: zzColorGrey66, fontSize: 16.sp),
                 strutStyle: const StrutStyle(height: 1.5),
                 textAlign: TextAlign.center,
               ),
@@ -60,7 +59,7 @@ class ZZNoDataWidget extends StatelessWidget {
         ),
       );
     } else {
-      return App.empty();
+      return ZZ.empty();
     }
   }
 }

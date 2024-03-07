@@ -15,7 +15,7 @@ class ZZShimmerBrickWidget extends ZZBaseBrickWidget<ZZShimmerBrickObject> {
             highlightColor: Colors.grey[100]!,
             child: Container(
               height: object?.height ?? 120,
-              width: kScreenWidth,
+              width: zzScreenWidth,
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),

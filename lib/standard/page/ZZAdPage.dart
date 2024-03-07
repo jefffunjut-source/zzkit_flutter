@@ -1,7 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, file_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
@@ -43,19 +42,19 @@ class ZZAdPageState extends State<ZZAdPage> {
         body: Stack(
           children: [
             Container(
-              width: kScreenWidth,
-              height: kScreenHeight,
+              width: zzScreenWidth,
+              height: zzScreenHeight,
               color: Colors.transparent,
               child: ZZImageWidget(
-                width: kScreenWidth,
-                height: kScreenHeight,
+                width: zzScreenWidth,
+                height: zzScreenHeight,
                 fit: BoxFit.cover,
                 url: adData?.pic,
               ),
             ),
             Positioned(
               right: 30,
-              top: 30 + kStatusBarHeight,
+              top: 30 + zzStatusBarHeight,
               child: GestureDetector(
                 onTap: () {
                   ZZBootupController controller = Get.find();

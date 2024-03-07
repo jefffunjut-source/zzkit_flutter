@@ -2,6 +2,9 @@
 
 part of 'ZZAppManager.dart';
 
+/// App版本Key
+const kAppPrefsAppVersion = "kAppPrefsAppVersion";
+
 class ZZAppPhoto {
   Future<String?> base64() async {
     Uint8List? mem = await memory;
@@ -54,7 +57,7 @@ extension ZZAppLibUtil on ZZAppManager {
       {int maxAssets = 3,
       int quality = 70,
       ThumbnailSize size = const ThumbnailSize(1000, 1000)}) async {
-    final List<AssetEntity>? results = await AssetPicker.pickAssets(kContext,
+    final List<AssetEntity>? results = await AssetPicker.pickAssets(zzContext,
         pickerConfig: AssetPickerConfig(
           maxAssets: maxAssets,
           requestType: RequestType.image,
@@ -111,7 +114,7 @@ extension ZZAppLibUtil on ZZAppManager {
 
   /// 收回键盘
   void collapseKeyboard() {
-    FocusScopeNode currentFocus = FocusScope.of(kContext);
+    FocusScopeNode currentFocus = FocusScope.of(zzContext);
     if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
       FocusManager.instance.primaryFocus?.unfocus();
     }
@@ -237,8 +240,8 @@ extension ZZAppLibUtil on ZZAppManager {
   bool? getNewInstallOrUpdate(String currentVersion) {
     bool? isNewInstallOrUpdate = prefs.getBool("isNewInstallOrUpdate");
     if (isNewInstallOrUpdate != null) return isNewInstallOrUpdate;
-    String? appPrefsVersion = App.prefs.getString(kPrefsAppVersion);
-    App.prefs.setString(kPrefsAppVersion, currentVersion);
+    String? appPrefsVersion = ZZ.prefs.getString(kAppPrefsAppVersion);
+    ZZ.prefs.setString(kAppPrefsAppVersion, currentVersion);
     if (appPrefsVersion == null || appPrefsVersion != currentVersion) {
       return true;
     }

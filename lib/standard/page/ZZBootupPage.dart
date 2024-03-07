@@ -39,7 +39,7 @@ class ZZBootupPageState extends State<ZZBootupPage> {
             ? controller.onboardPage
             : Obx(() => controller.enablePrivacyPrompt.value
                 ? Container()
-                : ((App.getNewInstallOrUpdate(controller.appVersion) ?? false)
+                : ((ZZ.getNewInstallOrUpdate(controller.appVersion) ?? false)
                     ? (controller.onboardPage ??
                         (controller.triedAd || controller.disableAd
                             ? const ZZHomePage()
@@ -69,21 +69,21 @@ class ZZBootupPageState extends State<ZZBootupPage> {
       fallbackLocale: controller.fallbackLocale,
       theme: ThemeData(brightness: Brightness.light),
       themeMode: ThemeMode.light,
-      navigatorKey: kNavigatorKey,
+      navigatorKey: zzNavigatorKey,
       debugShowCheckedModeBanner: false,
       //关掉模拟器右上角debug图标
       builder: EasyLoading.init(builder: (context, child) {
         return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
-          if (isKeyboardVisible != gIsKeyboardVisible) {
-            gIsKeyboardVisible = isKeyboardVisible;
-            kEventBus.fire(ZZEventKeyboard()..visible = isKeyboardVisible);
+          if (isKeyboardVisible != zzIsKeyboardVisible) {
+            zzIsKeyboardVisible = isKeyboardVisible;
+            zzEventBus.fire(ZZEventKeyboard()..visible = isKeyboardVisible);
           }
           return Scaffold(
             // Global GestureDetector that will dismiss the keyboard
             resizeToAvoidBottomInset: false,
             body: GestureDetector(
               onTap: () {
-                App.collapseKeyboard();
+                ZZ.collapseKeyboard();
               },
               child: child,
             ),

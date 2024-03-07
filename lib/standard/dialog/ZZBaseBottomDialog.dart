@@ -14,7 +14,7 @@ abstract class ZZBaseBottomDialog {
   List<Widget> contentWidgets();
 
   double maxHeight() {
-    return kScreenHeight * 0.8;
+    return zzScreenHeight * 0.8;
   }
 
   String title() {
@@ -30,7 +30,7 @@ abstract class ZZBaseBottomDialog {
   }
 
   TextStyle? titleTextStyle() {
-    return App.textStyle(color: kColorBlack, fontSize: 22.sp, bold: true);
+    return ZZ.textStyle(color: zzColorBlack, fontSize: 22.sp, bold: true);
   }
 
   bool enableClose() {
@@ -38,7 +38,7 @@ abstract class ZZBaseBottomDialog {
   }
 
   Color? seperatorColor() {
-    return kColorGreyCC;
+    return zzColorGreyCC;
   }
 
   double radius() {
@@ -72,7 +72,7 @@ abstract class ZZBaseBottomDialog {
   void show() {
     showModalBottomSheet(
         barrierColor: barrierColor(),
-        context: kContext,
+        context: zzContext,
         enableDrag: true,
         isScrollControlled: true,
         backgroundColor: backgroundColor(),
@@ -90,7 +90,7 @@ abstract class ZZBaseBottomDialog {
                 contentHeight() != null
                     ? (contentHeight()! +
                         (titleHeight() ?? 0) +
-                        kBottomBarHeight)
+                        zzBottomBarHeight)
                     : maxHeight()),
             child: Column(
               children: [
@@ -119,10 +119,10 @@ abstract class ZZBaseBottomDialog {
                                     child: SizedBox(
                                       width: 20.w,
                                       height: 20.w,
-                                      child: Image.asset(
-                                          R.assetsImgIcNavCloseBlack.addPrefix(
-                                                  kAssetImagePrefixName) ??
-                                              ""),
+                                      child: Image.asset(R
+                                              .assetsImgIcNavCloseBlack
+                                              .addPrefix(zzPackagePrefix) ??
+                                          ""),
                                     ),
                                   ),
                                 )
@@ -140,14 +140,14 @@ abstract class ZZBaseBottomDialog {
                 Container(
                     color: contentBackgroundColor(),
                     height: contentHeight() != null
-                        ? contentHeight()! + kBottomBarHeight
+                        ? contentHeight()! + zzBottomBarHeight
                         : maxHeight() - (titleHeight() ?? 0),
                     child: SingleChildScrollView(
                         child: Column(
                       children: contentWidgets() +
                           [
                             Container(
-                              height: kBottomBarHeight,
+                              height: zzBottomBarHeight,
                               color: bottomBarBackgroundColor(),
                             )
                           ],

@@ -25,7 +25,7 @@ class ZZ404State extends State<ZZ404Page> {
   Widget build(BuildContext context) {
     return ZZBaseScaffold(
       backgroundColor: Colors.white,
-      appBar: App.appbar(title: "Unknown"),
+      appBar: ZZ.appbar(title: "Unknown"),
       body: SingleChildScrollView(
           controller: scrollController,
           child: Column(
@@ -37,7 +37,7 @@ class ZZ404State extends State<ZZ404Page> {
                 child: Center(
                   child: Text("Unknown Page\n请检查你的路由设置",
                       style:
-                          App.textStyle(color: Colors.black, fontSize: 20.sp)),
+                          ZZ.textStyle(color: Colors.black, fontSize: 20.sp)),
                 ),
               )
             ],
