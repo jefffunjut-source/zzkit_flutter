@@ -241,7 +241,7 @@ extension ZZAppLibUI on ZZAppManager {
   /// 通用Tabbar RoundedRectangle
   TabBar tabbarRoundedRectangle({
     required List<String> tabs,
-    required TabController controller,
+    TabController? controller,
     Color? indicatorColor = kColorRed,
     double? indicatorRadius,
     Gradient? indicatorGradient,
@@ -283,7 +283,7 @@ extension ZZAppLibUI on ZZAppManager {
 
   TabBar tabbarUnderline({
     required List<String> tabs,
-    required TabController controller,
+    TabController? controller,
     Color? indicatorColor = kColorRed,
     double? indicatorRadius,
     Gradient? indicatorGradient,

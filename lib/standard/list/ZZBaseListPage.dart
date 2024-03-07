@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_new
 library zzkit;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -17,12 +18,17 @@ typedef ZZAppApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse>
     Function();
 
 class ZZBaseListController extends GetxController {
-  // 数据
+  // 刷新控制器
   RefreshController refreshController = RefreshController(initialRefresh: true);
+
+  // 数据
   int page = 1;
   int pageSize = 5;
   RxBool nodata = false.obs;
   RxList<dynamic> dataSource = <dynamic>[].obs;
+
+  // 滑动控制器
+  ScrollController? scrollController;
 
   // 是否启用shimmer
   bool? shimmer;
@@ -45,7 +51,8 @@ class ZZBaseListController extends GetxController {
   int? brickColor;
 
   ZZBaseListController(
-      {this.shimmer = false,
+      {this.scrollController,
+      this.shimmer = false,
       this.shimmerBrickHeight,
       this.shimmerCustomWidget,
       this.refreshingIdleText = "下拉可以刷新哦",
@@ -184,25 +191,27 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
       onLoading: () async {
         getData(true);
       },
-      child: CustomScrollView(slivers: <Widget>[
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              ZZBaseBrickObject object = controller.dataSource[index];
-              object.margin ??= controller.brickMargin;
-              object.padding ??= controller.brickPadding;
-              return Container(
-                  color: object.padding != null
-                      ? Color(object.colorHex ?? 0xFFFFFFFF)
-                      : null,
-                  margin: object.margin,
-                  padding: object.padding,
-                  child: object.widget);
-            },
-            childCount: controller.dataSource.length,
-          ),
-        ),
-      ]),
+      child: CustomScrollView(
+          controller: controller.scrollController,
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  ZZBaseBrickObject object = controller.dataSource[index];
+                  object.margin ??= controller.brickMargin;
+                  object.padding ??= controller.brickPadding;
+                  return Container(
+                      color: object.padding != null
+                          ? Color(object.colorHex ?? 0xFFFFFFFF)
+                          : null,
+                      margin: object.margin,
+                      padding: object.padding,
+                      child: object.widget);
+                },
+                childCount: controller.dataSource.length,
+              ),
+            ),
+          ]),
     );
   }
 

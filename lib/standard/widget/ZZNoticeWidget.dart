@@ -16,9 +16,17 @@ class ZZNoticeController extends GetxController {
 class ZZNoticeWidget extends StatefulWidget {
   double? width;
   double? height;
+  Image? noticeImage;
+  double? noticeXFromCenter;
+  double? noticeYFromCenter;
+  Color? backgroundColor;
   ZZNoticeWidget({
     this.width,
     this.height,
+    this.noticeImage,
+    this.noticeXFromCenter,
+    this.noticeYFromCenter,
+    this.backgroundColor,
     super.key,
   });
 
@@ -44,18 +52,20 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
   Widget build(BuildContext context) {
     ZZNoticeController controller = Get.find();
     return Container(
-      color: Colors.white,
+      color: widget.backgroundColor,
       width: width,
       height: height,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset(
-              R.assetsImgIcNavNotice.addPrefix(kAssetImagePrefixName) ?? ""),
+          widget.noticeImage ??
+              Image.asset(
+                  R.assetsImgIcNavNotice.addPrefix(kAssetImagePrefixName) ??
+                      ""),
           Obx(() => controller.noticeNumber.value.isNotEmpty
               ? Positioned(
-                  left: width / 2 + 2,
-                  top: height / 2 - 16,
+                  left: width / 2 + (widget.noticeXFromCenter ?? 2),
+                  top: height / 2 - (widget.noticeYFromCenter ?? 16),
                   child: Container(
                     height: 12.w,
                     decoration: BoxDecoration(
