@@ -41,4 +41,10 @@ class R {
   static final String assetsImgIcPlaceholderImage = 'assets/img/ic_placeholder_image.png';
   /// ![](http://127.0.0.1:9527/assets/img/ic_placeholder_no_data.png)
   static final String assetsImgIcPlaceholderNoData = 'assets/img/ic_placeholder_no_data.png';
+  /// ![](http://127.0.0.1:9527/assets/img/ic_textfield_delete.png)
+  static final String assetsImgIcTextfieldDelete = 'assets/img/ic_textfield_delete.png';
+  /// ![](http://127.0.0.1:9527/assets/img/ic_textfield_password_off.png)
+  static final String assetsImgIcTextfieldPasswordOff = 'assets/img/ic_textfield_password_off.png';
+  /// ![](http://127.0.0.1:9527/assets/img/ic_textfield_password_on.png)
+  static final String assetsImgIcTextfieldPasswordOn = 'assets/img/ic_textfield_password_on.png';
 }

@@ -253,7 +253,7 @@ extension ZZExtensionDateTime on DateTime {
 }
 
 extension ZZExtensionList on List {
-  Object? safeObjectAtIndex(int index) {
+  dynamic safeObjectAtIndex(int index) {
     if (isEmpty) {
       return null;
     }
