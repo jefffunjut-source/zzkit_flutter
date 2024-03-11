@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/r.dart';
+import 'package:zzkit_flutter/util/ZZExtension.dart';
+import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 
 class ZZTextFieldWidget extends StatefulWidget {
   final TextEditingController controller;
@@ -13,9 +15,9 @@ class ZZTextFieldWidget extends StatefulWidget {
   final FocusNode? focusNode;
   final TextInputAction textInputAction;
   final bool enabled;
-  final bool isShowDelete;
-  final bool isInputPwd;
-  final bool isShowIconPwd;
+  final bool enableClearIcon;
+  final bool enableEncryption;
+  final bool enableEncryptionIcon;
   final double contentPadding;
   final TextStyle? style;
   final TextStyle? hintStyle;
@@ -38,9 +40,9 @@ class ZZTextFieldWidget extends StatefulWidget {
     this.focusNode,
     this.textInputAction = TextInputAction.done,
     this.enabled = true,
-    this.isShowDelete = false,
-    this.isInputPwd = false,
-    this.isShowIconPwd = false,
+    this.enableClearIcon = false,
+    this.enableEncryption = false,
+    this.enableEncryptionIcon = false,
     this.contentPadding = 16.0,
     this.style,
     this.hintStyle,
@@ -90,7 +92,7 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
             maxLength: widget.maxLength,
             maxLines: 1,
             textAlign: widget.textAlign,
-            obscureText: widget.isInputPwd ? !_isShowPwd : false,
+            obscureText: widget.enableEncryption ? !_isShowPwd : false,
             autofocus: widget.autoFocus,
             controller: widget.controller,
             style: widget.style,
@@ -104,7 +106,7 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
                 ? [FilteringTextInputFormatter.allow(RegExp("[0-9]"))]
                 : [],
             decoration: InputDecoration(
-              contentPadding: widget.isShowDelete
+              contentPadding: widget.enableClearIcon
                   ? EdgeInsets.only(
                       left: widget.contentPadding,
                       right: widget.contentPadding / 4)
@@ -135,15 +137,16 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
         Offstage(
           offstage: _isShowDelete,
           child: Padding(
-            padding: !widget.isShowIconPwd || !widget.isInputPwd
+            padding: !widget.enableEncryptionIcon || !widget.enableEncryption
                 ? EdgeInsets.only(right: widget.contentPadding)
                 : EdgeInsets.only(right: widget.contentPadding / 2),
             child: InkWell(
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
-              child: widget.isShowDelete
+              child: widget.enableClearIcon
                   ? Image.asset(
-                      R.assetsImgIcTextfieldDelete,
+                      R.assetsImgIcTextfieldDelete.addPrefix(zzPackagePrefix) ??
+                          "",
                       width: 16.w,
                       height: 16.w,
                     )
@@ -157,7 +160,7 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
           ),
         ),
         Offstage(
-          offstage: !widget.isShowIconPwd || !widget.isInputPwd,
+          offstage: !widget.enableEncryptionIcon || !widget.enableEncryption,
           child: Padding(
             padding: EdgeInsets.only(right: widget.contentPadding),
             child: InkWell(
@@ -166,7 +169,11 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
               child: Image.asset(
                 _isShowPwd
                     ? R.assetsImgIcTextfieldPasswordOn
-                    : R.assetsImgIcTextfieldPasswordOff,
+                            .addPrefix(zzPackagePrefix) ??
+                        ""
+                    : R.assetsImgIcTextfieldPasswordOff
+                            .addPrefix(zzPackagePrefix) ??
+                        "",
                 width: 24.w,
                 height: 24.w,
               ),

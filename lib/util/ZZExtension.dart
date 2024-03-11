@@ -263,3 +263,9 @@ extension ZZExtensionList on List {
     return null;
   }
 }
+
+extension ZZMergeArrays<T> on List<T> {
+  List<T> merge(List<T> other) {
+    return [...this, ...other];
+  }
+}

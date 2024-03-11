@@ -30,7 +30,7 @@ abstract class ZZBaseBottomDialog {
   }
 
   TextStyle? titleTextStyle() {
-    return ZZ.textStyle(color: zzColorBlack, fontSize: 22.sp, bold: true);
+    return ZZ.textStyle(color: zzColorBlack, fontSize: 18.sp, bold: true);
   }
 
   bool enableClose() {
@@ -69,8 +69,8 @@ abstract class ZZBaseBottomDialog {
     return null;
   }
 
-  void show() {
-    showModalBottomSheet(
+  Future<dynamic> show() async {
+    var ret = await showModalBottomSheet(
         barrierColor: barrierColor(),
         context: zzContext,
         enableDrag: true,
@@ -144,17 +144,17 @@ abstract class ZZBaseBottomDialog {
                         : maxHeight() - (titleHeight() ?? 0),
                     child: SingleChildScrollView(
                         child: Column(
-                      children: contentWidgets() +
-                          [
-                            Container(
-                              height: zzBottomBarHeight,
-                              color: bottomBarBackgroundColor(),
-                            )
-                          ],
+                      children: contentWidgets().merge([
+                        Container(
+                          height: zzBottomBarHeight,
+                          color: bottomBarBackgroundColor(),
+                        )
+                      ]),
                     )))
               ],
             ),
           );
         });
+    return ret;
   }
 }
