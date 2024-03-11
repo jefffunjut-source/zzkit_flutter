@@ -70,14 +70,18 @@ class ZZImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget mainWidget = getWidget();
-    return GestureDetector(
-      onTap: () {
-        if (onTap != null) {
-          onTap!(index, extra);
-        }
-      },
-      child: mainWidget,
-    );
+    if (onTap != null) {
+      return GestureDetector(
+        onTap: () {
+          if (onTap != null) {
+            onTap!(index, extra);
+          }
+        },
+        child: mainWidget,
+      );
+    } else {
+      return mainWidget;
+    }
   }
 
   Widget getWidget() {
@@ -94,11 +98,10 @@ class ZZImageWidget extends StatelessWidget {
         padding: padding,
         decoration: BoxDecoration(
             border: Border.all(
-                color: borderColor ?? zzColorTransparent,
-                width: borderWidth ?? 0),
+                color: borderColor ?? zzColorClear, width: borderWidth ?? 0),
             borderRadius:
                 BorderRadius.circular((radius ?? 0) + (borderWidth ?? 0)),
-            color: zzColorTransparent),
+            color: zzColorClear),
         child: ClipRRect(
           clipper: clipper,
           child: Stack(alignment: Alignment.center, children: [
@@ -110,7 +113,7 @@ class ZZImageWidget extends StatelessWidget {
                     imageUrl: url!,
                     placeholder: (context, url) {
                       return Container(
-                        color: zzColorTransparent,
+                        color: zzColorClear,
                         child: const SizedBox(
                             child: Center(
                           child: CupertinoActivityIndicator(
@@ -131,7 +134,7 @@ class ZZImageWidget extends StatelessWidget {
                     imageUrl: url!,
                     placeholder: (context, url) {
                       return Container(
-                        color: zzColorTransparent,
+                        color: zzColorClear,
                         child: const SizedBox(
                             child: Center(
                           child: CupertinoActivityIndicator(
@@ -171,11 +174,11 @@ class ZZImageWidget extends StatelessWidget {
             padding: padding,
             decoration: BoxDecoration(
                 border: Border.all(
-                    color: borderColor ?? zzColorTransparent,
+                    color: borderColor ?? zzColorClear,
                     width: borderWidth ?? 0),
                 borderRadius:
                     BorderRadius.circular((radius ?? 0) + (borderWidth ?? 0)),
-                color: zzColorTransparent),
+                color: zzColorClear),
             child: (width != null && height != null)
                 ? ClipRRect(
                     clipper: clipper,

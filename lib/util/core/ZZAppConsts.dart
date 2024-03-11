@@ -42,7 +42,7 @@ double zzStatusBarHeight = ScreenUtil().statusBarHeight;
 double zzBottomBarHeight = ScreenUtil().bottomBarHeight;
 
 /// 颜色常量
-const zzColorTransparent = Color(0x00000000);
+const zzColorClear = Color(0x00000000);
 const zzColorBlack = Color(0xFF000000);
 const zzColorWhite = Color(0xFFFFFFFF);
 const zzColorGrey33 = Color(0xFF333333);
@@ -50,15 +50,10 @@ const zzColorGrey66 = Color(0xFF666666);
 const zzColorGrey99 = Color(0xFF999999);
 const zzColorGreyCC = Color(0xFFCCCCCC);
 const zzColorGreyF5 = Color(0xFFF5F5F5);
-const zzColorRed = Color(0xFFFF604B);
+const zzColorRed = Colors.red;
 Gradient zzColorGradientOrangeRed = ZZ.grandientColor(
-    beginColor: const Color(0xFFFF694B),
-    endColor: const Color(0xFFFF5063),
-    beginAlign: Alignment.centerLeft,
-    endAlign: Alignment.centerRight);
-Gradient zzColorGradientRedYellow = ZZ.grandientColor(
-    beginColor: const Color(0xFFFF4A5E),
-    endColor: const Color(0xFFFF9869),
+    beginColor: Colors.orange,
+    endColor: Colors.red,
     beginAlign: Alignment.centerLeft,
     endAlign: Alignment.centerRight);
 

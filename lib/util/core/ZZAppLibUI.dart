@@ -269,7 +269,7 @@ extension ZZAppLibUI on ZZAppManager {
       indicator: BoxDecoration(
           color: indicatorColor,
           borderRadius: BorderRadius.circular(indicatorRadius ?? 22.w),
-          gradient: indicatorGradient ?? zzColorGradientRedYellow),
+          gradient: indicatorGradient ?? zzColorGradientOrangeRed),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 6.w, bottom: 10.w, left: 0.w, right: 0.w),
       labelColor: labelColor ?? Colors.white,
@@ -306,7 +306,7 @@ extension ZZAppLibUI on ZZAppManager {
       indicator: BoxDecoration(
           color: indicatorColor,
           borderRadius: BorderRadius.circular(indicatorRadius ?? 6.w),
-          gradient: indicatorGradient ?? zzColorGradientRedYellow),
+          gradient: indicatorGradient ?? zzColorGradientOrangeRed),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 35.w, bottom: 8.w, left: 2.w, right: 2.w),
       indicatorWeight: indicatorWeight ?? 4.w,
