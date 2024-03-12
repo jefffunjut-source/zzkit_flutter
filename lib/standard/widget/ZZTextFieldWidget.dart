@@ -61,8 +61,8 @@ class ZZTextFieldWidget extends StatefulWidget {
 }
 
 class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
-  bool _isShowPwd = false;
-  bool _isShowDelete = true;
+  bool passwordEyeOn = false;
+  bool clearIconOn = false;
 
   @override
   void initState() {
@@ -71,7 +71,7 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
     widget.controller.addListener(() {
       if (!mounted) return;
       setState(() {
-        _isShowDelete = widget.controller.text.isEmpty;
+        clearIconOn = widget.controller.text.isNotEmpty;
       });
     });
   }
@@ -92,7 +92,7 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
             maxLength: widget.maxLength,
             maxLines: 1,
             textAlign: widget.textAlign,
-            obscureText: widget.enableEncryption ? !_isShowPwd : false,
+            obscureText: widget.enableEncryption ? !passwordEyeOn : false,
             autofocus: widget.autoFocus,
             controller: widget.controller,
             style: widget.style,
@@ -135,9 +135,9 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
           ),
         ),
         Offstage(
-          offstage: _isShowDelete,
+          offstage: !clearIconOn,
           child: Padding(
-            padding: !widget.enableEncryptionIcon || !widget.enableEncryption
+            padding: (widget.enableEncryptionIcon && widget.enableEncryption)
                 ? EdgeInsets.only(right: widget.contentPadding)
                 : EdgeInsets.only(right: widget.contentPadding / 2),
             child: InkWell(
@@ -145,10 +145,11 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
               splashColor: Colors.transparent,
               child: widget.enableClearIcon
                   ? Image.asset(
+                      fit: BoxFit.fitWidth,
                       R.assetsImgIcTextfieldDelete.addPrefix(zzPackagePrefix) ??
                           "",
-                      width: 16.w,
-                      height: 16.w,
+                      width: 20.w,
+                      height: 20.w,
                     )
                   : Container(),
               onTap: () {
@@ -160,26 +161,27 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
           ),
         ),
         Offstage(
-          offstage: !widget.enableEncryptionIcon || !widget.enableEncryption,
+          offstage: !(widget.enableEncryptionIcon && widget.enableEncryption),
           child: Padding(
             padding: EdgeInsets.only(right: widget.contentPadding),
             child: InkWell(
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               child: Image.asset(
-                _isShowPwd
+                fit: BoxFit.fitWidth,
+                passwordEyeOn
                     ? R.assetsImgIcTextfieldPasswordOn
                             .addPrefix(zzPackagePrefix) ??
                         ""
                     : R.assetsImgIcTextfieldPasswordOff
                             .addPrefix(zzPackagePrefix) ??
                         "",
-                width: 24.w,
-                height: 24.w,
+                width: 20.w,
+                height: 20.w,
               ),
               onTap: () {
                 setState(() {
-                  _isShowPwd = !_isShowPwd;
+                  passwordEyeOn = !passwordEyeOn;
                 });
               },
             ),

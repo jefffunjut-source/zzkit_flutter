@@ -11,8 +11,9 @@ class ZZGetCodeController extends GetxController {
   Future<bool> Function()? getCodeBlock;
   double countdownSeconds = 60.0;
   double countdownStep = 1.0;
-  TextStyle? getCodeTextStyle;
-  TextStyle? regainCodeTextStyle;
+  RxString mobile = "".obs;
+  TextStyle? enabledTextStyle;
+  TextStyle? disabledTextStyle;
 }
 
 class ZZGetCodeWidget extends StatefulWidget {
@@ -52,6 +53,9 @@ class ZZGetCodeState extends State {
     ZZGetCodeController codeController = Get.find();
     return GestureDetector(
       onTap: () {
+        if (codeController.mobile.isEmpty) {
+          return;
+        }
         if (codeController.getCodeBlock != null) {
           codeController.getCodeBlock!().then((value) {
             if (value) {
@@ -66,12 +70,16 @@ class ZZGetCodeState extends State {
               child: countdownSecond.value == codeController.countdownSeconds
                   ? Text(
                       "获取验证码",
-                      style: codeController.getCodeTextStyle ??
-                          ZZ.textStyle(color: Colors.orange, fontSize: 14.sp),
+                      style: codeController.mobile.isEmpty
+                          ? codeController.disabledTextStyle ??
+                              ZZ.textStyle(color: Colors.grey, fontSize: 14.sp)
+                          : codeController.enabledTextStyle ??
+                              ZZ.textStyle(
+                                  color: Colors.orange, fontSize: 14.sp),
                     )
                   : Text(
                       "重新获取${countdownSecond.value.toInt()}秒",
-                      style: codeController.regainCodeTextStyle ??
+                      style: codeController.disabledTextStyle ??
                           ZZ.textStyle(color: Colors.grey, fontSize: 14.sp),
                     ),
             ),
