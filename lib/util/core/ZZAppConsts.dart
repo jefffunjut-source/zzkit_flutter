@@ -41,6 +41,8 @@ double zzScreenHeight = ScreenUtil().screenHeight;
 double zzStatusBarHeight = ScreenUtil().statusBarHeight;
 double zzBottomBarHeight = ScreenUtil().bottomBarHeight;
 
+double zzZero = 0.0001;
+
 /// 颜色常量
 const zzColorClear = Color(0x00000000);
 const zzColorBlack = Color(0xFF000000);
