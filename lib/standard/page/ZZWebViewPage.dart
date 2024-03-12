@@ -214,38 +214,40 @@ class ZZProgressBarWidgetState extends State<ZZProgressBarWidget> {
   @override
   Widget build(BuildContext context) {
     ZZWebViewController zzWebViewController = Get.find();
-    if (zzWebViewController.enableProgress &&
-        (zzWebViewController.progress.value > 0 &&
-            zzWebViewController.progress.value < 1.0)) {
-      return Container(
-        width: zzWebViewController.progressBarWidth,
-        height: zzWebViewController.progressBarHeight,
-        color: zzWebViewController.progressBarBackgroundColor ?? Colors.black12,
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            Container(
-              height: zzWebViewController.progressBarHeight,
-              width: min(
-                  zzWebViewController.progress.value *
-                      zzWebViewController.progressBarWidth,
-                  zzWebViewController.progressBarHeight),
-              decoration: BoxDecoration(
-                  color: zzWebViewController.progressTintColor ?? zzColorRed,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(
-                          zzWebViewController.progressBarHeight / 2.0),
-                      bottomRight: Radius.circular(
-                          zzWebViewController.progressBarHeight / 2.0))),
-            )
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(
-        width: zzWebViewController.progressBarWidth,
-        height: 0,
-      );
-    }
+    return Obx(() {
+      if (zzWebViewController.enableProgress &&
+          (zzWebViewController.progress.value > 0 &&
+              zzWebViewController.progress.value < 1.0)) {
+        return Container(
+          width: zzWebViewController.progressBarWidth,
+          height: zzWebViewController.progressBarHeight,
+          color: zzWebViewController.progressBarBackgroundColor ?? Colors.white,
+          child: Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              Container(
+                height: zzWebViewController.progressBarHeight,
+                width: min(
+                    zzWebViewController.progress.value *
+                        zzWebViewController.progressBarWidth,
+                    zzWebViewController.progressBarWidth),
+                decoration: BoxDecoration(
+                    color: zzWebViewController.progressTintColor ?? zzColorRed,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(
+                            zzWebViewController.progressBarHeight / 2.0),
+                        bottomRight: Radius.circular(
+                            zzWebViewController.progressBarHeight / 2.0))),
+              )
+            ],
+          ),
+        );
+      } else {
+        return SizedBox(
+          width: zzWebViewController.progressBarWidth,
+          height: 0,
+        );
+      }
+    });
   }
 }
