@@ -8,10 +8,10 @@ import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 class ZZGetCodeController extends GetxController {
+  RxBool validMobile = false.obs;
   Future<bool> Function()? getCodeBlock;
   double countdownSeconds = 60.0;
   double countdownStep = 1.0;
-  RxString mobile = "".obs;
   TextStyle? enabledTextStyle;
   TextStyle? disabledTextStyle;
 }
@@ -53,7 +53,8 @@ class ZZGetCodeState extends State {
     ZZGetCodeController codeController = Get.find();
     return GestureDetector(
       onTap: () {
-        if (codeController.mobile.isEmpty) {
+        if (codeController.validMobile.value == false) {
+          ZZ.toast("请输入手机号");
           return;
         }
         if (codeController.getCodeBlock != null) {
@@ -70,7 +71,7 @@ class ZZGetCodeState extends State {
               child: countdownSecond.value == codeController.countdownSeconds
                   ? Text(
                       "获取验证码",
-                      style: codeController.mobile.isEmpty
+                      style: codeController.validMobile.value == false
                           ? codeController.disabledTextStyle ??
                               ZZ.textStyle(color: Colors.grey, fontSize: 14.sp)
                           : codeController.enabledTextStyle ??
