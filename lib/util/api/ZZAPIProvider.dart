@@ -157,7 +157,8 @@ class ZZAPIRequest {
       resp = provider.process(url, body);
 
       assert(resp != null, "请在process方法中加入映射代码，将返回反射成model");
-      if ((resp.code is String && resp.code == "") ||
+
+      if ((resp.code is String && resp.code == "0") ||
           ((resp.code is int || resp.code is Int) && resp.code == 0)) {
         debugPrint("请求成功");
       } else {
