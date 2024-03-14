@@ -93,7 +93,7 @@ extension ZZAppLibUI on ZZAppManager {
   }
 
   /// Toast
-  void toast(String? msg, {int duration = 2, String? pageName}) {
+  void toast(String? msg, {int duration = 2}) {
     if (msg != null && msg != "") {
       EasyLoading.showToast(msg, duration: Duration(seconds: duration));
     }

@@ -2,6 +2,7 @@
 library zzkit;
 
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:dio/io.dart';
 import 'package:dio/dio.dart';
@@ -10,12 +11,19 @@ import 'package:flutter/foundation.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
-enum ZZAPIReqType { post, get, delete, put }
+enum ZZHTTPMethod { post, get, delete, put }
 
 /// Dio
 late Dio zzDio;
 
 abstract class ZZAPIProvider {
+  /// 设置代理
+  /// (uri) {
+  ///    // 进行抓包的主机IP和端口
+  ///    return "PROXY 172.16.9.47:8888";
+  ///  }
+  String Function(Uri url)? proxy;
+
   /// 初始化dio
   Future<bool> initDio();
 
@@ -43,25 +51,26 @@ class ZZAPIResponse<T> {
 
 class ZZAPIRequest {
   ZZAPIProvider provider;
-  ZZAPIReqType? type;
-  final String apiUrl;
-  Map? data;
-  Map<String, dynamic>? dataFromMap;
+  String apiUrl;
+  ZZHTTPMethod httpMethod;
+  Map<String, dynamic>? datas;
   Map<String, dynamic>? params;
+  bool enableFormData;
+  bool enableErrorToast;
+  bool enableDetailedError;
   CancelToken? cancelToken;
-  String? pageName;
-  bool? noToast;
 
-  ZZAPIRequest(
-      {required this.provider,
-      this.type = ZZAPIReqType.post,
-      required this.apiUrl,
-      this.data,
-      this.dataFromMap,
-      this.params,
-      this.cancelToken,
-      this.pageName,
-      this.noToast});
+  ZZAPIRequest({
+    required this.provider,
+    required this.apiUrl,
+    this.httpMethod = ZZHTTPMethod.post,
+    this.datas,
+    this.params,
+    this.enableFormData = true,
+    this.enableErrorToast = true,
+    this.enableDetailedError = true,
+    this.cancelToken,
+  });
 
   Future<ZZAPIResponse> request() async {
     dynamic resp;
@@ -75,77 +84,71 @@ class ZZAPIRequest {
       // ignore: deprecated_member_use
       (zzDio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
           (HttpClient client) {
-        // client.findProxy = (uri) {
-        // 进行抓包的主机IP和端口
-        // return "PROXY 172.16.9.47:8888";
-        // };
+        client.findProxy = provider.proxy;
         client.badCertificateCallback = (cert, host, port) {
           return true;
         };
         return null;
       };
 
+      // url中包含{id}这样的需要替换
       if (url.contains("{id}")) {
         assert(
-            (data != null && data!["id"] != null) ||
+            (datas != null && datas!["id"] != null) ||
                 (params != null && params!["id"] != null),
-            "请检查输入data必须传id");
-        var id = data?["id"] != null ? data!["id"] : params!["id"];
+            "请检查输入datas或者params中必须传入一个{\"id\":\"param\"}的参数");
+        var id = datas?["id"] != null ? datas!["id"] : params!["id"];
         url = url.replaceAll("{id}", id.toString());
       }
 
-      // if (kDebugMode) {
-      if (kDebugMode) {
-        print('==========++++++++++API==========++++++++++');
-        print('dio.options.headers =  ${zzDio.options.headers}');
-        print('baseUrl =  ${zzDio.options.baseUrl}');
-        print("url = $url");
-        print("parm = $params");
-        print("data = $data");
-      }
-      debugPrint("dataFromMap = $dataFromMap");
-      // }
+      // 打印请求参数
+      debugPrint('========================Begin==========================');
+      debugPrint('==================== ZZAPI Request ====================');
+      debugPrint("url = $url");
+      debugPrint('headers =  ${zzDio.options.headers}');
+      debugPrint('baseUrl =  ${zzDio.options.baseUrl}');
+      debugPrint("params = $params");
+      debugPrint("datas = $datas");
+      debugPrint("enableFormData = " +
+          (enableFormData ? "enableFormData" : "disableFormData"));
+      debugPrint("enableErrorToast = " +
+          (enableErrorToast ? "enableErrorToast" : "disableErrorToast"));
+
       dynamic response;
-      switch (type!) {
-        case ZZAPIReqType.post:
+      switch (httpMethod) {
+        case ZZHTTPMethod.post:
           {
-            if (dataFromMap != null) {
-              response = await zzDio.post(url,
-                  data: DioFormData.FormData.fromMap(dataFromMap!),
-                  queryParameters: params,
-                  cancelToken: cancelToken);
-            } else {
-              response = await zzDio.post(url,
-                  data: data,
-                  queryParameters: params,
-                  cancelToken: cancelToken);
-            }
+            response = await zzDio.post(url,
+                data: enableFormData
+                    ? DioFormData.FormData.fromMap(datas ?? {})
+                    : datas,
+                queryParameters: params,
+                cancelToken: cancelToken);
             break;
           }
-        case ZZAPIReqType.get:
+        case ZZHTTPMethod.get:
           {
             response = await zzDio.get(url,
                 queryParameters: params, cancelToken: cancelToken);
             break;
           }
-        case ZZAPIReqType.delete:
+        case ZZHTTPMethod.delete:
           {
             response = await zzDio.delete(url,
                 queryParameters: params, cancelToken: cancelToken);
             break;
           }
-        case ZZAPIReqType.put:
+        case ZZHTTPMethod.put:
           {
             response = await zzDio.put(url,
-                data: data, queryParameters: params, cancelToken: cancelToken);
+                data: datas, queryParameters: params, cancelToken: cancelToken);
             break;
           }
       }
 
-      if (kDebugMode) {
-        print("=========++++++++++Response==========++++++++++");
-        print("url = $url \n ---   --- response =  ${response.data}");
-      }
+      debugPrint("==================== ZZAPI Response ====================");
+      debugPrint("url = $url");
+      debugPrint("response = ${response.data}");
 
       var body = response.data;
       if (body is String) {
@@ -153,58 +156,59 @@ class ZZAPIRequest {
       }
       resp = provider.process(url, body);
 
-      assert(resp != null, "处理映射关系");
-      if (resp.code == 0 || resp.code == "0") {
-        if (kDebugMode) {
-          print("请求成功");
-        }
+      assert(resp != null, "请在process方法中加入映射代码，将返回反射成model");
+      if ((resp.code is String && resp.code == "") ||
+          ((resp.code is int || resp.code is Int) && resp.code == 0)) {
+        debugPrint("请求成功");
       } else {
-        if (resp.msg != null) {
-          if (kDebugMode) {
-            ZZ.toast("Oops,catch a server error:\n\n" + resp.msg!,
-                duration: 3, pageName: pageName);
-          } else {
-            if (noToast == null || noToast == false) {
-              ZZ.toast(resp.msg!, pageName: pageName);
-            }
+        if (resp.msg != null && resp.msg is String) {
+          if (enableErrorToast) {
+            ZZ.toast(resp.msg);
           }
         }
         error = ZZAPIError(
             code: resp.code is String ? resp.code : resp.code.toString(),
-            errorMessage: resp.msg ?? "Server Error");
+            errorMessage: resp.msg is String ? resp.msg : resp.msg.toString());
         resp = null;
       }
     } catch (e) {
       if (e is DioException && e.type == DioExceptionType.cancel) {
+        // 豁免该类报错
         // 用户手动取消或者页面退出取消请求
+        debugPrint('请求取消');
+        debugPrint('=========================End============================');
         return ZZAPIResponse(null, null);
+      } else if (e.toString().toLowerCase().contains("timeout")) {
+        // 豁免该类报错
+        debugPrint("请求超时");
+      } else if (e.toString().toLowerCase().contains("os error")) {
+        // 豁免该类报错
+        debugPrint("请求OS Error");
       } else if (e is TypeError) {
         if (kDebugMode) {
-          ZZ.toast("Oops,catch a type error:\n\n$e\n\n${e.stackTrace}",
-              duration: 3, pageName: pageName);
+          ZZ.toast(
+              (enableDetailedError
+                  ? "Something around type goes wrong with server.Please try again later.\n\n$e\n\n${e.stackTrace}"
+                  : "Something around type goes wrong with server.Please try again later."),
+              duration: enableDetailedError ? 3 : 1);
+          debugPrint(
+              '=========================End============================');
           return ZZAPIResponse(
               null, ZZAPIError(code: "100", errorMessage: e.toString()));
         }
-      } else if (e.toString().contains("timeout") ||
-          e.toString().contains("Timeout")) {
-      } else if (e.toString().contains("OS Error")) {
-        // 豁免该类报错
       } else {
-        if (kDebugMode) {
-          ZZ.toast("Oops,catch an error:\n\n$e",
-              duration: 3, pageName: pageName);
-        } else {
-          String errorString = e.toString();
-          if (kDebugMode) {
-            print("请求失败 url = $url ------ response = $errorString ");
-          }
-          ZZ.toast('Please try again!', pageName: pageName);
-        }
+        String errorString = e.toString();
+        debugPrint("请求成功");
+        debugPrint("url = $url");
+        debugPrint("errorString = $errorString");
+        ZZ.toast(enableDetailedError
+            ? "Something goes wrong with server.Please try again later.\n\n$errorString"
+            : "Something goes wrong with server.Please try again later.");
       }
-      // }
       resp = null;
       error = ZZAPIError(code: "-1", errorMessage: e.toString());
     }
+    debugPrint('=========================End============================');
     return ZZAPIResponse(resp, error);
   }
 }

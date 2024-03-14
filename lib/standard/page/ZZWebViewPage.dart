@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, no_logic_in_create_state, file_names
 // ignore_for_file: depend_on_referenced_packages
 
-import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class ZZWebViewController extends GetxController {
   bool enableProgress = true;
   RxDouble progress = 0.0.obs;
   int estimatedFinishedProgress = 80;
-  double progressBarWidth = zzScreenWidth;
+  double progressBarWidth = 414.w;
   double progressBarHeight = 1.0;
   Color? progressBarBackgroundColor;
   Color? progressTintColor;
@@ -27,6 +26,18 @@ class ZZWebViewController extends GetxController {
   // Title & Url
   RxString title = "".obs;
   RxString url = "".obs;
+
+  // UserAgent
+  String? userAgent;
+
+  // Forbidden Urls
+  List<String> forbiddenUrls = [];
+  // Forbidden Hosts
+  List<String> forbiddenHosts = [];
+
+  // JavaScript
+  Map<String, ZZAppCallback1String>? actions;
+  ZZAppCallback2String? defaultAction;
 }
 
 class ZZWebViewPage extends StatefulWidget {
@@ -40,10 +51,9 @@ class ZZWebViewPage extends StatefulWidget {
 
   @override
   ZZWebViewPageState createState() {
-    ZZWebViewController zzWebViewController = ZZWebViewController();
+    ZZWebViewController zzWebViewController = Get.find();
     zzWebViewController.title.value = title ?? "";
     zzWebViewController.url.value = url ?? "";
-    Get.put(zzWebViewController);
     return ZZWebViewPageState();
   }
 }
@@ -58,7 +68,7 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
-      // ..setUserAgent("")
+      ..setUserAgent(zzWebViewController.userAgent)
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int proceed) {
@@ -75,9 +85,21 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              // 禁止跳转
-              return NavigationDecision.prevent;
+            if (zzWebViewController.forbiddenHosts.isNotEmpty) {
+              Uri uri = Uri.parse(request.url);
+              String h = uri.host;
+              for (String host in zzWebViewController.forbiddenHosts) {
+                if (host == h) {
+                  return NavigationDecision.prevent;
+                }
+              }
+            }
+            if (zzWebViewController.forbiddenUrls.isNotEmpty) {
+              for (String url in zzWebViewController.forbiddenHosts) {
+                if (url == request.url) {
+                  return NavigationDecision.prevent;
+                }
+              }
             }
             // 同意跳转
             return NavigationDecision.navigate;
@@ -87,16 +109,19 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
       ..addJavaScriptChannel(
         'action', //商家
         onMessageReceived: (JavaScriptMessage message) {
-          Map<String, dynamic> jsonMap = jsonDecode(message.message);
-          if (jsonMap['storeName'] == null ||
-              jsonMap['storeId'] == null ||
-              jsonMap['storeName'].toString().isEmpty ||
-              jsonMap['storeId'].toString().isEmpty) {
-            return;
+          if (zzWebViewController.defaultAction != null) {
+            zzWebViewController.defaultAction!("action", message.message);
           }
         },
       )
       ..loadRequest(Uri.parse(zzWebViewController.url.value));
+
+    zzWebViewController.actions?.forEach((key, value) {
+      controller.addJavaScriptChannel(key,
+          onMessageReceived: (JavaScriptMessage message) {
+        value(message.message);
+      });
+    });
   }
 
   @override
