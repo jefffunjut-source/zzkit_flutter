@@ -161,6 +161,7 @@ class ZZAPIRequest {
           ((resp.code is int || resp.code is Int) && resp.code == 0)) {
         debugPrint("请求成功");
       } else {
+        debugPrint("请求失败");
         if (resp.msg != null && resp.msg is String) {
           if (enableErrorToast) {
             ZZ.toast(resp.msg);
@@ -176,37 +177,38 @@ class ZZAPIRequest {
         // 豁免该类报错
         // 用户手动取消或者页面退出取消请求
         debugPrint('请求取消');
-        debugPrint('=========================End============================');
-        return ZZAPIResponse(null, null);
+        error = null;
+        resp = null;
       } else if (e.toString().toLowerCase().contains("timeout")) {
-        // 豁免该类报错
+        // 豁免Toast该类报错
         debugPrint("请求超时");
+        error = ZZAPIError(code: "-1", errorMessage: "Timeout");
+        resp = null;
       } else if (e.toString().toLowerCase().contains("os error")) {
-        // 豁免该类报错
+        // 豁免Toast该类报错
         debugPrint("请求OS Error");
+        error = ZZAPIError(code: "-2", errorMessage: "OS Error");
+        resp = null;
       } else if (e is TypeError) {
-        if (kDebugMode) {
-          ZZ.toast(
-              (enableDetailedError
-                  ? "Something around type goes wrong with server.Please try again later.\n\n$e\n\n${e.stackTrace}"
-                  : "Something around type goes wrong with server.Please try again later."),
-              duration: enableDetailedError ? 3 : 1);
-          debugPrint(
-              '=========================End============================');
-          return ZZAPIResponse(
-              null, ZZAPIError(code: "100", errorMessage: e.toString()));
-        }
+        debugPrint("请求Type异常\n\n$e\n\n${e.stackTrace}");
+        ZZ.toast(
+            (enableDetailedError
+                ? "Something around type goes wrong with server.Please try again later.\n\n$e\n\n${e.stackTrace}"
+                : "Something around type goes wrong with server.Please try again later."),
+            duration: enableDetailedError ? 3 : 1);
+        error = ZZAPIError(code: "-3", errorMessage: e.toString());
+        resp = null;
       } else {
         String errorString = e.toString();
-        debugPrint("请求成功");
+        debugPrint("请求其它异常\n\n$errorString");
         debugPrint("url = $url");
         debugPrint("errorString = $errorString");
         ZZ.toast(enableDetailedError
             ? "Something goes wrong with server.Please try again later.\n\n$errorString"
             : "Something goes wrong with server.Please try again later.");
+        error = ZZAPIError(code: "-4", errorMessage: errorString);
+        resp = null;
       }
-      resp = null;
-      error = ZZAPIError(code: "-1", errorMessage: e.toString());
     }
     debugPrint('=========================End============================');
     return ZZAPIResponse(resp, error);
