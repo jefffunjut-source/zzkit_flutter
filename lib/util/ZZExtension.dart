@@ -105,10 +105,16 @@ extension ZZExtensionString on String {
   }
 
   int parse2Int() {
+    if (this == "") {
+      return 0;
+    }
     if (startsWith("0")) {
       replaceFirst("0", "");
     }
-    return int.parse(this);
+    try {
+      return int.parse(this);
+    } catch (e) {}
+    return 0;
   }
 
   String parse2MD5String() {
