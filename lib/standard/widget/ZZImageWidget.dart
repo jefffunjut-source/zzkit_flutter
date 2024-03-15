@@ -125,8 +125,7 @@ class ZZImageWidget extends StatelessWidget {
                     errorWidget: (context, url, e) {
                       return Center(
                         child: Image.asset(R.assetsImgIcPlaceholderImage
-                                .addPrefix(zzPackagePrefix) ??
-                            ""),
+                            .addPrefix(zzPackagePrefix)),
                       );
                     })
                 : CachedNetworkImage(
@@ -146,8 +145,7 @@ class ZZImageWidget extends StatelessWidget {
                     errorWidget: (context, url, e) {
                       return Center(
                         child: Image.asset(R.assetsImgIcPlaceholderImage
-                                .addPrefix(zzPackagePrefix) ??
-                            ""),
+                            .addPrefix(zzPackagePrefix)),
                       );
                     }),
             Positioned(

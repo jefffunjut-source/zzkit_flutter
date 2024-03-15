@@ -146,8 +146,7 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
               child: widget.enableClearIcon
                   ? Image.asset(
                       fit: BoxFit.fitWidth,
-                      R.assetsImgIcTextfieldDelete.addPrefix(zzPackagePrefix) ??
-                          "",
+                      R.assetsImgIcTextfieldDelete.addPrefix(zzPackagePrefix),
                       width: 20.w,
                       height: 20.w,
                     )
@@ -171,11 +170,9 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
                 fit: BoxFit.fitWidth,
                 passwordEyeOn
                     ? R.assetsImgIcTextfieldPasswordOn
-                            .addPrefix(zzPackagePrefix) ??
-                        ""
+                        .addPrefix(zzPackagePrefix)
                     : R.assetsImgIcTextfieldPasswordOff
-                            .addPrefix(zzPackagePrefix) ??
-                        "",
+                        .addPrefix(zzPackagePrefix),
                 width: 20.w,
                 height: 20.w,
               ),

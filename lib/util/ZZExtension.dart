@@ -6,7 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 extension ZZExtensionObject on Object {
-  String? parse2String() {
+  String parse2String() {
     if (this is String) {
       return this as String;
     }
@@ -45,34 +45,34 @@ extension ZZExtensionObject on Object {
 }
 
 extension ZZExtensionString on String {
-  bool? isNumeric() {
+  bool isNumeric() {
     return double.tryParse(this) != null;
   }
 
-  bool? isToday() {
+  bool isToday() {
     return this ==
             "${DateTime.now().month}/${DateTime.now().day.parse2MonthString()}" ||
         this == "${DateTime.now().month}/${DateTime.now().day}";
   }
 
-  bool? isValidName() {
+  bool isValidName() {
     String regexEmail =
         r"^[\u4e00-\u9fa5\u9fa6-\u9fef\u3400-\u4db5\u20000-\u2ebe0a-zA-Z0-9]+$";
     return RegExp(regexEmail).hasMatch(this);
   }
 
-  bool? isValidPassWord() {
+  bool isValidPassWord() {
     String regexEmail =
         "^[\\w\\=\\*\\!\\@\\#\$\\%\\^\\&\\(\\)\\-\\+]{6,30}[!]?\$";
     return RegExp(regexEmail).hasMatch(this);
   }
 
-  bool? isValidEmail() {
+  bool isValidEmail() {
     String regexEmail = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$";
     return RegExp(regexEmail).hasMatch(this);
   }
 
-  bool? isValidUrlEncode() {
+  bool isValidUrlEncode() {
     if (this == '+') {
       return true;
     } else if (this == ' ') {
@@ -93,7 +93,7 @@ extension ZZExtensionString on String {
     return false;
   }
 
-  String? parse2FixedDigitsString(int digit) {
+  String parse2FixedDigitsString(int digit) {
     if (length >= digit) {
       return this;
     }
@@ -104,14 +104,14 @@ extension ZZExtensionString on String {
     return ret;
   }
 
-  int? parse2Int() {
+  int parse2Int() {
     if (startsWith("0")) {
       replaceFirst("0", "");
     }
     return int.parse(this);
   }
 
-  String? parse2MD5String() {
+  String parse2MD5String() {
     var bytes = utf8.encode(this);
     Digest md5Result = md5.convert(bytes);
     return md5Result.toString();
@@ -131,7 +131,7 @@ extension ZZExtensionString on String {
     return null;
   }
 
-  String? parse2UrlEncodeString() {
+  String parse2UrlEncodeString() {
     StringBuffer encoded = StringBuffer();
     try {
       for (String character in characters) {
@@ -146,7 +146,7 @@ extension ZZExtensionString on String {
   }
 
   /// To Dollar String
-  String? parse2DollarString() {
+  String parse2DollarString() {
     if (contains("\$")) return this;
     return "\$ $this";
   }
@@ -177,30 +177,30 @@ extension ZZExtensionString on String {
   }
 
   /// 拼接前缀字符串
-  String? addPrefix(String str) {
+  String addPrefix(String str) {
     return "$str$this";
   }
 
   /// 拼接后缀字符串
-  String? append(String str) {
+  String append(String str) {
     return "$this$str";
   }
 }
 
 extension ZZExtensionInt on int {
-  bool? isPositive() {
+  bool isPositive() {
     return this > 0;
   }
 
-  bool? isZero() {
+  bool isZero() {
     return this == 0;
   }
 
-  bool? isNegative() {
+  bool isNegative() {
     return this < 0;
   }
 
-  String? parse2MonthString() {
+  String parse2MonthString() {
     String result = toString();
     if (result.length == 1) {
       result = "0$result";
@@ -208,7 +208,7 @@ extension ZZExtensionInt on int {
     return result;
   }
 
-  String? parse2PercentageString() {
+  String parse2PercentageString() {
     if (this == 0) {
       return "- - ";
     } else if (this > 0) {

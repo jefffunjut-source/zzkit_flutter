@@ -120,9 +120,8 @@ abstract class ZZBaseBottomDialog {
                                       width: 20.w,
                                       height: 20.w,
                                       child: Image.asset(R
-                                              .assetsImgIcNavCloseBlack
-                                              .addPrefix(zzPackagePrefix) ??
-                                          ""),
+                                          .assetsImgIcNavCloseBlack
+                                          .addPrefix(zzPackagePrefix)),
                                     ),
                                   ),
                                 )

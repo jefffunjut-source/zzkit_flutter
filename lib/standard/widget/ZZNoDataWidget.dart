@@ -45,8 +45,7 @@ class ZZNoDataWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(img ??
-                  R.assetsImgIcPlaceholderNoData.addPrefix(zzPackagePrefix) ??
-                  ""),
+                  R.assetsImgIcPlaceholderNoData.addPrefix(zzPackagePrefix)),
               ZZ.space(height: 24.w),
               Text(
                 hintText ?? "暂无数据",

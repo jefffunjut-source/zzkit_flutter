@@ -59,8 +59,7 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
         alignment: Alignment.center,
         children: [
           widget.noticeImage ??
-              Image.asset(
-                  R.assetsImgIcNavNotice.addPrefix(zzPackagePrefix) ?? ""),
+              Image.asset(R.assetsImgIcNavNotice.addPrefix(zzPackagePrefix)),
           Obx(() => controller.noticeNumber.value.isNotEmpty
               ? Positioned(
                   left: width / 2 + (widget.noticeXFromCenter ?? 2),

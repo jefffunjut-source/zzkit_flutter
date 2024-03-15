@@ -155,8 +155,7 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 24.w),
                         child: Image.asset(R.assetsImgIcNavBackBlack
-                                .addPrefix(zzPackagePrefix) ??
-                            ""),
+                            .addPrefix(zzPackagePrefix)),
                       ),
                       onTap: () {
                         Future<bool> can = controller.canGoBack();
@@ -194,8 +193,7 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                       child: Padding(
                         padding: EdgeInsets.only(right: 24.w),
                         child: Image.asset(R.assetsImgIcNavCloseBlack
-                                .addPrefix(zzPackagePrefix) ??
-                            ""),
+                            .addPrefix(zzPackagePrefix)),
                       ),
                       onTap: () {
                         Get.back();
