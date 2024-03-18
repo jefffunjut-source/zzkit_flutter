@@ -43,7 +43,6 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
   @override
   void initState() {
     super.initState();
-    Get.lazyPut(() => ZZNoticeController());
     width = widget.width ?? 64.w;
     height = widget.height ?? 44.w;
   }

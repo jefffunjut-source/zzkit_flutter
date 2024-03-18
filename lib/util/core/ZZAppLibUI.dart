@@ -239,22 +239,23 @@ extension ZZAppLibUI on ZZAppManager {
   }
 
   /// 通用Tabbar RoundedRectangle
-  TabBar tabbarRoundedRectangle({
-    required List<String> tabs,
-    TabController? controller,
-    Color? indicatorColor = zzColorRed,
-    double? indicatorRadius,
-    Gradient? indicatorGradient,
-    EdgeInsetsGeometry? indicatorPadding,
-    Color? labelColor,
-    Color? unselectedLabelColor,
-    TextStyle? labelStyle,
-    TextStyle? unselectedLabelStyle,
-  }) {
+  TabBar tabbarRoundedRectangle(
+      {required List<String> tabs,
+      TabController? controller,
+      Color? indicatorColor = zzColorRed,
+      double? indicatorRadius,
+      Gradient? indicatorGradient,
+      EdgeInsetsGeometry? indicatorPadding,
+      Color? labelColor,
+      Color? unselectedLabelColor,
+      TextStyle? labelStyle,
+      TextStyle? unselectedLabelStyle,
+      bool? isScrollable,
+      TabAlignment? tabAlignment}) {
     return TabBar(
       dividerHeight: 0,
-      tabAlignment: TabAlignment.start,
-      isScrollable: true,
+      tabAlignment: tabAlignment ?? TabAlignment.start,
+      isScrollable: isScrollable ?? true,
       tabs: tabs
           .map((e) => Tab(
                 child: Container(
@@ -281,23 +282,24 @@ extension ZZAppLibUI on ZZAppManager {
     );
   }
 
-  TabBar tabbarUnderline({
-    required List<String> tabs,
-    TabController? controller,
-    Color? indicatorColor = zzColorRed,
-    double? indicatorRadius,
-    Gradient? indicatorGradient,
-    EdgeInsetsGeometry? indicatorPadding,
-    double? indicatorWeight,
-    Color? labelColor,
-    Color? unselectedLabelColor,
-    TextStyle? labelStyle,
-    TextStyle? unselectedLabelStyle,
-  }) {
+  TabBar tabbarUnderline(
+      {required List<String> tabs,
+      TabController? controller,
+      Color? indicatorColor = zzColorRed,
+      double? indicatorRadius,
+      Gradient? indicatorGradient,
+      EdgeInsetsGeometry? indicatorPadding,
+      double? indicatorWeight,
+      Color? labelColor,
+      Color? unselectedLabelColor,
+      TextStyle? labelStyle,
+      TextStyle? unselectedLabelStyle,
+      bool? isScrollable,
+      TabAlignment? tabAlignment}) {
     return TabBar(
       dividerHeight: 0,
-      tabAlignment: TabAlignment.start,
-      isScrollable: true,
+      tabAlignment: tabAlignment ?? TabAlignment.start,
+      isScrollable: isScrollable ?? true,
       tabs: tabs
           .map((e) => Tab(
                 text: e,
