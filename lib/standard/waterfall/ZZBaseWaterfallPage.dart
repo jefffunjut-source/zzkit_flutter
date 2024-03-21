@@ -25,6 +25,7 @@ class ZZBaseWaterfallController extends ZZBaseListController {
       this.mainAxisSpacing,
       this.crossAxisSpacing,
       super.scrollController,
+      super.show1stPageLoading,
       // 瀑布流不考虑shimmer动画，加载shimmer前无法预知git 高度
       // super.shimmer,
       // super.shimmerBrickHeight,

@@ -30,6 +30,9 @@ class ZZBaseListController extends GetxController {
   // 滑动控制器
   ScrollController? scrollController;
 
+  // 是否在第一页加载是loading
+  bool? show1stPageLoading;
+
   // 是否启用shimmer
   bool? shimmer;
   double? shimmerBrickHeight;
@@ -52,6 +55,7 @@ class ZZBaseListController extends GetxController {
 
   ZZBaseListController(
       {this.scrollController,
+      this.show1stPageLoading = false,
       this.shimmer = false,
       this.shimmerBrickHeight,
       this.shimmerCustomWidget,
@@ -73,7 +77,9 @@ class ZZBaseListController extends GetxController {
       page = 1;
       nodata.value = false;
       if (dataSource.isEmpty) {
-        shimmer ?? false ? null : ZZ.show();
+        if (shimmer == false && show1stPageLoading == true) {
+          ZZ.show();
+        }
       }
     } else {
       page = page + 1;
@@ -90,7 +96,9 @@ class ZZBaseListController extends GetxController {
     response?.rows = rows;
     nodata.value = false;
     if (page == 1) {
-      shimmer ?? false ? null : ZZ.dismiss();
+      if (shimmer == false && show1stPageLoading == true) {
+        ZZ.dismiss();
+      }
     }
     ZZAPIError? error = response?.error;
     if (error != null) {
