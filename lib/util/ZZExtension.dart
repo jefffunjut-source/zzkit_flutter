@@ -258,7 +258,7 @@ extension ZZExtensionDateTime on DateTime {
   }
 }
 
-extension ZZExtensionList on List {
+extension ZZMergeArrays<T> on List<T> {
   dynamic safeObjectAtIndex(int index) {
     if (isEmpty) {
       return null;
@@ -268,10 +268,23 @@ extension ZZExtensionList on List {
     }
     return null;
   }
-}
 
-extension ZZMergeArrays<T> on List<T> {
   List<T> merge(List<T> other) {
     return [...this, ...other];
+  }
+
+  List<List<T>>? convertToPairs() {
+    if (isEmpty) {
+      return null;
+    }
+    List<List<T>> result = [];
+    for (int i = 0; i < length - 1; i += 2) {
+      if (i + 1 <= length - 1) {
+        result.add([this[i], this[i + 1]]);
+      } else {
+        result.add([this[i]]);
+      }
+    }
+    return result;
   }
 }
