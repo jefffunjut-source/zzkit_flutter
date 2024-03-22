@@ -258,7 +258,7 @@ extension ZZExtensionDateTime on DateTime {
   }
 }
 
-extension ZZMergeArrays<T> on List<T> {
+extension ZZExtensionArrays<T> on List<T> {
   dynamic safeObjectAtIndex(int index) {
     if (isEmpty) {
       return null;
@@ -286,5 +286,16 @@ extension ZZMergeArrays<T> on List<T> {
       }
     }
     return result;
+  }
+
+  List<T>? align(int itemPerGroup, int groups) {
+    if (isEmpty) return null;
+    List<T> array = [];
+    for (int i = 0; i < itemPerGroup * groups; i += length) {
+      for (int j = 0; j < length; j++) {
+        array.add(this[j]);
+      }
+    }
+    return array;
   }
 }
