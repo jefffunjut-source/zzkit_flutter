@@ -92,6 +92,7 @@ class ZZAPIRequest {
       };
 
       // url中包含{id}这样的需要替换
+      String originalUrl = url;
       if (url.contains("{id}")) {
         assert(
             (datas != null && datas!["id"] != null) ||
@@ -154,7 +155,7 @@ class ZZAPIRequest {
       if (body is String) {
         body = jsonDecode(body);
       }
-      resp = provider.process(url, body);
+      resp = provider.process(originalUrl, body);
 
       assert(resp != null, "请在process方法中加入映射代码，将返回反射成model");
 
