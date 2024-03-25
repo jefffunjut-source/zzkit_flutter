@@ -120,6 +120,33 @@ extension ZZAppLibUI on ZZAppManager {
         height: 1.w / 2, width: width, color: const Color(0xFFE6E6E6));
   }
 
+  Widget outerBorderRadious(
+      {required Widget widget,
+      double borderWidth = 0,
+      Color borderColor = Colors.transparent,
+      double radius = 0,
+      EdgeInsetsGeometry? margin,
+      EdgeInsetsGeometry? padding,
+      Color? color,
+      bool debug = false}) {
+    return Container(
+      decoration: BoxDecoration(
+          color: color ?? Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(radius)),
+          border: Border.all(color: borderColor, width: borderWidth)),
+      margin: margin,
+      padding: padding,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius - 2.w),
+        child: Container(
+          color: debug ? Colors.amber : Colors.transparent,
+          margin: EdgeInsets.zero,
+          child: widget,
+        ),
+      ),
+    );
+  }
+
   Widget enabledButton(
       {String? title,
       EdgeInsetsGeometry? margin,
