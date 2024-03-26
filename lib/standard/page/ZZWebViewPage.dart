@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
-import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
@@ -154,8 +153,8 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                     GestureDetector(
                       child: Padding(
                         padding: EdgeInsets.only(left: 24.w),
-                        child: Image.asset(R.assetsImgIcNavBackBlack
-                            .addPrefix(zzPackagePrefix)),
+                        child: ZZ.image(R.assetsImgIcNavBackBlack,
+                            bundleName: zzBundleName),
                       ),
                       onTap: () {
                         Future<bool> can = controller.canGoBack();
@@ -192,8 +191,8 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                     GestureDetector(
                       child: Padding(
                         padding: EdgeInsets.only(right: 24.w),
-                        child: Image.asset(R.assetsImgIcNavCloseBlack
-                            .addPrefix(zzPackagePrefix)),
+                        child: ZZ.image(R.assetsImgIcNavCloseBlack,
+                            bundleName: zzBundleName),
                       ),
                       onTap: () {
                         Get.back();

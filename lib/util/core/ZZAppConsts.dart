@@ -29,7 +29,7 @@ ZZAppManager ZZ = ZZAppManager();
  *    全局常量（不可变）   *
  ************************/
 /// ZZKit Package名称
-const String zzPackagePrefix = "packages/zzkit_flutter/";
+const String zzBundleName = "packages/zzkit_flutter/";
 
 /// Context
 GlobalKey<NavigatorState> zzNavigatorKey = GlobalKey<NavigatorState>();

@@ -4,14 +4,15 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 class ZZImageWidget extends StatelessWidget {
   String? url;
   Uint8List? base64;
-  String? placeholderImage;
+  Image? placeholderImage;
   BoxFit? fit;
   // 指定width、height后按照参数大小显示，否则自适应
   // 设置圆角等参数时候，必须指定width和height才生效
@@ -81,8 +82,9 @@ class ZZImageWidget extends StatelessWidget {
           },
           errorWidget: (context, url, e) {
             return Center(
-              child: Image.asset(
-                  R.assetsImgIcPlaceholderImage.addPrefix(zzPackagePrefix)),
+              child: placeholderImage ??
+                  ZZ.image(R.assetsImgIcPlaceholderImage,
+                      bundleName: zzBundleName),
             );
           });
     } else if (base64 != null) {
@@ -95,16 +97,16 @@ class ZZImageWidget extends StatelessWidget {
       );
     }
     // Placeholder
-    if (placeholderImage == null) {
-      return Container();
-    } else {
+    if (placeholderImage != null) {
       return SizedBox(
         width: width,
         height: height,
         child: Center(
-          child: Image.asset(placeholderImage!, fit: fit),
+          child: placeholderImage,
         ),
       );
+    } else {
+      return Container();
     }
   }
 }

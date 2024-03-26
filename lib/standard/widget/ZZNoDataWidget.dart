@@ -4,7 +4,6 @@ library zzkit;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
@@ -44,8 +43,9 @@ class ZZNoDataWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(img ??
-                  R.assetsImgIcPlaceholderNoData.addPrefix(zzPackagePrefix)),
+              ZZ.image(R.assetsImgIcPlaceholderNoData,
+                      bundleName: zzBundleName) ??
+                  Container(),
               ZZ.space(height: 24.w),
               Text(
                 hintText ?? "暂无数据",

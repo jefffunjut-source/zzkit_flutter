@@ -120,6 +120,37 @@ extension ZZAppLibUI on ZZAppManager {
         height: 1.w / 2, width: width, color: const Color(0xFFE6E6E6));
   }
 
+  Image? image(String? asset,
+      {String? bundleName,
+      double? width,
+      double? height,
+      BoxFit? fit,
+      AlignmentGeometry alignment = Alignment.center}) {
+    if (asset == null || asset.isEmpty) {
+      debugPrint("ZZImage:asset == null");
+      return null;
+    }
+    if (bundleName != null && bundleName.isNotEmpty) {
+      debugPrint("ZZImage:bundle=$bundleName,asset=$asset");
+      return Image.asset(
+        asset.addPrefix(bundleName),
+        width: width,
+        height: height,
+        fit: fit,
+        alignment: alignment,
+      );
+    } else {
+      debugPrint("ZZImage:asset=$asset");
+      return Image.asset(
+        asset,
+        width: width,
+        height: height,
+        fit: fit,
+        alignment: alignment,
+      );
+    }
+  }
+
   Widget outerBorderRadious(
       {required Widget widget,
       double borderWidth = 0,
@@ -192,13 +223,13 @@ extension ZZAppLibUI on ZZAppManager {
       case ZZAppBarIcon.none:
         return null;
       case ZZAppBarIcon.backblack:
-        return R.assetsImgIcNavBackBlack.addPrefix(zzPackagePrefix);
+        return R.assetsImgIcNavBackBlack;
       case ZZAppBarIcon.backwhite:
-        return R.assetsImgIcNavBackWhite.addPrefix(zzPackagePrefix);
+        return R.assetsImgIcNavBackWhite;
       case ZZAppBarIcon.closeblack:
-        return R.assetsImgIcNavCloseBlack.addPrefix(zzPackagePrefix);
+        return R.assetsImgIcNavCloseBlack;
       default:
-        return R.assetsImgIcNavBackBlack.addPrefix(zzPackagePrefix);
+        return R.assetsImgIcNavBackBlack;
     }
   }
 
@@ -223,7 +254,8 @@ extension ZZAppLibUI on ZZAppManager {
       leading: appbarIconString(leftIcon) == null
           ? Container()
           : GestureDetector(
-              child: Image.asset(appbarIconString(leftIcon)!),
+              child: ZZ.image(appbarIconString(leftIcon)!,
+                  bundleName: zzBundleName),
               onTap: () {
                 if (onLeftIconTap != null) {
                   onLeftIconTap();

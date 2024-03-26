@@ -119,9 +119,9 @@ abstract class ZZBaseBottomDialog {
                                     child: SizedBox(
                                       width: 20.w,
                                       height: 20.w,
-                                      child: Image.asset(R
-                                          .assetsImgIcNavCloseBlack
-                                          .addPrefix(zzPackagePrefix)),
+                                      child: ZZ.image(
+                                          R.assetsImgIcNavCloseBlack,
+                                          bundleName: zzBundleName),
                                     ),
                                   ),
                                 )

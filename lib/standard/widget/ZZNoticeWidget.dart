@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
@@ -58,7 +57,11 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
         alignment: Alignment.center,
         children: [
           widget.noticeImage ??
-              Image.asset(R.assetsImgIcNavNotice.addPrefix(zzPackagePrefix)),
+              (ZZ.image(R.assetsImgIcNavNotice, bundleName: zzBundleName) ??
+                  const SizedBox(
+                    width: 0,
+                    height: 0,
+                  )),
           Obx(() => controller.noticeNumber.value.isNotEmpty
               ? Positioned(
                   left: width / 2 + (widget.noticeXFromCenter ?? 2),

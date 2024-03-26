@@ -9,7 +9,6 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,12 +20,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
-
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
-
 import 'ZZAppConsts.dart';
-
 part 'ZZAppLibUI.dart';
 part 'ZZAppLibUtil.dart';
 

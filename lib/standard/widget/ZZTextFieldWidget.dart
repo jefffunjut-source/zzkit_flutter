@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 class ZZTextFieldWidget extends StatefulWidget {
   final TextEditingController controller;
@@ -144,12 +144,11 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               child: widget.enableClearIcon
-                  ? Image.asset(
+                  ? ZZ.image(R.assetsImgIcTextfieldDelete,
+                      bundleName: zzBundleName,
                       fit: BoxFit.fitWidth,
-                      R.assetsImgIcTextfieldDelete.addPrefix(zzPackagePrefix),
                       width: 20.w,
-                      height: 20.w,
-                    )
+                      height: 20.w)
                   : Container(),
               onTap: () {
                 setState(() {
@@ -166,16 +165,14 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
             child: InkWell(
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
-              child: Image.asset(
-                fit: BoxFit.fitWidth,
-                passwordEyeOn
-                    ? R.assetsImgIcTextfieldPasswordOn
-                        .addPrefix(zzPackagePrefix)
-                    : R.assetsImgIcTextfieldPasswordOff
-                        .addPrefix(zzPackagePrefix),
-                width: 20.w,
-                height: 20.w,
-              ),
+              child: ZZ.image(
+                  passwordEyeOn
+                      ? R.assetsImgIcTextfieldPasswordOn
+                      : R.assetsImgIcTextfieldPasswordOff,
+                  bundleName: zzBundleName,
+                  fit: BoxFit.fitWidth,
+                  width: 20.w,
+                  height: 20.w),
               onTap: () {
                 setState(() {
                   passwordEyeOn = !passwordEyeOn;
