@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
@@ -18,11 +17,6 @@ class ZZImageWidget extends StatelessWidget {
   // 设置圆角等参数时候，必须指定width和height才生效
   double? width;
   double? height;
-  double? radius;
-  Color? bottomColor;
-  double? bottomHeight;
-  String? bottomTitle;
-  TextStyle? bottomTitleStyle;
   int? index;
   Object? extra;
   ZZAppCallback1Int1Object? onTap;
@@ -35,11 +29,6 @@ class ZZImageWidget extends StatelessWidget {
       this.fit,
       this.width,
       this.height,
-      this.radius,
-      this.bottomColor,
-      this.bottomHeight,
-      this.bottomTitle,
-      this.bottomTitleStyle,
       this.index,
       this.extra,
       this.onTap});
