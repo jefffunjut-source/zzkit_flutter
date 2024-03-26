@@ -128,6 +128,7 @@ extension ZZAppLibUI on ZZAppManager {
       EdgeInsetsGeometry? margin,
       EdgeInsetsGeometry? padding,
       Color? color,
+      VoidCallback? onTap,
       bool debug = false}) {
     return Container(
       decoration: BoxDecoration(

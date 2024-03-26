@@ -288,6 +288,27 @@ extension ZZExtensionArrays<T> on List<T> {
     return result;
   }
 
+  List<List<T>>? covertToTuples(
+      {required int itemPerTuple, bool cutoff = true}) {
+    if (isEmpty) return null;
+    List<List<T>> array = [];
+    List<T> tuple = [];
+    for (int index = 0; index < length; index++) {
+      T element = this[index];
+      if (tuple.length == itemPerTuple) {
+        array.add(tuple);
+        tuple = [];
+        tuple.add(element);
+      } else if (tuple.length < itemPerTuple) {
+        tuple.add(element);
+      }
+    }
+    if (!cutoff) {
+      array.add(tuple);
+    }
+    return array;
+  }
+
   List<T>? align(int itemPerGroup, int groups) {
     if (isEmpty) return null;
     List<T> array = [];
