@@ -235,22 +235,46 @@ extension ZZAppLibUI on ZZAppManager {
 
   /// 通用Appbar
   AppBar appbar(
-      {Color bgColor = Colors.white,
+      {Color? backgroundColor = Colors.white,
+      String? title,
+      Widget? titleWidget,
+      TextStyle? titleStyle = const TextStyle(
+        color: Color(0xFF000000),
+        fontFamily: "CircularBold",
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+      ),
+      bool? centerTitle = true,
+      double? titleSpacing = 0,
       List<Widget>? actions,
       PreferredSizeWidget? bottom,
-      String? title,
-      bool? centerTitle,
-      double? titleSpacing,
-      TextStyle? titleStyle,
-      double? elevation,
-      bool? automaticallyImplyLeading,
+      double? elevation = 0,
+      bool automaticallyImplyLeading = true,
       ZZAppBarIcon? leftIcon = ZZAppBarIcon.backblack,
       VoidCallback? onLeftIconTap,
       VoidCallback? onTitleDoubleTap}) {
     return AppBar(
-      automaticallyImplyLeading: automaticallyImplyLeading ?? false,
-      titleSpacing: titleSpacing ?? 0,
-      backgroundColor: bgColor,
+      backgroundColor: backgroundColor,
+      title: titleWidget ??
+          (title != null
+              ? (onTitleDoubleTap != null
+                  ? GestureDetector(
+                      onDoubleTap: () => onTitleDoubleTap(),
+                      child: Text(
+                        title,
+                        style: titleStyle,
+                      ),
+                    )
+                  : Text(
+                      title,
+                      style: titleStyle,
+                    ))
+              : null),
+      centerTitle: centerTitle,
+      titleSpacing: titleSpacing,
+      bottom: bottom,
+      elevation: elevation,
+      automaticallyImplyLeading: automaticallyImplyLeading,
       leading: appbarIconString(leftIcon) == null
           ? Container()
           : GestureDetector(
@@ -266,35 +290,7 @@ extension ZZAppLibUI on ZZAppManager {
                 }
               },
             ),
-      title: GestureDetector(
-        onDoubleTap: () {
-          if (onTitleDoubleTap != null) {
-            onTitleDoubleTap();
-          } else {}
-        },
-        child: Text(
-          title ?? "",
-          style: titleStyle ??
-              ZZ.textStyle(color: zzColorBlack, fontSize: 18.sp, bold: true),
-        ),
-      ),
-      centerTitle: centerTitle ?? true,
-      elevation: elevation ?? 0,
-      actions: actions == null
-          ? []
-          : [
-              Padding(
-                padding: EdgeInsets.only(right: 18.w),
-                child: Row(
-                    children: actions
-                        .map((e) => Padding(
-                              padding: EdgeInsets.all(6.w),
-                              child: e,
-                            ))
-                        .toList()),
-              )
-            ],
-      bottom: bottom,
+      actions: actions,
     );
   }
 
