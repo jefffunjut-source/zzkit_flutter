@@ -50,10 +50,6 @@ abstract class ZZBaseCenterDialog {
     return 2;
   }
 
-  Color? buttonSkeletonColor() {
-    return null;
-  }
-
   String leftButtonString() {
     return "取消";
   }
@@ -114,6 +110,10 @@ abstract class ZZBaseCenterDialog {
     return false;
   }
 
+  Color? buttonTopSeperatorColor() {
+    return zzColorGreyCC;
+  }
+
   Future<dynamic> show() async {
     var ret = await showDialog(
       context: zzContext,
@@ -160,8 +160,10 @@ abstract class ZZBaseCenterDialog {
                                       height: buttonHeight(),
                                       decoration: BoxDecoration(
                                         color: leftButtonBackgroundColor(),
-                                        gradient:
-                                            leftButtonBackgroundGradient(),
+                                        gradient: leftButtonBackgroundColor() !=
+                                                null
+                                            ? null
+                                            : leftButtonBackgroundGradient(),
                                         borderRadius: leftButtonMargin() ==
                                                 EdgeInsets.zero
                                             ? BorderRadius.only(
@@ -193,7 +195,9 @@ abstract class ZZBaseCenterDialog {
                               margin: rightButtonMargin(),
                               decoration: BoxDecoration(
                                 color: rightButtonBackgroundColor(),
-                                gradient: rightButtonBackgroundGradient(),
+                                gradient: rightButtonBackgroundColor() != null
+                                    ? null
+                                    : rightButtonBackgroundGradient(),
                                 borderRadius: rightButtonMargin() ==
                                         EdgeInsets.zero
                                     ? BorderRadius.only(
@@ -216,8 +220,8 @@ abstract class ZZBaseCenterDialog {
                       left: 0,
                       right: 0,
                       child: Container(
-                        height: 0.3,
-                        color: buttonSkeletonColor(),
+                        height: 0.5,
+                        color: buttonTopSeperatorColor(),
                       ),
                     ),
                     buttonCount() == 2
@@ -225,8 +229,8 @@ abstract class ZZBaseCenterDialog {
                             top: 0.3,
                             bottom: 0,
                             child: Container(
-                              width: 0.3,
-                              color: buttonSkeletonColor(),
+                              width: 0.5,
+                              color: buttonTopSeperatorColor(),
                             ))
                         : Container()
                   ],

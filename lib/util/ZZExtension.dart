@@ -191,6 +191,16 @@ extension ZZExtensionString on String {
   String append(String str) {
     return "$this$str";
   }
+
+  /// 加法
+  String plus(int number) {
+    return "${parse2Int() + number}";
+  }
+
+  /// 减法
+  String minus(int number) {
+    return "${parse2Int() - number}";
+  }
 }
 
 extension ZZExtensionInt on int {
