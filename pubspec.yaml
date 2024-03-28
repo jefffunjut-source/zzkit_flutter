@@ -48,6 +48,8 @@ flutter:
     - assets/img/ic_nav_back_black.png
     - assets/img/ic_nav_back_white.png
     - assets/img/ic_nav_close_black.png
+    - assets/img/ic_nav_forward_black.png
+    - assets/img/ic_nav_forward_gray.png
     - assets/img/ic_nav_notice.png
     - assets/img/ic_placeholder_image.png
     - assets/img/ic_placeholder_no_data.png

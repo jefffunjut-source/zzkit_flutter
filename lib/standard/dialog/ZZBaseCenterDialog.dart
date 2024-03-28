@@ -90,14 +90,6 @@ abstract class ZZBaseCenterDialog {
     return EdgeInsets.zero;
   }
 
-  double leftButtonRadius() {
-    return 0;
-  }
-
-  double rightButtonRadius() {
-    return 0;
-  }
-
   void leftButtonTap() {
     Get.back();
   }
@@ -119,112 +111,94 @@ abstract class ZZBaseCenterDialog {
         return AlertDialog(
           contentPadding: contentPadding(),
           actionsPadding: actionsPadding(),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius()),
-          ),
           backgroundColor: backgroundColor(),
           surfaceTintColor: backgroundColor(),
-          content: Container(
-              color: contentBackgroundColor(), child: contentWidget()),
+          content: ZZ.outerBorderRadious(
+              radiusTopLeft: radius(),
+              radiusTopRight: radius(),
+              widget: Container(
+                  color: contentBackgroundColor(), child: contentWidget())),
           actionsAlignment: MainAxisAlignment.spaceAround,
           actions: [
-            Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(radius()),
-                      bottomRight: Radius.circular(radius())),
-                  color: actionsBackgroundColor(),
-                ),
-                height: buttonHeight(),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Row(
+            ZZ.outerBorderRadious(
+                radiusBottomLeft: radius(),
+                radiusBottomRight: radius(),
+                widget: Container(
+                    color: actionsBackgroundColor(),
+                    height: buttonHeight(),
+                    child: Stack(
+                      alignment: Alignment.center,
                       children: [
-                        buttonCount() == 2
-                            ? Expanded(
-                                flex: 1,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      leftButtonTap();
-                                    },
-                                    child: Container(
-                                      margin: leftButtonMargin(),
-                                      height: buttonHeight(),
-                                      decoration: BoxDecoration(
-                                        color: leftButtonBackgroundColor(),
-                                        gradient: leftButtonBackgroundColor() !=
-                                                null
+                        Row(
+                          children: [
+                            buttonCount() == 2
+                                ? Expanded(
+                                    flex: 1,
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          leftButtonTap();
+                                        },
+                                        child: Container(
+                                          margin: leftButtonMargin(),
+                                          height: buttonHeight(),
+                                          decoration: BoxDecoration(
+                                            color: leftButtonBackgroundColor(),
+                                            gradient: leftButtonBackgroundColor() !=
+                                                    null
+                                                ? null
+                                                : leftButtonBackgroundGradient(),
+                                          ),
+                                          child: Center(
+                                            child: Text(leftButtonString(),
+                                                style: leftButtonTextStyle()),
+                                          ),
+                                        )),
+                                  )
+                                : Container(),
+                            Expanded(
+                              flex: 1,
+                              child: GestureDetector(
+                                onTap: () {
+                                  rightButtonTap();
+                                },
+                                child: Container(
+                                  margin: rightButtonMargin(),
+                                  decoration: BoxDecoration(
+                                    color: rightButtonBackgroundColor(),
+                                    gradient:
+                                        rightButtonBackgroundColor() != null
                                             ? null
-                                            : leftButtonBackgroundGradient(),
-                                        borderRadius: leftButtonMargin() ==
-                                                EdgeInsets.zero
-                                            ? BorderRadius.only(
-                                                bottomLeft:
-                                                    Radius.circular(radius()),
-                                              )
-                                            : BorderRadius.all(
-                                                Radius.circular(
-                                                    leftButtonRadius()),
-                                              ),
-                                      ),
-                                      child: Center(
-                                        child: Text(leftButtonString(),
-                                            style: leftButtonTextStyle()),
-                                      ),
-                                    )),
-                              )
-                            : Container(),
-                        Expanded(
-                          flex: 1,
-                          child: GestureDetector(
-                            onTap: () {
-                              rightButtonTap();
-                            },
-                            child: Container(
-                              margin: rightButtonMargin(),
-                              decoration: BoxDecoration(
-                                color: rightButtonBackgroundColor(),
-                                gradient: rightButtonBackgroundColor() != null
-                                    ? null
-                                    : rightButtonBackgroundGradient(),
-                                borderRadius: rightButtonMargin() ==
-                                        EdgeInsets.zero
-                                    ? BorderRadius.only(
-                                        bottomRight: Radius.circular(radius()),
-                                      )
-                                    : BorderRadius.all(
-                                        Radius.circular(rightButtonRadius())),
-                              ),
-                              child: Center(
-                                child: Text(rightButtonString(),
-                                    style: rightButtonTextStyle()),
+                                            : rightButtonBackgroundGradient(),
+                                  ),
+                                  child: Center(
+                                    child: Text(rightButtonString(),
+                                        style: rightButtonTextStyle()),
+                                  ),
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            height: 0.5,
+                            color: buttonTopSeperatorColor(),
                           ),
                         ),
+                        buttonCount() == 2
+                            ? Positioned(
+                                top: 0.3,
+                                bottom: 0,
+                                child: Container(
+                                  width: 0.5,
+                                  color: buttonTopSeperatorColor(),
+                                ))
+                            : Container()
                       ],
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: 0.5,
-                        color: buttonTopSeperatorColor(),
-                      ),
-                    ),
-                    buttonCount() == 2
-                        ? Positioned(
-                            top: 0.3,
-                            bottom: 0,
-                            child: Container(
-                              width: 0.5,
-                              color: buttonTopSeperatorColor(),
-                            ))
-                        : Container()
-                  ],
-                ))
+                    )))
           ],
         );
       },

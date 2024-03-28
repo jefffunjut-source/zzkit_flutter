@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, no_logic_in_create_state, file_names
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, no_logic_in_create_state, file_names, unused_element
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:io';
@@ -22,6 +22,10 @@ class ZZWebViewController extends GetxController {
   Color? progressBarBackgroundColor;
   Color? progressTintColor;
 
+  // Forward & Back
+  RxBool canBack = false.obs;
+  RxBool canForward = false.obs;
+
   // Title & Url
   RxString title = "".obs;
   RxString url = "".obs;
@@ -37,6 +41,12 @@ class ZZWebViewController extends GetxController {
   // JavaScript
   Map<String, ZZAppCallback1String>? actions;
   ZZAppCallback2String? defaultAction;
+
+  // Scroll
+  double scrollDelta = 2.0;
+  RxBool scrollingDown = false.obs;
+  double canvasHeight = double.infinity;
+  double scrollHeight = double.infinity;
 }
 
 class ZZWebViewPage extends StatefulWidget {
@@ -44,12 +54,18 @@ class ZZWebViewPage extends StatefulWidget {
   String? url;
   bool? hideNavigationBar;
   bool? hideProgressBar;
+  Widget? titleView;
+  Widget? bottomView;
+  bool? hideBottomViewScrollingDown;
   ZZWebViewPage(
       {super.key,
       this.title,
       this.url,
       this.hideNavigationBar,
-      this.hideProgressBar});
+      this.hideProgressBar,
+      this.titleView,
+      this.bottomView,
+      this.hideBottomViewScrollingDown});
 
   @override
   ZZWebViewPageState createState() {
@@ -62,12 +78,37 @@ class ZZWebViewPage extends StatefulWidget {
 
 class ZZWebViewPageState extends State<ZZWebViewPage> {
   late WebViewController controller;
+  double lastY = 0;
+
+  @override
+  void dispose() {
+    ZZWebViewController zzWebViewController = Get.find();
+    zzWebViewController.canBack.value = false;
+    zzWebViewController.canForward.value = false;
+    zzWebViewController.title.value = "";
+    zzWebViewController.url.value = "";
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
     ZZWebViewController zzWebViewController = Get.find();
     controller = WebViewController()
+      ..setOnScrollPositionChange((change) {
+        debugPrint("canvasHeight:${zzWebViewController.canvasHeight}");
+        debugPrint("scrollHeight:${zzWebViewController.scrollHeight}");
+        debugPrint("y:${change.y}");
+        if (change.y < 0) return;
+        if (change.y - lastY > zzWebViewController.scrollDelta) {
+          zzWebViewController.scrollingDown.value = true;
+          // debugPrint("scrollingDown");
+        } else if (lastY - change.y > zzWebViewController.scrollDelta) {
+          zzWebViewController.scrollingDown.value = false;
+          // debugPrint("scrollingUp");
+        }
+        lastY = change.y;
+      })
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
       ..setUserAgent(zzWebViewController.userAgent)
@@ -83,10 +124,30 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
               });
             }
           },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
+          onPageStarted: (String url) {
+            _updateContentHeight();
+          },
+          onPageFinished: (String url) {
+            _updateContentHeight();
+            controller.canGoBack().then((value) {
+              zzWebViewController.canBack.value = value;
+              debugPrint("canBack:$value");
+            });
+            controller.canGoForward().then((value) {
+              zzWebViewController.canForward.value = value;
+              debugPrint("canForward:$value");
+            });
+          },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
+            controller.canGoBack().then((value) {
+              zzWebViewController.canBack.value = value;
+              debugPrint("canBack:$value");
+            });
+            controller.canGoForward().then((value) {
+              zzWebViewController.canForward.value = value;
+              debugPrint("canForward:$value");
+            });
             if (zzWebViewController.forbiddenHosts.isNotEmpty) {
               Uri uri = Uri.parse(request.url);
               String h = uri.host;
@@ -130,105 +191,162 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
   Widget build(BuildContext context) {
     ZZWebViewController zzWebViewController = Get.find();
     if (widget.hideNavigationBar ?? false) {
-      return mainWidget();
+      return _mainWidget();
     } else {
       return ZZBaseScaffold(
         backgroundColor: zzColorWhite,
         appBar: AppBar(
-          backgroundColor: zzColorGreyF5,
+          backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
-          title: Stack(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 6),
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    zzWebViewController.title.value,
-                    style: ZZ.textStyle(
-                        color: zzColorBlack, fontSize: 18.sp, bold: true),
-                  ),
-                ),
-              ),
-              Positioned(
-                  left: 0,
-                  top: 0,
-                  bottom: 0,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 24.w),
-                          child: ZZ.image(R.assetsImgIcNavBackBlack,
-                              bundleName: zzBundleName),
-                        ),
-                        onTap: () {
-                          Future<bool> can = controller.canGoBack();
-                          can.then((value) {
-                            if (value) {
-                              controller.goBack().then((value) {
-                                if (Platform.isIOS) {
-                                  // 处理302跳转返回白屏
-                                  Future<String?>? currentUrl =
-                                      controller.currentUrl();
-                                  currentUrl.then((value) {
-                                    if (value ==
-                                            zzWebViewController.url.value &&
-                                        zzWebViewController
-                                            .url.value.isNotEmpty) {
-                                      controller.reload();
+          title: Container(
+            color: Colors.white,
+            height: 54.w,
+            child: Stack(
+              children: [
+                Positioned(
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    top: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            // Back
+                            GestureDetector(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 24.w),
+                                child: ZZ.image(R.assetsImgIcNavBackBlack,
+                                    bundleName: zzBundleName),
+                              ),
+                              onTap: () {
+                                Future<bool> can = controller.canGoBack();
+                                can.then((value) {
+                                  if (value) {
+                                    controller.goBack().then((value) {
+                                      if (Platform.isIOS) {
+                                        // 处理302跳转返回白屏
+                                        Future<String?>? currentUrl =
+                                            controller.currentUrl();
+                                        currentUrl.then((value) {
+                                          if (value ==
+                                                  zzWebViewController
+                                                      .url.value &&
+                                              zzWebViewController
+                                                  .url.value.isNotEmpty) {
+                                            controller.reload();
+                                          }
+                                        });
+                                      }
+                                    });
+                                  } else {
+                                    Get.back();
+                                  }
+                                });
+                              },
+                            ),
+                            // Forwards
+                            Obx(() => GestureDetector(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 24.w),
+                                    child: ZZ.image(
+                                        zzWebViewController.canForward.value
+                                            ? R.assetsImgIcNavForwardBlack
+                                            : R.assetsImgIcNavForwardGray,
+                                        bundleName: zzBundleName),
+                                  ),
+                                  onTap: () {
+                                    if (zzWebViewController.canForward.value) {
+                                      controller.goForward();
                                     }
-                                  });
-                                }
-                              });
-                            } else {
-                              Get.back();
-                            }
-                          });
-                        },
-                      ),
-                    ],
-                  )),
-              Positioned(
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 24.w),
-                          child: ZZ.image(R.assetsImgIcNavCloseBlack,
-                              bundleName: zzBundleName),
+                                  },
+                                )),
+                          ],
                         ),
-                        onTap: () {
-                          Get.back();
-                        },
+                        Row(
+                          children: [
+                            // Close
+                            GestureDetector(
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 24.w),
+                                child: ZZ.image(R.assetsImgIcNavCloseBlack,
+                                    bundleName: zzBundleName),
+                              ),
+                              onTap: () {
+                                Get.back();
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
+                widget.titleView ??
+                    Container(
+                      margin: const EdgeInsets.only(left: 2, right: 2),
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          zzWebViewController.title.value,
+                          style: ZZ.textStyle(
+                              color: zzColorBlack, fontSize: 18.sp, bold: true),
+                        ),
                       ),
-                    ],
-                  )),
-            ],
+                    )
+              ],
+            ),
           ),
           titleSpacing: 0,
           centerTitle: true,
           elevation: 0,
         ),
-        body: mainWidget(),
+        body: _mainWidget(),
       );
     }
   }
 
-  Widget mainWidget() {
-    if (widget.hideProgressBar ?? false) {
-      return Expanded(child: WebViewWidget(controller: controller));
-    } else {
-      return Column(
-        children: [
-          const ZZProgressBarWidget(),
-          Expanded(child: WebViewWidget(controller: controller))
-        ],
-      );
-    }
+  Widget _mainWidget() {
+    return Column(
+      children: [
+        (widget.hideProgressBar ?? false)
+            ? Container()
+            : const ZZProgressBarWidget(),
+        Expanded(child: WebViewWidget(controller: controller)),
+        widget.bottomView ?? Container()
+      ],
+    );
+  }
+
+  void _updateContentHeight() {
+    String javaScript = 'document.documentElement.clientHeight';
+    controller.runJavaScriptReturningResult(javaScript).then((value) {
+      ZZWebViewController zzWebViewController = Get.find();
+      if (value is double) {
+        zzWebViewController.canvasHeight = value;
+      } else {
+        zzWebViewController.canvasHeight =
+            double.tryParse("$value") ?? double.infinity;
+      }
+    });
+
+    javaScript = '''
+      (function() {
+        return Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+      })()
+    ''';
+    controller.runJavaScriptReturningResult(javaScript).then((value) {
+      ZZWebViewController zzWebViewController = Get.find();
+      if (value is double) {
+        zzWebViewController.scrollHeight = value;
+      } else {
+        zzWebViewController.scrollHeight =
+            double.tryParse("$value") ?? double.infinity;
+      }
+    });
   }
 }
 

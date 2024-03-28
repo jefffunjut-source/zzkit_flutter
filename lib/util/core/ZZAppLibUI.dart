@@ -155,7 +155,11 @@ extension ZZAppLibUI on ZZAppManager {
       {required Widget widget,
       double borderWidth = 0,
       Color borderColor = Colors.transparent,
-      double radius = 0,
+      double? radius,
+      double? radiusTopLeft,
+      double? radiusTopRight,
+      double? radiusBottomLeft,
+      double? radiusBottomRight,
       EdgeInsetsGeometry? margin,
       EdgeInsetsGeometry? padding,
       Color? color,
@@ -163,13 +167,32 @@ extension ZZAppLibUI on ZZAppManager {
       bool debug = false}) {
     return Container(
       decoration: BoxDecoration(
-          color: color ?? Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(radius)),
+          color: color ?? Colors.transparent,
+          borderRadius: radius != null
+              ? BorderRadius.all(Radius.circular(radius))
+              : ((radiusTopLeft != null ||
+                      radiusTopRight != null ||
+                      radiusBottomLeft != null ||
+                      radiusBottomRight != null)
+                  ? BorderRadius.only(
+                      topLeft: Radius.circular(radiusTopLeft ?? 0),
+                      topRight: Radius.circular(radiusTopRight ?? 0),
+                      bottomLeft: Radius.circular(radiusBottomLeft ?? 0),
+                      bottomRight: Radius.circular(radiusBottomRight ?? 0),
+                    )
+                  : null),
           border: Border.all(color: borderColor, width: borderWidth)),
       margin: margin,
       padding: padding,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(radius - 2.w),
+        borderRadius: radius != null
+            ? BorderRadius.all(Radius.circular(radius - 2.w))
+            : (BorderRadius.only(
+                topLeft: Radius.circular(radiusTopLeft ?? 0),
+                topRight: Radius.circular(radiusTopRight ?? 0),
+                bottomLeft: Radius.circular(radiusBottomLeft ?? 0),
+                bottomRight: Radius.circular(radiusBottomRight ?? 0),
+              )),
         child: Container(
           color: debug ? Colors.amber : Colors.transparent,
           margin: EdgeInsets.zero,
