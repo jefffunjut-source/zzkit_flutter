@@ -3,7 +3,6 @@ library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
@@ -102,14 +101,6 @@ abstract class ZZBaseCenterDialog {
 
   void rightButtonTap() {}
 
-  bool useCustomLeftButtonTap() {
-    return false;
-  }
-
-  bool useCustomRightButtonTap() {
-    return false;
-  }
-
   Color? buttonTopSeperatorColor() {
     return zzColorGreyCC;
   }
@@ -150,9 +141,6 @@ abstract class ZZBaseCenterDialog {
                                 flex: 1,
                                 child: GestureDetector(
                                     onTap: () {
-                                      if (!useCustomLeftButtonTap()) {
-                                        Get.back();
-                                      }
                                       leftButtonTap();
                                     },
                                     child: Container(
@@ -186,9 +174,6 @@ abstract class ZZBaseCenterDialog {
                           flex: 1,
                           child: GestureDetector(
                             onTap: () {
-                              if (!useCustomRightButtonTap()) {
-                                Get.back();
-                              }
                               rightButtonTap();
                             },
                             child: Container(

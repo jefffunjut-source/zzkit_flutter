@@ -45,25 +45,10 @@ flutter:
   assets:
     # assets-generator-begin
     # assets/img/*
-    - assets/img/ic_nav_add_black.png
     - assets/img/ic_nav_back_black.png
-    - assets/img/ic_nav_back_gray.png
     - assets/img/ic_nav_back_white.png
-    - assets/img/ic_nav_back_white_shadow.png
-    - assets/img/ic_nav_buyer_help_black.png
-    - assets/img/ic_nav_buyer_service_black.png
     - assets/img/ic_nav_close_black.png
-    - assets/img/ic_nav_forward_black.png
-    - assets/img/ic_nav_forward_gray.png
-    - assets/img/ic_nav_more_black.png
     - assets/img/ic_nav_notice.png
-    - assets/img/ic_nav_post_black.png
-    - assets/img/ic_nav_search.png
-    - assets/img/ic_nav_service_black.png
-    - assets/img/ic_nav_service_gray.png
-    - assets/img/ic_nav_setting_black.png
-    - assets/img/ic_nav_share_black.png
-    - assets/img/ic_nav_share_white.png
     - assets/img/ic_placeholder_image.png
     - assets/img/ic_placeholder_no_data.png
     - assets/img/ic_textfield_delete.png
