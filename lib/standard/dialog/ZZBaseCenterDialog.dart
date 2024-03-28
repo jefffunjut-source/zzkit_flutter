@@ -3,6 +3,7 @@ library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
@@ -97,9 +98,13 @@ abstract class ZZBaseCenterDialog {
     return 0;
   }
 
-  void leftButtonTap() {}
+  void leftButtonTap() {
+    Get.back();
+  }
 
-  void rightButtonTap() {}
+  void rightButtonTap() {
+    Get.back();
+  }
 
   Color? buttonTopSeperatorColor() {
     return zzColorGreyCC;
