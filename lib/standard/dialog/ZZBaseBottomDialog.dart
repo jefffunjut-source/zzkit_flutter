@@ -17,12 +17,8 @@ abstract class ZZBaseBottomDialog {
     return zzScreenHeight * 0.8;
   }
 
-  String title() {
-    return "标题";
-  }
-
-  double? titleHeight() {
-    return 64;
+  String? title() {
+    return null;
   }
 
   Color? titleBackgroundColor() {
@@ -31,6 +27,14 @@ abstract class ZZBaseBottomDialog {
 
   TextStyle? titleTextStyle() {
     return ZZ.textStyle(color: zzColorBlack, fontSize: 18.sp, bold: true);
+  }
+
+  double? titleHeight() {
+    return 64;
+  }
+
+  Widget? titleWidget() {
+    return null;
   }
 
   bool enableClose() {
@@ -71,10 +75,11 @@ abstract class ZZBaseBottomDialog {
 
   Future<dynamic> show() async {
     var ret = await showModalBottomSheet(
-        barrierColor: barrierColor(),
         context: zzContext,
+        useSafeArea: true,
         enableDrag: true,
         isScrollControlled: true,
+        barrierColor: barrierColor(),
         backgroundColor: backgroundColor(),
         isDismissible: dismissible(),
         shape: RoundedRectangleBorder(
@@ -94,48 +99,7 @@ abstract class ZZBaseBottomDialog {
                     : maxHeight()),
             child: Column(
               children: [
-                titleHeight() != null
-                    ? Column(
-                        children: [
-                          Container(
-                            width: 414.w,
-                            height: titleHeight()! - 1,
-                            decoration: BoxDecoration(
-                                color: titleBackgroundColor(),
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(radius()),
-                                    topRight: Radius.circular(radius()))),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Text(
-                                  title(),
-                                  style: titleTextStyle(),
-                                ),
-                                Positioned(
-                                  right: 12.w,
-                                  child: GestureDetector(
-                                    onTap: () => Get.back(),
-                                    child: SizedBox(
-                                      width: 20.w,
-                                      height: 20.w,
-                                      child: ZZ.image(
-                                          R.assetsImgIcNavCloseBlack,
-                                          bundleName: zzBundleName),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 414.w,
-                            height: 0.5,
-                            color: seperatorColor(),
-                          )
-                        ],
-                      )
-                    : Container(),
+                _titleWidget(),
                 Container(
                     color: contentBackgroundColor(),
                     height: contentHeight() != null
@@ -155,5 +119,52 @@ abstract class ZZBaseBottomDialog {
           );
         });
     return ret;
+  }
+
+  Widget _titleWidget() {
+    Widget? widget = titleWidget();
+    if (widget != null) return widget;
+    if (titleHeight() != null && title() != null) {
+      return Column(
+        children: [
+          Container(
+            width: 414.w,
+            height: titleHeight()! - 1,
+            decoration: BoxDecoration(
+                color: titleBackgroundColor(),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(radius()),
+                    topRight: Radius.circular(radius()))),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Text(
+                  title()!,
+                  style: titleTextStyle(),
+                ),
+                Positioned(
+                  right: 12.w,
+                  child: GestureDetector(
+                    onTap: () => Get.back(),
+                    child: SizedBox(
+                      width: 20.w,
+                      height: 20.w,
+                      child: ZZ.image(R.assetsImgIcNavCloseBlack,
+                          bundleName: zzBundleName),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            width: 414.w,
+            height: 0.5,
+            color: seperatorColor(),
+          )
+        ],
+      );
+    }
+    return Container();
   }
 }
