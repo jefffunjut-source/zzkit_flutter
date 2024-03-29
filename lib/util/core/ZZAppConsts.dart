@@ -38,8 +38,8 @@ BuildContext zzContext = zzNavigatorKey.currentState!.overlay!.context;
 /// Geometry常量
 double zzScreenWidth = ScreenUtil().screenWidth;
 double zzScreenHeight = ScreenUtil().screenHeight;
-double zzStatusBarHeight = ScreenUtil().statusBarHeight;
-double zzBottomBarHeight = ScreenUtil().bottomBarHeight;
+double zzStatusBarHeight = ScreenUtil().statusBarHeight; // 状态栏高度 刘海屏会更高 dp
+double zzBottomBarHeight = ScreenUtil().bottomBarHeight; // 下巴高度 底部安全区距离 dp
 
 double zzZero = 0.0001;
 

@@ -1,8 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, no_logic_in_create_state, file_names, unused_element
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, no_logic_in_create_state, file_names, unused_element, prefer_final_fields
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:io';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,8 @@ import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 class ZZWebViewController extends GetxController {
   // Progress bar
   bool enableProgress = true;
-  RxDouble progress = 0.0.obs;
+  RxDouble _progress = 0.0.obs;
+  RxDouble get progress => _progress;
   int estimatedFinishedProgress = 80;
   double progressBarWidth = 414.w;
   double progressBarHeight = 1.0;
@@ -23,8 +25,10 @@ class ZZWebViewController extends GetxController {
   Color? progressTintColor;
 
   // Forward & Back
-  RxBool canBack = false.obs;
-  RxBool canForward = false.obs;
+  RxBool _canBack = false.obs;
+  RxBool get canBack => _canBack;
+  RxBool _canForward = false.obs;
+  RxBool get canForward => _canForward;
 
   // Title & Url
   RxString title = "".obs;
@@ -44,9 +48,18 @@ class ZZWebViewController extends GetxController {
 
   // Scroll
   double scrollDelta = 2.0;
-  RxBool scrollingDown = false.obs;
-  double canvasHeight = double.infinity;
-  double scrollHeight = double.infinity;
+  RxBool _scrollingDown = false.obs;
+  RxBool get scrollingDown => _scrollingDown;
+
+  double _canvasHeight = double.infinity;
+  double get canvasHeight => _canvasHeight;
+
+  double _scrollHeight = double.infinity;
+  double get scrollHeight => _scrollHeight;
+
+  // WebViewController
+  WebViewController? _controller;
+  WebViewController? get controller => _controller;
 }
 
 class ZZWebViewPage extends StatefulWidget {
@@ -54,18 +67,35 @@ class ZZWebViewPage extends StatefulWidget {
   String? url;
   bool? hideNavigationBar;
   bool? hideProgressBar;
+  Widget? appBar;
   Widget? titleView;
   Widget? bottomView;
   bool? hideBottomViewScrollingDown;
+  bool? safeAreaBottom;
+  Color? backgroundColor;
+  Color? appBarBackgroundColor;
+  double? elevation;
+  double? titleSpacing;
+  bool? centerTitle;
+  TextStyle? titleTextStyle;
   ZZWebViewPage(
       {super.key,
       this.title,
       this.url,
       this.hideNavigationBar,
       this.hideProgressBar,
+      this.appBar,
       this.titleView,
       this.bottomView,
-      this.hideBottomViewScrollingDown});
+      this.hideBottomViewScrollingDown = false,
+      this.safeAreaBottom = true,
+      this.backgroundColor = Colors.white,
+      this.appBarBackgroundColor = Colors.white,
+      this.elevation = 0,
+      this.titleSpacing = 0,
+      this.centerTitle = true,
+      this.titleTextStyle = const TextStyle(
+          color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)});
 
   @override
   ZZWebViewPageState createState() {
@@ -83,8 +113,8 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
   @override
   void dispose() {
     ZZWebViewController zzWebViewController = Get.find();
-    zzWebViewController.canBack.value = false;
-    zzWebViewController.canForward.value = false;
+    zzWebViewController._canBack.value = false;
+    zzWebViewController._canForward.value = false;
     zzWebViewController.title.value = "";
     zzWebViewController.url.value = "";
     super.dispose();
@@ -96,15 +126,15 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
     ZZWebViewController zzWebViewController = Get.find();
     controller = WebViewController()
       ..setOnScrollPositionChange((change) {
-        debugPrint("canvasHeight:${zzWebViewController.canvasHeight}");
-        debugPrint("scrollHeight:${zzWebViewController.scrollHeight}");
-        debugPrint("y:${change.y}");
+        // debugPrint("canvasHeight:${zzWebViewController.canvasHeight}");
+        // debugPrint("scrollHeight:${zzWebViewController.scrollHeight}");
+        // debugPrint("y:${change.y}");
         if (change.y < 0) return;
         if (change.y - lastY > zzWebViewController.scrollDelta) {
-          zzWebViewController.scrollingDown.value = true;
+          zzWebViewController._scrollingDown.value = true;
           // debugPrint("scrollingDown");
         } else if (lastY - change.y > zzWebViewController.scrollDelta) {
-          zzWebViewController.scrollingDown.value = false;
+          zzWebViewController._scrollingDown.value = false;
           // debugPrint("scrollingUp");
         }
         lastY = change.y;
@@ -116,9 +146,9 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
         NavigationDelegate(
           onProgress: (int proceed) {
             debugPrint('WebView is loading (progress : $proceed%)');
-            zzWebViewController.progress.value = proceed.toDouble() / 100.0;
+            zzWebViewController._progress.value = proceed.toDouble() / 100.0;
             if (proceed > zzWebViewController.estimatedFinishedProgress) {
-              zzWebViewController.progress.value = 1.0;
+              zzWebViewController._progress.value = 1.0;
               Future.delayed(const Duration(seconds: 2), () {
                 ZZ.dismiss();
               });
@@ -130,23 +160,23 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
           onPageFinished: (String url) {
             _updateContentHeight();
             controller.canGoBack().then((value) {
-              zzWebViewController.canBack.value = value;
-              debugPrint("canBack:$value");
+              zzWebViewController._canBack.value = value;
+              // debugPrint("canBack:$value");
             });
             controller.canGoForward().then((value) {
-              zzWebViewController.canForward.value = value;
-              debugPrint("canForward:$value");
+              zzWebViewController._canForward.value = value;
+              // debugPrint("canForward:$value");
             });
           },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
             controller.canGoBack().then((value) {
-              zzWebViewController.canBack.value = value;
-              debugPrint("canBack:$value");
+              zzWebViewController._canBack.value = value;
+              // debugPrint("canBack:$value");
             });
             controller.canGoForward().then((value) {
-              zzWebViewController.canForward.value = value;
-              debugPrint("canForward:$value");
+              zzWebViewController._canForward.value = value;
+              // debugPrint("canForward:$value");
             });
             if (zzWebViewController.forbiddenHosts.isNotEmpty) {
               Uri uri = Uri.parse(request.url);
@@ -194,12 +224,13 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
       return _mainWidget();
     } else {
       return ZZBaseScaffold(
-        backgroundColor: zzColorWhite,
+        backgroundColor: widget.backgroundColor,
+        safeAreaBottom: widget.safeAreaBottom,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: widget.appBarBackgroundColor,
           automaticallyImplyLeading: false,
           title: Container(
-            color: Colors.white,
+            color: widget.appBarBackgroundColor,
             height: 54.w,
             child: Stack(
               children: [
@@ -251,13 +282,13 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 24.w),
                                     child: ZZ.image(
-                                        zzWebViewController.canForward.value
+                                        zzWebViewController._canForward.value
                                             ? R.assetsImgIcNavForwardBlack
                                             : R.assetsImgIcNavForwardGray,
                                         bundleName: zzBundleName),
                                   ),
                                   onTap: () {
-                                    if (zzWebViewController.canForward.value) {
+                                    if (zzWebViewController._canForward.value) {
                                       controller.goForward();
                                     }
                                   },
@@ -281,24 +312,24 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                         )
                       ],
                     )),
-                widget.titleView ??
+                widget.appBar ??
                     Container(
                       margin: const EdgeInsets.only(left: 2, right: 2),
                       child: Container(
                         alignment: Alignment.center,
-                        child: Text(
-                          zzWebViewController.title.value,
-                          style: ZZ.textStyle(
-                              color: zzColorBlack, fontSize: 18.sp, bold: true),
-                        ),
+                        child: widget.titleView ??
+                            Text(
+                              zzWebViewController.title.value,
+                              style: widget.titleTextStyle,
+                            ),
                       ),
                     )
               ],
             ),
           ),
-          titleSpacing: 0,
-          centerTitle: true,
-          elevation: 0,
+          titleSpacing: widget.titleSpacing,
+          centerTitle: widget.centerTitle,
+          elevation: widget.elevation,
         ),
         body: _mainWidget(),
       );
@@ -306,13 +337,20 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
   }
 
   Widget _mainWidget() {
+    ZZWebViewController zzWebViewController = Get.find();
     return Column(
       children: [
         (widget.hideProgressBar ?? false)
             ? Container()
             : const ZZProgressBarWidget(),
         Expanded(child: WebViewWidget(controller: controller)),
-        widget.bottomView ?? Container()
+        widget.hideBottomViewScrollingDown == true
+            ? // 底部控件向下滚动时消失，网上滑动显示底部控件
+            Obx(() => (zzWebViewController._scrollingDown.value
+                ? Container()
+                : widget.bottomView ?? Container()))
+            // 底部控件常显
+            : (widget.bottomView ?? Container())
       ],
     );
   }
@@ -322,9 +360,9 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
     controller.runJavaScriptReturningResult(javaScript).then((value) {
       ZZWebViewController zzWebViewController = Get.find();
       if (value is double) {
-        zzWebViewController.canvasHeight = value;
+        zzWebViewController._canvasHeight = value;
       } else {
-        zzWebViewController.canvasHeight =
+        zzWebViewController._canvasHeight =
             double.tryParse("$value") ?? double.infinity;
       }
     });
@@ -341,9 +379,9 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
     controller.runJavaScriptReturningResult(javaScript).then((value) {
       ZZWebViewController zzWebViewController = Get.find();
       if (value is double) {
-        zzWebViewController.scrollHeight = value;
+        zzWebViewController._scrollHeight = value;
       } else {
-        zzWebViewController.scrollHeight =
+        zzWebViewController._scrollHeight =
             double.tryParse("$value") ?? double.infinity;
       }
     });
@@ -372,8 +410,8 @@ class ZZProgressBarWidgetState extends State<ZZProgressBarWidget> {
     ZZWebViewController zzWebViewController = Get.find();
     return Obx(() {
       if (zzWebViewController.enableProgress &&
-          (zzWebViewController.progress.value > 0 &&
-              zzWebViewController.progress.value < 1.0)) {
+          (zzWebViewController._progress.value > 0 &&
+              zzWebViewController._progress.value < 1.0)) {
         return Container(
           width: zzWebViewController.progressBarWidth,
           height: zzWebViewController.progressBarHeight,
@@ -384,7 +422,7 @@ class ZZProgressBarWidgetState extends State<ZZProgressBarWidget> {
               Container(
                 height: zzWebViewController.progressBarHeight,
                 width: min(
-                    zzWebViewController.progress.value *
+                    zzWebViewController._progress.value *
                         zzWebViewController.progressBarWidth,
                     zzWebViewController.progressBarWidth),
                 decoration: BoxDecoration(
