@@ -133,7 +133,9 @@ class ZZBaseListController extends GetxController {
 class ZZBaseListPage<T> extends StatefulWidget {
   T controller;
   String? title;
-  ZZBaseListPage({super.key, required this.controller, this.title});
+  bool? safeAreaBottom;
+  ZZBaseListPage(
+      {super.key, required this.controller, this.title, this.safeAreaBottom});
 
   @override
   ZZBaseListState createState() => ZZBaseListState<T>();
@@ -228,6 +230,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     T controller = widget.controller;
     super.build(context);
     return ZZBaseScaffold(
+      safeAreaBottom: widget.safeAreaBottom,
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
           : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),

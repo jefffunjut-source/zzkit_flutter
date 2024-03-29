@@ -107,7 +107,7 @@ class ZZBaseScaffoldState extends ScaffoldState {
       color: widget.backgroundColor,
       child: SafeArea(
           top: false,
-          bottom: safeAreaBottom!,
+          bottom: safeAreaBottom ?? false,
           child: Stack(alignment: Alignment.center, children: [
             PopScope(
                 canPop: true,
