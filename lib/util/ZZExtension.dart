@@ -201,6 +201,22 @@ extension ZZExtensionString on String {
   String minus(int number) {
     return "${parse2Int() - number}";
   }
+
+  Color toColor() {
+    // 移除可能的前缀
+    String hexString = replaceAll("#", "");
+
+    // 解析十六进制字符串为整数
+    int hexValue = int.parse(hexString, radix: 16);
+
+    // 提取红、绿、蓝颜色分量
+    int red = (hexValue >> 16) & 0xFF;
+    int green = (hexValue >> 8) & 0xFF;
+    int blue = hexValue & 0xFF;
+
+    // 创建并返回颜色对象
+    return Color.fromARGB(255, red, green, blue);
+  }
 }
 
 extension ZZExtensionInt on int {

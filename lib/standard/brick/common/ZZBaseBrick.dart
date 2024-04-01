@@ -21,14 +21,4 @@ class ZZBaseBrickObject<T> {
     _widget = value;
     (_widget as ZZBaseBrick).object = this;
   }
-
-  // 控件的外围描述
-  // 高度 可null null时会自适应高度
-  double? height;
-  // 外边距
-  EdgeInsetsGeometry? margin;
-  // 内边距
-  EdgeInsetsGeometry? padding;
-  // 容器背景色，当内边距有值时生效
-  int? colorHex;
 }

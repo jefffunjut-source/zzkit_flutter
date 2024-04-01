@@ -4,12 +4,14 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 class ZZImageWidget extends StatelessWidget {
   String? url;
+  Color? backgroundColor;
   Uint8List? base64;
   Image? placeholderImage;
   BoxFit? fit;
@@ -24,6 +26,7 @@ class ZZImageWidget extends StatelessWidget {
   ZZImageWidget(
       {super.key,
       this.url,
+      this.backgroundColor,
       this.base64,
       this.placeholderImage,
       this.fit,
@@ -53,6 +56,7 @@ class ZZImageWidget extends StatelessWidget {
     if (url != null && url!.contains("http")) {
       // url形式
       return CachedNetworkImage(
+          color: backgroundColor,
           width: width,
           height: height,
           fit: fit,
@@ -61,7 +65,7 @@ class ZZImageWidget extends StatelessWidget {
             return Container(
               width: width,
               height: width,
-              color: zzColorClear,
+              color: Colors.transparent,
               child: Center(
                 child: CupertinoActivityIndicator(
                   radius: min(14.0, (width ?? double.infinity) / 5.0),
@@ -79,6 +83,7 @@ class ZZImageWidget extends StatelessWidget {
     } else if (base64 != null) {
       // base64形式
       return Image.memory(
+        color: backgroundColor,
         base64!,
         fit: fit,
         width: width,
@@ -87,7 +92,8 @@ class ZZImageWidget extends StatelessWidget {
     }
     // Placeholder
     if (placeholderImage != null) {
-      return SizedBox(
+      return Container(
+        color: backgroundColor,
         width: width,
         height: height,
         child: Center(
@@ -95,7 +101,11 @@ class ZZImageWidget extends StatelessWidget {
         ),
       );
     } else {
-      return Container();
+      return Container(
+        width: width,
+        height: height,
+        color: backgroundColor,
+      );
     }
   }
 }

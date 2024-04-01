@@ -20,28 +20,27 @@ class ZZBaseWaterfallController extends ZZBaseListController {
   double? mainAxisSpacing = 0;
   double? crossAxisSpacing = 0;
 
-  ZZBaseWaterfallController(
-      {required this.crossAxisCount,
-      this.mainAxisSpacing,
-      this.crossAxisSpacing,
-      super.scrollController,
-      super.show1stPageLoading,
-      // 瀑布流不考虑shimmer动画，加载shimmer前无法预知git 高度
-      // super.shimmer,
-      // super.shimmerBrickHeight,
-      // super.shimmerBrickObject,
-      super.refreshingIdleText,
-      super.refreshingReleaseText,
-      super.refreshingText,
-      super.refreshingCompleteText,
-      super.refreshingLoadingText,
-      super.refreshingNoDataText,
-      super.margin,
-      super.padding,
-      super.brickMargin,
-      super.brickPadding,
-      super.brickColor})
-      : super();
+  ZZBaseWaterfallController({
+    required this.crossAxisCount,
+    this.mainAxisSpacing,
+    this.crossAxisSpacing,
+    super.scrollController,
+    super.show1stPageLoading,
+    // 瀑布流不考虑shimmer动画，加载shimmer前无法预知git 高度
+    // super.shimmer,
+    // super.shimmerBrickHeight,
+    // super.shimmerBrickObject,
+    super.refreshingIdleText,
+    super.refreshingReleaseText,
+    super.refreshingText,
+    super.refreshingCompleteText,
+    super.refreshingLoadingText,
+    super.refreshingNoDataText,
+    super.margin,
+    super.padding,
+    super.brickMargin,
+    super.brickPadding,
+  }) : super();
 }
 
 class ZZBaseWaterfallPage<T> extends StatefulWidget {
@@ -94,13 +93,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           childCount: controller.dataSource.length,
           itemBuilder: (context, index) {
             ZZBaseBrickObject object = controller.dataSource[index];
-            return Container(
-                color: object.padding != null
-                    ? Color(object.colorHex ?? 0xFFFFFFFF)
-                    : null,
-                margin: object.margin,
-                padding: object.padding,
-                child: object.widget);
+            return object.widget;
           },
         )
       ]),
@@ -109,9 +102,10 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
 
   @override
   Widget build(BuildContext context) {
-    T controller = widget.controller;
+    ZZBaseListController controller = widget.controller;
     super.build(context);
     return ZZBaseScaffold(
+      backgroundColor: controller.backgroundColor,
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
           : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
@@ -123,7 +117,6 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
               ? Container(
                   margin: controller.margin,
                   padding: controller.padding,
-                  color: Color(controller.brickColor ?? 0xFFFFFFFF),
                   child: homeBody(),
                 )
               : homeBody()),

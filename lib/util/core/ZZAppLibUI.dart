@@ -153,8 +153,8 @@ extension ZZAppLibUI on ZZAppManager {
 
   Widget outerBorderRadious(
       {required Widget widget,
-      double borderWidth = 0,
-      Color borderColor = Colors.transparent,
+      double? borderWidth,
+      Color? borderColor,
       double? radius,
       double? radiusTopLeft,
       double? radiusTopRight,
@@ -164,6 +164,53 @@ extension ZZAppLibUI on ZZAppManager {
       EdgeInsetsGeometry? padding,
       Color? color,
       VoidCallback? onTap,
+      bool debug = false}) {
+    if (onTap != null) {
+      return GestureDetector(
+        onTap: onTap,
+        child: _outerBorderRadious(
+            widget: widget,
+            borderWidth: borderWidth,
+            borderColor: borderColor,
+            radius: radius,
+            radiusTopLeft: radiusTopLeft,
+            radiusTopRight: radiusTopRight,
+            radiusBottomLeft: radiusBottomLeft,
+            radiusBottomRight: radiusBottomRight,
+            margin: margin,
+            padding: padding,
+            color: color,
+            debug: debug),
+      );
+    } else {
+      return _outerBorderRadious(
+          widget: widget,
+          borderWidth: borderWidth,
+          borderColor: borderColor,
+          radius: radius,
+          radiusTopLeft: radiusTopLeft,
+          radiusTopRight: radiusTopRight,
+          radiusBottomLeft: radiusBottomLeft,
+          radiusBottomRight: radiusBottomRight,
+          margin: margin,
+          padding: padding,
+          color: color,
+          debug: debug);
+    }
+  }
+
+  Widget _outerBorderRadious(
+      {required Widget widget,
+      double? borderWidth = 0,
+      Color? borderColor = Colors.transparent,
+      double? radius,
+      double? radiusTopLeft,
+      double? radiusTopRight,
+      double? radiusBottomLeft,
+      double? radiusBottomRight,
+      EdgeInsetsGeometry? margin,
+      EdgeInsetsGeometry? padding,
+      Color? color,
       bool debug = false}) {
     return Container(
       decoration: BoxDecoration(
@@ -181,7 +228,9 @@ extension ZZAppLibUI on ZZAppManager {
                       bottomRight: Radius.circular(radiusBottomRight ?? 0),
                     )
                   : null),
-          border: Border.all(color: borderColor, width: borderWidth)),
+          border: (borderColor != null && borderWidth != null)
+              ? Border.all(color: borderColor, width: borderWidth)
+              : null),
       margin: margin,
       padding: padding,
       child: ClipRRect(

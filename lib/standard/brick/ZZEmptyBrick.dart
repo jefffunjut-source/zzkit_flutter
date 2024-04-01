@@ -8,7 +8,7 @@ class ZZEmptyBrick extends ZZBaseBrick<ZZEmptyBrickObject> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: object?.height,
+      height: object?.height ?? 120,
       color: Color(object?.color ?? 0x00000000),
     );
   }
@@ -17,4 +17,6 @@ class ZZEmptyBrick extends ZZBaseBrick<ZZEmptyBrickObject> {
 class ZZEmptyBrickObject extends ZZBaseBrickObject<ZZEmptyBrick> {
   // 默认透明颜色
   int color = 0x00000000;
+
+  double? height;
 }

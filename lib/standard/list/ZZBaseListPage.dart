@@ -18,6 +18,9 @@ typedef ZZAppApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse>
     Function();
 
 class ZZBaseListController extends GetxController {
+  // Scaffold 背景色
+  Color? backgroundColor;
+
   // 刷新控制器
   RefreshController refreshController = RefreshController(initialRefresh: true);
 
@@ -51,25 +54,24 @@ class ZZBaseListController extends GetxController {
   EdgeInsetsGeometry? padding;
   EdgeInsetsGeometry? brickMargin;
   EdgeInsetsGeometry? brickPadding;
-  int? brickColor;
 
-  ZZBaseListController(
-      {this.scrollController,
-      this.show1stPageLoading = false,
-      this.shimmer = false,
-      this.shimmerBrickHeight,
-      this.shimmerCustomWidget,
-      this.refreshingIdleText = "下拉可以刷新哦",
-      this.refreshingReleaseText = "释放刷新",
-      this.refreshingText = "正在加载",
-      this.refreshingCompleteText = "完成",
-      this.refreshingLoadingText = "正在加载中...",
-      this.refreshingNoDataText = "已经到底咯",
-      this.margin,
-      this.padding,
-      this.brickMargin,
-      this.brickPadding,
-      this.brickColor});
+  ZZBaseListController({
+    this.scrollController,
+    this.show1stPageLoading = false,
+    this.shimmer = false,
+    this.shimmerBrickHeight,
+    this.shimmerCustomWidget,
+    this.refreshingIdleText = "下拉可以刷新哦",
+    this.refreshingReleaseText = "释放刷新",
+    this.refreshingText = "正在加载",
+    this.refreshingCompleteText = "完成",
+    this.refreshingLoadingText = "正在加载中...",
+    this.refreshingNoDataText = "已经到底咯",
+    this.margin,
+    this.padding,
+    this.brickMargin,
+    this.brickPadding,
+  });
 
   Future<ZZAPIResponse?> beginTransaction(
       bool nextPage, ZZAppApiRequestCallback? apiRequest) async {
@@ -208,15 +210,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   ZZBaseBrickObject object = controller.dataSource[index];
-                  object.margin ??= controller.brickMargin;
-                  object.padding ??= controller.brickPadding;
-                  return Container(
-                      color: object.padding != null
-                          ? Color(object.colorHex ?? 0xFFFFFFFF)
-                          : null,
-                      margin: object.margin,
-                      padding: object.padding,
-                      child: object.widget);
+                  return object.widget;
                 },
                 childCount: controller.dataSource.length,
               ),
@@ -227,14 +221,15 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
 
   @override
   Widget build(BuildContext context) {
-    T controller = widget.controller;
+    ZZBaseListController controller = widget.controller;
     super.build(context);
     return ZZBaseScaffold(
       safeAreaBottom: widget.safeAreaBottom,
+      backgroundColor: controller.backgroundColor,
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
           : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
-      body: Obx(() => (controller as ZZBaseListController).nodata.value
+      body: Obx(() => (controller).nodata.value
           ? Center(
               child: ZZNoDataWidget(nodata: true),
             )
@@ -242,7 +237,6 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
               ? Container(
                   margin: controller.margin,
                   padding: controller.padding,
-                  color: Color(controller.brickColor ?? 0xFFFFFFFF),
                   child: homeBody(),
                 )
               : homeBody()),

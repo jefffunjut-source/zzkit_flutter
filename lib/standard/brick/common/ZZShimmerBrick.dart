@@ -26,5 +26,6 @@ class ZZShimmerBrick extends ZZBaseBrick<ZZShimmerBrickObject> {
 }
 
 class ZZShimmerBrickObject extends ZZBaseBrickObject<ZZShimmerBrick> {
+  double? height;
   Widget? customWidget;
 }
