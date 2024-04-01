@@ -1,10 +1,10 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, file_names
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrickWidget.dart';
+import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 
-class ZZShimmerBrickWidget extends ZZBaseBrickWidget<ZZShimmerBrickObject> {
+class ZZShimmerBrick extends ZZBaseBrick<ZZShimmerBrickObject> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -25,6 +25,6 @@ class ZZShimmerBrickWidget extends ZZBaseBrickWidget<ZZShimmerBrickObject> {
   }
 }
 
-class ZZShimmerBrickObject extends ZZBaseBrickObject<ZZShimmerBrickWidget> {
+class ZZShimmerBrickObject extends ZZBaseBrickObject<ZZShimmerBrick> {
   Widget? customWidget;
 }

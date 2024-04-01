@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:zzkit_flutter/standard/list/ZZBaseListPage.dart';
-import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrickWidget.dart';
+import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';

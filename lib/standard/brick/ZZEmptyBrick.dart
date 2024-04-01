@@ -2,9 +2,9 @@
 library zzkit;
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrickWidget.dart';
+import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
 
-class ZZEmptyBrickWidget extends ZZBaseBrickWidget<ZZEmptyBrickObject> {
+class ZZEmptyBrick extends ZZBaseBrick<ZZEmptyBrickObject> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +14,7 @@ class ZZEmptyBrickWidget extends ZZBaseBrickWidget<ZZEmptyBrickObject> {
   }
 }
 
-class ZZEmptyBrickObject extends ZZBaseBrickObject<ZZEmptyBrickWidget> {
+class ZZEmptyBrickObject extends ZZBaseBrickObject<ZZEmptyBrick> {
   // 默认透明颜色
   int color = 0x00000000;
 }

@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrickWidget.dart';
+import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrick.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
-import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrickWidget.dart';
+import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
@@ -166,7 +166,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           var shimmer = ZZShimmerBrickObject()
             ..height = controller.shimmerBrickHeight
             ..customWidget = controller.shimmerCustomWidget
-            ..widget = ZZShimmerBrickWidget();
+            ..widget = ZZShimmerBrick();
           arr.add(shimmer);
         }
         controller.dataSource.addAll(arr);

@@ -3,7 +3,7 @@ library zzkit;
 
 import 'package:flutter/material.dart';
 
-class ZZBaseBrickWidget<T> extends StatelessWidget {
+class ZZBaseBrick<T> extends StatelessWidget {
   // 控件的数据
   T? object;
 
@@ -19,7 +19,7 @@ class ZZBaseBrickObject<T> {
   get widget => _widget;
   set widget(value) {
     _widget = value;
-    (_widget as ZZBaseBrickWidget).object = this;
+    (_widget as ZZBaseBrick).object = this;
   }
 
   // 控件的外围描述
