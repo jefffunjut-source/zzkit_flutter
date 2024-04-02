@@ -314,7 +314,7 @@ extension ZZExtensionArrays<T> on List<T> {
     return result;
   }
 
-  List<List<T>>? covertToTuples(
+  List<List<T>>? convertToTuples(
       {required int itemPerTuple, bool cutoff = true}) {
     if (isEmpty) return null;
     List<List<T>> array = [];

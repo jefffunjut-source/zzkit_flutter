@@ -388,7 +388,7 @@ extension ZZAppLibUI on ZZAppManager {
           .map((e) => Tab(
                 child: Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 0),
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
                   child: Text(
                     e,
                   ),
@@ -398,14 +398,22 @@ extension ZZAppLibUI on ZZAppManager {
       indicator: BoxDecoration(
           color: indicatorColor,
           borderRadius: BorderRadius.circular(indicatorRadius ?? 22.w),
-          gradient: indicatorGradient ?? zzColorGradientOrangeRed),
+          gradient: indicatorColor == null
+              ? (indicatorGradient ?? zzColorGradientOrangeRed)
+              : null),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 6.w, bottom: 10.w, left: 0.w, right: 0.w),
-      labelColor: labelColor ?? Colors.white,
-      unselectedLabelColor: unselectedLabelColor ?? zzColorBlack,
-      labelStyle:
-          ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
-      unselectedLabelStyle: ZZ.textStyle(color: Colors.white, fontSize: 14.sp),
+      labelColor: labelColor ?? (labelStyle == null ? Colors.white : null),
+      unselectedLabelColor: unselectedLabelColor ??
+          (unselectedLabelStyle == null ? zzColorBlack : null),
+      labelStyle: labelColor == null
+          ? (labelStyle ??
+              ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true))
+          : null,
+      unselectedLabelStyle: unselectedLabelColor == null
+          ? (unselectedLabelStyle ??
+              ZZ.textStyle(color: Colors.white, fontSize: 14.sp))
+          : null,
       controller: controller,
     );
   }
