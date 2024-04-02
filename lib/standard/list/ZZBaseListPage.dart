@@ -18,23 +18,27 @@ typedef ZZAppApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse>
     Function();
 
 class ZZBaseListController extends GetxController {
-  // Scaffold 背景色
-  Color? backgroundColor;
-
   // 刷新控制器
-  RefreshController refreshController = RefreshController(initialRefresh: true);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: true);
+  RefreshController get refreshController => _refreshController;
+  bool? enablePulldown;
+  bool? enablePullup;
 
   // 数据
-  int page = 1;
-  int pageSize = 5;
-  RxBool nodata = false.obs;
-  RxList<dynamic> dataSource = <dynamic>[].obs;
+  int _page = 1;
+  int get page => _page;
+  int pageSize = 20;
+  final RxBool _nodata = false.obs;
+  RxBool get nodata => _nodata;
+  final RxList<dynamic> _dataSource = <dynamic>[].obs;
+  RxList<dynamic> get dataSource => _dataSource;
 
   // 滑动控制器
   ScrollController? scrollController;
 
   // 是否在第一页加载是loading
-  bool? show1stPageLoading;
+  bool? showLoadingFirstPage;
 
   // 是否启用shimmer
   bool? shimmer;
@@ -56,8 +60,11 @@ class ZZBaseListController extends GetxController {
   EdgeInsetsGeometry? brickPadding;
 
   ZZBaseListController({
+    this.enablePulldown = true,
+    this.enablePullup = true,
+    this.pageSize = 20,
     this.scrollController,
-    this.show1stPageLoading = false,
+    this.showLoadingFirstPage = false,
     this.shimmer = false,
     this.shimmerBrickHeight,
     this.shimmerCustomWidget,
@@ -76,15 +83,15 @@ class ZZBaseListController extends GetxController {
   Future<ZZAPIResponse?> beginTransaction(
       bool nextPage, ZZAppApiRequestCallback? apiRequest) async {
     if (nextPage == false) {
-      page = 1;
+      _page = 1;
       nodata.value = false;
       if (dataSource.isEmpty) {
-        if (shimmer == false && show1stPageLoading == true) {
+        if (shimmer == false && showLoadingFirstPage == true) {
           ZZ.show();
         }
       }
     } else {
-      page = page + 1;
+      _page = _page + 1;
     }
     if (apiRequest != null) {
       ZZAPIResponse response = await apiRequest();
@@ -98,7 +105,7 @@ class ZZBaseListController extends GetxController {
     response?.rows = rows;
     nodata.value = false;
     if (page == 1) {
-      if (shimmer == false && show1stPageLoading == true) {
+      if (shimmer == false && showLoadingFirstPage == true) {
         ZZ.dismiss();
       }
     }
@@ -121,6 +128,9 @@ class ZZBaseListController extends GetxController {
         }
       }
       if (rows == null || rows.length < pageSize) {
+        if (page == 1) {
+          refreshController.refreshCompleted();
+        }
         refreshController.loadNoData();
       } else {
         refreshController.loadComplete();
@@ -133,11 +143,20 @@ class ZZBaseListController extends GetxController {
 }
 
 class ZZBaseListPage<T> extends StatefulWidget {
+  // 列表页控制器
   T controller;
+  // Scaffold 标题
   String? title;
+  // Scaffold 背景色
+  Color? backgroundColor;
+  // Scaffold 是否保留safe区域
   bool? safeAreaBottom;
   ZZBaseListPage(
-      {super.key, required this.controller, this.title, this.safeAreaBottom});
+      {super.key,
+      required this.controller,
+      this.title,
+      this.backgroundColor,
+      this.safeAreaBottom});
 
   @override
   ZZBaseListState createState() => ZZBaseListState<T>();
@@ -172,8 +191,6 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           arr.add(shimmer);
         }
         controller.dataSource.addAll(arr);
-        // controller.refreshController.refreshCompleted();
-        // controller.refreshController.loadComplete();
       }
     }
 
@@ -185,8 +202,8 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     ZZBaseListController controller = widget.controller as ZZBaseListController;
     return SmartRefresher(
       controller: controller.refreshController,
-      enablePullUp: true,
-      enablePullDown: true,
+      enablePullUp: controller.enablePullup ?? true,
+      enablePullDown: controller.enablePulldown ?? true,
       header: ClassicHeader(
         idleText: controller.refreshingIdleText,
         releaseText: controller.refreshingReleaseText,
@@ -210,6 +227,22 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   ZZBaseBrickObject object = controller.dataSource[index];
+                  if (object is ZZShimmerBrickObject) {
+                    if (object.customWidget != null) {
+                      return object.customWidget;
+                    } else if (object.widget != null) {
+                      if (controller.brickMargin != null ||
+                          controller.brickPadding != null) {
+                        return Container(
+                          margin: controller.brickMargin,
+                          padding: controller.padding,
+                          child: object.widget,
+                        );
+                      } else {
+                        return object.widget;
+                      }
+                    }
+                  }
                   return object.widget;
                 },
                 childCount: controller.dataSource.length,
@@ -225,7 +258,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     super.build(context);
     return ZZBaseScaffold(
       safeAreaBottom: widget.safeAreaBottom,
-      backgroundColor: controller.backgroundColor,
+      backgroundColor: widget.backgroundColor,
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
           : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),

@@ -24,12 +24,12 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     required this.crossAxisCount,
     this.mainAxisSpacing,
     this.crossAxisSpacing,
+    super.enablePulldown,
+    super.enablePullup,
+    super.pageSize = 20,
     super.scrollController,
-    super.show1stPageLoading,
+    super.showLoadingFirstPage,
     // 瀑布流不考虑shimmer动画，加载shimmer前无法预知git 高度
-    // super.shimmer,
-    // super.shimmerBrickHeight,
-    // super.shimmerBrickObject,
     super.refreshingIdleText,
     super.refreshingReleaseText,
     super.refreshingText,
@@ -44,9 +44,20 @@ class ZZBaseWaterfallController extends ZZBaseListController {
 }
 
 class ZZBaseWaterfallPage<T> extends StatefulWidget {
+  // 列表页控制器
   T controller;
+  // Scaffold 标题
   String? title;
-  ZZBaseWaterfallPage({super.key, required this.controller, this.title});
+  // Scaffold 背景色
+  Color? backgroundColor;
+  // Scaffold 是否保留safe区域
+  bool? safeAreaBottom;
+  ZZBaseWaterfallPage(
+      {super.key,
+      required this.controller,
+      this.title,
+      this.backgroundColor,
+      this.safeAreaBottom});
 
   @override
   ZZBaseWaterfallState createState() => ZZBaseWaterfallState<T>();
@@ -105,7 +116,8 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     ZZBaseListController controller = widget.controller;
     super.build(context);
     return ZZBaseScaffold(
-      backgroundColor: controller.backgroundColor,
+      backgroundColor: widget.backgroundColor,
+      safeAreaBottom: widget.safeAreaBottom,
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
           : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
