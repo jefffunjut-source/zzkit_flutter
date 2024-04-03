@@ -41,7 +41,7 @@ abstract class ZZBaseBottomDialog {
     return true;
   }
 
-  Color? seperatorColor() {
+  Color? separatorColor() {
     return zzColorGreyCC;
   }
 
@@ -160,7 +160,7 @@ abstract class ZZBaseBottomDialog {
           Container(
             width: 414.w,
             height: 0.5,
-            color: seperatorColor(),
+            color: separatorColor(),
           )
         ],
       );

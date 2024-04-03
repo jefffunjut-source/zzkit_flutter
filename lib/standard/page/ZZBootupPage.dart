@@ -37,16 +37,25 @@ class ZZBootupPageState extends State<ZZBootupPage> {
         },
         child: controller.debugOnboardPage
             ? controller.onboardPage
-            : Obx(() => controller.enablePrivacyPrompt.value
-                ? Container()
-                : ((ZZ.getNewInstallOrUpdate(controller.appVersion) ?? false)
-                    ? (controller.onboardPage ??
-                        (controller.triedAd || controller.disableAd
-                            ? const ZZHomePage()
-                            : ZZAdPage()))
-                    : (controller.triedAd || controller.disableAd
-                        ? const ZZHomePage()
-                        : ZZAdPage()))));
+            : Obx(() => _whichPage()));
+  }
+
+  Widget _whichPage() {
+    ZZBootupController controller = Get.find();
+    if (controller.enablePrivacyPrompt.value) {
+      return Container();
+    } else {
+      if ((ZZ.getNewInstallOrUpdate(controller.appVersion) ?? false)) {
+        if (controller.onboardPage != null) {
+          return controller.onboardPage!;
+        }
+      }
+      if (controller.triedAd || controller.disableAd) {
+        return const ZZHomePage();
+      } else {
+        return ZZAdPage();
+      }
+    }
   }
 
   void _checkPrivacy() async {

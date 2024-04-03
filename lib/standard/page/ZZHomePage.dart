@@ -46,7 +46,7 @@ class ZZHomePageState extends State<ZZHomePage> with WidgetsBindingObserver {
           ),
           body: IndexedStack(
             index: controller.tabIndex.value,
-            children: controller.pages,
+            children: controller.tabPages,
           ),
         ));
   }

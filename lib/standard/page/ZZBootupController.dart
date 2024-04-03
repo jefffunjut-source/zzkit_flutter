@@ -37,7 +37,7 @@ class ZZBootupController extends GetxController {
   RxInt tabIndex = 0.obs;
 
   /// 主页列表
-  late List<Widget> pages;
+  late List<Widget> tabPages;
 
   /// 主页底部tab列表
   /**

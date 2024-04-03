@@ -35,11 +35,11 @@ abstract class ZZBaseCenterDialog {
   }
 
   Color contentBackgroundColor() {
-    return Colors.transparent;
+    return Colors.white;
   }
 
   Color actionsBackgroundColor() {
-    return Colors.transparent;
+    return Colors.white;
   }
 
   double buttonHeight() {
@@ -98,7 +98,7 @@ abstract class ZZBaseCenterDialog {
     Get.back();
   }
 
-  Color? buttonTopSeperatorColor() {
+  Color? buttonSeparatorColor() {
     return zzColorGreyCC;
   }
 
@@ -109,10 +109,15 @@ abstract class ZZBaseCenterDialog {
       barrierColor: barrierColor(),
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
           contentPadding: contentPadding(),
           actionsPadding: actionsPadding(),
-          backgroundColor: backgroundColor(),
-          surfaceTintColor: backgroundColor(),
+          backgroundColor:
+              radius() > 0 ? Colors.transparent : backgroundColor(),
+          surfaceTintColor:
+              radius() > 0 ? Colors.transparent : backgroundColor(),
           content: ZZ.outerBorderRadious(
               radiusTopLeft: radius(),
               radiusTopRight: radius(),
@@ -179,22 +184,23 @@ abstract class ZZBaseCenterDialog {
                             ),
                           ],
                         ),
+                        // 按钮分割线
                         Positioned(
                           top: 0,
                           left: 0,
                           right: 0,
                           child: Container(
                             height: 0.5,
-                            color: buttonTopSeperatorColor(),
+                            color: buttonSeparatorColor(),
                           ),
                         ),
                         buttonCount() == 2
                             ? Positioned(
-                                top: 0.3,
+                                top: 0.5,
                                 bottom: 0,
                                 child: Container(
                                   width: 0.5,
-                                  color: buttonTopSeperatorColor(),
+                                  color: buttonSeparatorColor(),
                                 ))
                             : Container()
                       ],

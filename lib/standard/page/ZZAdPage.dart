@@ -52,17 +52,19 @@ class ZZAdPageState extends State<ZZAdPage> {
                 url: adData?.pic,
               ),
             ),
-            Positioned(
-              right: 30,
-              top: 30 + zzStatusBarHeight,
-              child: GestureDetector(
-                onTap: () {
-                  ZZBootupController controller = Get.find();
-                  controller.offAdOrMainPage();
-                },
-                child: ZZCountdownWidget(),
-              ),
-            )
+            adData != null
+                ? Positioned(
+                    right: 30,
+                    top: 30 + zzStatusBarHeight,
+                    child: GestureDetector(
+                      onTap: () {
+                        ZZBootupController controller = Get.find();
+                        controller.offAdOrMainPage();
+                      },
+                      child: ZZCountdownWidget(),
+                    ),
+                  )
+                : Container()
           ],
         ));
   }
