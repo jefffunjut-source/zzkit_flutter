@@ -10,12 +10,14 @@ import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 class ZZNoticeController extends GetxController {
   RxString noticeNumber = "".obs;
+  RxBool highlighted = false.obs;
 }
 
 class ZZNoticeWidget extends StatefulWidget {
   double? width;
   double? height;
   Image? noticeImage;
+  Image? highlightedNoticeImage;
   double? noticeXFromCenter;
   double? noticeYFromCenter;
   Color? backgroundColor;
@@ -23,6 +25,7 @@ class ZZNoticeWidget extends StatefulWidget {
     this.width,
     this.height,
     this.noticeImage,
+    this.highlightedNoticeImage,
     this.noticeXFromCenter,
     this.noticeYFromCenter,
     this.backgroundColor,
@@ -56,12 +59,16 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          widget.noticeImage ??
-              (ZZ.image(R.assetsImgIcNavNotice, bundleName: zzBundleName) ??
-                  const SizedBox(
-                    width: 0,
-                    height: 0,
-                  )),
+          (widget.highlightedNoticeImage != null && widget.noticeImage != null)
+              ? Obx(() {
+                  if (controller.highlighted.value) {
+                    return widget.highlightedNoticeImage!;
+                  } else {
+                    return widget.noticeImage!;
+                  }
+                })
+              : widget.noticeImage ??
+                  ZZ.image(R.assetsImgIcNavNotice, bundleName: zzBundleName)!,
           Obx(() => controller.noticeNumber.value.isNotEmpty
               ? Positioned(
                   left: width / 2 + (widget.noticeXFromCenter ?? 2),

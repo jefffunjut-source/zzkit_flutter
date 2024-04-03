@@ -369,6 +369,7 @@ extension ZZAppLibUI on ZZAppManager {
   /// 通用Tabbar RoundedRectangle
   TabBar tabbarRoundedRectangle(
       {required List<String> tabs,
+      ValueChanged<int>? onTap,
       TabController? controller,
       Color? indicatorColor = zzColorRed,
       double? indicatorRadius,
@@ -381,6 +382,7 @@ extension ZZAppLibUI on ZZAppManager {
       bool? isScrollable,
       TabAlignment? tabAlignment}) {
     return TabBar(
+      onTap: onTap,
       dividerHeight: 0,
       tabAlignment: tabAlignment ?? TabAlignment.start,
       isScrollable: isScrollable ?? true,
@@ -420,6 +422,7 @@ extension ZZAppLibUI on ZZAppManager {
 
   TabBar tabbarUnderline(
       {required List<String> tabs,
+      ValueChanged<int>? onTap,
       TabController? controller,
       Color? indicatorColor = zzColorRed,
       double? indicatorRadius,
@@ -433,6 +436,7 @@ extension ZZAppLibUI on ZZAppManager {
       bool? isScrollable,
       TabAlignment? tabAlignment}) {
     return TabBar(
+      onTap: onTap,
       dividerHeight: 0,
       tabAlignment: tabAlignment ?? TabAlignment.start,
       isScrollable: isScrollable ?? true,
