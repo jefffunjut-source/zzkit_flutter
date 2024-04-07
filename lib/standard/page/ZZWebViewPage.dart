@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, no_logic_in_create_state, file_names, unused_element, prefer_final_fields
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, no_logic_in_create_state, file_names, unused_element, prefer_final_fields, unused_import
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:io';
@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+// Import for Android & iOS features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
@@ -124,7 +127,17 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
   void initState() {
     super.initState();
     ZZWebViewController zzWebViewController = Get.find();
-    controller = WebViewController()
+
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+    controller = WebViewController.fromPlatformCreationParams(params)
       ..setOnScrollPositionChange((change) {
         // debugPrint("canvasHeight:${zzWebViewController.canvasHeight}");
         // debugPrint("scrollHeight:${zzWebViewController.scrollHeight}");
@@ -215,6 +228,14 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
         value(message.message);
       });
     });
+
+    // #docregion platform_features
+    if (controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
+    // #enddocregion platform_features
   }
 
   @override

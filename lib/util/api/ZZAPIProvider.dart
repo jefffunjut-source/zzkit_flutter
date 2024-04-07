@@ -189,6 +189,7 @@ class ZZAPIRequest {
       } else if (e.toString().toLowerCase().contains("os error")) {
         // 豁免Toast该类报错
         debugPrint("请求OS Error");
+        debugPrint(e.toString());
         error = ZZAPIError(code: "-2", errorMessage: "OS Error");
         resp = null;
       } else if (e is TypeError) {
