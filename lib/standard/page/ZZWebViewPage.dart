@@ -39,6 +39,7 @@ class ZZWebViewController extends GetxController {
 
   // UserAgent
   String? userAgent;
+  String? userAgentAddon;
 
   // Forbidden Urls
   List<String> forbiddenUrls = [];
@@ -137,7 +138,25 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
     } else {
       params = const PlatformWebViewControllerCreationParams();
     }
-    controller = WebViewController.fromPlatformCreationParams(params)
+    controller = WebViewController.fromPlatformCreationParams(params);
+    // 设置UserAgent
+    if (zzWebViewController.userAgent == null) {
+      if (zzWebViewController.userAgentAddon != null &&
+          zzWebViewController.userAgentAddon!.isNotEmpty) {
+        controller.getUserAgent().then(
+          (value) async {
+            String newUA = "$value${zzWebViewController.userAgentAddon}";
+            zzWebViewController.userAgent = newUA;
+            controller.setUserAgent(zzWebViewController.userAgent);
+            await controller.reload();
+            controller.getUserAgent().then((value) {
+              debugPrint("After Reloading WebView Flutter UserAgent:$value");
+            });
+          },
+        );
+      }
+    }
+    controller
       ..setOnScrollPositionChange((change) {
         // debugPrint("canvasHeight:${zzWebViewController.canvasHeight}");
         // debugPrint("scrollHeight:${zzWebViewController.scrollHeight}");
@@ -236,6 +255,13 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
           .setMediaPlaybackRequiresUserGesture(false);
     }
     // #enddocregion platform_features
+
+    // 打印UserAgent
+    controller.getUserAgent().then(
+      (value) {
+        debugPrint("WebView Flutter UserAgent:$value");
+      },
+    );
   }
 
   @override
