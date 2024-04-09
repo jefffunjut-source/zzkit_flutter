@@ -122,23 +122,25 @@ class ZZInfiniteScrollWidgetState extends State<ZZInfiniteScrollWidget> {
             _pageController?.jumpToPage(centerIndex);
           }
         });
-      _timer?.cancel();
-      _timer = Timer.periodic(
-          Duration(milliseconds: widget.autoScrolllMilliseconds), (timer) {
-        if (isStopped()) {
-          // print("静止");
-        } else {
-          // print("滑动中");
-          return;
-        }
-        int nextpage = _pageController!.page!.toInt() + 1;
-        _pageController?.animateToPage(
-          nextpage,
-          duration:
-              Duration(milliseconds: widget.animationDurationMilliseconds),
-          curve: Curves.easeInOut,
-        );
-      });
+      if (widget.autoScrolllMilliseconds > 0) {
+        _timer?.cancel();
+        _timer = Timer.periodic(
+            Duration(milliseconds: widget.autoScrolllMilliseconds), (timer) {
+          if (isStopped()) {
+            // print("静止");
+          } else {
+            // print("滑动中");
+            return;
+          }
+          int nextpage = _pageController!.page!.toInt() + 1;
+          _pageController?.animateToPage(
+            nextpage,
+            duration:
+                Duration(milliseconds: widget.animationDurationMilliseconds),
+            curve: Curves.easeInOut,
+          );
+        });
+      }
     }
   }
 

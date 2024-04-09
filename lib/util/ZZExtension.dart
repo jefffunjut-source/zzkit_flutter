@@ -112,10 +112,17 @@ extension ZZExtensionString on String {
     if (startsWith("0")) {
       replaceFirst("0", "");
     }
-    try {
-      return int.parse(this);
-    } catch (e) {}
-    return 0;
+    return int.tryParse(this) ?? 0;
+  }
+
+  double parse2Double() {
+    if (this == "") {
+      return 0;
+    }
+    if (startsWith("0")) {
+      replaceFirst("0", "");
+    }
+    return double.tryParse(this) ?? 0;
   }
 
   String parse2MD5String() {
