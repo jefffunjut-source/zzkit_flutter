@@ -2,6 +2,7 @@
 library zzkit;
 
 import 'dart:convert';
+import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
@@ -335,13 +336,17 @@ extension ZZExtensionArrays<T> on List<T> {
     return array;
   }
 
-  List<T>? align(int itemPerGroup, int groups) {
+  List<T>? multiple(
+      {int times = 3, int leastTims = 3, int maxCapacity = 1000}) {
     if (isEmpty) return null;
     List<T> array = [];
-    for (int i = 0; i < itemPerGroup * groups; i += length) {
-      for (int j = 0; j < length; j++) {
-        array.add(this[j]);
+    for (int i = 0; i < max(times, leastTims); i++) {
+      if (i >= leastTims) {
+        if (array.length > maxCapacity) {
+          break;
+        }
       }
+      array.addAll(this);
     }
     return array;
   }
