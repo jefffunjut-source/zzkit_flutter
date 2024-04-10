@@ -357,4 +357,9 @@ extension ZZExtensionArrays<T> on List<T> {
     }
     return array;
   }
+
+  List? reshape() {
+    if (isEmpty) return null;
+    return [this];
+  }
 }

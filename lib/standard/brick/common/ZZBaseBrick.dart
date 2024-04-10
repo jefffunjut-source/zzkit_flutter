@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: file_names, use_key_in_widget_constructors, must_be_immutable
 library zzkit;
 
@@ -21,4 +22,17 @@ class ZZBaseBrickObject<T> {
     _widget = value;
     (_widget as ZZBaseBrick).object = this;
   }
+}
+
+class ZZBrickList {
+  List dataSource = [];
+  int? crossAxisCount;
+  double? mainAxisSpacing;
+  double? crossAxisSpacing;
+  ZZBrickList({
+    required this.dataSource,
+    this.crossAxisCount,
+    this.mainAxisSpacing,
+    this.crossAxisSpacing,
+  });
 }

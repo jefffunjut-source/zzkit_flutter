@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_new
+// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_new, prefer_final_fields
 library zzkit;
 
 import 'package:flutter/cupertino.dart';
@@ -59,6 +59,9 @@ class ZZBaseListController extends GetxController {
   EdgeInsetsGeometry? brickMargin;
   EdgeInsetsGeometry? brickPadding;
 
+  // waterfall multiple types
+  bool isWaterfallMultipleType = false;
+
   ZZBaseListController({
     this.enablePulldown = true,
     this.enablePullup = true,
@@ -81,7 +84,8 @@ class ZZBaseListController extends GetxController {
   });
 
   Future<ZZAPIResponse?> beginTransaction(
-      bool nextPage, ZZAppApiRequestCallback? apiRequest) async {
+      {required bool nextPage,
+      required ZZAppApiRequestCallback? apiRequest}) async {
     if (nextPage == false) {
       _page = 1;
       nodata.value = false;
@@ -101,7 +105,11 @@ class ZZBaseListController extends GetxController {
     }
   }
 
-  void endTransaction(ZZAPIResponse? response, List? rows) {
+  void endTransaction(
+      {required ZZAPIResponse? response,
+      required List? rows,
+      int? currentPageSize}) {
+    int pageSize = currentPageSize ?? this.pageSize;
     response?.rows = rows;
     nodata.value = false;
     if (page == 1) {
@@ -127,7 +135,7 @@ class ZZBaseListController extends GetxController {
           nodata.value = true;
         }
       }
-      if (rows == null || rows.length < pageSize) {
+      if (rows == null || rows.isEmpty || rows.length < pageSize) {
         if (page == 1) {
           refreshController.refreshCompleted();
         }
@@ -139,7 +147,7 @@ class ZZBaseListController extends GetxController {
     }
   }
 
-  Future<dynamic> fetchData(bool nextPage) async {}
+  Future<dynamic> fetchData({required bool nextPage}) async {}
 }
 
 class ZZBaseListPage<T> extends StatefulWidget {
@@ -195,7 +203,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     }
 
     /// Real data
-    controller.fetchData(nextPage);
+    controller.fetchData(nextPage: nextPage);
   }
 
   Widget homeBody() {

@@ -8,6 +8,7 @@ import 'package:zzkit_flutter/standard/list/ZZBaseListPage.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
+import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -72,7 +73,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
 
   void getData(bool nextPage) async {
     ZZBaseWaterfallController controller = widget.controller;
-    controller.fetchData(nextPage);
+    controller.fetchData(nextPage: nextPage);
   }
 
   Widget homeBody() {
@@ -96,7 +97,33 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
       onLoading: () async {
         getData(true);
       },
-      child: CustomScrollView(slivers: <Widget>[
+      child: customScrollView(),
+    );
+  }
+
+  Widget customScrollView() {
+    ZZBaseWaterfallController controller = widget.controller;
+    if (controller.dataSource.safeObjectAtIndex(0) is ZZBrickList) {
+      controller.isWaterfallMultipleType = true;
+      return CustomScrollView(
+          slivers: controller.dataSource.map((element) {
+        ZZBrickList list = element;
+        return SliverMasonryGrid.count(
+          crossAxisCount: list.crossAxisCount ?? controller.crossAxisCount,
+          mainAxisSpacing:
+              list.mainAxisSpacing ?? controller.mainAxisSpacing ?? 0,
+          crossAxisSpacing:
+              list.crossAxisSpacing ?? controller.crossAxisSpacing ?? 0,
+          childCount: list.dataSource.length,
+          itemBuilder: (context, index) {
+            ZZBaseBrickObject object = list.dataSource[index];
+            return object.widget;
+          },
+        );
+      }).toList());
+    } else {
+      controller.isWaterfallMultipleType = false;
+      return CustomScrollView(slivers: <Widget>[
         SliverMasonryGrid.count(
           crossAxisCount: controller.crossAxisCount,
           mainAxisSpacing: controller.mainAxisSpacing ?? 0,
@@ -107,8 +134,8 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
             return object.widget;
           },
         )
-      ]),
-    );
+      ]);
+    }
   }
 
   @override
