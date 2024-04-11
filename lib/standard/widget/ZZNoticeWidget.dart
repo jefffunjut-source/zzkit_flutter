@@ -21,6 +21,12 @@ class ZZNoticeWidget extends StatefulWidget {
   double? noticeXFromCenter;
   double? noticeYFromCenter;
   Color? backgroundColor;
+  Color? pointBackgroundColor;
+  Color? highlightedPointBackgroundColor;
+  TextStyle? textStyle;
+  TextStyle? highlightedTextStyle;
+  Color? borderColor;
+  Color? highlightedBorderColor;
   ZZNoticeWidget({
     this.width,
     this.height,
@@ -29,6 +35,12 @@ class ZZNoticeWidget extends StatefulWidget {
     this.noticeXFromCenter,
     this.noticeYFromCenter,
     this.backgroundColor,
+    this.pointBackgroundColor,
+    this.highlightedPointBackgroundColor,
+    this.textStyle,
+    this.highlightedTextStyle,
+    this.borderColor,
+    this.highlightedBorderColor,
     super.key,
   });
 
@@ -52,50 +64,59 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
   @override
   Widget build(BuildContext context) {
     ZZNoticeController controller = Get.find();
-    return Container(
-      color: widget.backgroundColor,
-      width: width,
-      height: height,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          (widget.highlightedNoticeImage != null && widget.noticeImage != null)
-              ? Obx(() {
-                  if (controller.highlighted.value) {
-                    return widget.highlightedNoticeImage!;
-                  } else {
-                    return widget.noticeImage!;
-                  }
-                })
-              : widget.noticeImage ??
-                  ZZ.image(R.assetsImgIcNavNotice, bundleName: zzBundleName)!,
-          Obx(() => controller.noticeNumber.value.isNotEmpty
-              ? Positioned(
-                  left: width / 2 + (widget.noticeXFromCenter ?? 2),
-                  top: height / 2 - (widget.noticeYFromCenter ?? 16),
-                  child: Container(
-                    height: 12.w,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(88.w),
-                        color: zzColorRed,
-                        border: Border.all(color: Colors.red, width: 1.w)),
-                    padding: EdgeInsets.symmetric(horizontal: 2.w),
-                    alignment: Alignment.center,
-                    child: Text(
-                      controller.noticeNumber.value.isNumericOnly &&
-                              controller.noticeNumber.value.length > 2
-                          ? "···"
-                          : controller.noticeNumber.value,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: ZZ.textStyle(color: Colors.white, fontSize: 10.sp),
-                    ),
-                  ),
-                )
-              : Container())
-        ],
-      ),
-    );
+    return Obx(() => Container(
+          color: widget.backgroundColor,
+          width: width,
+          height: height,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              (widget.highlightedNoticeImage != null &&
+                      widget.noticeImage != null)
+                  ? controller.highlighted.value
+                      ? widget.highlightedNoticeImage!
+                      : widget.noticeImage!
+                  : widget.noticeImage ??
+                      ZZ.image(R.assetsImgIcNavNotice,
+                          bundleName: zzBundleName)!,
+              controller.noticeNumber.value.isNotEmpty
+                  ? Positioned(
+                      left: width / 2 + (widget.noticeXFromCenter ?? 2),
+                      top: height / 2 - (widget.noticeYFromCenter ?? 16),
+                      child: Container(
+                        height: 12.w,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(88.w),
+                            color: controller.highlighted.value
+                                ? widget.highlightedPointBackgroundColor
+                                : (widget.pointBackgroundColor ?? Colors.red),
+                            border: Border.all(
+                                color: controller.highlighted.value
+                                    ? (widget.highlightedBorderColor ??
+                                        Colors.red)
+                                    : (widget.borderColor ?? Colors.red),
+                                width: 1.w)),
+                        padding: EdgeInsets.symmetric(horizontal: 2.w),
+                        alignment: Alignment.center,
+                        child: Text(
+                          controller.noticeNumber.value.isNumericOnly &&
+                                  controller.noticeNumber.value.length > 2
+                              ? "···"
+                              : controller.noticeNumber.value,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: controller.highlighted.value
+                              ? widget.highlightedTextStyle
+                              : (widget.textStyle ??
+                                  ZZ.textStyle(
+                                      color: Colors.white, fontSize: 10.sp)),
+                        ),
+                      ),
+                    )
+                  : Container()
+            ],
+          ),
+        ));
   }
 }

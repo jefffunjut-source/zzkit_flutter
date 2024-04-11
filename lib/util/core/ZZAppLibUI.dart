@@ -453,12 +453,17 @@ extension ZZAppLibUI on ZZAppManager {
           EdgeInsets.only(top: 35.w, bottom: 8.w, left: 2.w, right: 2.w),
       indicatorWeight: indicatorWeight ?? 4.w,
       indicatorSize: TabBarIndicatorSize.label,
-      labelColor: labelColor ?? zzColorBlack,
-      labelStyle: labelStyle ??
-          ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true),
-      unselectedLabelColor: unselectedLabelColor ?? zzColorGrey99,
-      unselectedLabelStyle: unselectedLabelStyle ??
-          ZZ.textStyle(color: Colors.white, fontSize: 14.sp),
+      labelColor: labelColor ?? (labelStyle == null ? Colors.white : null),
+      unselectedLabelColor: unselectedLabelColor ??
+          (unselectedLabelStyle == null ? zzColorBlack : null),
+      labelStyle: labelColor == null
+          ? (labelStyle ??
+              ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true))
+          : null,
+      unselectedLabelStyle: unselectedLabelColor == null
+          ? (unselectedLabelStyle ??
+              ZZ.textStyle(color: Colors.white, fontSize: 14.sp))
+          : null,
       controller: controller,
     );
   }
