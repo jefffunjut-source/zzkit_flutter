@@ -97,9 +97,18 @@ class ZZAPIRequest {
         assert(
             (datas != null && datas!["id"] != null) ||
                 (params != null && params!["id"] != null),
-            "请检查输入datas或者params中必须传入一个{\"id\":\"param\"}的参数");
+            "请检查输入datas或者params中必须传入一个{\"id\":\"xxx\"}的参数");
         var id = datas?["id"] != null ? datas!["id"] : params!["id"];
         url = url.replaceAll("{id}", id.toString());
+      }
+      // url中包含{type}这样的需要替换
+      if (url.contains("{type}")) {
+        assert(
+            (datas != null && datas!["type"] != null) ||
+                (params != null && params!["type"] != null),
+            "请检查输入datas或者params中必须传入一个{\"type\":\"xxx\"}的参数");
+        var type = datas?["type"] != null ? datas!["type"] : params!["type"];
+        url = url.replaceAll("{type}", type.toString());
       }
 
       // 打印请求参数
