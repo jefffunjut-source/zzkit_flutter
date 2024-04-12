@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrick.dart';
+import 'package:zzkit_flutter/standard/nestedscrollview/ZZLoadMoreFooter.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
+import 'package:zzkit_flutter/util/ZZEvent.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
@@ -17,7 +19,15 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 typedef ZZAppApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse>
     Function();
 
+enum ZZRefreshType {
+  smartrefresh,
+  pulltorefresh,
+}
+
 class ZZBaseListController extends GetxController {
+  // 刷新加载类型
+  ZZRefreshType refreshType = ZZRefreshType.smartrefresh;
+
   // 刷新控制器
   final RefreshController _refreshController =
       RefreshController(initialRefresh: true);
@@ -63,6 +73,7 @@ class ZZBaseListController extends GetxController {
   bool isWaterfallMultipleType = false;
 
   ZZBaseListController({
+    this.refreshType = ZZRefreshType.smartrefresh,
     this.enablePulldown = true,
     this.enablePullup = true,
     this.pageSize = 20,
@@ -172,12 +183,47 @@ class ZZBaseListPage<T> extends StatefulWidget {
 
 class ZZBaseListState<T> extends State<ZZBaseListPage>
     with AutomaticKeepAliveClientMixin {
+  bool noMore = false;
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
+    ZZBaseListController controller = widget.controller;
+    if (controller.refreshType == ZZRefreshType.pulltorefresh) {
+      zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
+        _getData(false);
+      });
+      _getData(false);
+    }
   }
 
-  void getData(bool nextPage) async {
+  @override
+  Widget build(BuildContext context) {
+    ZZBaseListController controller = widget.controller;
+    super.build(context);
+    return ZZBaseScaffold(
+      safeAreaBottom: widget.safeAreaBottom,
+      backgroundColor: widget.backgroundColor,
+      appBar: widget.title == null || widget.title?.trim() == ""
+          ? null
+          : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
+      body: Obx(() => (controller).nodata.value
+          ? Center(
+              child: ZZNoDataWidget(nodata: true),
+            )
+          : controller.margin != null || controller.padding != null
+              ? Container(
+                  margin: controller.margin,
+                  padding: controller.padding,
+                  child: _homeBody(),
+                )
+              : _homeBody()),
+    );
+  }
+
+  void _getData(bool nextPage) async {
     ZZBaseListController controller = widget.controller as ZZBaseListController;
 
     /// Shimmer
@@ -206,84 +252,108 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     controller.fetchData(nextPage: nextPage);
   }
 
-  Widget homeBody() {
+  Widget _homeBody() {
     ZZBaseListController controller = widget.controller as ZZBaseListController;
-    return SmartRefresher(
-      controller: controller.refreshController,
-      enablePullUp: controller.enablePullup ?? true,
-      enablePullDown: controller.enablePulldown ?? true,
-      header: ClassicHeader(
-        idleText: controller.refreshingIdleText,
-        releaseText: controller.refreshingReleaseText,
-        refreshingText: controller.refreshingText,
-        completeText: controller.refreshingCompleteText,
-      ),
-      footer: ClassicFooter(
-        loadingText: controller.refreshingLoadingText,
-        noDataText: controller.refreshingNoDataText,
-      ),
-      onRefresh: () async {
-        getData(false);
-      },
-      onLoading: () async {
-        getData(true);
-      },
-      child: CustomScrollView(
-          controller: controller.scrollController,
-          slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  ZZBaseBrickObject object = controller.dataSource[index];
-                  if (object is ZZShimmerBrickObject) {
-                    if (object.customWidget != null) {
-                      return object.customWidget;
-                    } else if (object.widget != null) {
-                      if (controller.brickMargin != null ||
-                          controller.brickPadding != null) {
-                        return Container(
-                          margin: controller.brickMargin,
-                          padding: controller.padding,
-                          child: object.widget,
-                        );
-                      } else {
-                        return object.widget;
-                      }
+    if (controller.refreshType == ZZRefreshType.smartrefresh) {
+      return SmartRefresher(
+        controller: controller.refreshController,
+        enablePullUp: controller.enablePullup ?? true,
+        enablePullDown: controller.enablePulldown ?? true,
+        header: ClassicHeader(
+          idleText: controller.refreshingIdleText,
+          releaseText: controller.refreshingReleaseText,
+          refreshingText: controller.refreshingText,
+          completeText: controller.refreshingCompleteText,
+        ),
+        footer: ClassicFooter(
+          loadingText: controller.refreshingLoadingText,
+          noDataText: controller.refreshingNoDataText,
+        ),
+        onRefresh: () async {
+          _getData(false);
+        },
+        onLoading: () async {
+          _getData(true);
+        },
+        child: _customScrollView(),
+      );
+    } else if (controller.refreshType == ZZRefreshType.pulltorefresh) {
+      return _listView();
+    }
+    return Container();
+  }
+
+  Widget _customScrollView() {
+    ZZBaseListController controller = widget.controller as ZZBaseListController;
+    return CustomScrollView(
+        controller: controller.scrollController,
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                ZZBaseBrickObject object = controller.dataSource[index];
+                if (object is ZZShimmerBrickObject) {
+                  if (object.customWidget != null) {
+                    return object.customWidget;
+                  } else if (object.widget != null) {
+                    if (controller.brickMargin != null ||
+                        controller.brickPadding != null) {
+                      return Container(
+                        margin: controller.brickMargin,
+                        padding: controller.padding,
+                        child: object.widget,
+                      );
+                    } else {
+                      return object.widget;
                     }
                   }
-                  return object.widget;
-                },
-                childCount: controller.dataSource.length,
-              ),
+                }
+                return object.widget;
+              },
+              childCount: controller.dataSource.length,
             ),
-          ]),
-    );
+          ),
+        ]);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    ZZBaseListController controller = widget.controller;
-    super.build(context);
-    return ZZBaseScaffold(
-      safeAreaBottom: widget.safeAreaBottom,
-      backgroundColor: widget.backgroundColor,
-      appBar: widget.title == null || widget.title?.trim() == ""
-          ? null
-          : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
-      body: Obx(() => (controller).nodata.value
-          ? Center(
-              child: ZZNoDataWidget(nodata: true),
-            )
-          : controller.margin != null || controller.padding != null
-              ? Container(
-                  margin: controller.margin,
+  Widget _listView() {
+    ZZBaseListController controller = widget.controller as ZZBaseListController;
+    return ListView.builder(
+      key: widget.key,
+      physics: const ClampingScrollPhysics(),
+      itemBuilder: (BuildContext c, int index) {
+        if (index < controller.dataSource.length) {
+          ZZBaseBrickObject object = controller.dataSource[index];
+          if (object is ZZShimmerBrickObject) {
+            if (object.customWidget != null) {
+              return object.customWidget;
+            } else if (object.widget != null) {
+              if (controller.brickMargin != null ||
+                  controller.brickPadding != null) {
+                return Container(
+                  margin: controller.brickMargin,
                   padding: controller.padding,
-                  child: homeBody(),
-                )
-              : homeBody()),
+                  child: object.widget,
+                );
+              } else {
+                return object.widget;
+              }
+            }
+          }
+          return object.widget;
+        } else if (index == controller.dataSource.length && index != 0) {
+          return ZZLoadMoreFooter(
+            loadMoreBlock: () async {
+              if (noMore) return ZZLoadMoreStatus.noMoreData;
+              _getData(true);
+              return ZZLoadMoreStatus.finishLoad;
+            },
+          );
+        }
+        return Container();
+      },
+      itemCount: controller.dataSource.length + 1,
+      padding: const EdgeInsets.all(0.0),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

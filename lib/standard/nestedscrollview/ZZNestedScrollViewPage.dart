@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, file_names
+// ignore_for_file: must_be_immutable, file_names, unused_local_variable
 
 import 'dart:math';
 
@@ -10,13 +10,14 @@ import 'package:zzkit_flutter/standard/nestedscrollview/ZZPullToRefreshHeader.da
 import 'package:zzkit_flutter/standard/nestedscrollview/ZZTabItem.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/ZZEvent.dart';
+import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 class ZZNestedScrollViewPage extends StatefulWidget {
   String? name;
   Color? backgroundColor;
-  List<SliverToBoxAdapter>? topWidgets;
+  List<Widget>? topWidgets;
   List<ZZTabItem> tabs;
   List<Widget> pages;
   Color? tabIndicatorColor;
@@ -61,6 +62,14 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
   void initState() {
     super.initState();
     primaryTC = TabController(length: widget.tabs.length, vsync: this);
+    if (cachePixels == null) {
+      cachePixels = {};
+      int index = 0;
+      for (var element in widget.tabs) {
+        cachePixels!.putIfAbsent(index, () => 0.0);
+        index++;
+      }
+    }
     widget.tabIndicatorColor ??= Colors.orange.shade900;
     widget.tabIndicatorWeight ??= 2.w;
     widget.tabIndicatorRadius ??= 1.w;
@@ -97,6 +106,17 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
         NestedScrollView(
           key: _key,
           headerSliverBuilder: (BuildContext c, bool f) {
+            if (widget.topWidgets != null) {
+              return <Widget>[
+                PullToRefreshContainer(
+                  (PullToRefreshScrollNotificationInfo? info) {
+                    return SliverToBoxAdapter(
+                      child: ZZPullToRefreshHeader(info),
+                    );
+                  },
+                )
+              ].merge(widget.topWidgets!);
+            }
             return <Widget>[
               PullToRefreshContainer(
                 (PullToRefreshScrollNotificationInfo? info) {
