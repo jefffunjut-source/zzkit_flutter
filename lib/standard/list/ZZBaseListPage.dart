@@ -184,6 +184,7 @@ class ZZBaseListPage<T> extends StatefulWidget {
 class ZZBaseListState<T> extends State<ZZBaseListPage>
     with AutomaticKeepAliveClientMixin {
   bool noMore = false;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -193,7 +194,9 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     ZZBaseListController controller = widget.controller;
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
-        _getData(false);
+        if (event.key == (widget.key as PageStorageKey<String>).value) {
+          _getData(false);
+        }
       });
       _getData(false);
     }
@@ -204,12 +207,12 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     ZZBaseListController controller = widget.controller;
     super.build(context);
     return ZZBaseScaffold(
-      safeAreaBottom: widget.safeAreaBottom,
       backgroundColor: widget.backgroundColor,
+      safeAreaBottom: widget.safeAreaBottom,
       appBar: widget.title == null || widget.title?.trim() == ""
           ? null
           : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
-      body: Obx(() => (controller).nodata.value
+      body: Obx(() => controller.nodata.value
           ? Center(
               child: ZZNoDataWidget(nodata: true),
             )
@@ -224,7 +227,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   }
 
   void _getData(bool nextPage) async {
-    ZZBaseListController controller = widget.controller as ZZBaseListController;
+    ZZBaseListController controller = widget.controller;
 
     /// Shimmer
     if (controller.shimmer ?? false) {
@@ -253,7 +256,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   }
 
   Widget _homeBody() {
-    ZZBaseListController controller = widget.controller as ZZBaseListController;
+    ZZBaseListController controller = widget.controller;
     if (controller.refreshType == ZZRefreshType.smartrefresh) {
       return SmartRefresher(
         controller: controller.refreshController,
