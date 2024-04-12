@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:zzkit_flutter/standard/nestedscrollview/ZZPullToRefreshHeader.dart';
@@ -20,6 +21,8 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   List<Widget>? topWidgets;
   List<ZZTabItem> tabs;
   List<Widget> pages;
+  List<Widget>? customizedTabs;
+  RxInt? customizedTabIndex;
   Color? tabIndicatorColor;
   double? tabIndicatorRadius;
   Gradient? tabIndicatorGradient;
@@ -36,6 +39,8 @@ class ZZNestedScrollViewPage extends StatefulWidget {
       required this.topWidgets,
       required this.tabs,
       required this.pages,
+      this.customizedTabs,
+      this.customizedTabIndex,
       this.tabIndicatorColor,
       this.tabIndicatorRadius,
       this.tabIndicatorGradient,
@@ -131,18 +136,21 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
             children: <Widget>[
               Container(
                   color: Colors.white,
-                  child: ZZ.tabbarUnderline(
-                      indicatorColor: widget.tabIndicatorColor,
-                      indicatorWeight: widget.tabIndicatorWeight,
-                      indicatorRadius: widget.tabIndicatorRadius,
-                      tabAlignment: widget.tabAlignment,
-                      labelStyle: widget.tabLabelStyle,
-                      unselectedLabelStyle: widget.tabUnselectedLabelStyle,
-                      onTap: (value) {
-                        _dealScroll();
-                      },
-                      controller: primaryTC,
-                      tabs: widget.tabs.map((e) => e.title ?? "").toList())),
+                  child: widget.customizedTabs != null
+                      ? _customTabBar()
+                      : ZZ.tabbarUnderline(
+                          indicatorColor: widget.tabIndicatorColor,
+                          indicatorWeight: widget.tabIndicatorWeight,
+                          indicatorRadius: widget.tabIndicatorRadius,
+                          tabAlignment: widget.tabAlignment,
+                          labelStyle: widget.tabLabelStyle,
+                          unselectedLabelStyle: widget.tabUnselectedLabelStyle,
+                          onTap: (value) {
+                            _dealScroll();
+                          },
+                          controller: primaryTC,
+                          tabs:
+                              widget.tabs.map((e) => e.title ?? "").toList())),
               Expanded(
                 child: _tabBarView(),
               )
@@ -150,6 +158,24 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
           ),
         ),
       ),
+    );
+  }
+
+  TabBar _customTabBar() {
+    return TabBar(
+      onTap: (value) {
+        _dealScroll();
+        widget.customizedTabIndex?.value = value;
+      },
+      labelPadding: EdgeInsets.zero,
+      tabAlignment: widget.tabAlignment,
+      isScrollable: true,
+      tabs: widget.customizedTabs!,
+      indicator: const BoxDecoration(
+        color: Colors.transparent,
+      ),
+      indicatorWeight: widget.tabIndicatorWeight ?? 0,
+      controller: primaryTC,
     );
   }
 
