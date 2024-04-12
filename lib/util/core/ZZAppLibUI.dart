@@ -446,16 +446,18 @@ extension ZZAppLibUI on ZZAppManager {
               ))
           .toList(),
       indicator: BoxDecoration(
-          color: indicatorColor,
+          color: indicatorGradient == null ? indicatorColor : Colors.red,
           borderRadius: BorderRadius.circular(indicatorRadius ?? 6.w),
-          gradient: indicatorGradient ?? zzColorGradientOrangeRed),
+          gradient: indicatorColor == null
+              ? (indicatorGradient ?? zzColorGradientOrangeRed)
+              : null),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 35.w, bottom: 8.w, left: 2.w, right: 2.w),
       indicatorWeight: indicatorWeight ?? 4.w,
       indicatorSize: TabBarIndicatorSize.label,
-      labelColor: labelColor ?? (labelStyle == null ? Colors.white : null),
+      labelColor: labelColor ?? (labelStyle == null ? zzColorBlack : null),
       unselectedLabelColor: unselectedLabelColor ??
-          (unselectedLabelStyle == null ? zzColorBlack : null),
+          (unselectedLabelStyle == null ? zzColorGrey99 : null),
       labelStyle: labelColor == null
           ? (labelStyle ??
               ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true))

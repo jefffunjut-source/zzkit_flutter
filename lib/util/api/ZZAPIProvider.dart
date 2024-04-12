@@ -110,6 +110,15 @@ class ZZAPIRequest {
         var type = datas?["type"] != null ? datas!["type"] : params!["type"];
         url = url.replaceAll("{type}", type.toString());
       }
+      // url中包含{name}这样的需要替换
+      if (url.contains("{name}")) {
+        assert(
+            (datas != null && datas!["name"] != null) ||
+                (params != null && params!["name"] != null),
+            "请检查输入datas或者params中必须传入一个{\"name\":\"xxx\"}的参数");
+        var name = datas?["name"] != null ? datas!["name"] : params!["name"];
+        url = url.replaceAll("{name}", name.toString());
+      }
 
       // 打印请求参数
       debugPrint('========================Begin==========================');

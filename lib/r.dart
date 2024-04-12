@@ -21,4 +21,6 @@ class R {
   static final String assetsImgIcTextfieldPasswordOff = 'assets/img/ic_textfield_password_off.png';
   /// ![](http://127.0.0.1:9527/assets/img/ic_textfield_password_on.png)
   static final String assetsImgIcTextfieldPasswordOn = 'assets/img/ic_textfield_password_on.png';
+  /// ![](http://127.0.0.1:9527/assets/img/ic_transparent.png)
+  static final String assetsImgIcTransparent = 'assets/img/ic_transparent.png';
 }
