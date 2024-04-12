@@ -170,12 +170,15 @@ class ZZBaseListPage<T> extends StatefulWidget {
   Color? backgroundColor;
   // Scaffold 是否保留safe区域
   bool? safeAreaBottom;
+  // RefreshType == PullToRefresh时候，NestedScrollPage的name
+  String? parentName;
   ZZBaseListPage(
       {super.key,
       required this.controller,
       this.title,
       this.backgroundColor,
-      this.safeAreaBottom});
+      this.safeAreaBottom,
+      this.parentName});
 
   @override
   ZZBaseListState createState() => ZZBaseListState<T>();
@@ -194,7 +197,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     ZZBaseListController controller = widget.controller;
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
-        if (event.key == (widget.key as PageStorageKey<String>).value) {
+        if (event.name == widget.parentName) {
           _getData(false);
         }
       });

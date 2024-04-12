@@ -1,7 +1,6 @@
-// ignore_for_file: must_be_immutable, file_names, unused_local_variable
+// ignore_for_file: must_be_immutable, file_names, unused_local_variable, no_leading_underscores_for_local_identifiers
 
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,10 +18,12 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   String? name;
   Color? backgroundColor;
   List<Widget>? topWidgets;
-  List<ZZTabItem> tabs;
-  List<Widget> pages;
+  List<ZZTabItem>? tabs;
+  List<Widget>? pages;
+  // 设置自定义的Tabbar
   List<Widget>? customizedTabs;
   RxInt? customizedTabIndex;
+  // 使用通用的Tabbar，自定义一些属性
   Color? tabIndicatorColor;
   double? tabIndicatorRadius;
   Gradient? tabIndicatorGradient;
@@ -32,24 +33,35 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   TextStyle? tabUnselectedLabelStyle;
   bool? tabIsScrollable;
   TabAlignment? tabAlignment;
-  ZZNestedScrollViewPage(
-      {super.key,
-      required this.name,
-      required this.backgroundColor,
-      required this.topWidgets,
-      required this.tabs,
-      required this.pages,
-      this.customizedTabs,
-      this.customizedTabIndex,
-      this.tabIndicatorColor,
-      this.tabIndicatorRadius,
-      this.tabIndicatorGradient,
-      this.tabIndicatorPadding,
-      this.tabIndicatorWeight,
-      this.tabLabelStyle,
-      this.tabUnselectedLabelStyle,
-      this.tabIsScrollable,
-      this.tabAlignment});
+  // Tabbar Body滚动控制器
+  ScrollController? scrollController;
+  // Tabbar额外顶部高度
+  RxDouble? tabBarExtraHeight;
+  // NestedScrollView的global key
+  GlobalKey<NestedScrollViewState>? globalKey;
+
+  ZZNestedScrollViewPage({
+    super.key,
+    required this.name,
+    required this.backgroundColor,
+    required this.topWidgets,
+    required this.tabs,
+    required this.pages,
+    this.customizedTabs,
+    this.customizedTabIndex,
+    this.tabIndicatorColor,
+    this.tabIndicatorRadius,
+    this.tabIndicatorGradient,
+    this.tabIndicatorPadding,
+    this.tabIndicatorWeight,
+    this.tabLabelStyle,
+    this.tabUnselectedLabelStyle,
+    this.tabIsScrollable,
+    this.tabAlignment,
+    this.scrollController,
+    this.tabBarExtraHeight,
+    this.globalKey,
+  });
 
   @override
   ZZNestedScrollViewPageState createState() => ZZNestedScrollViewPageState();
@@ -57,24 +69,22 @@ class ZZNestedScrollViewPage extends StatefulWidget {
 
 class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     with TickerProviderStateMixin {
-  final GlobalKey<NestedScrollViewState> _key =
-      GlobalKey<NestedScrollViewState>();
   TabController? primaryTC;
   Map<int, double>? cachePixels;
   static bool inAnimating = false;
 
+  late GlobalKey<NestedScrollViewState> key;
+
   @override
   void initState() {
     super.initState();
-    primaryTC = TabController(length: widget.tabs.length, vsync: this);
-    if (cachePixels == null) {
-      cachePixels = {};
-      int index = 0;
-      for (var element in widget.tabs) {
-        cachePixels!.putIfAbsent(index, () => 0.0);
-        index++;
-      }
+
+    if (widget.globalKey != null) {
+      key = widget.globalKey!;
+    } else {
+      key = GlobalKey<NestedScrollViewState>();
     }
+
     widget.tabIndicatorColor ??= Colors.orange.shade900;
     widget.tabIndicatorWeight ??= 2.w;
     widget.tabIndicatorRadius ??= 1.w;
@@ -93,6 +103,7 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
 
   @override
   Widget build(BuildContext context) {
+    _check();
     return ZZBaseScaffold(
       safeAreaBottom: false,
       backgroundColor: widget.backgroundColor,
@@ -100,16 +111,39 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     );
   }
 
+  void _check() {
+    if (widget.tabs != null && widget.pages != null) {
+      primaryTC ??= TabController(length: widget.tabs!.length, vsync: this);
+      if (cachePixels == null) {
+        cachePixels = {};
+        int index = 0;
+        for (var element in widget.tabs!) {
+          cachePixels!.putIfAbsent(index, () => 0.0);
+          index++;
+        }
+      }
+    } else {
+      if (primaryTC != null) {
+        primaryTC?.dispose();
+        primaryTC = null;
+      }
+      if (cachePixels != null) {
+        cachePixels = null;
+      }
+    }
+  }
+
   Widget _buildScaffoldBody() {
     return PullToRefreshNotification(
       color: Colors.white,
       onRefresh: () {
-        zzEventBus.fire(ZZEventNestedScrollViewRefresh(key: widget.name));
+        zzEventBus.fire(ZZEventNestedScrollViewRefresh(name: widget.name));
         return Future(() => true);
       },
       child: GlowNotificationWidget(
         NestedScrollView(
-          key: _key,
+          controller: widget.scrollController,
+          key: key,
           headerSliverBuilder: (BuildContext c, bool f) {
             if (widget.topWidgets != null) {
               return <Widget>[
@@ -134,23 +168,7 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
           },
           body: Column(
             children: <Widget>[
-              Container(
-                  color: Colors.white,
-                  child: widget.customizedTabs != null
-                      ? _customTabBar()
-                      : ZZ.tabbarUnderline(
-                          indicatorColor: widget.tabIndicatorColor,
-                          indicatorWeight: widget.tabIndicatorWeight,
-                          indicatorRadius: widget.tabIndicatorRadius,
-                          tabAlignment: widget.tabAlignment,
-                          labelStyle: widget.tabLabelStyle,
-                          unselectedLabelStyle: widget.tabUnselectedLabelStyle,
-                          onTap: (value) {
-                            _dealScroll();
-                          },
-                          controller: primaryTC,
-                          tabs:
-                              widget.tabs.map((e) => e.title ?? "").toList())),
+              Container(color: Colors.white, child: _tabbar()),
               Expanded(
                 child: _tabBarView(),
               )
@@ -161,7 +179,41 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     );
   }
 
-  TabBar _customTabBar() {
+  Widget? _tabbar() {
+    Widget? _bar;
+    if (widget.tabs != null) {
+      if (widget.customizedTabs != null) {
+        _bar = _customizedTabBar();
+      } else {
+        _bar = ZZ.tabbarUnderline(
+            indicatorColor: widget.tabIndicatorColor,
+            indicatorWeight: widget.tabIndicatorWeight,
+            indicatorRadius: widget.tabIndicatorRadius,
+            tabAlignment: widget.tabAlignment,
+            labelStyle: widget.tabLabelStyle,
+            unselectedLabelStyle: widget.tabUnselectedLabelStyle,
+            onTap: (value) {
+              _dealScroll();
+            },
+            controller: primaryTC,
+            tabs: widget.tabs!.map((e) => e.title ?? "").toList());
+      }
+    }
+    if (widget.tabBarExtraHeight != null && _bar != null) {
+      return Column(
+        children: [
+          SizedBox(
+            width: 414.w,
+            height: widget.tabBarExtraHeight!.value,
+          ),
+          _bar
+        ],
+      );
+    }
+    return _bar;
+  }
+
+  TabBar _customizedTabBar() {
     return TabBar(
       onTap: (value) {
         _dealScroll();
@@ -180,10 +232,13 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
   }
 
   Widget _tabBarView() {
-    return TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: primaryTC,
-        children: widget.pages);
+    if (widget.pages != null) {
+      return TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: primaryTC,
+          children: widget.pages!);
+    }
+    return Container();
   }
 
   void _dealScroll() {
@@ -194,7 +249,7 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     int lastPage = primaryTC!.previousIndex;
     int currentPage = primaryTC!.index;
     int index = 0;
-    _key.currentState?.innerController.positions.forEach((element) {
+    key.currentState?.innerController.positions.forEach((element) {
       if (lastPage == index) {
         // save
         cachePixels!.update(lastPage, (value) => element.pixels);
@@ -203,7 +258,7 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     });
     double? currentPagePixel = cachePixels![currentPage];
     if (currentPagePixel != null) {
-      _key.currentState?.innerController.jumpTo(max(currentPagePixel, 0.01));
+      key.currentState?.innerController.jumpTo(max(currentPagePixel, 0.01));
     }
     inAnimating = false;
   }

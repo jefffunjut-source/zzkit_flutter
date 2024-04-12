@@ -56,12 +56,15 @@ class ZZBaseWaterfallPage<T> extends StatefulWidget {
   Color? backgroundColor;
   // Scaffold 是否保留safe区域
   bool? safeAreaBottom;
+  // RefreshType == PullToRefresh时候，NestedScrollPage的name
+  String? parentName;
   ZZBaseWaterfallPage(
       {super.key,
       required this.controller,
       this.title,
       this.backgroundColor,
-      this.safeAreaBottom});
+      this.safeAreaBottom,
+      this.parentName});
 
   @override
   ZZBaseWaterfallState createState() => ZZBaseWaterfallState<T>();
@@ -80,7 +83,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     ZZBaseListController controller = widget.controller;
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
-        if (event.key == (widget.key as PageStorageKey<String>).value) {
+        if (event.name == widget.parentName) {
           _getData(false);
         }
       });

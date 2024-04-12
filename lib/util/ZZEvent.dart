@@ -7,8 +7,8 @@ class ZZEventKeyboard {
 }
 
 class ZZEventNestedScrollViewRefresh {
-  String? key;
+  String? name;
   ZZEventNestedScrollViewRefresh({
-    required this.key,
+    required this.name,
   });
 }
