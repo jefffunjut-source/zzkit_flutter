@@ -149,11 +149,15 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
 
   Widget _customScrollView(ZZRefreshType refreshType) {
     ZZBaseWaterfallController controller = widget.controller;
+    ScrollPhysics? physics = refreshType == ZZRefreshType.pulltorefresh
+        ? const ClampingScrollPhysics()
+        : null;
+    late List<SliverMasonryGrid> slivers = [];
     if (controller.dataSource.safeObjectAtIndex(0) is ZZBrickList) {
       controller.isWaterfallMultipleType = true;
-      List<SliverMasonryGrid> slivers = controller.dataSource.map((element) {
+      for (var element in controller.dataSource) {
         ZZBrickList list = element;
-        return SliverMasonryGrid.count(
+        slivers.add(SliverMasonryGrid.count(
           crossAxisCount: list.crossAxisCount ?? controller.crossAxisCount,
           mainAxisSpacing:
               list.mainAxisSpacing ?? controller.mainAxisSpacing ?? 0,
@@ -164,8 +168,8 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
             ZZBaseBrickObject object = list.dataSource[index];
             return object.widget;
           },
-        );
-      }).toList();
+        ));
+      }
       if (refreshType == ZZRefreshType.pulltorefresh) {
         slivers.add(SliverMasonryGrid.count(
           crossAxisCount: 1,
@@ -181,21 +185,18 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           },
         ));
       }
-      return CustomScrollView(slivers: slivers);
     } else {
       controller.isWaterfallMultipleType = false;
-      List<SliverMasonryGrid> slivers = <SliverMasonryGrid>[
-        SliverMasonryGrid.count(
-          crossAxisCount: controller.crossAxisCount,
-          mainAxisSpacing: controller.mainAxisSpacing ?? 0,
-          crossAxisSpacing: controller.crossAxisSpacing ?? 0,
-          childCount: controller.dataSource.length,
-          itemBuilder: (context, index) {
-            ZZBaseBrickObject object = controller.dataSource[index];
-            return object.widget;
-          },
-        )
-      ];
+      slivers.add(SliverMasonryGrid.count(
+        crossAxisCount: controller.crossAxisCount,
+        mainAxisSpacing: controller.mainAxisSpacing ?? 0,
+        crossAxisSpacing: controller.crossAxisSpacing ?? 0,
+        childCount: controller.dataSource.length,
+        itemBuilder: (context, index) {
+          ZZBaseBrickObject object = controller.dataSource[index];
+          return object.widget;
+        },
+      ));
       if (refreshType == ZZRefreshType.pulltorefresh) {
         slivers.add(SliverMasonryGrid.count(
           crossAxisCount: 1,
@@ -211,7 +212,10 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           },
         ));
       }
-      return CustomScrollView(slivers: slivers);
     }
+    return CustomScrollView(
+      slivers: slivers,
+      physics: physics,
+    );
   }
 }
