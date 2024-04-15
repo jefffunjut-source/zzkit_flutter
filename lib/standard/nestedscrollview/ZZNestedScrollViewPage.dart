@@ -220,7 +220,7 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
         widget.customizedTabIndex?.value = value;
       },
       labelPadding: EdgeInsets.zero,
-      tabAlignment: widget.tabAlignment,
+      tabAlignment: widget.tabAlignment ?? TabAlignment.start,
       isScrollable: true,
       tabs: widget.customizedTabs!,
       indicator: const BoxDecoration(

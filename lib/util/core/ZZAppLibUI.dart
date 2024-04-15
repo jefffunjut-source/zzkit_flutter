@@ -321,6 +321,7 @@ extension ZZAppLibUI on ZZAppManager {
       List<Widget>? actions,
       PreferredSizeWidget? bottom,
       double? elevation = 0,
+      Color? surfaceTintColor,
       bool automaticallyImplyLeading = true,
       ZZAppBarIcon? leftIcon = ZZAppBarIcon.backblack,
       VoidCallback? onLeftIconTap,
@@ -346,6 +347,7 @@ extension ZZAppLibUI on ZZAppManager {
       titleSpacing: titleSpacing,
       bottom: bottom,
       elevation: elevation,
+      surfaceTintColor: surfaceTintColor ?? Colors.transparent,
       automaticallyImplyLeading: automaticallyImplyLeading,
       leading: appbarIconString(leftIcon) == null
           ? Container()
