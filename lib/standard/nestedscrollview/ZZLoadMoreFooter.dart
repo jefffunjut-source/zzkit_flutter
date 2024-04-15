@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:zzkit_flutter/standard/list/ZZBaseListPage.dart';
 import 'package:zzkit_flutter/standard/widget/ZZCircleIndicator.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
@@ -12,9 +13,11 @@ import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 enum ZZLoadMoreStatus { notStart, loading, finishLoad, noMoreData }
 
 class ZZLoadMoreFooter extends StatefulWidget {
+  ZZBaseListController controller;
   final Future<ZZLoadMoreStatus?> Function()? loadMoreBlock; // 定义 moreBlock 属性
   Color? bgColor;
-  ZZLoadMoreFooter({this.loadMoreBlock, this.bgColor, super.key});
+  ZZLoadMoreFooter(
+      {required this.controller, this.loadMoreBlock, this.bgColor, super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,14 +27,12 @@ class ZZLoadMoreFooter extends StatefulWidget {
 
 class ZZLoadMoreFooterState extends State<ZZLoadMoreFooter> {
   Future<ZZLoadMoreStatus?> Function()? loadMoreBlock;
-  late Rx<ZZLoadMoreStatus> status;
   int lastTime = 0;
 
   @override
   void initState() {
     super.initState();
     loadMoreBlock = widget.loadMoreBlock;
-    status = ZZLoadMoreStatus.notStart.obs;
   }
 
   @override
@@ -41,8 +42,8 @@ class ZZLoadMoreFooterState extends State<ZZLoadMoreFooter> {
         if (!mounted) {
           return;
         }
-        if (status.value == ZZLoadMoreStatus.loading ||
-            status.value == ZZLoadMoreStatus.noMoreData) {
+        if (widget.controller.status.value == ZZLoadMoreStatus.loading ||
+            widget.controller.status.value == ZZLoadMoreStatus.noMoreData) {
           return;
         }
         int current = DateTime.now().microsecondsSinceEpoch;
@@ -52,9 +53,8 @@ class ZZLoadMoreFooterState extends State<ZZLoadMoreFooter> {
           return;
         }
         if (loadMoreBlock != null) {
-          status.value = ZZLoadMoreStatus.loading;
           loadMoreBlock!().then((value) {
-            status.value = value ?? ZZLoadMoreStatus.loading;
+            widget.controller.status.value = value ?? ZZLoadMoreStatus.loading;
           });
         }
       },
@@ -66,7 +66,7 @@ class ZZLoadMoreFooterState extends State<ZZLoadMoreFooter> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                status.value == ZZLoadMoreStatus.noMoreData
+                widget.controller.status.value == ZZLoadMoreStatus.noMoreData
                     ? Container()
                     : ZZCircleIndicator(
                         width: 16.w,
@@ -78,7 +78,8 @@ class ZZLoadMoreFooterState extends State<ZZLoadMoreFooter> {
                   margin: EdgeInsets.only(left: 10.w),
                   child: Center(
                     child: Text(
-                      status.value == ZZLoadMoreStatus.noMoreData
+                      widget.controller.status.value ==
+                              ZZLoadMoreStatus.noMoreData
                           ? "到底了"
                           : "加载中...",
                       style: ZZ.textStyle(color: Colors.grey, fontSize: 12.sp),

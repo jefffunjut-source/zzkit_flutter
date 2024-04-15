@@ -43,6 +43,8 @@ class ZZBaseListController extends GetxController {
   RxBool get nodata => _nodata;
   final RxList<dynamic> _dataSource = <dynamic>[].obs;
   RxList<dynamic> get dataSource => _dataSource;
+  Rx<ZZLoadMoreStatus> _status = ZZLoadMoreStatus.notStart.obs;
+  Rx<ZZLoadMoreStatus> get status => _status;
 
   // 滑动控制器
   ScrollController? scrollController;
@@ -97,6 +99,7 @@ class ZZBaseListController extends GetxController {
   Future<ZZAPIResponse?> beginTransaction(
       {required bool nextPage,
       required ZZAppApiRequestCallback? apiRequest}) async {
+    status.value = ZZLoadMoreStatus.loading;
     if (nextPage == false) {
       _page = 1;
       nodata.value = false;
@@ -133,6 +136,7 @@ class ZZBaseListController extends GetxController {
       ZZ.toast(error.errorMessage);
       refreshController.loadComplete();
       refreshController.refreshCompleted();
+      status.value = ZZLoadMoreStatus.finishLoad;
     } else {
       dataSource.removeWhere((element) {
         if (element is ZZShimmerBrickObject) {
@@ -151,9 +155,11 @@ class ZZBaseListController extends GetxController {
           refreshController.refreshCompleted();
         }
         refreshController.loadNoData();
+        status.value = ZZLoadMoreStatus.noMoreData;
       } else {
         refreshController.loadComplete();
         refreshController.refreshCompleted();
+        status.value = ZZLoadMoreStatus.finishLoad;
       }
     }
   }
@@ -168,6 +174,8 @@ class ZZBaseListPage<T> extends StatefulWidget {
   String? title;
   // Scaffold 背景色
   Color? backgroundColor;
+  // Scaffold内第一层容器背景色，用于margin和padding
+  Color? secondBackgroundColor;
   // Scaffold 是否保留safe区域
   bool? safeAreaBottom;
   // RefreshType == PullToRefresh时候，NestedScrollPage的name
@@ -177,6 +185,7 @@ class ZZBaseListPage<T> extends StatefulWidget {
       required this.controller,
       this.title,
       this.backgroundColor,
+      this.secondBackgroundColor,
       this.safeAreaBottom,
       this.parentName});
 
@@ -221,6 +230,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
             )
           : controller.margin != null || controller.padding != null
               ? Container(
+                  color: widget.secondBackgroundColor,
                   margin: controller.margin,
                   padding: controller.padding,
                   child: _homeBody(),
@@ -290,7 +300,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   }
 
   Widget _customScrollView() {
-    ZZBaseListController controller = widget.controller as ZZBaseListController;
+    ZZBaseListController controller = widget.controller;
     return CustomScrollView(
         controller: controller.scrollController,
         slivers: <Widget>[
@@ -323,7 +333,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   }
 
   Widget _listView() {
-    ZZBaseListController controller = widget.controller as ZZBaseListController;
+    ZZBaseListController controller = widget.controller;
     return ListView.builder(
       key: widget.key,
       physics: const ClampingScrollPhysics(),
@@ -349,6 +359,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           return object.widget;
         } else if (index == controller.dataSource.length && index != 0) {
           return ZZLoadMoreFooter(
+            controller: controller,
             loadMoreBlock: () async {
               if (noMore) return ZZLoadMoreStatus.noMoreData;
               _getData(true);

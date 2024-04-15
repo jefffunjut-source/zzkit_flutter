@@ -54,6 +54,8 @@ class ZZBaseWaterfallPage<T> extends StatefulWidget {
   String? title;
   // Scaffold 背景色
   Color? backgroundColor;
+  // Scaffold内第一层容器背景色，用于margin和padding
+  Color? secondBackgroundColor;
   // Scaffold 是否保留safe区域
   bool? safeAreaBottom;
   // RefreshType == PullToRefresh时候，NestedScrollPage的name
@@ -63,6 +65,7 @@ class ZZBaseWaterfallPage<T> extends StatefulWidget {
       required this.controller,
       this.title,
       this.backgroundColor,
+      this.secondBackgroundColor,
       this.safeAreaBottom,
       this.parentName});
 
@@ -107,6 +110,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
             )
           : controller.margin != null || controller.padding != null
               ? Container(
+                  color: widget.secondBackgroundColor,
                   margin: controller.margin,
                   padding: controller.padding,
                   child: _homeBody(),
@@ -179,6 +183,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           childCount: 1,
           itemBuilder: (context, i) {
             return ZZLoadMoreFooter(
+              controller: controller,
               loadMoreBlock: () async {
                 if (noMore) return ZZLoadMoreStatus.noMoreData;
                 _getData(true);
@@ -206,6 +211,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           childCount: 1,
           itemBuilder: (context, i) {
             return ZZLoadMoreFooter(
+              controller: controller,
               loadMoreBlock: () async {
                 if (noMore) return ZZLoadMoreStatus.noMoreData;
                 _getData(true);
