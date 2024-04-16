@@ -108,7 +108,9 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           ? Center(
               child: ZZNoDataWidget(nodata: true),
             )
-          : controller.margin != null || controller.padding != null
+          : controller.margin != null ||
+                  controller.padding != null ||
+                  widget.secondBackgroundColor != null
               ? Container(
                   color: widget.secondBackgroundColor,
                   margin: controller.margin,
@@ -159,22 +161,25 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     ScrollPhysics? physics = refreshType == ZZRefreshType.pulltorefresh
         ? const ClampingScrollPhysics()
         : null;
-    late List<SliverMasonryGrid> slivers = [];
+    late List<Widget> slivers = [];
     if (controller.dataSource.safeObjectAtIndex(0) is ZZBrickList) {
       controller.isWaterfallMultipleType = true;
       for (var element in controller.dataSource) {
         ZZBrickList list = element;
-        slivers.add(SliverMasonryGrid.count(
-          crossAxisCount: list.crossAxisCount ?? controller.crossAxisCount,
-          mainAxisSpacing:
-              list.mainAxisSpacing ?? controller.mainAxisSpacing ?? 0,
-          crossAxisSpacing:
-              list.crossAxisSpacing ?? controller.crossAxisSpacing ?? 0,
-          childCount: list.dataSource.length,
-          itemBuilder: (context, index) {
-            ZZBaseBrickObject object = list.dataSource[index];
-            return object.widget;
-          },
+        slivers.add(SliverPadding(
+          padding: list.padding ?? EdgeInsets.zero,
+          sliver: SliverMasonryGrid.count(
+            crossAxisCount: list.crossAxisCount ?? controller.crossAxisCount,
+            mainAxisSpacing:
+                list.mainAxisSpacing ?? controller.mainAxisSpacing ?? 0,
+            crossAxisSpacing:
+                list.crossAxisSpacing ?? controller.crossAxisSpacing ?? 0,
+            childCount: list.dataSource.length,
+            itemBuilder: (context, index) {
+              ZZBaseBrickObject object = list.dataSource[index];
+              return object.widget;
+            },
+          ),
         ));
       }
       if (refreshType == ZZRefreshType.pulltorefresh) {
@@ -225,6 +230,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     return CustomScrollView(
       slivers: slivers,
       physics: physics,
+      controller: controller.scrollController,
     );
   }
 }

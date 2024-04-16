@@ -3,6 +3,7 @@
 library zzkit;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ZZBaseBrick<T> extends StatelessWidget {
   // 控件的数据
@@ -29,10 +30,11 @@ class ZZBrickList {
   int? crossAxisCount;
   double? mainAxisSpacing;
   double? crossAxisSpacing;
-  ZZBrickList({
-    required this.dataSource,
-    this.crossAxisCount,
-    this.mainAxisSpacing,
-    this.crossAxisSpacing,
-  });
+  EdgeInsetsGeometry? padding;
+  ZZBrickList(
+      {required this.dataSource,
+      this.crossAxisCount,
+      this.mainAxisSpacing,
+      this.crossAxisSpacing,
+      this.padding});
 }

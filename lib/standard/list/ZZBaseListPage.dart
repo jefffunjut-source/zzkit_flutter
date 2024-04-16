@@ -228,7 +228,9 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           ? Center(
               child: ZZNoDataWidget(nodata: true),
             )
-          : controller.margin != null || controller.padding != null
+          : controller.margin != null ||
+                  controller.padding != null ||
+                  widget.secondBackgroundColor != null
               ? Container(
                   color: widget.secondBackgroundColor,
                   margin: controller.margin,
@@ -336,6 +338,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     ZZBaseListController controller = widget.controller;
     return ListView.builder(
       key: widget.key,
+      controller: controller.scrollController,
       physics: const ClampingScrollPhysics(),
       itemBuilder: (BuildContext c, int index) {
         if (index < controller.dataSource.length) {
