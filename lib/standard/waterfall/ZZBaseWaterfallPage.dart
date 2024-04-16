@@ -76,6 +76,7 @@ class ZZBaseWaterfallPage<T> extends StatefulWidget {
 class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     with AutomaticKeepAliveClientMixin {
   bool noMore = false;
+  int lastTime = 0;
 
   @override
   bool get wantKeepAlive => true;
@@ -90,8 +91,8 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           _getData(false);
         }
       });
-      _getData(false);
     }
+    _getData(false);
   }
 
   @override
@@ -123,6 +124,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
 
   void _getData(bool nextPage) async {
     ZZBaseWaterfallController controller = widget.controller;
+    controller.lastRefreshTime = DateTime.now().millisecondsSinceEpoch;
     controller.fetchData(nextPage: nextPage);
   }
 

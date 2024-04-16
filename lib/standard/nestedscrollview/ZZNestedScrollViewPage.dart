@@ -20,6 +20,8 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   List<Widget>? topWidgets;
   List<ZZTabItem>? tabs;
   List<Widget>? pages;
+  int? initialPageIndex;
+  ZZAppCallback1Int? pageSelected;
   // 设置自定义的Tabbar
   List<Widget>? customizedTabs;
   RxInt? customizedTabIndex;
@@ -47,6 +49,8 @@ class ZZNestedScrollViewPage extends StatefulWidget {
     required this.topWidgets,
     required this.tabs,
     required this.pages,
+    this.initialPageIndex,
+    this.pageSelected,
     this.customizedTabs,
     this.customizedTabIndex,
     this.tabIndicatorColor,
@@ -113,7 +117,12 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
 
   void _check() {
     if (widget.tabs != null && widget.pages != null) {
-      primaryTC ??= TabController(length: widget.tabs!.length, vsync: this);
+      primaryTC ??= TabController(
+        length: widget.tabs!.length,
+        vsync: this,
+        initialIndex: widget.initialPageIndex ?? 0,
+      );
+
       if (cachePixels == null) {
         cachePixels = {};
         int index = 0;
@@ -194,6 +203,9 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
             unselectedLabelStyle: widget.tabUnselectedLabelStyle,
             onTap: (value) {
               _dealScroll();
+              if (widget.pageSelected != null) {
+                widget.pageSelected!(value);
+              }
             },
             controller: primaryTC,
             tabs: widget.tabs!.map((e) => e.title ?? "").toList());
@@ -217,6 +229,9 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     return TabBar(
       onTap: (value) {
         _dealScroll();
+        if (widget.pageSelected != null) {
+          widget.pageSelected!(value);
+        }
         widget.customizedTabIndex?.value = value;
       },
       labelPadding: EdgeInsets.zero,

@@ -35,6 +35,9 @@ class ZZBaseListController extends GetxController {
   bool? enablePulldown;
   bool? enablePullup;
 
+  // 刷新时间
+  int lastRefreshTime = 0;
+
   // 数据
   int _page = 1;
   int get page => _page;
@@ -210,8 +213,8 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           _getData(false);
         }
       });
-      _getData(false);
     }
+    _getData(false);
   }
 
   @override
@@ -243,6 +246,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
 
   void _getData(bool nextPage) async {
     ZZBaseListController controller = widget.controller;
+    controller.lastRefreshTime = DateTime.now().millisecondsSinceEpoch;
 
     /// Shimmer
     if (controller.shimmer ?? false) {
