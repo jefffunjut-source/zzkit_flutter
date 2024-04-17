@@ -2,6 +2,7 @@
 library zzkit;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:zzkit_flutter/standard/list/ZZBaseListPage.dart';
@@ -107,7 +108,11 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
       body: Obx(() => controller.nodata.value
           ? Center(
-              child: ZZNoDataWidget(nodata: true),
+              child: ZZNoDataWidget(
+                nodata: true,
+                paddingTop: 100.w,
+                paddingBottom: 0,
+              ),
             )
           : controller.margin != null ||
                   controller.padding != null ||

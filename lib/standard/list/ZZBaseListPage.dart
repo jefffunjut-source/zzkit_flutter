@@ -4,6 +4,7 @@ library zzkit;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrick.dart';
 import 'package:zzkit_flutter/standard/nestedscrollview/ZZLoadMoreFooter.dart';
@@ -229,7 +230,11 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
       body: Obx(() => controller.nodata.value
           ? Center(
-              child: ZZNoDataWidget(nodata: true),
+              child: ZZNoDataWidget(
+                nodata: true,
+                paddingTop: 100.w,
+                paddingBottom: 0,
+              ),
             )
           : controller.margin != null ||
                   controller.padding != null ||

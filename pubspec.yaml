@@ -60,6 +60,7 @@ flutter:
     - assets/img/ic_nav_notice.png
     - assets/img/ic_placeholder_image.png
     - assets/img/ic_placeholder_no_data.png
+    - assets/img/ic_scroll_to_top.png
     - assets/img/ic_textfield_delete.png
     - assets/img/ic_textfield_password_off.png
     - assets/img/ic_textfield_password_on.png

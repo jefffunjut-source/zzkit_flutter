@@ -16,6 +16,7 @@ class ZZBaseScaffold extends Scaffold {
   final Color? backgroundColor;
 
   final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   VoidCallback? retryCallback;
 
@@ -42,6 +43,7 @@ class ZZBaseScaffold extends Scaffold {
     this.body,
     this.backgroundColor = Colors.white,
     this.floatingActionButton,
+    this.floatingActionButtonLocation,
     this.retryCallback,
     this.popInvokedCallback,
     this.nodata = false,
@@ -52,12 +54,12 @@ class ZZBaseScaffold extends Scaffold {
     this.safeAreaBottom = true,
     this.isHomePage,
   }) : super(
-          appBar: appBar,
-          body: body,
-          backgroundColor: backgroundColor,
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          floatingActionButton: floatingActionButton,
-        );
+            appBar: appBar,
+            body: body,
+            backgroundColor: backgroundColor,
+            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+            floatingActionButton: floatingActionButton,
+            floatingActionButtonLocation: floatingActionButtonLocation);
 
   @override
   ScaffoldState createState() {
@@ -127,4 +129,23 @@ class ZZBaseScaffoldState extends ScaffoldState {
           ])),
     );
   }
+}
+
+class ZZFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  final double offsetX;
+  final double offsetY;
+
+  const ZZFloatingActionButtonLocation(this.offsetX, this.offsetY);
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    final double x = scaffoldGeometry.scaffoldSize.width - offsetX;
+    final double y = scaffoldGeometry.scaffoldSize.height -
+        scaffoldGeometry.bottomSheetSize.height -
+        offsetY;
+    return Offset(x, y);
+  }
+
+  @override
+  String toString() => 'FloatingActionButtonLocation.custom';
 }
