@@ -248,7 +248,8 @@ extension ZZAppLibUtil on ZZAppManager {
     return false;
   }
 
-  void save(String key, var value) {
-    Get.put(key);
+  void debugPrintTime({String? keyword}) {
+    debugPrint(
+        "keyword=$keyword  ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}:${DateTime.now().millisecond}");
   }
 }
