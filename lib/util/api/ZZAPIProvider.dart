@@ -78,7 +78,8 @@ class ZZAPIRequest {
     String url = apiUrl;
 
     provider.updateDio();
-
+    String? debugInfo;
+    String? responseStr;
     try {
       // 支持Charles抓包
       // ignore: deprecated_member_use
@@ -121,17 +122,9 @@ class ZZAPIRequest {
       }
 
       // 打印请求参数
-      debugPrint('========================Begin==========================');
-      debugPrint('==================== ZZAPI Request ====================');
-      debugPrint("url = $url");
-      debugPrint('headers =  ${zzDio.options.headers}');
-      debugPrint('baseUrl =  ${zzDio.options.baseUrl}');
-      debugPrint("params = $params");
-      debugPrint("datas = $datas");
-      debugPrint("enableFormData = " +
-          (enableFormData ? "enableFormData" : "disableFormData"));
-      debugPrint("enableErrorToast = " +
-          (enableErrorToast ? "enableErrorToast" : "disableErrorToast"));
+      debugPrint(
+          '[[[ZZAPI Request==[url = $url][headers =  ${zzDio.options.headers}][baseUrl = ${zzDio.options.baseUrl}][params = $params][datas = $datas][enableFormData = $enableFormData][enableErrorToast = $enableErrorToast]',
+          wrapWidth: null);
 
       dynamic response;
       switch (httpMethod) {
@@ -165,9 +158,9 @@ class ZZAPIRequest {
           }
       }
 
-      debugPrint("==================== ZZAPI Response ====================");
-      debugPrint("url = $url");
-      debugPrint("response = ${response.data}");
+      debugInfo = "==ZZAPI Response 1==[url = $url]";
+      responseStr = "]]]ZZAPI Response 2==[response = ${response.data}]";
+      responseStr = responseStr.replaceAll("\n", "");
 
       var body = response.data;
       if (body is String) {
@@ -179,9 +172,9 @@ class ZZAPIRequest {
 
       if ((resp.code is String && resp.code == "0") ||
           ((resp.code is int || resp.code is Int) && resp.code == 0)) {
-        debugPrint("请求成功");
+        debugInfo = "$debugInfo[请求成功]";
       } else {
-        debugPrint("请求失败");
+        debugInfo = "$debugInfo[请求失败]";
         if (resp.msg != null && resp.msg is String) {
           if (enableErrorToast) {
             ZZ.toast(resp.msg);
@@ -196,22 +189,22 @@ class ZZAPIRequest {
       if (e is DioException && e.type == DioExceptionType.cancel) {
         // 豁免该类报错
         // 用户手动取消或者页面退出取消请求
-        debugPrint('请求取消');
+        debugInfo = "$debugInfo[请求取消]";
         error = null;
         resp = null;
       } else if (e.toString().toLowerCase().contains("timeout")) {
         // 豁免Toast该类报错
-        debugPrint("请求超时");
+        debugInfo = "$debugInfo[请求超时]";
         error = ZZAPIError(code: "-1", errorMessage: "Timeout");
         resp = null;
       } else if (e.toString().toLowerCase().contains("os error")) {
         // 豁免Toast该类报错
-        debugPrint("请求OS Error");
-        debugPrint(e.toString());
+        debugInfo = "$debugInfo[请求OS Error]";
         error = ZZAPIError(code: "-2", errorMessage: "OS Error");
         resp = null;
       } else if (e is TypeError) {
-        debugPrint("请求Type异常\n\n$e\n\n${e.stackTrace}");
+        debugInfo =
+            "$debugInfo[请求Type异常 error:${e.toString()} stackTrace:${e.stackTrace}]";
         ZZ.toast(
             (enableDetailedError
                 ? "Something around type goes wrong with server.Please try again later.\n\n$e\n\n${e.stackTrace}"
@@ -221,9 +214,7 @@ class ZZAPIRequest {
         resp = null;
       } else {
         String errorString = e.toString();
-        debugPrint("请求其它异常\n\n$errorString");
-        debugPrint("url = $url");
-        debugPrint("errorString = $errorString");
+        debugInfo = "$debugInfo[请求其它异常 error:$errorString]";
         ZZ.toast(enableDetailedError
             ? "Something goes wrong with server.Please try again later.\n\n$errorString"
             : "Something goes wrong with server.Please try again later.");
@@ -231,7 +222,8 @@ class ZZAPIRequest {
         resp = null;
       }
     }
-    debugPrint('=========================End============================');
+    debugPrint(debugInfo);
+    print(responseStr);
     return ZZAPIResponse(resp, error);
   }
 }
