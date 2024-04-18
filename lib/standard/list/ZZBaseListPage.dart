@@ -1,9 +1,7 @@
 // ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_new, prefer_final_fields
 library zzkit;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrick.dart';
