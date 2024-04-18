@@ -223,7 +223,7 @@ class ZZAPIRequest {
       }
     }
     debugPrint(debugInfo);
-    print(responseStr);
+    debugPrint(responseStr);
     return ZZAPIResponse(resp, error);
   }
 }

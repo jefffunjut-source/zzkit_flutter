@@ -53,6 +53,8 @@ class ZZBaseWaterfallPage<T> extends StatefulWidget {
   T controller;
   // Scaffold 标题
   String? title;
+  // Scaffold 自定义appbar
+  AppBar? appBar;
   // Scaffold 背景色
   Color? backgroundColor;
   // Scaffold内第一层容器背景色，用于margin和padding
@@ -65,6 +67,7 @@ class ZZBaseWaterfallPage<T> extends StatefulWidget {
       {super.key,
       required this.controller,
       this.title,
+      this.appBar,
       this.backgroundColor,
       this.secondBackgroundColor,
       this.safeAreaBottom,
@@ -103,9 +106,10 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     return ZZBaseScaffold(
       backgroundColor: widget.backgroundColor,
       safeAreaBottom: widget.safeAreaBottom,
-      appBar: widget.title == null || widget.title?.trim() == ""
-          ? null
-          : ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack),
+      appBar: widget.appBar ??
+          (widget.title != null
+              ? ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack)
+              : null),
       body: Obx(() => controller.nodata.value
           ? Center(
               child: ZZNoDataWidget(
@@ -138,7 +142,8 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     if (controller.refreshType == ZZRefreshType.smartrefresh) {
       return SmartRefresher(
         controller: controller.refreshController,
-        enablePullUp: true,
+        enablePullUp: controller.enablePullup ?? true,
+        enablePullDown: controller.enablePulldown ?? true,
         header: ClassicHeader(
           idleText: controller.refreshingIdleText,
           releaseText: controller.refreshingReleaseText,
