@@ -49,7 +49,7 @@ class ZZAdPageState extends State<ZZAdPage> {
                 width: zzScreenWidth,
                 height: zzScreenHeight,
                 fit: BoxFit.cover,
-                url: adData?.pic,
+                imageUrl: adData?.pic,
               ),
             ),
             adData != null
