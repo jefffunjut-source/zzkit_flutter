@@ -54,12 +54,13 @@ class ZZBaseScaffold extends Scaffold {
     this.safeAreaBottom = true,
     this.isHomePage,
   }) : super(
-            appBar: appBar,
-            body: body,
-            backgroundColor: backgroundColor,
-            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-            floatingActionButton: floatingActionButton,
-            floatingActionButtonLocation: floatingActionButtonLocation);
+          appBar: appBar,
+          body: body,
+          backgroundColor: backgroundColor,
+          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          floatingActionButton: floatingActionButton,
+          floatingActionButtonLocation: floatingActionButtonLocation,
+        );
 
   @override
   ScaffoldState createState() {

@@ -43,7 +43,7 @@ class ZZTextFieldWidget extends StatefulWidget {
     this.enableClearIcon = false,
     this.enableEncryption = false,
     this.enableEncryptionIcon = false,
-    this.contentPadding = 16.0,
+    this.contentPadding = 12,
     this.style,
     this.hintStyle,
     this.textAlign = TextAlign.start,
