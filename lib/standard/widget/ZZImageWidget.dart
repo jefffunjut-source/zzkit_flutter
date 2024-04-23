@@ -1,11 +1,8 @@
 // ignore_for_file: unused_field, library_private_types_in_public_api, file_names
-
-import 'dart:ffi';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
@@ -64,7 +61,7 @@ class ZZImageWidget extends StatefulWidget {
 class _ZZImageWidgetState extends State<ZZImageWidget> {
   bool _loading = true;
   bool _error = false;
-  bool _success = false;
+  dynamic _lastSuccessRes;
   ZZCustomImageInfo? customImageInfo;
   double? adjustedHeight;
   double? adjustedWidth;
@@ -76,24 +73,30 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_success) {
-      if (widget.imageBase64 != null) {
-        _getImageInfoFromBase64();
-      } else if (widget.imageUrl != null) {
-        _getImageInfo();
-      }
-    }
     if (widget.imageBase64 == null && widget.imageUrl == null) {
       return Container();
     }
-    if (_error) {
-      return _errorWidget();
+    if (widget.imageBase64 != null) {
+      if (_lastSuccessRes is Uint8List &&
+          _lastSuccessRes == widget.imageBase64) {
+      } else {
+        _getImageInfoFromBase64();
+      }
+    } else if (widget.imageUrl != null) {
+      if (_lastSuccessRes is String && _lastSuccessRes == widget.imageUrl) {
+      } else {
+        _getImageInfo();
+      }
     }
 
-    if (_loading) {
-      return _placehoderWidget();
+    if (_error) {
+      return _errorWidget();
     } else {
-      return _imageWidgetWithRadius();
+      if (_loading) {
+        return _placehoderWidget();
+      } else {
+        return _imageWidgetWithRadius();
+      }
     }
   }
 
@@ -191,7 +194,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
         widget.onImageLoaded!(customImageInfo);
       }
       _adjustSize();
-      _success = true;
+      _lastSuccessRes = widget.imageBase64;
     } catch (e) {
       setState(() {
         _loading = false;
@@ -225,7 +228,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
                 widget.onImageLoaded!(customImageInfo);
               }
               _adjustSize();
-              _success = true;
+              _lastSuccessRes = widget.imageUrl;
             },
           ),
         );
