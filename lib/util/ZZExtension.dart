@@ -316,37 +316,25 @@ extension ZZExtensionArrays<T> on List<T> {
     return [...this, ...other];
   }
 
-  List<List<T>>? convertToPairs() {
-    if (isEmpty) {
-      return null;
-    }
-    List<List<T>> result = [];
-    for (int i = 0; i < length - 1; i += 2) {
-      if (i + 1 <= length - 1) {
-        result.add([this[i], this[i + 1]]);
-      } else {
-        result.add([this[i]]);
-      }
-    }
-    return result;
-  }
-
-  List<List<T>>? convertToTuples(
-      {required int itemPerTuple, bool cutoff = true}) {
+  List<List<T>>? tuples({required int itemsPerTuple, bool cutoff = true}) {
     if (isEmpty) return null;
     List<List<T>> array = [];
     List<T> tuple = [];
     for (int index = 0; index < length; index++) {
       T element = this[index];
-      if (tuple.length == itemPerTuple) {
+      if (tuple.length == itemsPerTuple) {
         array.add(tuple);
         tuple = [];
         tuple.add(element);
-      } else if (tuple.length < itemPerTuple) {
+      } else if (tuple.length < itemsPerTuple) {
         tuple.add(element);
       }
     }
-    if (!cutoff) {
+    if (cutoff) {
+      if (tuple.length == itemsPerTuple) {
+        array.add(tuple);
+      }
+    } else {
       array.add(tuple);
     }
     return array;
