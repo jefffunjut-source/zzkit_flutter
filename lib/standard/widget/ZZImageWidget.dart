@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field, library_private_types_in_public_api, file_names
 
+import 'dart:ffi';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -63,6 +64,7 @@ class ZZImageWidget extends StatefulWidget {
 class _ZZImageWidgetState extends State<ZZImageWidget> {
   bool _loading = true;
   bool _error = false;
+  bool _success = false;
   ZZCustomImageInfo? customImageInfo;
   double? adjustedHeight;
   double? adjustedWidth;
@@ -70,21 +72,22 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   @override
   void initState() {
     super.initState();
-    if (widget.imageBase64 != null) {
-      _getImageInfoFromBase64();
-    } else if (widget.imageUrl != null) {
-      _getImageInfo();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_success) {
+      if (widget.imageBase64 != null) {
+        _getImageInfoFromBase64();
+      } else if (widget.imageUrl != null) {
+        _getImageInfo();
+      }
+    }
     if (widget.imageBase64 == null && widget.imageUrl == null) {
       return Container();
     }
     if (_error) {
-      return widget.errorPlaceholderImage ??
-          Container(color: Colors.grey, child: const Icon(Icons.error));
+      return _errorWidget();
     }
 
     if (_loading) {
@@ -113,8 +116,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   }
 
   Widget _errorWidget() {
-    return widget.errorPlaceholderImage ??
-        Container(color: Colors.grey, child: const Icon(Icons.error));
+    return widget.errorPlaceholderImage ?? _placehoderWidget();
   }
 
   Widget _imageWidgetWithRadius() {
@@ -189,6 +191,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
         widget.onImageLoaded!(customImageInfo);
       }
       _adjustSize();
+      _success = true;
     } catch (e) {
       setState(() {
         _loading = false;
@@ -222,6 +225,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
                 widget.onImageLoaded!(customImageInfo);
               }
               _adjustSize();
+              _success = true;
             },
           ),
         );

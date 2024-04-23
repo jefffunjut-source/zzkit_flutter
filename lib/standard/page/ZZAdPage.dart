@@ -44,7 +44,7 @@ class ZZAdPageState extends State<ZZAdPage> {
             Container(
               width: zzScreenWidth,
               height: zzScreenHeight,
-              color: Colors.transparent,
+              color: Colors.white,
               child: ZZImageWidget(
                 width: zzScreenWidth,
                 height: zzScreenHeight,
