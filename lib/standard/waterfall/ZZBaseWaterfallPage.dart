@@ -116,6 +116,12 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
                 nodata: true,
                 paddingTop: 100.w,
                 paddingBottom: 0,
+                onTap: () {
+                  ZZ.show();
+                  _getData(false);
+                  Future.delayed(const Duration(seconds: 1))
+                      .then((value) => ZZ.dismiss());
+                },
               ),
             )
           : controller.margin != null ||

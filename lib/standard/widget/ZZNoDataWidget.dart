@@ -17,6 +17,7 @@ class ZZNoDataWidget extends StatelessWidget {
   double marginLeft;
   double marginRight;
   MainAxisSize mainAxisSize;
+  VoidCallback? onTap;
 
   ZZNoDataWidget(
       {super.key,
@@ -28,7 +29,8 @@ class ZZNoDataWidget extends StatelessWidget {
       this.paddingBottom = 24,
       this.marginLeft = 0,
       this.marginRight = 0,
-      this.mainAxisSize = MainAxisSize.max});
+      this.mainAxisSize = MainAxisSize.max,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +54,19 @@ class ZZNoDataWidget extends StatelessWidget {
             ZZ.image(R.assetsImgIcPlaceholderNoData,
                     bundleName: zzBundleName) ??
                 Container(),
-            Container(
-              padding: EdgeInsets.only(top: 24.w),
-              child: Text(
-                hintText ?? "暂无数据",
-                style: ZZ.textStyle(color: zzColorGrey66, fontSize: 16.sp),
-                strutStyle: const StrutStyle(height: 1.5),
-                textAlign: TextAlign.center,
+            GestureDetector(
+              onTap: onTap,
+              child: Container(
+                padding: EdgeInsets.only(top: 24.w, bottom: 24.w),
+                child: Text(
+                  hintText ?? "重新加载",
+                  style: ZZ.textStyle(
+                      color: zzColorRed, fontSize: 14.sp, bold: true),
+                  strutStyle: const StrutStyle(height: 20),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
+            )
           ],
         ),
       );

@@ -156,7 +156,10 @@ class ZZBaseListController extends GetxController {
         if (page == 1) {
           refreshController.refreshCompleted();
         }
-        refreshController.loadNoData();
+        if (page == 1) {
+        } else {
+          refreshController.loadNoData();
+        }
         status.value = ZZLoadMoreStatus.noMoreData;
       } else {
         refreshController.loadComplete();
@@ -236,6 +239,12 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
                 nodata: true,
                 paddingTop: 100.w,
                 paddingBottom: 0,
+                onTap: () {
+                  ZZ.show();
+                  _getData(false);
+                  Future.delayed(const Duration(seconds: 1))
+                      .then((value) => ZZ.dismiss());
+                },
               ),
             )
           : controller.margin != null ||
