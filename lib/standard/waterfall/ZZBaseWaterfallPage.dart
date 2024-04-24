@@ -124,16 +124,12 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
                 },
               ),
             )
-          : controller.margin != null ||
-                  controller.padding != null ||
-                  widget.secondBackgroundColor != null
-              ? Container(
-                  color: widget.secondBackgroundColor,
-                  margin: controller.margin,
-                  padding: controller.padding,
-                  child: _homeBody(),
-                )
-              : _homeBody()),
+          : Container(
+              color: widget.secondBackgroundColor,
+              margin: controller.margin,
+              padding: controller.padding,
+              child: _homeBody(),
+            )),
     );
   }
 
