@@ -92,7 +92,7 @@ class XXSampleListController extends ZZBaseListController {
 }
 
 class XXSampleListPage extends ZZBaseListPage<XXSampleListController> {
-  XXSampleListPage({required super.controller, super.title});
+  XXSampleListPage({required super.controller});
 }
 
 class XXSampleListPageState extends ZZBaseListState<XXSampleListController> {}

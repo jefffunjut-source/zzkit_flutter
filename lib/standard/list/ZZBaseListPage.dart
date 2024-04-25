@@ -2,7 +2,6 @@
 library zzkit;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrick.dart';
 import 'package:zzkit_flutter/standard/nestedscrollview/ZZLoadMoreFooter.dart';
@@ -33,9 +32,6 @@ class ZZBaseListController extends GetxController {
   RefreshController get refreshController => _refreshController;
   bool? enablePulldown;
   bool? enablePullup;
-
-  // 刷新时间
-  int lastRefreshTime = 0;
 
   // 数据
   int _page = 1;
@@ -68,10 +64,25 @@ class ZZBaseListController extends GetxController {
   String? refreshingNoDataText;
 
   // UI描述
+  // Scaffold的margin padding
   EdgeInsetsGeometry? margin;
   EdgeInsetsGeometry? padding;
+  // Brick的margin padding
   EdgeInsetsGeometry? brickMargin;
   EdgeInsetsGeometry? brickPadding;
+  // Scaffold 标题
+  String? title;
+  // Scaffold 自定义appbar
+  AppBar? appBar;
+  // Scaffold 背景色
+  Color? backgroundColor;
+  // Scaffold内第一层容器背景色，用于margin和padding
+  Color? secondBackgroundColor;
+  // Scaffold 是否保留safe区域
+  bool? safeAreaBottom;
+
+  // RefreshType == PullToRefresh时候，NestedScrollPage的name
+  String? parentName;
 
   // waterfall multiple types
   bool isWaterfallMultipleType = false;
@@ -96,6 +107,12 @@ class ZZBaseListController extends GetxController {
     this.padding,
     this.brickMargin,
     this.brickPadding,
+    this.title,
+    this.appBar,
+    this.backgroundColor,
+    this.secondBackgroundColor,
+    this.safeAreaBottom,
+    this.parentName,
   });
 
   void fetchData({required bool nextPage}) async {}
@@ -177,27 +194,10 @@ class ZZBaseListController extends GetxController {
 class ZZBaseListPage<T> extends StatefulWidget {
   // 列表页控制器
   T controller;
-  // Scaffold 标题
-  String? title;
-  // Scaffold 自定义appbar
-  AppBar? appBar;
-  // Scaffold 背景色
-  Color? backgroundColor;
-  // Scaffold内第一层容器背景色，用于margin和padding
-  Color? secondBackgroundColor;
-  // Scaffold 是否保留safe区域
-  bool? safeAreaBottom;
-  // RefreshType == PullToRefresh时候，NestedScrollPage的name
-  String? parentName;
-  ZZBaseListPage(
-      {super.key,
-      required this.controller,
-      this.title,
-      this.appBar,
-      this.backgroundColor,
-      this.secondBackgroundColor,
-      this.safeAreaBottom,
-      this.parentName});
+  ZZBaseListPage({
+    super.key,
+    required this.controller,
+  });
 
   @override
   ZZBaseListState createState() => ZZBaseListState<T>();
@@ -216,7 +216,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     ZZBaseListController controller = widget.controller;
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
-        if (event.name == widget.parentName) {
+        if (event.name == controller.parentName) {
           _getData(false);
         }
       });
@@ -229,18 +229,17 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     ZZBaseListController controller = widget.controller;
     super.build(context);
     return ZZBaseScaffold(
-      backgroundColor: widget.backgroundColor,
-      safeAreaBottom: widget.safeAreaBottom,
-      appBar: widget.appBar ??
-          (widget.title != null
-              ? ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack)
+      backgroundColor: controller.backgroundColor,
+      safeAreaBottom: controller.safeAreaBottom,
+      appBar: controller.appBar ??
+          (controller.title != null
+              ? ZZ.appbar(
+                  title: controller.title, leftIcon: ZZAppBarIcon.backblack)
               : null),
       body: Obx(() => controller.nodata.value
           ? Center(
               child: ZZNoDataWidget(
                 nodata: true,
-                paddingTop: 100.w,
-                paddingBottom: 0,
                 onTap: () {
                   ZZ.show();
                   _getData(false);
@@ -251,9 +250,9 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
             )
           : controller.margin != null ||
                   controller.padding != null ||
-                  widget.secondBackgroundColor != null
+                  controller.secondBackgroundColor != null
               ? Container(
-                  color: widget.secondBackgroundColor,
+                  color: controller.secondBackgroundColor,
                   margin: controller.margin,
                   padding: controller.padding,
                   child: _homeBody(),
@@ -264,7 +263,6 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
 
   void _getData(bool nextPage) async {
     ZZBaseListController controller = widget.controller;
-    controller.lastRefreshTime = DateTime.now().millisecondsSinceEpoch;
 
     /// Shimmer
     if (controller.shimmer ?? false) {

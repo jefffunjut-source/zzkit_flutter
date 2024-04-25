@@ -12,57 +12,48 @@ class ZZNoDataWidget extends StatelessWidget {
   String? hintText;
   String? img;
   Color? bgColor;
-  double paddingTop;
-  double paddingBottom;
-  double marginLeft;
-  double marginRight;
+  EdgeInsetsGeometry? padding;
   MainAxisSize mainAxisSize;
   VoidCallback? onTap;
 
   ZZNoDataWidget(
       {super.key,
       this.nodata = false,
-      this.bgColor,
       this.hintText,
       this.img,
-      this.paddingTop = 24,
-      this.paddingBottom = 24,
-      this.marginLeft = 0,
-      this.marginRight = 0,
+      this.bgColor,
+      this.padding =
+          const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 24),
       this.mainAxisSize = MainAxisSize.max,
       this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    if (nodata!) {
+    if (nodata == true) {
       return Container(
         color: bgColor ?? Colors.white,
         width: 414.w,
-        margin: EdgeInsets.only(
-          left: marginLeft,
-          right: marginRight,
-        ),
-        padding: EdgeInsets.only(
-          left: 24.w,
-          right: 24.w,
-          top: paddingTop,
-          bottom: paddingBottom,
-        ),
+        padding: padding,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: mainAxisSize,
           children: [
             ZZ.image(R.assetsImgIcPlaceholderNoData,
-                    bundleName: zzBundleName) ??
+                    bundleName: zzBundleName,
+                    width: 300.w,
+                    fit: BoxFit.fitWidth) ??
                 Container(),
             GestureDetector(
               onTap: onTap,
               child: Container(
-                padding: EdgeInsets.only(top: 24.w, bottom: 24.w),
+                alignment: Alignment.center,
+                color: zzColorRed.withAlpha(5),
+                width: 96.w,
+                height: 24.w,
                 child: Text(
-                  hintText ?? "重新加载",
+                  "重新加载",
                   style: ZZ.textStyle(
                       color: zzColorRed, fontSize: 14.sp, bold: true),
-                  strutStyle: const StrutStyle(height: 20),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -71,7 +62,7 @@ class ZZNoDataWidget extends StatelessWidget {
         ),
       );
     } else {
-      return ZZ.empty();
+      return Container();
     }
   }
 }

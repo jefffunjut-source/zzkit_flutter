@@ -92,7 +92,7 @@ class XXFollowingController extends ZZBaseListController {
 }
 
 class XXFollowingPage extends ZZBaseListPage<XXFollowingController> {
-  XXFollowingPage({required super.controller, super.title});
+  XXFollowingPage({required super.controller});
 }
 
 class XXFollowingState extends ZZBaseListState<XXFollowingController> {}

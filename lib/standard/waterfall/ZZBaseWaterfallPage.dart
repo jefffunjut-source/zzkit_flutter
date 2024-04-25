@@ -2,7 +2,6 @@
 library zzkit;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:zzkit_flutter/standard/list/ZZBaseListPage.dart';
@@ -45,33 +44,22 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.padding,
     super.brickMargin,
     super.brickPadding,
+    super.title,
+    super.appBar,
+    super.backgroundColor,
+    super.secondBackgroundColor,
+    super.safeAreaBottom,
+    super.parentName,
   }) : super();
 }
 
 class ZZBaseWaterfallPage<T> extends StatefulWidget {
   // 列表页控制器
   T controller;
-  // Scaffold 标题
-  String? title;
-  // Scaffold 自定义appbar
-  AppBar? appBar;
-  // Scaffold 背景色
-  Color? backgroundColor;
-  // Scaffold内第一层容器背景色，用于margin和padding
-  Color? secondBackgroundColor;
-  // Scaffold 是否保留safe区域
-  bool? safeAreaBottom;
-  // RefreshType == PullToRefresh时候，NestedScrollPage的name
-  String? parentName;
-  ZZBaseWaterfallPage(
-      {super.key,
-      required this.controller,
-      this.title,
-      this.appBar,
-      this.backgroundColor,
-      this.secondBackgroundColor,
-      this.safeAreaBottom,
-      this.parentName});
+  ZZBaseWaterfallPage({
+    super.key,
+    required this.controller,
+  });
 
   @override
   ZZBaseWaterfallState createState() => ZZBaseWaterfallState<T>();
@@ -91,7 +79,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     ZZBaseListController controller = widget.controller;
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
-        if (event.name == widget.parentName) {
+        if (event.name == controller.parentName) {
           _getData(false);
         }
       });
@@ -104,18 +92,17 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     ZZBaseListController controller = widget.controller;
     super.build(context);
     return ZZBaseScaffold(
-      backgroundColor: widget.backgroundColor,
-      safeAreaBottom: widget.safeAreaBottom,
-      appBar: widget.appBar ??
-          (widget.title != null
-              ? ZZ.appbar(title: widget.title, leftIcon: ZZAppBarIcon.backblack)
+      backgroundColor: controller.backgroundColor,
+      safeAreaBottom: controller.safeAreaBottom,
+      appBar: controller.appBar ??
+          (controller.title != null
+              ? ZZ.appbar(
+                  title: controller.title, leftIcon: ZZAppBarIcon.backblack)
               : null),
       body: Obx(() => controller.nodata.value
           ? Center(
               child: ZZNoDataWidget(
                 nodata: true,
-                paddingTop: 100.w,
-                paddingBottom: 0,
                 onTap: () {
                   ZZ.show();
                   _getData(false);
@@ -125,7 +112,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
               ),
             )
           : Container(
-              color: widget.secondBackgroundColor,
+              color: controller.secondBackgroundColor,
               margin: controller.margin,
               padding: controller.padding,
               child: _homeBody(),
@@ -135,7 +122,6 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
 
   void _getData(bool nextPage) async {
     ZZBaseWaterfallController controller = widget.controller;
-    controller.lastRefreshTime = DateTime.now().millisecondsSinceEpoch;
     controller.fetchData(nextPage: nextPage);
   }
 

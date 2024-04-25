@@ -110,13 +110,12 @@ class XXSampleMultiTypesWaterfallPageController
 
 class XXSampleMultiTypesWaterfallPage
     extends ZZBaseWaterfallPage<XXSampleMultiTypesWaterfallPageController> {
-  XXSampleMultiTypesWaterfallPage(
-      {required super.controller, super.backgroundColor});
+  XXSampleMultiTypesWaterfallPage({required super.controller});
 
   static XXSampleMultiTypesWaterfallPage newPage() {
     return XXSampleMultiTypesWaterfallPage(
-      controller: XXSampleMultiTypesWaterfallPageController(),
-      backgroundColor: Colors.white,
+      controller: XXSampleMultiTypesWaterfallPageController()
+        ..backgroundColor = Colors.white,
     );
   }
 }

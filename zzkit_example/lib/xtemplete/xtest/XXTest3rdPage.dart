@@ -347,8 +347,8 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                               ..shimmerBrickHeight = 320
                               ..shimmerCustomWidget = widget
                               ..brickMargin = const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                            title: "测试List",
+                                  horizontal: 10, vertical: 5)
+                              ..title = "测试List",
                           ));
                         },
                       ),
@@ -384,8 +384,9 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                             )),
                         onTap: () {
                           Get.to(XXSampleWaterfallPage(
-                              controller: XXSampleWaterfallController(),
-                              title: "测试Waterfall"));
+                            controller: XXSampleWaterfallController()
+                              ..title = "测试Waterfall",
+                          ));
                         },
                       ),
                       const SizedBox(

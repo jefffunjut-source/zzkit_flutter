@@ -103,7 +103,7 @@ class XXSampleWaterfallController extends ZZBaseWaterfallController {
 
 class XXSampleWaterfallPage
     extends ZZBaseWaterfallPage<XXSampleWaterfallController> {
-  XXSampleWaterfallPage({required super.controller, super.title});
+  XXSampleWaterfallPage({required super.controller});
 }
 
 class XXSampleWaterfallPageState

@@ -92,7 +92,7 @@ class XXHotSubPageController extends ZZBaseListController {
 }
 
 class XXHotSubPage extends ZZBaseListPage<XXHotSubPageController> {
-  XXHotSubPage({required super.controller, super.title});
+  XXHotSubPage({required super.controller});
 }
 
 class XXHotSubPageState extends ZZBaseListState<XXHotSubPageController> {}

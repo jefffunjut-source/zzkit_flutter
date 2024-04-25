@@ -272,12 +272,6 @@ extension ZZAppLibUI on ZZAppManager {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Image(
-            //   fit: BoxFit.fill,
-            //   image: enabled
-            //       ? AssetImage(R.assetsImgIcButtonEnableRed34248)
-            //       : AssetImage(R.assetsImgIcButtonDisablePink34248),
-            // ),
             Center(
               child: Text(
                 title ?? "",
@@ -386,7 +380,11 @@ extension ZZAppLibUI on ZZAppManager {
     return TabBar(
       onTap: onTap,
       dividerHeight: 0,
-      tabAlignment: tabAlignment ?? TabAlignment.start,
+      tabAlignment: isScrollable == true
+          ? (tabAlignment == TabAlignment.fill
+              ? TabAlignment.start
+              : (tabAlignment ?? TabAlignment.start))
+          : (tabAlignment ?? TabAlignment.start),
       isScrollable: isScrollable ?? true,
       tabs: tabs
           .map((e) => Tab(
@@ -440,7 +438,11 @@ extension ZZAppLibUI on ZZAppManager {
     return TabBar(
       onTap: onTap,
       dividerHeight: 0,
-      tabAlignment: tabAlignment ?? TabAlignment.start,
+      tabAlignment: isScrollable == true
+          ? (tabAlignment == TabAlignment.fill
+              ? TabAlignment.start
+              : (tabAlignment ?? TabAlignment.start))
+          : (tabAlignment ?? TabAlignment.start),
       isScrollable: isScrollable ?? true,
       tabs: tabs
           .map((e) => Tab(
