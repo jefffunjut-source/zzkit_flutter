@@ -53,7 +53,9 @@ class ZZNoDataWidget extends StatelessWidget {
                 child: Text(
                   "重新加载",
                   style: ZZ.textStyle(
-                      color: zzColorRed, fontSize: 14.sp, bold: true),
+                      color: zzColorRed,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
               ),

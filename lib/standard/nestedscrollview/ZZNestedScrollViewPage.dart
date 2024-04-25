@@ -94,9 +94,11 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     widget.tabIndicatorRadius ??= 1.w;
     widget.tabAlignment ??= TabAlignment.start;
     widget.tabLabelStyle ??= ZZ.textStyle(
-        color: Colors.orange.shade900, fontSize: 14.sp, bold: true);
-    widget.tabUnselectedLabelStyle ??=
-        ZZ.textStyle(color: Colors.black87, fontSize: 12.sp, bold: false);
+        color: Colors.orange.shade900,
+        fontSize: 14.sp,
+        fontWeight: FontWeight.bold);
+    widget.tabUnselectedLabelStyle ??= ZZ.textStyle(
+        color: Colors.black87, fontSize: 12.sp, fontWeight: FontWeight.bold);
   }
 
   @override

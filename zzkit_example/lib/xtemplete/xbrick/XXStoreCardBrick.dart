@@ -23,7 +23,7 @@ class XXStoreCardBrick extends ZZBaseBrick<XXStoreCardBrickObject> {
                 style: ZZ.textStyle(
                     color: zzColorWhite,
                     fontSize: 16.sp,
-                    bold: true,
+                    fontWeight: FontWeight.bold,
                     height: 1.8),
               ),
               Text(

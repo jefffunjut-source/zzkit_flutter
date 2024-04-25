@@ -38,15 +38,16 @@ extension ZZAppLibUI on ZZAppManager {
   TextStyle textStyle({
     required Color color,
     required double fontSize,
-    bool bold = false,
+    String? fontFamily,
+    FontWeight? fontWeight,
     double height = 1.0,
     TextDecoration decoration = TextDecoration.none,
   }) {
     return TextStyle(
         fontSize: fontSize,
         color: color,
-        fontFamily: bold ? 'CircularBold' : 'CircularBook',
-        fontWeight: FontWeight.bold,
+        fontFamily: fontFamily,
+        fontWeight: fontWeight,
         height: height,
         decoration: decoration);
   }
@@ -410,7 +411,10 @@ extension ZZAppLibUI on ZZAppManager {
           (unselectedLabelStyle == null ? zzColorBlack : null),
       labelStyle: labelColor == null
           ? (labelStyle ??
-              ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true))
+              ZZ.textStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold))
           : null,
       unselectedLabelStyle: unselectedLabelColor == null
           ? (unselectedLabelStyle ??
@@ -464,7 +468,10 @@ extension ZZAppLibUI on ZZAppManager {
           (unselectedLabelStyle == null ? zzColorGrey99 : null),
       labelStyle: labelColor == null
           ? (labelStyle ??
-              ZZ.textStyle(color: Colors.white, fontSize: 16.sp, bold: true))
+              ZZ.textStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold))
           : null,
       unselectedLabelStyle: unselectedLabelColor == null
           ? (unselectedLabelStyle ??

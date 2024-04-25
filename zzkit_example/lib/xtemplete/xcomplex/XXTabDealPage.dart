@@ -40,10 +40,10 @@ class XXTabDealPageState extends State<XXTabDealPage>
         bottom: ZZ.tabbarUnderline(
             tabAlignment: TabAlignment.fill,
             isScrollable: false,
-            labelStyle:
-                ZZ.textStyle(color: Colors.black, fontSize: 18, bold: true),
-            unselectedLabelStyle:
-                ZZ.textStyle(color: Colors.grey, fontSize: 16, bold: false),
+            labelStyle: ZZ.textStyle(
+                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+            unselectedLabelStyle: ZZ.textStyle(
+                color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
             tabs: ['关注', '最新', '热门', '专区'],
             controller: _tabController),
       ),
