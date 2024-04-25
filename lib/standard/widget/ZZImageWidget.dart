@@ -1,16 +1,16 @@
 // ignore_for_file: unused_field, library_private_types_in_public_api, file_names
+import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
 import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 
 typedef ZZImageInfoCallback = void Function(ZZCustomImageInfo? imageInfo);
 
-enum ZZImageSizeAjdust {
+enum ZZImageResize {
   none,
   adjustHeight,
   adjustWidth,
@@ -25,14 +25,14 @@ class ZZImageWidget extends StatefulWidget {
   final BoxFit fit;
   final double? width;
   final double? height;
-  final ZZImageInfoCallback? onImageLoaded;
-  final int? index;
-  final Object? extra;
-  final ZZAppCallback1Int1Object? onTap;
-  final ZZImageSizeAjdust? sizeAjdust;
   final double? radius;
   final double? borderWidth;
   final Color? borderColor;
+  final ZZImageResize? resize;
+  final ZZImageInfoCallback? onImageInfoChange;
+  final int? index;
+  final Object? extra;
+  final ZZAppCallback1Int1Object? onTap;
 
   const ZZImageWidget({
     super.key,
@@ -44,24 +44,65 @@ class ZZImageWidget extends StatefulWidget {
     this.fit = BoxFit.cover,
     this.width,
     this.height,
-    this.onImageLoaded,
-    this.index,
-    this.extra,
-    this.onTap,
-    this.sizeAjdust = ZZImageSizeAjdust.none,
     this.radius,
     this.borderWidth,
     this.borderColor,
+    this.resize = ZZImageResize.none,
+    this.onImageInfoChange,
+    this.index,
+    this.extra,
+    this.onTap,
   });
 
   @override
   _ZZImageWidgetState createState() => _ZZImageWidgetState();
+
+  static Future<void> getImageInfoFromBase64(
+      {required Uint8List? bytes,
+      required ZZImageInfoCallback onImageInfoChange}) async {
+    if (bytes != null) {
+      try {
+        final image = await decodeImageFromList(bytes);
+        ZZCustomImageInfo imageInfo = ZZCustomImageInfo();
+        imageInfo.imageWidth = image.width;
+        imageInfo.imageHeight = image.height;
+        imageInfo.ratio = image.height / image.width;
+        onImageInfoChange(imageInfo);
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+  }
+
+  static Future<void> getImageInfoFromUrl(
+      {required String? imageUrl,
+      required ZZImageInfoCallback onImageInfoChange}) async {
+    if (imageUrl != null &&
+        imageUrl.isNotEmpty &&
+        imageUrl.startsWith("http")) {
+      try {
+        Image image = Image(image: CachedNetworkImageProvider(imageUrl));
+        image.image.resolve(const ImageConfiguration()).addListener(
+          ImageStreamListener(
+            (ImageInfo image, bool synchronousCall) {
+              var myImage = image.image;
+              ZZCustomImageInfo imageInfo = ZZCustomImageInfo();
+              imageInfo.imageUrl = imageUrl;
+              imageInfo.imageWidth = myImage.width;
+              imageInfo.imageHeight = myImage.height;
+              imageInfo.ratio = myImage.height / myImage.width;
+              onImageInfoChange(imageInfo);
+            },
+          ),
+        );
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+  }
 }
 
 class _ZZImageWidgetState extends State<ZZImageWidget> {
-  bool _loading = true;
-  bool _error = false;
-  dynamic _lastSuccessRes;
   ZZCustomImageInfo? customImageInfo;
   double? adjustedHeight;
   double? adjustedWidth;
@@ -69,35 +110,42 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   @override
   void initState() {
     super.initState();
+    if (widget.imageUrl != null &&
+        widget.imageUrl!.isNotEmpty &&
+        widget.imageUrl!.startsWith("http")) {
+      if (widget.onImageInfoChange != null ||
+          widget.resize != ZZImageResize.none) {
+        ZZImageWidget.getImageInfoFromUrl(
+          imageUrl: widget.imageUrl,
+          onImageInfoChange: (imageInfo) {
+            if (widget.resize != ZZImageResize.none) {
+              _resize() == true ? null : widget.onImageInfoChange!(imageInfo);
+            } else {
+              widget.onImageInfoChange!(imageInfo);
+            }
+          },
+        );
+      }
+    } else if (widget.imageBase64 != null) {
+      if (widget.onImageInfoChange != null ||
+          widget.resize != ZZImageResize.none) {
+        ZZImageWidget.getImageInfoFromBase64(
+          bytes: widget.imageBase64,
+          onImageInfoChange: (imageInfo) {
+            if (widget.resize != ZZImageResize.none) {
+              _resize() == true ? null : widget.onImageInfoChange!(imageInfo);
+            } else {
+              widget.onImageInfoChange!(imageInfo);
+            }
+          },
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.imageBase64 == null && widget.imageUrl == null) {
-      return Container();
-    }
-    if (widget.imageBase64 != null) {
-      if (_lastSuccessRes is Uint8List &&
-          _lastSuccessRes == widget.imageBase64) {
-      } else {
-        _getImageInfoFromBase64();
-      }
-    } else if (widget.imageUrl != null) {
-      if (_lastSuccessRes is String && _lastSuccessRes == widget.imageUrl) {
-      } else {
-        _getImageInfo();
-      }
-    }
-
-    if (_error) {
-      return _errorWidget();
-    } else {
-      if (_loading) {
-        return _placehoderWidget();
-      } else {
-        return _imageWidgetWithRadius();
-      }
-    }
+    return _imageWidgetWithRadius();
   }
 
   Widget _placehoderWidget() {
@@ -150,128 +198,69 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   }
 
   Widget _imageWidget() {
-    return widget.imageBase64 != null
-        ? Image.memory(
-            widget.imageBase64!,
-            width: adjustedWidth ?? widget.width,
-            height: adjustedHeight ?? widget.height,
-            color: widget.backgroundColor,
-            fit: widget.fit,
-            errorBuilder: (context, error, stackTrace) {
-              return _errorWidget();
-            },
-          )
-        : CachedNetworkImage(
-            imageUrl: widget.imageUrl!,
-            width: adjustedWidth ?? widget.width,
-            height: adjustedHeight ?? widget.height,
-            color: widget.backgroundColor,
-            fit: widget.fit,
-            placeholder: (context, url) {
-              return _placehoderWidget();
-            },
-            errorWidget: (context, url, error) {
-              return _errorWidget();
-            },
-          );
-  }
-
-  Future<void> _getImageInfoFromBase64() async {
-    try {
-      final Uint8List? bytes = widget.imageBase64;
-      if (bytes == null) return;
-      final image = await decodeImageFromList(bytes);
-      customImageInfo ??= ZZCustomImageInfo();
-      setState(() {
-        customImageInfo?.imageWidth = image.width;
-        customImageInfo?.imageHeight = image.height;
-        customImageInfo?.ratio = image.height / image.width;
-        customImageInfo?.imageSize = bytes.length;
-        _loading = false;
-        _error = false;
-      });
-      if (widget.onImageLoaded != null) {
-        widget.onImageLoaded!(customImageInfo);
-      }
-      _adjustSize();
-      _lastSuccessRes = widget.imageBase64;
-    } catch (e) {
-      setState(() {
-        _loading = false;
-        _error = true;
-      });
+    if (widget.imageUrl != null &&
+        widget.imageUrl!.isNotEmpty &&
+        widget.imageUrl!.startsWith("http")) {
+      return CachedNetworkImage(
+        imageUrl: widget.imageUrl!,
+        width: adjustedWidth ?? widget.width,
+        height: adjustedHeight ?? widget.height,
+        color: widget.backgroundColor,
+        fit: widget.fit,
+        placeholder: (context, url) {
+          return _placehoderWidget();
+        },
+        errorWidget: (context, url, error) {
+          return _errorWidget();
+        },
+      );
+    } else if (widget.imageBase64 != null) {
+      return Image.memory(
+        widget.imageBase64!,
+        width: adjustedWidth ?? widget.width,
+        height: adjustedHeight ?? widget.height,
+        color: widget.backgroundColor,
+        fit: widget.fit,
+        errorBuilder: (context, error, stackTrace) {
+          return _errorWidget();
+        },
+      );
+    } else {
+      return Container();
     }
   }
 
-  Future<void> _getImageInfo() async {
-    try {
-      DefaultCacheManager cacheManager = DefaultCacheManager();
-      FileInfo? fileInfo =
-          await cacheManager.getFileFromCache(widget.imageUrl!);
-      if (fileInfo != null) {
-        Image image = Image.file(fileInfo.file);
-        image.image.resolve(const ImageConfiguration()).addListener(
-          ImageStreamListener(
-            (ImageInfo imageInfo, bool synchronousCall) {
-              customImageInfo ??= ZZCustomImageInfo();
-              setState(() {
-                customImageInfo?.imageUrl = widget.imageUrl;
-                customImageInfo?.imageWidth = imageInfo.image.width;
-                customImageInfo?.imageHeight = imageInfo.image.height;
-                customImageInfo?.ratio =
-                    imageInfo.image.height / imageInfo.image.width;
-                customImageInfo?.imageSize = fileInfo.file.lengthSync();
-                _loading = false;
-                _error = false;
-              });
-              if (widget.onImageLoaded != null) {
-                widget.onImageLoaded!(customImageInfo);
-              }
-              _adjustSize();
-              _lastSuccessRes = widget.imageUrl;
-            },
-          ),
-        );
-      } else {
-        await cacheManager.downloadFile(widget.imageUrl!);
-        _getImageInfo();
-      }
-    } catch (e) {
-      setState(() {
-        _loading = false;
-        _error = true;
-      });
-    }
-  }
-
-  void _adjustSize() {
-    if (widget.sizeAjdust == ZZImageSizeAjdust.adjustHeight) {
+  bool _resize() {
+    if (widget.resize == ZZImageResize.adjustHeight) {
       if (widget.width != null) {
         double h = widget.width! *
             (customImageInfo!.imageHeight! / customImageInfo!.imageWidth!);
         setState(() {
           adjustedHeight = h;
         });
-        customImageInfo?.actualWidgetWidth = widget.width;
-        customImageInfo?.actualWidgetHeight = h;
-        if (widget.onImageLoaded != null) {
-          widget.onImageLoaded!(customImageInfo);
+        customImageInfo?.widgetWidth = widget.width;
+        customImageInfo?.widgetHeight = h;
+        if (widget.onImageInfoChange != null) {
+          widget.onImageInfoChange!(customImageInfo);
         }
+        return true;
       }
-    } else if (widget.sizeAjdust == ZZImageSizeAjdust.adjustWidth) {
+    } else if (widget.resize == ZZImageResize.adjustWidth) {
       if (widget.height != null) {
         double w = widget.height! *
             (customImageInfo!.imageWidth! / customImageInfo!.imageHeight!);
         setState(() {
           adjustedWidth = w;
         });
-        customImageInfo?.actualWidgetWidth = w;
-        customImageInfo?.actualWidgetHeight = widget.height;
-        if (widget.onImageLoaded != null) {
-          widget.onImageLoaded!(customImageInfo);
+        customImageInfo?.widgetWidth = w;
+        customImageInfo?.widgetHeight = widget.height;
+        if (widget.onImageInfoChange != null) {
+          widget.onImageInfoChange!(customImageInfo);
         }
+        return true;
       }
     }
+    return false;
   }
 }
 
@@ -279,9 +268,7 @@ class ZZCustomImageInfo {
   String? imageUrl;
   int? imageWidth;
   int? imageHeight;
-  int? imageSize;
-  // 高宽比
-  double? ratio;
-  double? actualWidgetWidth;
-  double? actualWidgetHeight;
+  double? ratio; // 高宽比
+  double? widgetWidth;
+  double? widgetHeight;
 }
