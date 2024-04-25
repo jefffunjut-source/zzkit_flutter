@@ -312,6 +312,18 @@ extension ZZExtensionArrays<T> on List<T> {
     return null;
   }
 
+  void safeAdd(T? object) {
+    if (object == null) return;
+    if (isEmpty) return;
+    add(object);
+  }
+
+  void safeAddAll(List<T>? objects) {
+    if (objects == null || objects.isEmpty) return;
+    if (isEmpty) return;
+    addAll(objects);
+  }
+
   List<T> merge(List<T> other) {
     return [...this, ...other];
   }

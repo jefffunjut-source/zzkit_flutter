@@ -12,7 +12,7 @@ import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 class XXHotSubPageController extends ZZBaseListController {
   @override
   Future fetchData({required bool nextPage}) async {
-    await beginTransaction(
+    await begin(
         nextPage: nextPage,
         apiRequest: () {
           // 标准API Request调用
@@ -20,8 +20,7 @@ class XXHotSubPageController extends ZZBaseListController {
         }).then((value) {
       // 必须调用endTransaction
       XXSampleListResponse? resp = value?.resp;
-      endTransaction(
-          response: value, rows: resp?.data?.rows, currentPageSize: 5);
+      end(response: value, rows: resp?.data?.rows, currentPageSize: 5);
       return value;
     }).then((value) {
       // 处理rows数据，生成Object和Widget对

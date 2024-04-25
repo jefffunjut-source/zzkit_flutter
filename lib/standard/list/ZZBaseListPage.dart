@@ -98,9 +98,12 @@ class ZZBaseListController extends GetxController {
     this.brickPadding,
   });
 
-  Future<ZZAPIResponse?> beginTransaction(
-      {required bool nextPage,
-      required ZZAppApiRequestCallback? apiRequest}) async {
+  void fetchData({required bool nextPage}) async {}
+
+  Future<ZZAPIResponse?> begin({
+    required bool nextPage,
+    required ZZAppApiRequestCallback? apiRequest,
+  }) async {
     status.value = ZZLoadMoreStatus.loading;
     if (nextPage == false) {
       _page = 1;
@@ -121,10 +124,11 @@ class ZZBaseListController extends GetxController {
     }
   }
 
-  void endTransaction(
-      {required ZZAPIResponse? response,
-      required List? rows,
-      int? currentPageSize}) {
+  void end({
+    required ZZAPIResponse? response,
+    required List? rows,
+    int? currentPageSize,
+  }) {
     int pageSize = currentPageSize ?? this.pageSize;
     response?.rows = rows;
     nodata.value = false;
@@ -167,9 +171,8 @@ class ZZBaseListController extends GetxController {
         status.value = ZZLoadMoreStatus.finishLoad;
       }
     }
+    return rows;
   }
-
-  Future<dynamic> fetchData({required bool nextPage}) async {}
 }
 
 class ZZBaseListPage<T> extends StatefulWidget {

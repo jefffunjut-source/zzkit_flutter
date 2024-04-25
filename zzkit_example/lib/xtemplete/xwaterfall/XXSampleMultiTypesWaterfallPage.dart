@@ -24,7 +24,7 @@ class XXSampleMultiTypesWaterfallPageController
 
   @override
   Future fetchData({required bool nextPage}) async {
-    await beginTransaction(
+    await begin(
         nextPage: nextPage,
         apiRequest: () {
           // 标准API Request调用
@@ -34,7 +34,7 @@ class XXSampleMultiTypesWaterfallPageController
       // 必须调用endTransaction
       XXSampleListResponse? resp = value?.resp;
       List? a = resp?.data?.rows?.reshape();
-      endTransaction(response: value, rows: a, currentPageSize: 1);
+      end(response: value, rows: a, currentPageSize: 1);
       return value;
     }).then((value) {
       // 处理rows数据，生成Object和Widget对
