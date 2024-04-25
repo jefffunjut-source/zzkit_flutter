@@ -1,7 +1,9 @@
-// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_new, prefer_final_fields
+// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_new, prefer_final_fields, unnecessary_import
 library zzkit;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrick.dart';
 import 'package:zzkit_flutter/standard/nestedscrollview/ZZLoadMoreFooter.dart';
@@ -80,6 +82,8 @@ class ZZBaseListController extends GetxController {
   Color? secondBackgroundColor;
   // Scaffold 是否保留safe区域
   bool? safeAreaBottom;
+  // Bottom Bar
+  Widget? bottomWidget;
 
   // RefreshType == PullToRefresh时候，NestedScrollPage的name
   String? parentName;
@@ -112,6 +116,7 @@ class ZZBaseListController extends GetxController {
     this.backgroundColor,
     this.secondBackgroundColor,
     this.safeAreaBottom,
+    this.bottomWidget,
     this.parentName,
   });
 
@@ -236,28 +241,14 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
               ? ZZ.appbar(
                   title: controller.title, leftIcon: ZZAppBarIcon.backblack)
               : null),
-      body: Obx(() => controller.nodata.value
-          ? Center(
-              child: ZZNoDataWidget(
-                nodata: true,
-                onTap: () {
-                  ZZ.show();
-                  _getData(false);
-                  Future.delayed(const Duration(seconds: 1))
-                      .then((value) => ZZ.dismiss());
-                },
-              ),
+      body: controller.bottomWidget != null
+          ? Column(
+              children: [
+                Expanded(child: _obxBodyWidget()),
+                controller.bottomWidget!,
+              ],
             )
-          : controller.margin != null ||
-                  controller.padding != null ||
-                  controller.secondBackgroundColor != null
-              ? Container(
-                  color: controller.secondBackgroundColor,
-                  margin: controller.margin,
-                  padding: controller.padding,
-                  child: _homeBody(),
-                )
-              : _homeBody()),
+          : _obxBodyWidget(),
     );
   }
 
@@ -288,6 +279,32 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
 
     /// Real data
     controller.fetchData(nextPage: nextPage);
+  }
+
+  Widget _obxBodyWidget() {
+    ZZBaseListController controller = widget.controller;
+    return Obx(() => controller.nodata.value
+        ? Center(
+            child: ZZNoDataWidget(
+              nodata: true,
+              onTap: () {
+                ZZ.show();
+                _getData(false);
+                Future.delayed(const Duration(seconds: 1))
+                    .then((value) => ZZ.dismiss());
+              },
+            ),
+          )
+        : controller.margin != null ||
+                controller.padding != null ||
+                controller.secondBackgroundColor != null
+            ? Container(
+                color: controller.secondBackgroundColor,
+                margin: controller.margin,
+                padding: controller.padding,
+                child: _homeBody(),
+              )
+            : _homeBody());
   }
 
   Widget _homeBody() {
