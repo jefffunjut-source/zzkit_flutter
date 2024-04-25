@@ -16,8 +16,15 @@ class ZZLoadMoreFooter extends StatefulWidget {
   ZZBaseListController controller;
   final Future<ZZLoadMoreStatus?> Function()? loadMoreBlock; // 定义 moreBlock 属性
   Color? bgColor;
+  final String? refreshingLoadingText;
+  final String? refreshingNoDataText;
   ZZLoadMoreFooter(
-      {required this.controller, this.loadMoreBlock, this.bgColor, super.key});
+      {required this.controller,
+      this.loadMoreBlock,
+      this.bgColor,
+      this.refreshingLoadingText,
+      this.refreshingNoDataText,
+      super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -80,8 +87,10 @@ class ZZLoadMoreFooterState extends State<ZZLoadMoreFooter> {
                     child: Text(
                       widget.controller.status.value ==
                               ZZLoadMoreStatus.noMoreData
-                          ? "到底了"
-                          : "加载中...",
+                          ? (widget.refreshingNoDataText ??
+                              zzRefreshingNoDataText)
+                          : (widget.refreshingLoadingText ??
+                              zzRefreshingLoadingText),
                       style: ZZ.textStyle(color: Colors.grey, fontSize: 12.sp),
                     ),
                   ),

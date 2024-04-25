@@ -30,6 +30,13 @@ ZZAppManager ZZ = ZZAppManager();
  ************************/
 /// ZZKit Package名称
 const String zzBundleName = "packages/zzkit_flutter/";
+const String zzRefreshingIdleText = "下拉刷新";
+const String zzRefreshingReleaseText = "释放刷新";
+const String zzRefreshingText = "正在加载";
+const String zzRefreshingCompleteText = "完成";
+const String zzRefreshingCancelRefreshText = "取消刷新";
+const String zzRefreshingLoadingText = "正在加载中...";
+const String zzRefreshingNoDataText = "已经到底";
 
 /// Context
 GlobalKey<NavigatorState> zzNavigatorKey = GlobalKey<NavigatorState>();

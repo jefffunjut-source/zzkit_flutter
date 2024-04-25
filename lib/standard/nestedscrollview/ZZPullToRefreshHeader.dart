@@ -20,10 +20,18 @@ class ZZPullToRefreshHeader extends StatelessWidget {
     this.info, {
     super.key,
     this.color,
+    this.refreshingIdleText,
+    this.refreshingReleaseText,
+    this.refreshingText,
+    this.refreshingCompleteText,
   });
 
   final PullToRefreshScrollNotificationInfo? info;
   final Color? color;
+  final String? refreshingIdleText;
+  final String? refreshingReleaseText;
+  final String? refreshingText;
+  final String? refreshingCompleteText;
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +41,16 @@ class ZZPullToRefreshHeader extends StatelessWidget {
     }
     String text = '';
     if (_info.mode == PullToRefreshIndicatorMode.armed) {
-      text = '释放刷新';
+      text = refreshingReleaseText ?? zzRefreshingReleaseText;
     } else if (_info.mode == PullToRefreshIndicatorMode.refresh ||
         _info.mode == PullToRefreshIndicatorMode.snap) {
-      text = '加载中';
+      text = refreshingText ?? zzRefreshingText;
     } else if (_info.mode == PullToRefreshIndicatorMode.done) {
-      text = '完成刷新';
+      text = refreshingCompleteText ?? zzRefreshingCompleteText;
     } else if (_info.mode == PullToRefreshIndicatorMode.drag) {
-      text = '下拉刷新';
+      text = refreshingIdleText ?? zzRefreshingIdleText;
     } else if (_info.mode == PullToRefreshIndicatorMode.canceled) {
-      text = '取消刷新';
+      text = zzRefreshingCancelRefreshText;
     }
 
     final double dragOffset = info?.dragOffset ?? 0.0;

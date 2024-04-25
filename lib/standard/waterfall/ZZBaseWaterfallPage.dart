@@ -133,6 +133,10 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
         enablePullUp: controller.enablePullup ?? true,
         enablePullDown: controller.enablePulldown ?? true,
         header: ClassicHeader(
+          idleIcon: null,
+          refreshingIcon: null,
+          completeIcon: null,
+          releaseIcon: null,
           idleText: controller.refreshingIdleText,
           releaseText: controller.refreshingReleaseText,
           refreshingText: controller.refreshingText,
