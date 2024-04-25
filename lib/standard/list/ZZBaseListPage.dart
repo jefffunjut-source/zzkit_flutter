@@ -171,7 +171,6 @@ class ZZBaseListController extends GetxController {
         status.value = ZZLoadMoreStatus.finishLoad;
       }
     }
-    return rows;
   }
 }
 
