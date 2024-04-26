@@ -74,6 +74,10 @@ abstract class ZZBaseBottomDialog {
     return null;
   }
 
+  Widget? floatBottomBarWidget() {
+    return null;
+  }
+
   Future<dynamic> show() async {
     var ret = await showModalBottomSheet(
         context: zzContext,
@@ -106,15 +110,31 @@ abstract class ZZBaseBottomDialog {
                     height: contentHeight() != null
                         ? contentHeight()! + zzBottomBarHeight
                         : maxHeight() - (titleHeight() ?? 0),
-                    child: SingleChildScrollView(
-                        child: Column(
-                      children: contentWidgets().merge([
-                        Container(
-                          height: zzBottomBarHeight,
-                          color: bottomBarBackgroundColor(),
-                        )
-                      ]),
-                    )))
+                    child: floatBottomBarWidget() == null
+                        ? SingleChildScrollView(
+                            child: Column(
+                            children: contentWidgets().merge([
+                              Container(
+                                height: zzBottomBarHeight,
+                                color: bottomBarBackgroundColor(),
+                              )
+                            ]),
+                          ))
+                        : Column(
+                            children: [
+                              Expanded(
+                                  child: SingleChildScrollView(
+                                      child: Column(
+                                children: contentWidgets().merge([
+                                  Container(
+                                    height: zzBottomBarHeight,
+                                    color: bottomBarBackgroundColor(),
+                                  )
+                                ]),
+                              ))),
+                              floatBottomBarWidget()!
+                            ],
+                          ))
               ],
             ),
           );
