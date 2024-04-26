@@ -147,6 +147,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           noDataText: controller.refreshingNoDataText,
         ),
         onRefresh: () async {
+          controller.refreshController.resetNoData();
           _getData(false);
         },
         onLoading: () async {

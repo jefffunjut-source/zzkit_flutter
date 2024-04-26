@@ -226,7 +226,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
         },
       );
     } else {
-      return Container();
+      return _placehoderWidget();
     }
   }
 
