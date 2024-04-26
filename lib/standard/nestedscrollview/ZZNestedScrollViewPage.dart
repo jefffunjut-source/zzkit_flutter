@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
+import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/standard/nestedscrollview/ZZPullToRefreshHeader.dart';
 import 'package:zzkit_flutter/standard/nestedscrollview/ZZTabItem.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
@@ -41,6 +42,8 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   RxDouble? tabBarExtraHeight;
   // NestedScrollView的global key
   GlobalKey<NestedScrollViewState>? globalKey;
+  // ScrollTop
+  bool? scrollTop;
 
   ZZNestedScrollViewPage({
     super.key,
@@ -65,6 +68,7 @@ class ZZNestedScrollViewPage extends StatefulWidget {
     this.scrollController,
     this.tabBarExtraHeight,
     this.globalKey,
+    this.scrollTop,
   });
 
   @override
@@ -76,8 +80,8 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
   TabController? primaryTC;
   Map<int, double>? cachePixels;
   static bool inAnimating = false;
-
   late GlobalKey<NestedScrollViewState> key;
+  bool showScrollTop = false;
 
   @override
   void initState() {
@@ -99,6 +103,11 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
         fontWeight: FontWeight.bold);
     widget.tabUnselectedLabelStyle ??= ZZ.textStyle(
         color: Colors.black87, fontSize: 12.sp, fontWeight: FontWeight.bold);
+
+    if (widget.scrollTop == true) {
+      Future.delayed(const Duration(seconds: 5))
+          .then((value) => _checkScrollTop());
+    }
   }
 
   @override
@@ -114,6 +123,30 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
       safeAreaBottom: false,
       backgroundColor: widget.backgroundColor,
       body: _buildScaffoldBody(),
+      floatingActionButtonLocation:
+          ZZFloatingActionButtonLocation(48.w, zzScreenHeight / 4.0),
+      floatingActionButton: widget.scrollTop == true && showScrollTop
+          ? FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  showScrollTop = false;
+                });
+                key.currentState?.innerController.animateTo(
+                  0.01,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.linear,
+                );
+              },
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.w)),
+                child: ZZ.image(R.assetsImgIcScrollToTop,
+                    bundleName: zzBundleName, width: 36.w, height: 36.w),
+              ))
+          : null,
     );
   }
 
@@ -277,6 +310,39 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     if (currentPagePixel != null) {
       key.currentState?.innerController.jumpTo(max(currentPagePixel, 0.01));
     }
+    debugPrint("currentPagePixel : $currentPagePixel");
     inAnimating = false;
+  }
+
+  void _checkScrollTop() {
+    if (!inAnimating) {
+      inAnimating = true;
+      int lastPage = primaryTC!.previousIndex;
+      int currentPage = primaryTC!.index;
+      int index = 0;
+      double currentPagePixel = 0;
+      key.currentState?.innerController.positions.forEach((element) {
+        if (lastPage == index) {
+          currentPagePixel = element.pixels;
+        }
+        index++;
+      });
+      if (currentPagePixel > 2000) {
+        if (showScrollTop != true) {
+          setState(() {
+            showScrollTop = true;
+          });
+        }
+      } else {
+        if (showScrollTop != false) {
+          setState(() {
+            showScrollTop = false;
+          });
+        }
+      }
+      inAnimating = false;
+    }
+    Future.delayed(const Duration(seconds: 3))
+        .then((value) => _checkScrollTop());
   }
 }
