@@ -27,7 +27,7 @@ abstract class ZZBaseBottomDialog {
 
   TextStyle? titleTextStyle() {
     return ZZ.textStyle(
-        color: zzColorBlack, fontSize: 18.sp, fontWeight: FontWeight.bold);
+        color: zzColorBlack, fontSize: 16.sp, fontWeight: FontWeight.bold);
   }
 
   double? titleHeight() {
