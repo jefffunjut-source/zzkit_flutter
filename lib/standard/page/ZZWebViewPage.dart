@@ -47,8 +47,8 @@ class ZZWebViewController extends GetxController {
   List<String> forbiddenHosts = [];
 
   // JavaScript
-  Map<String, ZZAppCallback1String>? actions;
-  ZZAppCallback2String? defaultAction;
+  Map<String, ZZAppCallback2String>? actions;
+  ZZAppCallback3String? defaultAction;
 
   // Scroll
   double scrollDelta = 2.0;
@@ -82,6 +82,7 @@ class ZZWebViewPage extends StatefulWidget {
   double? titleSpacing;
   bool? centerTitle;
   TextStyle? titleTextStyle;
+  String? extra;
   ZZWebViewPage(
       {super.key,
       this.title,
@@ -99,7 +100,8 @@ class ZZWebViewPage extends StatefulWidget {
       this.titleSpacing = 0,
       this.centerTitle = true,
       this.titleTextStyle = const TextStyle(
-          color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)});
+          color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+      this.extra});
 
   @override
   ZZWebViewPageState createState() {
@@ -235,7 +237,11 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
         'action', //商家
         onMessageReceived: (JavaScriptMessage message) {
           if (zzWebViewController.defaultAction != null) {
-            zzWebViewController.defaultAction!("action", message.message);
+            zzWebViewController.defaultAction!(
+              "action",
+              message.message,
+              widget.extra,
+            );
           }
         },
       )
@@ -244,7 +250,10 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
     zzWebViewController.actions?.forEach((key, value) {
       controller.addJavaScriptChannel(key,
           onMessageReceived: (JavaScriptMessage message) {
-        value(message.message);
+        value(
+          message.message,
+          widget.extra,
+        );
       });
     });
 

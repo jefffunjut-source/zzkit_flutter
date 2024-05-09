@@ -15,6 +15,7 @@ typedef ZZAppCallback2Object = void Function(Object?, Object?);
 typedef ZZAppCallback1Int = void Function(int);
 typedef ZZAppCallback1Int1String = void Function(int?, String?);
 typedef ZZAppCallback1Int1Object = void Function(int?, Object?);
+typedef ZZAppCallback3String = void Function(String?, String?, String?);
 
 enum ZZAppBarIcon {
   none,

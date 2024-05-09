@@ -234,6 +234,16 @@ extension ZZExtensionString on String {
     }
     return Colors.white;
   }
+
+  String? desensitize({int keepPrefixLength = 3, int keepSuffixLength = 2}) {
+    if (isEmpty || length <= keepPrefixLength + keepSuffixLength) {
+      return this;
+    }
+    String prefix = substring(0, keepPrefixLength);
+    String suffix = substring(length - keepSuffixLength);
+    String mask = '*' * (length - keepPrefixLength - keepSuffixLength);
+    return prefix + mask + suffix;
+  }
 }
 
 extension ZZExtensionInt on int {
