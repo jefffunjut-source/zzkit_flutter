@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_example/r.dart';
 import 'package:zzkit_flutter/standard/dialog/ZZBaseCenterDialog.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class XXSampleCenterDialog extends ZZBaseCenterDialog {
   @override

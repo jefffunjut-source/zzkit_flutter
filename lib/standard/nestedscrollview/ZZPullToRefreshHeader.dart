@@ -8,8 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 double get maxDragOffset => 100;
 double hideHeight = maxDragOffset / 2.3;

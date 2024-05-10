@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class ZZTextFieldWidget extends StatefulWidget {
   final TextEditingController controller;
   final int maxLength;
+  final int? maxLines;
   final bool autoFocus;
   final TextInputType keyboardType;
   final String hintText;
@@ -18,10 +19,12 @@ class ZZTextFieldWidget extends StatefulWidget {
   final bool enableClearIcon;
   final bool enableEncryption;
   final bool enableEncryptionIcon;
-  final double contentPadding;
+  final EdgeInsetsGeometry? contentPadding;
+  final double sidePadding;
   final TextStyle? style;
   final TextStyle? hintStyle;
   final TextAlign textAlign;
+  final TextAlignVertical textAlignVertical;
   final Color? focusedBorderSizeColor;
   final Color? enabledBorderSizeColor;
   final bool? filled;
@@ -34,6 +37,7 @@ class ZZTextFieldWidget extends StatefulWidget {
     super.key,
     required this.controller,
     this.maxLength = 50,
+    this.maxLines = 1,
     this.autoFocus = false,
     this.keyboardType = TextInputType.text,
     this.hintText = "",
@@ -43,10 +47,12 @@ class ZZTextFieldWidget extends StatefulWidget {
     this.enableClearIcon = false,
     this.enableEncryption = false,
     this.enableEncryptionIcon = false,
-    this.contentPadding = 12,
+    this.contentPadding,
+    this.sidePadding = 12,
     this.style,
     this.hintStyle,
     this.textAlign = TextAlign.start,
+    this.textAlignVertical = TextAlignVertical.top,
     this.focusedBorderSizeColor,
     this.enabledBorderSizeColor,
     this.filled = false,
@@ -90,8 +96,9 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
           child: TextField(
             focusNode: widget.focusNode,
             maxLength: widget.maxLength,
-            maxLines: 1,
+            maxLines: widget.maxLines,
             textAlign: widget.textAlign,
+            textAlignVertical: widget.textAlignVertical,
             obscureText: widget.enableEncryption ? !passwordEyeOn : false,
             autofocus: widget.autoFocus,
             controller: widget.controller,
@@ -106,13 +113,14 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
                 ? [FilteringTextInputFormatter.allow(RegExp("[0-9]"))]
                 : [],
             decoration: InputDecoration(
-              contentPadding: widget.enableClearIcon
-                  ? EdgeInsets.only(
-                      left: widget.contentPadding,
-                      right: widget.contentPadding / 4)
-                  : EdgeInsets.only(
-                      left: widget.contentPadding,
-                      right: widget.contentPadding),
+              contentPadding: (widget.maxLines ?? 1) > 1
+                  ? widget.contentPadding
+                  : widget.enableClearIcon
+                      ? EdgeInsets.only(
+                          left: widget.sidePadding,
+                          right: widget.sidePadding / 4)
+                      : EdgeInsets.only(
+                          left: widget.sidePadding, right: widget.sidePadding),
               hintText: widget.hintText,
               hintStyle: widget.hintStyle,
               counterText: "",
@@ -137,9 +145,11 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
         Offstage(
           offstage: !clearIconOn,
           child: Padding(
-            padding: (widget.enableEncryptionIcon && widget.enableEncryption)
-                ? EdgeInsets.only(right: widget.contentPadding)
-                : EdgeInsets.only(right: widget.contentPadding / 2),
+            padding: (widget.maxLines ?? 1) > 1
+                ? EdgeInsets.zero
+                : (widget.enableEncryptionIcon && widget.enableEncryption)
+                    ? EdgeInsets.only(right: widget.sidePadding)
+                    : EdgeInsets.only(right: widget.sidePadding / 2),
             child: InkWell(
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
@@ -161,7 +171,9 @@ class ZZTextFieldWidgetState extends State<ZZTextFieldWidget> {
         Offstage(
           offstage: !(widget.enableEncryptionIcon && widget.enableEncryption),
           child: Padding(
-            padding: EdgeInsets.only(right: widget.contentPadding),
+            padding: (widget.maxLines ?? 1) > 1
+                ? EdgeInsets.zero
+                : EdgeInsets.only(right: widget.sidePadding),
             child: InkWell(
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,

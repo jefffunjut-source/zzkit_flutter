@@ -6,7 +6,7 @@ import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/standard/widget/ZZCountdownWidget.dart';
 import 'package:zzkit_flutter/standard/widget/ZZImageWidget.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class ZZAdPage extends StatefulWidget {
   @override

@@ -4,7 +4,7 @@ library zzkit;
 
 import 'dart:ui';
 import 'package:get/get.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 enum ZZTranslationType {
   SimpleChinese,

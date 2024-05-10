@@ -2,7 +2,7 @@
 // ignore_for_file: depend_on_referenced_packages, must_be_immutable, invalid_use_of_protected_member, file_names
 import 'package:flutter/material.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXLoadMoreFooter.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class XXScrollToTopEvent {}
 

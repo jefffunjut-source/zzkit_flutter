@@ -4,8 +4,8 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:zzkit_example/r.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class XXLoadMorePage extends StatefulWidget {
   const XXLoadMorePage({super.key});

@@ -12,8 +12,8 @@ import 'package:zzkit_flutter/standard/nestedscrollview/ZZTabItem.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/ZZEvent.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class ZZNestedScrollViewPage extends StatefulWidget {
   String? name;
@@ -22,7 +22,7 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   List<ZZTabItem>? tabs;
   List<Widget>? pages;
   int? initialPageIndex;
-  ZZAppCallback1Int? pageSelected;
+  ZZCallback1Int? pageSelected;
   // 设置自定义的Tabbar
   List<Widget>? customizedTabs;
   RxInt? customizedTabIndex;

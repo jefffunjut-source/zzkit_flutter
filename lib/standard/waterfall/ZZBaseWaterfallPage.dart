@@ -11,12 +11,11 @@ import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
 import 'package:zzkit_flutter/util/ZZEvent.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-typedef ZZAppApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse>
-    Function();
+typedef ZZApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse> Function();
 
 class ZZBaseWaterfallController extends ZZBaseListController {
   int crossAxisCount = 2;
@@ -97,7 +96,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
       appBar: controller.appBar ??
           (controller.title != null
               ? ZZ.appbar(
-                  title: controller.title, leftIcon: ZZAppBarIcon.backblack)
+                  title: controller.title, leftIcon: ZZNavBarIcon.backblack)
               : null),
       body: Obx(() => controller.nodata.value
           ? Center(

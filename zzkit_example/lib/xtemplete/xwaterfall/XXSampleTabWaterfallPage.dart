@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:zzkit_example/xtemplete/xwaterfall/XXSampleWaterfallPage.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class XXSampleTabWaterfallPage extends StatefulWidget {
   const XXSampleTabWaterfallPage({super.key});

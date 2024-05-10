@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXHotSubPage.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class XXHotPage extends StatefulWidget {
   const XXHotPage({super.key});

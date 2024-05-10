@@ -1,11 +1,11 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, prefer_interpolation_to_compose_strings, file_names, empty_catches
 
-part of 'ZZAppManager.dart';
+part of 'ZZManager.dart';
 
 /// App版本Key
 const kAppPrefsAppVersion = "kAppPrefsAppVersion";
 
-class ZZAppPhoto {
+class ZZPhoto {
   Future<String?> base64() async {
     Uint8List? mem = await memory;
     if (mem != null) {
@@ -23,7 +23,7 @@ class ZZAppPhoto {
   int? width;
   int? height;
 
-  ZZAppPhoto(
+  ZZPhoto(
       {this.memory,
       this.actualMemory,
       this.image,
@@ -42,7 +42,7 @@ class ZZAppPhoto {
     return data;
   }
 
-  ZZAppPhoto.fromJson(dynamic json) {
+  ZZPhoto.fromJson(dynamic json) {
     image = json['image'];
     is_cover = json['is_cover'];
     index = json['index'];
@@ -51,9 +51,9 @@ class ZZAppPhoto {
   }
 }
 
-extension ZZAppLibUtil on ZZAppManager {
+extension ZZLibUtil on ZZManager {
   /// Camera
-  Future<List<ZZAppPhoto>?> selectPhoto(
+  Future<List<ZZPhoto>?> selectPhoto(
       {int maxAssets = 3,
       int quality = 70,
       ThumbnailSize size = const ThumbnailSize(1000, 1000)}) async {
@@ -96,7 +96,7 @@ extension ZZAppLibUtil on ZZAppManager {
           },
         ));
     return results?.map((entity) {
-      return ZZAppPhoto(
+      return ZZPhoto(
         width: entity.width,
         height: entity.height,
         memory: entity.thumbnailDataWithSize(size, quality: quality),
@@ -193,7 +193,7 @@ extension ZZAppLibUtil on ZZAppManager {
   }
 
   void doFollow(
-      String? currentFollow, String uid, ZZAppCallback1String? followCallback) {
+      String? currentFollow, String uid, ZZCallback1String? followCallback) {
     // 0无关系   1 a为b粉丝   2 a与b互相  3 b为a粉丝
   }
 

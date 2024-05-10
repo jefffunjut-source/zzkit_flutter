@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:zzkit_example/xtemplete/xlist/XXSampleListPage.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class XXSampleTabListPage extends StatefulWidget {
   const XXSampleTabListPage({super.key});

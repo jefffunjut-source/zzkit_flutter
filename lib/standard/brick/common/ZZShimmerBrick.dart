@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class ZZShimmerBrick extends ZZBaseBrick<ZZShimmerBrickObject> {
   @override

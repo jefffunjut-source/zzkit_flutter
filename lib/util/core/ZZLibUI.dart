@@ -1,12 +1,12 @@
 // ignore_for_file: file_names
 
-part of 'ZZAppManager.dart';
+part of 'ZZManager.dart';
 
-class ZZAppUrlAnalysisResult {
+class ZZUrlAnalysisResult {
   final String category;
   final String value;
 
-  ZZAppUrlAnalysisResult(this.category, this.value);
+  ZZUrlAnalysisResult(this.category, this.value);
 
   @override
   String toString() {
@@ -14,7 +14,7 @@ class ZZAppUrlAnalysisResult {
   }
 }
 
-extension ZZAppLibUI on ZZAppManager {
+extension ZZLibUI on ZZManager {
   /// 渐变颜色
   Gradient grandientColor(
       {required Color beginColor,
@@ -164,6 +164,7 @@ extension ZZAppLibUI on ZZAppManager {
       EdgeInsetsGeometry? margin,
       EdgeInsetsGeometry? padding,
       Color? color,
+      AlignmentGeometry? alignment,
       VoidCallback? onTap,
       bool debug = false}) {
     if (onTap != null) {
@@ -181,6 +182,7 @@ extension ZZAppLibUI on ZZAppManager {
             margin: margin,
             padding: padding,
             color: color,
+            alignment: alignment,
             debug: debug),
       );
     } else {
@@ -196,6 +198,7 @@ extension ZZAppLibUI on ZZAppManager {
           margin: margin,
           padding: padding,
           color: color,
+          alignment: alignment,
           debug: debug);
     }
   }
@@ -212,8 +215,10 @@ extension ZZAppLibUI on ZZAppManager {
       EdgeInsetsGeometry? margin,
       EdgeInsetsGeometry? padding,
       Color? color,
+      AlignmentGeometry? alignment,
       bool debug = false}) {
     return Container(
+      alignment: alignment,
       decoration: BoxDecoration(
           color: color ?? Colors.transparent,
           borderRadius: radius != null
@@ -285,15 +290,15 @@ extension ZZAppLibUI on ZZAppManager {
     );
   }
 
-  String? appbarIconString(ZZAppBarIcon? icon) {
+  String? appbarIconString(ZZNavBarIcon? icon) {
     switch (icon) {
-      case ZZAppBarIcon.none:
+      case ZZNavBarIcon.none:
         return null;
-      case ZZAppBarIcon.backblack:
+      case ZZNavBarIcon.backblack:
         return R.assetsImgIcNavBackBlack;
-      case ZZAppBarIcon.backwhite:
+      case ZZNavBarIcon.backwhite:
         return R.assetsImgIcNavBackWhite;
-      case ZZAppBarIcon.closeblack:
+      case ZZNavBarIcon.closeblack:
         return R.assetsImgIcNavCloseBlack;
       default:
         return R.assetsImgIcNavBackBlack;
@@ -318,7 +323,7 @@ extension ZZAppLibUI on ZZAppManager {
       double? elevation = 0,
       Color? surfaceTintColor,
       bool automaticallyImplyLeading = true,
-      ZZAppBarIcon? leftIcon = ZZAppBarIcon.backblack,
+      ZZNavBarIcon? leftIcon = ZZNavBarIcon.backblack,
       VoidCallback? onLeftIconTap,
       VoidCallback? onTitleDoubleTap}) {
     return AppBar(
@@ -481,30 +486,30 @@ extension ZZAppLibUI on ZZAppManager {
     );
   }
 
-  ZZAppUrlAnalysisResult _analyzeUrl(String url) {
+  ZZUrlAnalysisResult _analyzeUrl(String url) {
     if (url.contains("https://www.55haitaoshop.com/store/")) {
       String v = url.replaceFirst("https://www.55haitaoshop.com/store/", "");
       v = v.replaceFirst(".html", "");
       v = v.replaceFirst("/", "");
       if (v.isNotEmpty) {
-        return ZZAppUrlAnalysisResult("store", v);
+        return ZZUrlAnalysisResult("store", v);
       }
     } else if (url.contains("https://www.55haitaoshop.com/topic/")) {
       String v = url.replaceFirst("https://www.55haitaoshop.com/topic/", "");
       v = v.replaceFirst(".html", "");
       v = v.replaceFirst("/", "");
       if (v.isNotEmpty) {
-        return ZZAppUrlAnalysisResult("topic", v);
+        return ZZUrlAnalysisResult("topic", v);
       }
     } else if (url.contains("https://www.55haitaoshop.com/deals/")) {
       String v = url.replaceFirst("https://www.55haitaoshop.com/deals/", "");
       v = v.replaceFirst(".html", "");
       v = v.replaceFirst("/", "");
       if (v.isNotEmpty) {
-        return ZZAppUrlAnalysisResult("deals", v);
+        return ZZUrlAnalysisResult("deals", v);
       }
     }
-    return ZZAppUrlAnalysisResult("", ""); // 处理不匹配的情况
+    return ZZUrlAnalysisResult("", ""); // 处理不匹配的情况
   }
 
   Widget customMarkdownBody(String content) {
@@ -526,7 +531,7 @@ extension ZZAppLibUI on ZZAppManager {
       data: content,
       onTapLink: (text, href, title) {
         if (href != null) {
-          ZZAppUrlAnalysisResult res = _analyzeUrl(href);
+          ZZUrlAnalysisResult res = _analyzeUrl(href);
           if (res.category == "deals") {
           } else if (res.category == "topic") {
           } else if (res.category == "store") {

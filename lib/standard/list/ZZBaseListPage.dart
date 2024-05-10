@@ -12,12 +12,11 @@ import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
 import 'package:zzkit_flutter/util/ZZEvent.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-typedef ZZAppApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse>
-    Function();
+typedef ZZApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse> Function();
 
 enum ZZRefreshType {
   smartrefresh,
@@ -124,7 +123,7 @@ class ZZBaseListController extends GetxController {
 
   Future<ZZAPIResponse?> begin({
     required bool nextPage,
-    required ZZAppApiRequestCallback? apiRequest,
+    required ZZApiRequestCallback? apiRequest,
   }) async {
     status.value = ZZLoadMoreStatus.loading;
     if (nextPage == false) {
@@ -239,7 +238,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
       appBar: controller.appBar ??
           (controller.title != null
               ? ZZ.appbar(
-                  title: controller.title, leftIcon: ZZAppBarIcon.backblack)
+                  title: controller.title, leftIcon: ZZNavBarIcon.backblack)
               : null),
       body: controller.bottomWidget != null
           ? Column(

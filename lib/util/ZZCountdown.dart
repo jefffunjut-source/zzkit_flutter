@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, unused_field, file_names
 import 'dart:async';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class ZZCountdown {
   double countdown = 5;
   double step = 1;
-  ZZAppCallback1Int? callback;
+  ZZCallback1Int? callback;
   ZZCountdown({required this.countdown, required this.step, this.callback});
 
   Timer? _timer;

@@ -10,8 +10,8 @@ import 'package:zzkit_flutter/standard/page/ZZAdPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/page/ZZHomePage.dart';
 import 'package:zzkit_flutter/util/ZZEvent.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class ZZBootupPage extends StatefulWidget {
   const ZZBootupPage({super.key});

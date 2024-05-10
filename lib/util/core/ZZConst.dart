@@ -2,29 +2,29 @@
 library zzkit;
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-typedef ZZAppCallbackVoid = void Function(void);
-typedef ZZAppCallback1String = void Function(String?);
-typedef ZZAppCallback1String1Object = void Function(String?, Object?);
-typedef ZZAppCallback2String = void Function(String?, String?);
-typedef ZZAppCallback1Object = void Function(Object?);
-typedef ZZAppCallback2Object = void Function(Object?, Object?);
-typedef ZZAppCallback1Int = void Function(int);
-typedef ZZAppCallback1Int1String = void Function(int?, String?);
-typedef ZZAppCallback1Int1Object = void Function(int?, Object?);
-typedef ZZAppCallback3String = void Function(String?, String?, String?);
+typedef ZZCallbackVoid = void Function(void);
+typedef ZZCallback1String = void Function(String?);
+typedef ZZCallback1String1Object = void Function(String?, Object?);
+typedef ZZCallback2String = void Function(String?, String?);
+typedef ZZCallback1Object = void Function(Object?);
+typedef ZZCallback2Object = void Function(Object?, Object?);
+typedef ZZCallback1Int = void Function(int);
+typedef ZZCallback1Int1String = void Function(int?, String?);
+typedef ZZCallback1Int1Object = void Function(int?, Object?);
+typedef ZZCallback3String = void Function(String?, String?, String?);
 
-enum ZZAppBarIcon {
+enum ZZNavBarIcon {
   none,
   backblack,
   backwhite,
   closeblack,
 }
 
-ZZAppManager ZZ = ZZAppManager();
+ZZManager ZZ = ZZManager();
 
 /************************
  *    全局常量（不可变）   *

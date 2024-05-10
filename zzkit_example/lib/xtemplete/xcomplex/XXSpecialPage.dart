@@ -7,7 +7,7 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXPullToRefreshHeader.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXSpecialSubPage.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class XXScrollToTopEvent {}
 

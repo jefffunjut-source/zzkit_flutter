@@ -22,17 +22,18 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
-import 'ZZAppConsts.dart';
-part 'ZZAppLibUI.dart';
-part 'ZZAppLibUtil.dart';
+import 'ZZConst.dart';
 
-class ZZAppManager {
-  /// ZZAppManager单例
-  static final ZZAppManager singleton = ZZAppManager.internal();
-  factory ZZAppManager() {
+part 'ZZLibUI.dart';
+part 'ZZLibUtil.dart';
+
+class ZZManager {
+  /// ZZManager单例
+  static final ZZManager singleton = ZZManager.internal();
+  factory ZZManager() {
     return singleton;
   }
-  ZZAppManager.internal();
+  ZZManager.internal();
 
   // shared preference
   late SharedPreferences prefs;

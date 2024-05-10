@@ -5,8 +5,8 @@ import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 typedef ZZImageInfoCallback = void Function(ZZCustomImageInfo? imageInfo);
 
@@ -32,7 +32,7 @@ class ZZImageWidget extends StatefulWidget {
   final ZZImageInfoCallback? onImageInfoChange;
   final int? index;
   final Object? extra;
-  final ZZAppCallback1Int1Object? onTap;
+  final ZZCallback1Int1Object? onTap;
 
   const ZZImageWidget({
     super.key,

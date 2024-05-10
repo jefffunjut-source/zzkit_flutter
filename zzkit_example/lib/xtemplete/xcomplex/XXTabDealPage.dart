@@ -5,9 +5,9 @@ import 'package:zzkit_example/xtemplete/xcomplex/XXFollowingPage.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXHotPage.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXLatestPage.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXSpecialPage.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 import 'package:get/get.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class XXTabDealPage extends StatefulWidget {
   const XXTabDealPage({super.key});

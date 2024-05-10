@@ -18,9 +18,9 @@ import 'package:zzkit_example/xtemplete/xwaterfall/XXSampleWaterfallPage.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoticeWidget.dart';
 import 'package:zzkit_flutter/util/ZZTranslations.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class XXTest3rdController extends GetxController {
   RxString name = "".obs;

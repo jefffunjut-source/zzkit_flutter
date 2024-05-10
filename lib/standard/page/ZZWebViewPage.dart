@@ -13,8 +13,8 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
-import 'package:zzkit_flutter/util/core/ZZAppManager.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 class ZZWebViewController extends GetxController {
   // Progress bar
@@ -47,8 +47,8 @@ class ZZWebViewController extends GetxController {
   List<String> forbiddenHosts = [];
 
   // JavaScript
-  Map<String, ZZAppCallback2String>? actions;
-  ZZAppCallback3String? defaultAction;
+  Map<String, ZZCallback2String>? actions;
+  ZZCallback3String? defaultAction;
 
   // Scroll
   double scrollDelta = 2.0;

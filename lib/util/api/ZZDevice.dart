@@ -4,7 +4,7 @@ library zzkit;
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/util/core/ZZAppConsts.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 const zzKeyUserToken = "zzKeyUserToken";
