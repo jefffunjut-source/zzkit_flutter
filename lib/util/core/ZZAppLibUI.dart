@@ -540,12 +540,12 @@ extension ZZAppLibUI on ZZAppManager {
     );
   }
 
-  ///展示
-  void show() {
-    EasyLoading.show(status: 'loading...');
+  /// 展示
+  void show({String? message = "loading..."}) {
+    EasyLoading.show(status: message);
   }
 
-  ///隐藏
+  /// 隐藏
   void dismiss({VoidCallback? finished}) {
     EasyLoading.dismiss();
     if (finished != null) {
@@ -553,5 +553,159 @@ extension ZZAppLibUI on ZZAppManager {
         finished();
       });
     }
+  }
+
+  void test() {}
+
+  /// iOS风格的底部弹框
+  Future<String?> showBottomSheet({
+    List<String>? items,
+    TextStyle? itemTextStyle,
+    TextStyle? cancelTextStyle,
+  }) {
+    List<Widget> widgets = [];
+    if (items != null && items.isNotEmpty) {
+      for (var element in items) {
+        if (element == items.first && element == items.last) {
+          widgets.add(ZZ.outerBorderRadious(
+              radius: 12.w,
+              widget: Container(
+                alignment: Alignment.center,
+                height: 64.w,
+                color: Colors.white,
+                child: ListTile(
+                  title: Text(
+                    textAlign: TextAlign.center,
+                    element,
+                    style: itemTextStyle ??
+                        TextStyle(
+                          fontWeight: ui.FontWeight.w500,
+                          fontSize: 16.sp,
+                          color: Colors.black87,
+                        ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(zzContext, element);
+                  },
+                ),
+              )));
+        } else if (element == items.first) {
+          widgets.add(ZZ.outerBorderRadious(
+              radiusTopLeft: 12.w,
+              radiusTopRight: 12.w,
+              widget: Container(
+                alignment: Alignment.center,
+                height: 64.w,
+                color: Colors.white,
+                child: ListTile(
+                  title: Text(
+                    textAlign: TextAlign.center,
+                    element,
+                    style: itemTextStyle ??
+                        TextStyle(
+                          fontWeight: ui.FontWeight.w500,
+                          fontSize: 16.sp,
+                          color: Colors.black87,
+                        ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(zzContext, element);
+                  },
+                ),
+              )));
+        } else if (element == items.last) {
+          widgets.add(Container(
+            height: .5,
+            color: Colors.grey[300],
+          ));
+          widgets.add(ZZ.outerBorderRadious(
+              radiusBottomLeft: 12.w,
+              radiusBottomRight: 12.w,
+              widget: Container(
+                alignment: Alignment.center,
+                height: 64.w,
+                color: Colors.white,
+                child: ListTile(
+                  title: Text(
+                    textAlign: TextAlign.center,
+                    element,
+                    style: itemTextStyle ??
+                        TextStyle(
+                          fontWeight: ui.FontWeight.w500,
+                          fontSize: 16.sp,
+                          color: Colors.black87,
+                        ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(zzContext, element);
+                  },
+                ),
+              )));
+        } else {
+          widgets.add(Container(
+            height: .5,
+            color: Colors.grey[100],
+          ));
+          widgets.add(Container(
+            alignment: Alignment.center,
+            height: 64.w,
+            color: Colors.white,
+            child: ListTile(
+              title: Text(
+                textAlign: TextAlign.center,
+                element,
+                style: itemTextStyle ??
+                    TextStyle(
+                      fontWeight: ui.FontWeight.w500,
+                      fontSize: 16.sp,
+                      color: Colors.black87,
+                    ),
+              ),
+              onTap: () {
+                Navigator.pop(zzContext, element);
+              },
+            ),
+          ));
+        }
+      }
+    }
+    widgets.add(Container(
+      height: 12.w,
+      color: Colors.transparent,
+    ));
+
+    widgets.add(ZZ.outerBorderRadious(
+        margin: EdgeInsets.only(bottom: zzBottomBarHeight),
+        radius: 12.w,
+        widget: Container(
+          alignment: Alignment.center,
+          height: 64.w,
+          color: Colors.white,
+          child: ListTile(
+            title: Text(
+              textAlign: TextAlign.center,
+              "取消",
+              style: cancelTextStyle ??
+                  TextStyle(
+                    fontWeight: ui.FontWeight.normal,
+                    fontSize: 16.sp,
+                    color: Colors.black87,
+                  ),
+            ),
+            onTap: () {
+              Navigator.pop(zzContext, "取消");
+            },
+          ),
+        )));
+
+    return showCupertinoModalPopup(
+      context: zzContext,
+      builder: (BuildContext context) {
+        return Container(
+          margin: EdgeInsets.only(left: 12.w, right: 12.w),
+          child: Wrap(alignment: WrapAlignment.center, children: widgets),
+        );
+      },
+    );
   }
 }
