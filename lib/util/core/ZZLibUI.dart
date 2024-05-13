@@ -649,7 +649,7 @@ extension ZZLibUI on ZZManager {
         } else {
           widgets.add(Container(
             height: .5,
-            color: Colors.grey[100],
+            color: Colors.grey[300],
           ));
           widgets.add(Container(
             alignment: Alignment.center,
