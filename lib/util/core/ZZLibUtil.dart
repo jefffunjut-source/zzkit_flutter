@@ -252,4 +252,14 @@ extension ZZLibUtil on ZZManager {
     debugPrint(
         "keyword=$keyword  ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}:${DateTime.now().millisecond}");
   }
+
+  bool isNullOrEmpty(String? text) {
+    if (text == null) {
+      return true;
+    }
+    if (text.isEmpty) {
+      return true;
+    }
+    return false;
+  }
 }

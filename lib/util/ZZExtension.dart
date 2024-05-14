@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 extension ZZExtensionObject on Object {
   String parse2String() {
