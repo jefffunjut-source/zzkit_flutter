@@ -251,18 +251,20 @@ extension ZZExtensionString on String {
       return false;
     }
 
+    String trimmedCardNumber = replaceAll(RegExp(r'\s+'), '');
+
     // 身份证号码正则表达式
     final RegExp idCardRegExp = RegExp(
         r'^([1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}(\d|X|x))|'
         r'([1-9]\d{5}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3})$');
 
     // 校验身份证号码格式
-    if (!idCardRegExp.hasMatch(this)) {
+    if (!idCardRegExp.hasMatch(trimmedCardNumber)) {
       return false;
     }
 
     // 校验身份证号码最后一位校验码
-    if (length == 18) {
+    if (trimmedCardNumber.length == 18) {
       int sum = 0;
       const List<int> weights = [
         7,
@@ -298,18 +300,80 @@ extension ZZExtensionString on String {
       ];
 
       for (int i = 0; i < 17; i++) {
-        sum += int.parse(this[i]) * weights[i];
+        sum += int.parse(trimmedCardNumber[i]) * weights[i];
       }
 
       int remainder = sum % 11;
       String checkCode = checkCodes[remainder];
 
-      if (this[17].toUpperCase() != checkCode) {
+      if (trimmedCardNumber[17].toUpperCase() != checkCode) {
         return false;
       }
     }
 
     return true;
+  }
+
+  bool isValidUnionPayDebitCard() {
+    // 去除可能的空格
+    String trimmedCardNumber = replaceAll(RegExp(r'\s+'), '');
+
+    // 验证长度
+    if (trimmedCardNumber.length != 16 &&
+        trimmedCardNumber.length != 18 &&
+        trimmedCardNumber.length != 19) {
+      return false;
+    }
+
+    // 验证是否只包含数字
+    if (!RegExp(r'^\d+$').hasMatch(trimmedCardNumber)) {
+      return false;
+    }
+
+    // 使用Luhn算法进行校验
+    int sum = 0;
+    bool shouldDouble = false;
+    for (int i = trimmedCardNumber.length - 1; i >= 0; i--) {
+      int digit = int.parse(trimmedCardNumber[i]);
+      if (shouldDouble) {
+        if ((digit *= 2) > 9) {
+          digit -= 9;
+        }
+      }
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+
+    // 如果校验和是10的倍数，则通过校验
+    return sum % 10 == 0;
+  }
+
+  bool isValidCreditCardNumber() {
+    // 去除可能的空格、破折号和其他非数字字符
+    String trimmedCardNumber = replaceAll(RegExp(r'[^\d]'), '');
+
+    // 验证长度
+    if (trimmedCardNumber.length < 13 || trimmedCardNumber.length > 19) {
+      return false;
+    }
+
+    // 使用Luhn算法进行校验
+    int sum = 0;
+    bool doubleNext = false;
+    for (int i = trimmedCardNumber.length - 1; i >= 0; i--) {
+      int digit = int.parse(trimmedCardNumber[i]);
+      if (doubleNext) {
+        digit *= 2;
+        if (digit > 9) {
+          digit -= 9;
+        }
+      }
+      sum += digit;
+      doubleNext = !doubleNext;
+    }
+
+    // 如果校验和是10的倍数，则通过校验
+    return sum % 10 == 0;
   }
 }
 
