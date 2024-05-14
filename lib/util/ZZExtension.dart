@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 extension ZZExtensionObject on Object {
   String parse2String() {
@@ -243,6 +244,72 @@ extension ZZExtensionString on String {
     String suffix = substring(length - keepSuffixLength);
     String mask = '*' * (length - keepPrefixLength - keepSuffixLength);
     return prefix + mask + suffix;
+  }
+
+  bool isValidChineseIDCard() {
+    if (isEmpty) {
+      return false;
+    }
+
+    // 身份证号码正则表达式
+    final RegExp idCardRegExp = RegExp(
+        r'^([1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}(\d|X|x))|'
+        r'([1-9]\d{5}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3})$');
+
+    // 校验身份证号码格式
+    if (!idCardRegExp.hasMatch(this)) {
+      return false;
+    }
+
+    // 校验身份证号码最后一位校验码
+    if (length == 18) {
+      int sum = 0;
+      const List<int> weights = [
+        7,
+        9,
+        10,
+        5,
+        8,
+        4,
+        2,
+        1,
+        6,
+        3,
+        7,
+        9,
+        10,
+        5,
+        8,
+        4,
+        2
+      ];
+      const List<String> checkCodes = [
+        '1',
+        '0',
+        'X',
+        '9',
+        '8',
+        '7',
+        '6',
+        '5',
+        '4',
+        '3',
+        '2'
+      ];
+
+      for (int i = 0; i < 17; i++) {
+        sum += int.parse(this[i]) * weights[i];
+      }
+
+      int remainder = sum % 11;
+      String checkCode = checkCodes[remainder];
+
+      if (this[17].toUpperCase() != checkCode) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
 

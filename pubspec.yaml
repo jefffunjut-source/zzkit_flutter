@@ -29,6 +29,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   event_bus: ^2.0.0
   # 相机相册 Begin
+  # 需要Android、iOS权限配置的
   wechat_assets_picker: ^9.0.3
   wechat_camera_picker: ^4.2.1 
   photo_manager: ^3.0.0
