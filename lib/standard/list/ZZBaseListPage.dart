@@ -119,6 +119,8 @@ class ZZBaseListController extends GetxController {
     this.parentName,
   });
 
+  void initialize() {}
+
   void fetchData({required bool nextPage}) async {}
 
   Future<ZZAPIResponse?> begin({
