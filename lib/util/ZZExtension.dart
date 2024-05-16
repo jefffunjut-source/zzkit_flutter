@@ -374,6 +374,37 @@ extension ZZExtensionString on String {
     // 如果校验和是10的倍数，则通过校验
     return sum % 10 == 0;
   }
+
+  double? calculateTextWidth(TextStyle? textStyle) {
+    if (isEmpty) {
+      return 0;
+    }
+    final TextSpan textSpan = TextSpan(
+      text: this,
+      style: textStyle,
+    );
+
+    final TextPainter textPainter = TextPainter(
+      text: textSpan,
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    );
+
+    textPainter.layout(minWidth: 0, maxWidth: double.infinity);
+    return textPainter.size.width;
+  }
+
+  int? calculateTextLength() {
+    int len = 0;
+    for (int i = 0; i < length; i++) {
+      if (RegExp(r'[\u4E00-\u9FFF]').hasMatch(this[i])) {
+        len += 2; // 汉字算2
+      } else {
+        len += 1; // 英文字符算1
+      }
+    }
+    return len;
+  }
 }
 
 extension ZZExtensionInt on int {

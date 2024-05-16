@@ -13,6 +13,7 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
+import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
@@ -370,8 +371,16 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                     )),
                 widget.appBar ??
                     Container(
-                      margin: const EdgeInsets.only(left: 2, right: 2),
+                      margin: widget.titleView == null
+                          ? ((zzWebViewController.title.value
+                                          .calculateTextLength() ??
+                                      0) <=
+                                  16
+                              ? EdgeInsets.only(left: 100.w, right: 100.w)
+                              : EdgeInsets.only(left: 100.w, right: 60.w))
+                          : EdgeInsets.only(left: 100.w, right: 100.w),
                       child: Container(
+                        // color: Colors.amber,
                         alignment: Alignment.center,
                         child: widget.titleView ??
                             Text(
