@@ -104,14 +104,6 @@ extension ZZLibUtil on ZZManager {
     }).toList();
   }
 
-  ///avatar 头像，show_record攻略，normal通用
-  Future<String?> uploadImage({String? base64, String? type = "avatar"}) async {
-    if (base64 == null) {
-      return null;
-    }
-    return null;
-  }
-
   /// 收回键盘
   void collapseKeyboard() {
     FocusScopeNode currentFocus = FocusScope.of(zzContext);
@@ -126,6 +118,7 @@ extension ZZLibUtil on ZZManager {
         .then((value) => toast("复制成功"));
   }
 
+  /// 随机字符串
   String generateRandomString(int length) {
     final random = Random();
     const availableChars =
@@ -157,73 +150,7 @@ extension ZZLibUtil on ZZManager {
     return result;
   }
 
-  // msg 消息 详情跳转，1跳链接，2商家，3deal，4晒单，5评论，0不跳，注意要jump_data有数据才跳，0不跳转
-  void msgForward(
-    String? jumpType,
-    String? jumpData,
-    String? jumpDataId,
-    String? topicId,
-    String? commentType,
-  ) {
-    if (jumpData == null || jumpData == "") return;
-    switch (jumpType) {
-      case "1":
-        {
-          // 链接
-          break;
-        }
-
-      default:
-    }
-  }
-
-  void forward(String? type, String? title, String? linkData, String? id,
-      String? needLogin) {}
-
-  String getStoreBgColor(String storeLogo) {
-    var uri = Uri.parse(storeLogo);
-    return uri.queryParameters['store_logo_bg_color']
-            ?.replaceAll("#", "0xFF") ??
-        "0xFFFFFFFF";
-  }
-
-  String getStoreLogo(String storeLogo) {
-    var uri = Uri.parse(storeLogo);
-    return uri.queryParameters['replace_img'] ?? storeLogo;
-  }
-
-  void doFollow(
-      String? currentFollow, String uid, ZZCallback1String? followCallback) {
-    // 0无关系   1 a为b粉丝   2 a与b互相  3 b为a粉丝
-  }
-
-  void pushClick(Map<dynamic, dynamic> messageExtras) {
-    if (Platform.isAndroid) {
-      String messageContent = messageExtras['cn.jpush.android.EXTRA'];
-      Map<String, dynamic> data = jsonDecode(messageContent);
-
-      Future.delayed(const Duration(seconds: 1), () {
-        // 推送
-        String type = data["type"] ?? '';
-        String value = data["value"] ?? '';
-        String id = data["id"] ?? '';
-        String name = data["name"] ?? '';
-        forward(type, name, value, id, "0");
-      });
-    } else {
-      String type = messageExtras["type"] ?? '';
-      String value = messageExtras["value"] ?? '';
-      String id = messageExtras["id"] ?? '';
-      String name = messageExtras["name"] ?? '';
-      if (kDebugMode) {
-        print("flutter onOpenNotification ios: $messageExtras");
-      }
-      Future.delayed(const Duration(seconds: 1), () {
-        forward(type, name, value, id, "0");
-      });
-    }
-  }
-
+  /// 获取网络图片
   Future<ui.Image> getImageFromNetwork(String url) async {
     final response = await http.get(Uri.parse(url));
     final bytes = response.bodyBytes;
@@ -237,6 +164,7 @@ extension ZZLibUtil on ZZManager {
     return completer.future;
   }
 
+  /// 相比当前版本是否有更新或完全新下载
   bool? getNewInstallOrUpdate(String currentVersion) {
     bool? isNewInstallOrUpdate = prefs.getBool("isNewInstallOrUpdate");
     if (isNewInstallOrUpdate != null) return isNewInstallOrUpdate;
@@ -248,11 +176,13 @@ extension ZZLibUtil on ZZManager {
     return false;
   }
 
+  /// 打印Log
   void debugPrintTime({String? keyword}) {
     debugPrint(
         "keyword=$keyword  ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}:${DateTime.now().millisecond}");
   }
 
+  /// 指针空或空字符串
   bool isNullOrEmpty(String? text) {
     if (text == null) {
       return true;
@@ -261,5 +191,75 @@ extension ZZLibUtil on ZZManager {
       return true;
     }
     return false;
+  }
+
+  /// 计算缓存大小
+  Future<String> getCacheSize() async {
+    int size = await getCacheBytes();
+    if (size < 1024) {
+      return "";
+    }
+    int kb = size ~/ 1024;
+    if (kb < 1024) {
+      return "$kb KB";
+    }
+    int mb = kb ~/ 1024;
+    if (mb < 1024) {
+      return "$mb MB";
+    }
+    int gb = mb ~/ 1024;
+    return "$gb GB";
+  }
+
+  /// 计算缓存大小
+  Future<int> getCacheBytes() async {
+    Directory cacheDir = await getTemporaryDirectory();
+    int totalSize = 0;
+
+    try {
+      totalSize = await calculateDirectorySize(cacheDir);
+    } catch (e) {
+      debugPrint('Error calculating cache size: $e');
+    }
+    return totalSize;
+  }
+
+  /// 递归计算目录大小
+  Future<int> calculateDirectorySize(Directory directory) async {
+    int totalSize = 0;
+    final List<FileSystemEntity> entities = directory.listSync();
+
+    for (FileSystemEntity entity in entities) {
+      if (entity is File) {
+        totalSize += await entity.length();
+      } else if (entity is Directory) {
+        totalSize += await calculateDirectorySize(entity);
+      }
+    }
+    return totalSize;
+  }
+
+  /// 清除缓存
+  Future<void> clearCache() async {
+    Directory cacheDir = await getTemporaryDirectory();
+
+    try {
+      await deleteDirectory(cacheDir);
+    } catch (e) {
+      debugPrint('Error clearing cache: $e');
+    }
+  }
+
+  /// 递归删除目录
+  Future<void> deleteDirectory(Directory directory) async {
+    final List<FileSystemEntity> entities = directory.listSync();
+
+    for (FileSystemEntity entity in entities) {
+      if (entity is File) {
+        await entity.delete();
+      } else if (entity is Directory) {
+        await deleteDirectory(entity);
+      }
+    }
   }
 }
