@@ -63,6 +63,7 @@ class ZZBaseListController extends GetxController {
   String? refreshingCompleteText;
   String? refreshingLoadingText;
   String? refreshingNoDataText;
+  ZZCallback1Object? onFinishRefresh;
 
   // UI描述
   // Scaffold的margin padding
@@ -106,6 +107,7 @@ class ZZBaseListController extends GetxController {
     this.refreshingCompleteText = zzRefreshingCompleteText,
     this.refreshingLoadingText = zzRefreshingLoadingText,
     this.refreshingNoDataText = zzRefreshingNoDataText,
+    this.onFinishRefresh,
     this.margin,
     this.padding,
     this.brickMargin,
@@ -223,11 +225,11 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
         if (event.name == controller.parentName) {
-          _getData(false);
+          _retrieveData(false);
         }
       });
     }
-    _getData(false);
+    _retrieveData(false);
   }
 
   @override
@@ -253,35 +255,6 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     );
   }
 
-  void _getData(bool nextPage) async {
-    ZZBaseListController controller = widget.controller;
-
-    /// Shimmer
-    if (controller.shimmer ?? false) {
-      bool hasShimmer = false;
-      for (var object in controller.dataSource) {
-        if (object is ZZShimmerBrickObject) {
-          hasShimmer = true;
-          break;
-        }
-      }
-      if (!hasShimmer) {
-        List arr = List.empty(growable: true);
-        for (int i = 0; i < controller.pageSize; i++) {
-          var shimmer = ZZShimmerBrickObject()
-            ..height = controller.shimmerBrickHeight
-            ..customWidget = controller.shimmerCustomWidget
-            ..widget = ZZShimmerBrick();
-          arr.add(shimmer);
-        }
-        controller.dataSource.addAll(arr);
-      }
-    }
-
-    /// Real data
-    controller.fetchData(nextPage: nextPage);
-  }
-
   Widget _obxBodyWidget() {
     ZZBaseListController controller = widget.controller;
     return Obx(() => controller.nodata.value
@@ -290,7 +263,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
               nodata: true,
               onTap: () {
                 ZZ.show();
-                _getData(false);
+                _retrieveData(false);
                 Future.delayed(const Duration(seconds: 1))
                     .then((value) => ZZ.dismiss());
               },
@@ -331,10 +304,10 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
         ),
         onRefresh: () async {
           controller.refreshController.resetNoData();
-          _getData(false);
+          _retrieveData(false);
         },
         onLoading: () async {
-          _getData(true);
+          _retrieveData(true);
         },
         child: _customScrollView(),
       );
@@ -408,7 +381,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
             controller: controller,
             loadMoreBlock: () async {
               if (noMore) return ZZLoadMoreStatus.noMoreData;
-              _getData(true);
+              _retrieveData(true);
               return ZZLoadMoreStatus.finishLoad;
             },
           );
@@ -418,5 +391,34 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
       itemCount: controller.dataSource.length + 1,
       padding: const EdgeInsets.all(0.0),
     );
+  }
+
+  void _retrieveData(bool nextPage) async {
+    ZZBaseListController controller = widget.controller;
+
+    /// Shimmer
+    if (controller.shimmer ?? false) {
+      bool hasShimmer = false;
+      for (var object in controller.dataSource) {
+        if (object is ZZShimmerBrickObject) {
+          hasShimmer = true;
+          break;
+        }
+      }
+      if (!hasShimmer) {
+        List arr = List.empty(growable: true);
+        for (int i = 0; i < controller.pageSize; i++) {
+          var shimmer = ZZShimmerBrickObject()
+            ..height = controller.shimmerBrickHeight
+            ..customWidget = controller.shimmerCustomWidget
+            ..widget = ZZShimmerBrick();
+          arr.add(shimmer);
+        }
+        controller.dataSource.addAll(arr);
+      }
+    }
+
+    /// Retrieve data
+    controller.fetchData(nextPage: nextPage);
   }
 }

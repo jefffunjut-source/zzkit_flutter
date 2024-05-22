@@ -44,6 +44,8 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   GlobalKey<NestedScrollViewState>? globalKey;
   // ScrollTop
   bool? scrollTop;
+  // OnRefresh
+  VoidCallback? onRefresh;
 
   ZZNestedScrollViewPage({
     super.key,
@@ -69,6 +71,7 @@ class ZZNestedScrollViewPage extends StatefulWidget {
     this.tabBarExtraHeight,
     this.globalKey,
     this.scrollTop,
+    this.onRefresh,
   });
 
   @override
@@ -181,6 +184,9 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     return PullToRefreshNotification(
       color: Colors.white,
       onRefresh: () {
+        if (widget.onRefresh != null) {
+          widget.onRefresh!();
+        }
         zzEventBus.fire(ZZEventNestedScrollViewRefresh(name: widget.name));
         return Future(() => true);
       },

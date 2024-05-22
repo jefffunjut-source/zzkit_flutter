@@ -39,6 +39,7 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.refreshingCompleteText,
     super.refreshingLoadingText,
     super.refreshingNoDataText,
+    super.onFinishRefresh,
     super.margin,
     super.padding,
     super.brickMargin,
@@ -48,6 +49,7 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.backgroundColor,
     super.secondBackgroundColor,
     super.safeAreaBottom,
+    super.bottomWidget,
     super.parentName,
   }) : super();
 }
@@ -79,11 +81,11 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
         if (event.name == controller.parentName) {
-          _getData(false);
+          _retrieveData(false);
         }
       });
     }
-    _getData(false);
+    _retrieveData(false);
   }
 
   @override
@@ -98,30 +100,37 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
               ? ZZ.appbar(
                   title: controller.title, leftIcon: ZZNavBarIcon.backblack)
               : null),
-      body: Obx(() => controller.nodata.value
-          ? Center(
-              child: ZZNoDataWidget(
-                nodata: true,
-                onTap: () {
-                  ZZ.show();
-                  _getData(false);
-                  Future.delayed(const Duration(seconds: 1))
-                      .then((value) => ZZ.dismiss());
-                },
-              ),
+      body: controller.bottomWidget != null
+          ? Column(
+              children: [
+                Expanded(child: _obxBodyWidget()),
+                controller.bottomWidget!,
+              ],
             )
-          : Container(
-              color: controller.secondBackgroundColor,
-              margin: controller.margin,
-              padding: controller.padding,
-              child: _homeBody(),
-            )),
+          : _obxBodyWidget(),
     );
   }
 
-  void _getData(bool nextPage) async {
-    ZZBaseWaterfallController controller = widget.controller;
-    controller.fetchData(nextPage: nextPage);
+  Widget _obxBodyWidget() {
+    ZZBaseListController controller = widget.controller;
+    return Obx(() => controller.nodata.value
+        ? Center(
+            child: ZZNoDataWidget(
+              nodata: true,
+              onTap: () {
+                ZZ.show();
+                _retrieveData(false);
+                Future.delayed(const Duration(seconds: 1))
+                    .then((value) => ZZ.dismiss());
+              },
+            ),
+          )
+        : Container(
+            color: controller.secondBackgroundColor,
+            margin: controller.margin,
+            padding: controller.padding,
+            child: _homeBody(),
+          ));
   }
 
   Widget _homeBody() {
@@ -147,10 +156,10 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
         ),
         onRefresh: () async {
           controller.refreshController.resetNoData();
-          _getData(false);
+          _retrieveData(false);
         },
         onLoading: () async {
-          _getData(true);
+          _retrieveData(true);
         },
         child: _customScrollView(ZZRefreshType.smartrefresh),
       );
@@ -195,7 +204,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
               controller: controller,
               loadMoreBlock: () async {
                 if (noMore) return ZZLoadMoreStatus.noMoreData;
-                _getData(true);
+                _retrieveData(true);
                 return ZZLoadMoreStatus.finishLoad;
               },
             );
@@ -223,7 +232,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
               controller: controller,
               loadMoreBlock: () async {
                 if (noMore) return ZZLoadMoreStatus.noMoreData;
-                _getData(true);
+                _retrieveData(true);
                 return ZZLoadMoreStatus.finishLoad;
               },
             );
@@ -236,5 +245,10 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
       physics: physics,
       controller: controller.scrollController,
     );
+  }
+
+  void _retrieveData(bool nextPage) async {
+    ZZBaseWaterfallController controller = widget.controller;
+    controller.fetchData(nextPage: nextPage);
   }
 }

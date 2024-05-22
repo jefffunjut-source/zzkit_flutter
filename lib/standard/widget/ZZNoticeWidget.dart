@@ -84,6 +84,7 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
                       left: width / 2 + (widget.noticeXFromCenter ?? 2),
                       top: height / 2 - (widget.noticeYFromCenter ?? 16),
                       child: Container(
+                        width: 12.w,
                         height: 12.w,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(88.w),
