@@ -63,7 +63,6 @@ class ZZBaseListController extends GetxController {
   String? refreshingCompleteText;
   String? refreshingLoadingText;
   String? refreshingNoDataText;
-  ZZCallback1Object? onFinishRefresh;
 
   // UI描述
   // Scaffold的margin padding
@@ -107,7 +106,6 @@ class ZZBaseListController extends GetxController {
     this.refreshingCompleteText = zzRefreshingCompleteText,
     this.refreshingLoadingText = zzRefreshingLoadingText,
     this.refreshingNoDataText = zzRefreshingNoDataText,
-    this.onFinishRefresh,
     this.margin,
     this.padding,
     this.brickMargin,

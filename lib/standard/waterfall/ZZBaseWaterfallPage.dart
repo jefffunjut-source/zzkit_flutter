@@ -39,7 +39,6 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.refreshingCompleteText,
     super.refreshingLoadingText,
     super.refreshingNoDataText,
-    super.onFinishRefresh,
     super.margin,
     super.padding,
     super.brickMargin,
