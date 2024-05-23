@@ -36,20 +36,31 @@ class ZZAdPageState extends State<ZZAdPage> {
 
   @override
   Widget build(BuildContext context) {
+    ZZBootupController controller = Get.find();
+
     return ZZBaseScaffold(
         safeAreaBottom: false,
         backgroundColor: Colors.white,
         body: Stack(
           children: [
-            Container(
-              width: zzScreenWidth,
-              height: zzScreenHeight,
-              color: Colors.white,
-              child: ZZImageWidget(
+            GestureDetector(
+              onTap: () async {
+                if (controller.onTapAd != null) {
+                  controller.offAdOrMainPage();
+                  Future.delayed(const Duration(milliseconds: 1000))
+                      .then((value) => controller.onTapAd!(adData));
+                }
+              },
+              child: Container(
                 width: zzScreenWidth,
                 height: zzScreenHeight,
-                fit: BoxFit.cover,
-                imageUrl: adData?.pic,
+                color: Colors.white,
+                child: ZZImageWidget(
+                  width: zzScreenWidth,
+                  height: zzScreenHeight,
+                  fit: BoxFit.cover,
+                  imageUrl: adData?.pic,
+                ),
               ),
             ),
             adData != null

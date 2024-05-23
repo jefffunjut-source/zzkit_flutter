@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/page/ZZAdPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZHomePage.dart';
 
+typedef ZZCallbackAd = void Function(ZZAdData?);
+
 class ZZBootupController extends GetxController {
   /// canvas画布的宽高（设计稿的宽高）
   double? canvasWidth;
@@ -22,6 +24,7 @@ class ZZBootupController extends GetxController {
   bool triedAd = false;
   Future<ZZAdData?> Function()? adBlock;
   double adCountdown = 5;
+  ZZCallbackAd? onTapAd;
 
   /// 多语言
   Translations? translations;
