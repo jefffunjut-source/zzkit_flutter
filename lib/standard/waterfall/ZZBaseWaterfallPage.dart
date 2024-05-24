@@ -50,6 +50,8 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.safeAreaBottom,
     super.bottomWidget,
     super.parentName,
+    super.enableTab,
+    super.tabLength,
   }) : super();
 }
 
@@ -66,9 +68,10 @@ class ZZBaseWaterfallPage<T> extends StatefulWidget {
 }
 
 class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   bool noMore = false;
   int lastTime = 0;
+  TabController? tabController;
 
   @override
   bool get wantKeepAlive => true;
@@ -76,7 +79,12 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
   @override
   void initState() {
     super.initState();
-    ZZBaseListController controller = widget.controller;
+    ZZBaseWaterfallController controller = widget.controller;
+    if (controller.enableTab == true && controller.tabController == null) {
+      controller.tabController =
+          TabController(length: controller.tabLength, vsync: this);
+    }
+    controller.initialize();
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
         if (event.name == controller.parentName) {
@@ -89,7 +97,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
 
   @override
   Widget build(BuildContext context) {
-    ZZBaseListController controller = widget.controller;
+    ZZBaseWaterfallController controller = widget.controller;
     super.build(context);
     return ZZBaseScaffold(
       backgroundColor: controller.backgroundColor,
@@ -111,7 +119,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
   }
 
   Widget _obxBodyWidget() {
-    ZZBaseListController controller = widget.controller;
+    ZZBaseWaterfallController controller = widget.controller;
     return Obx(() => controller.nodata.value
         ? Center(
             child: ZZNoDataWidget(

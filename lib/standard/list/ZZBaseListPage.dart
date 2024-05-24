@@ -90,6 +90,11 @@ class ZZBaseListController extends GetxController {
   // waterfall multiple types
   bool isWaterfallMultipleType = false;
 
+  // tab controller
+  bool? enableTab;
+  int tabLength;
+  TabController? tabController;
+
   ZZBaseListController({
     this.refreshType = ZZRefreshType.smartrefresh,
     this.enablePulldown = true,
@@ -117,6 +122,8 @@ class ZZBaseListController extends GetxController {
     this.safeAreaBottom,
     this.bottomWidget,
     this.parentName,
+    this.enableTab,
+    this.tabLength = 0,
   });
 
   void initialize() {}
@@ -210,7 +217,7 @@ class ZZBaseListPage<T> extends StatefulWidget {
 }
 
 class ZZBaseListState<T> extends State<ZZBaseListPage>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   bool noMore = false;
 
   @override
@@ -220,6 +227,12 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   void initState() {
     super.initState();
     ZZBaseListController controller = widget.controller;
+
+    if (controller.enableTab == true && controller.tabController == null) {
+      controller.tabController =
+          TabController(length: controller.tabLength, vsync: this);
+    }
+    controller.initialize();
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
         if (event.name == controller.parentName) {

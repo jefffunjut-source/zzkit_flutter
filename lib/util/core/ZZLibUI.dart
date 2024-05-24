@@ -369,20 +369,21 @@ extension ZZLibUI on ZZManager {
   }
 
   /// 通用Tabbar RoundedRectangle
-  TabBar tabbarRoundedRectangle(
-      {required List<String> tabs,
-      ValueChanged<int>? onTap,
-      TabController? controller,
-      Color? indicatorColor = zzColorRed,
-      double? indicatorRadius,
-      Gradient? indicatorGradient,
-      EdgeInsetsGeometry? indicatorPadding,
-      Color? labelColor,
-      Color? unselectedLabelColor,
-      TextStyle? labelStyle,
-      TextStyle? unselectedLabelStyle,
-      bool? isScrollable,
-      TabAlignment? tabAlignment}) {
+  TabBar tabbarRoundedRectangle({
+    required List<String> tabs,
+    required TabController? controller,
+    ValueChanged<int>? onTap,
+    Color? indicatorColor = zzColorRed,
+    double? indicatorRadius,
+    Gradient? indicatorGradient,
+    EdgeInsetsGeometry? indicatorPadding,
+    Color? labelColor,
+    Color? unselectedLabelColor,
+    TextStyle? labelStyle,
+    TextStyle? unselectedLabelStyle,
+    bool? isScrollable,
+    TabAlignment? tabAlignment,
+  }) {
     return TabBar(
       onTap: onTap,
       dividerHeight: 0,
@@ -429,21 +430,22 @@ extension ZZLibUI on ZZManager {
     );
   }
 
-  TabBar tabbarUnderline(
-      {required List<String> tabs,
-      ValueChanged<int>? onTap,
-      TabController? controller,
-      Color? indicatorColor = zzColorRed,
-      double? indicatorRadius,
-      Gradient? indicatorGradient,
-      EdgeInsetsGeometry? indicatorPadding,
-      double? indicatorWeight,
-      Color? labelColor,
-      Color? unselectedLabelColor,
-      TextStyle? labelStyle,
-      TextStyle? unselectedLabelStyle,
-      bool? isScrollable,
-      TabAlignment? tabAlignment}) {
+  TabBar tabbarUnderline({
+    required List<String> tabs,
+    required TabController? controller,
+    ValueChanged<int>? onTap,
+    Color? indicatorColor = zzColorRed,
+    double? indicatorRadius,
+    Gradient? indicatorGradient,
+    EdgeInsetsGeometry? indicatorPadding,
+    double? indicatorWeight,
+    Color? labelColor,
+    Color? unselectedLabelColor,
+    TextStyle? labelStyle,
+    TextStyle? unselectedLabelStyle,
+    bool? isScrollable,
+    TabAlignment? tabAlignment,
+  }) {
     return TabBar(
       onTap: onTap,
       dividerHeight: 0,
