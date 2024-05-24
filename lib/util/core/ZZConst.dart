@@ -50,6 +50,7 @@ double zzStatusBarHeight = ScreenUtil().statusBarHeight; // 状态栏高度 刘�
 double zzBottomBarHeight = ScreenUtil().bottomBarHeight; // 下巴高度 底部安全区距离 dp
 
 double zzZero = 0.0001;
+const String zzCenterDot = "·";
 
 /// 颜色常量
 const zzColorClear = Color(0x00000000);
