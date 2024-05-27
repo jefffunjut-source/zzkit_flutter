@@ -28,9 +28,17 @@ class R {
   static final String assetsImgIcPlaceholderImage =
       'assets/img/ic_placeholder_image.png';
 
+  /// ![](http://127.0.0.1:9527/assets/img/ic_placeholder_no_coupon.png)
+  static final String assetsImgIcPlaceholderNoCoupon =
+      'assets/img/ic_placeholder_no_coupon.png';
+
   /// ![](http://127.0.0.1:9527/assets/img/ic_placeholder_no_data.png)
   static final String assetsImgIcPlaceholderNoData =
       'assets/img/ic_placeholder_no_data.png';
+
+  /// ![](http://127.0.0.1:9527/assets/img/ic_placeholder_no_network.png)
+  static final String assetsImgIcPlaceholderNoNetwork =
+      'assets/img/ic_placeholder_no_network.png';
 
   /// ![](http://127.0.0.1:9527/assets/img/ic_scroll_to_top.png)
   static final String assetsImgIcScrollToTop =

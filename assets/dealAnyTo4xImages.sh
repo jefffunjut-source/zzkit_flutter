@@ -1,4 +1,5 @@
 # 用法：./dealAnyTo4xImages.sh $width $height
+# 用法：./dealAnyTo4xImages.sh $scale
 
 echo ''
 echo 'Begin to deal Any Pictures to 4x'
@@ -6,7 +7,7 @@ echo 'Begin to deal Any Pictures to 4x'
 find . -name "*DS_*" | xargs rm -rf
 
 if [ "a$1" = "a" ];then
-  echo '带上宽高参数'
+  echo '带上宽高参数 或者 指明当前image是几倍图'
   exit
 fi
 
@@ -26,9 +27,17 @@ do
       
       # 判断是否为图片类型文件
       if [ "$file_extension" = "jpg" ] || [ "$file_extension" = "png" ] || [ "$file_extension" = "jpeg" ]; then
+        
         pixW_1x=$1
         pixH_1x=$2
 
+        if [ "a$2" = "a" ];then
+          pixW=$(sips -g pixelWidth "$img" | awk '/pixelWidth:/{print $2}')
+          pixH=$(sips -g pixelHeight "$img" | awk '/pixelHeight:/{print $2}')
+          pixW_1x=$(printf "%.0f\n" "$(echo "$pixW / $1" | bc)")
+          pixH_1x=$(printf "%.0f\n" "$(echo "$pixH / $1" | bc)")
+        fi
+        
         my_array=($(echo $img | tr "/" "\n"))
         originalImg=${my_array[1]}
 
@@ -54,8 +63,4 @@ done
 echo 'Done!'
 echo ''
 
-if [ "a$3" = a ];then
-
-  ./deal4xImages.sh
-
-fi
+./deal4xImages.sh
