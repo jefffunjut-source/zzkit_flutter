@@ -165,6 +165,11 @@ extension ZZLibUI on ZZManager {
       EdgeInsetsGeometry? padding,
       Color? color,
       AlignmentGeometry? alignment,
+      bool? enableShadow,
+      Color? shadowColor,
+      Offset? shadowOffset,
+      double? spreadRadius,
+      double? blurRadius,
       VoidCallback? onTap,
       bool debug = false}) {
     if (onTap != null) {
@@ -183,6 +188,11 @@ extension ZZLibUI on ZZManager {
             padding: padding,
             color: color,
             alignment: alignment,
+            enableShadow: enableShadow,
+            shadowColor: shadowColor,
+            shadowOffset: shadowOffset,
+            spreadRadius: spreadRadius,
+            blurRadius: blurRadius,
             debug: debug),
       );
     } else {
@@ -199,6 +209,11 @@ extension ZZLibUI on ZZManager {
           padding: padding,
           color: color,
           alignment: alignment,
+          enableShadow: enableShadow,
+          shadowColor: shadowColor,
+          shadowOffset: shadowOffset,
+          spreadRadius: spreadRadius,
+          blurRadius: blurRadius,
           debug: debug);
     }
   }
@@ -216,10 +231,25 @@ extension ZZLibUI on ZZManager {
       EdgeInsetsGeometry? padding,
       Color? color,
       AlignmentGeometry? alignment,
+      bool? enableShadow,
+      Color? shadowColor,
+      Offset? shadowOffset,
+      double? spreadRadius,
+      double? blurRadius,
       bool debug = false}) {
     return Container(
       alignment: alignment,
       decoration: BoxDecoration(
+          boxShadow: enableShadow == true
+              ? [
+                  BoxShadow(
+                    color: shadowColor ?? Colors.black.withAlpha(10),
+                    spreadRadius: spreadRadius ?? 5.0, // 阴影的大小
+                    blurRadius: blurRadius ?? 7.0, // 阴影的模糊程度
+                    offset: shadowOffset ?? const Offset(2, 2),
+                  )
+                ]
+              : null,
           color: color ?? Colors.transparent,
           borderRadius: radius != null
               ? BorderRadius.all(Radius.circular(radius))
