@@ -440,6 +440,26 @@ extension ZZExtensionInt on int {
   }
 }
 
+extension ZZExtensionDouble on double {
+  double? parse2FixedRound({int decimal = 2}) {
+    decimal = pow(10, decimal).toInt();
+    int tempValue = (this * decimal).round();
+    return tempValue.toDouble() / decimal;
+  }
+
+  double? parse2FixedFloor({int decimal = 2}) {
+    decimal = pow(10, decimal).toInt();
+    int tempValue = (this * decimal).floor();
+    return tempValue.toDouble() / decimal;
+  }
+
+  double? parse2FixedCeiling({int decimal = 2}) {
+    decimal = pow(10, decimal).toInt();
+    int tempValue = (this * decimal).ceil();
+    return tempValue.toDouble() / decimal;
+  }
+}
+
 extension ZZExtensionDateTime on DateTime {
   String parse2MonthString() {
     switch (month) {

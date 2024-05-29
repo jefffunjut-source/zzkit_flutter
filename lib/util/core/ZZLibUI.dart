@@ -577,6 +577,40 @@ extension ZZLibUI on ZZManager {
     );
   }
 
+  Widget customText(
+      {String? head,
+      String? text,
+      double? headWidth,
+      double? spacing,
+      double? runningSpace,
+      TextStyle? headStyle,
+      TextStyle? textStyle}) {
+    return Container(
+      margin: EdgeInsets.only(bottom: runningSpace ?? 10.w),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: spacing ?? 2.w),
+            color: Colors.white,
+            width: headWidth ?? 20.w,
+            child: Text(
+              head ?? "",
+              style: headStyle,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              text ?? "",
+              textAlign: TextAlign.left,
+              style: textStyle,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// 展示
   void show({String? message = "loading..."}) {
     EasyLoading.show(status: message);
@@ -591,8 +625,6 @@ extension ZZLibUI on ZZManager {
       });
     }
   }
-
-  void test() {}
 
   /// iOS风格的底部弹框
   Future<String?> showBottomSheet({
