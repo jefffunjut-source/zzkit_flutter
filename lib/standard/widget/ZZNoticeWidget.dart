@@ -79,41 +79,44 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
                   : widget.noticeImage ??
                       ZZ.image(R.assetsImgIcNavNotice,
                           bundleName: zzBundleName)!,
-              controller.noticeNumber.value.isNotEmpty
+              controller.noticeNumber.value.trim().isNotEmpty
                   ? Positioned(
                       left: width / 2 + (widget.noticeXFromCenter ?? 2),
                       top: height / 2 - (widget.noticeYFromCenter ?? 16),
-                      child: Container(
-                        width: 12.w,
-                        height: 12.w,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(88.w),
-                            color: controller.highlighted.value
-                                ? widget.highlightedPointBackgroundColor
-                                : (widget.pointBackgroundColor ?? Colors.red),
-                            border: Border.all(
-                                color: controller.highlighted.value
-                                    ? (widget.highlightedBorderColor ??
-                                        Colors.red)
-                                    : (widget.borderColor ?? Colors.red),
-                                width: 1.w)),
-                        padding: EdgeInsets.symmetric(horizontal: 2.w),
-                        alignment: Alignment.center,
-                        child: Text(
-                          controller.noticeNumber.value.isNumericOnly &&
-                                  controller.noticeNumber.value.length > 2
-                              ? "···"
-                              : controller.noticeNumber.value,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: controller.highlighted.value
-                              ? widget.highlightedTextStyle
-                              : (widget.textStyle ??
-                                  ZZ.textStyle(
-                                      color: Colors.white, fontSize: 10.sp)),
-                        ),
-                      ),
+                      child: ZZ.outerBorderRadious(
+                          radius: 7.w,
+                          color: controller.highlighted.value
+                              ? widget.highlightedPointBackgroundColor
+                              : (widget.pointBackgroundColor ?? Colors.red),
+                          borderColor: controller.highlighted.value
+                              ? (widget.highlightedBorderColor ?? Colors.red)
+                              : (widget.borderColor ?? Colors.red),
+                          widget: Container(
+                            height: 14.w,
+                            width:
+                                controller.noticeNumber.value.trim().length <= 1
+                                    ? 14.w
+                                    : null,
+                            padding:
+                                controller.noticeNumber.value.trim().length <= 1
+                                    ? null
+                                    : EdgeInsets.symmetric(horizontal: 4.w),
+                            alignment: Alignment.center,
+                            child: Text(
+                              controller.noticeNumber.value.trim().length > 2
+                                  ? "···"
+                                  : controller.noticeNumber.value.trim(),
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.clip,
+                              style: controller.highlighted.value
+                                  ? widget.highlightedTextStyle
+                                  : (widget.textStyle ??
+                                      ZZ.textStyle(
+                                          color: Colors.white,
+                                          fontSize: 10.sp)),
+                            ),
+                          )),
                     )
                   : Container()
             ],
