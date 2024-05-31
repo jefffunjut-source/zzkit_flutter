@@ -579,6 +579,7 @@ extension ZZLibUI on ZZManager {
 
   Widget customText(
       {String? head,
+      Widget? headWidget,
       String? text,
       double? headWidth,
       double? spacing,
@@ -586,18 +587,19 @@ extension ZZLibUI on ZZManager {
       TextStyle? headStyle,
       TextStyle? textStyle}) {
     return Container(
-      margin: EdgeInsets.only(bottom: runningSpace ?? 10.w),
+      padding: EdgeInsets.only(bottom: runningSpace ?? 10.w),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(right: spacing ?? 2.w),
             color: Colors.white,
-            width: headWidth ?? 20.w,
-            child: Text(
-              head ?? "",
-              style: headStyle,
-            ),
+            width: headWidget != null ? null : (headWidth ?? 20.w),
+            child: headWidget ??
+                Text(
+                  head ?? "",
+                  style: headStyle,
+                ),
           ),
           Expanded(
             child: Text(
