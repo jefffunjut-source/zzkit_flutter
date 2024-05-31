@@ -9,7 +9,7 @@ import 'package:zzkit_flutter/standard/brick/common/ZZShimmerBrick.dart';
 import 'package:zzkit_flutter/standard/nestedscrollview/ZZLoadMoreFooter.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
-import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
+import 'package:zzkit_flutter/standard/widget/ZZPlaceholderWidget.dart';
 import 'package:zzkit_flutter/util/ZZEvent.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
@@ -271,8 +271,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     return Obx(() => controller.nodata.value
         ? Center(
             child: ZZNoDataWidget(
-              nodata: true,
-              onTap: () {
+              onReloadTap: () {
                 ZZ.show();
                 _retrieveData(false);
                 Future.delayed(const Duration(seconds: 1))

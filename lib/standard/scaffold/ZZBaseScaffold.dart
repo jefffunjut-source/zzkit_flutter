@@ -3,7 +3,7 @@ library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zzkit_flutter/standard/widget/ZZNoDataWidget.dart';
+import 'package:zzkit_flutter/standard/widget/ZZPlaceholderWidget.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
@@ -123,7 +123,6 @@ class ZZBaseScaffoldState extends ScaffoldState {
                     right: 0,
                     bottom: 0,
                     child: ZZNoDataWidget(
-                      nodata: nodata,
                       hintText: nodataHintText,
                     ))
                 : ZZ.empty()
