@@ -22,6 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'package:zzkit_flutter/r.dart';
+import 'package:zzkit_flutter/standard/widget/ZZOuterRadiusWidget.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
 import 'ZZConst.dart';
 

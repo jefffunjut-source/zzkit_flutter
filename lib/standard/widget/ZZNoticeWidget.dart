@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/r.dart';
+import 'package:zzkit_flutter/standard/widget/ZZOuterRadiusWidget.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
@@ -83,7 +84,7 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
                   ? Positioned(
                       left: width / 2 + (widget.noticeXFromCenter ?? 2),
                       top: height / 2 - (widget.noticeYFromCenter ?? 16),
-                      child: ZZ.outerBorderRadious(
+                      child: ZZOuterRadiusWidget(
                           radius: 7.w,
                           color: controller.highlighted.value
                               ? widget.highlightedPointBackgroundColor
@@ -91,7 +92,7 @@ class ZZNoticeWidgetState extends State<ZZNoticeWidget> {
                           borderColor: controller.highlighted.value
                               ? (widget.highlightedBorderColor ?? Colors.red)
                               : (widget.borderColor ?? Colors.red),
-                          widget: Container(
+                          child: Container(
                             height: 14.w,
                             width:
                                 controller.noticeNumber.value.trim().length <= 1

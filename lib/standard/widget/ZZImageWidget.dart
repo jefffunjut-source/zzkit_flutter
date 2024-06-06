@@ -5,8 +5,8 @@ import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zzkit_flutter/standard/widget/ZZOuterRadiusWidget.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
-import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 typedef ZZImageInfoCallback = void Function(ZZCustomImageInfo? imageInfo);
 
@@ -174,11 +174,11 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
     if (widget.radius != null ||
         widget.borderWidth != null ||
         widget.borderColor != null) {
-      return ZZ.outerBorderRadious(
+      return ZZOuterRadiusWidget(
           radius: widget.radius,
           borderWidth: widget.borderWidth,
           borderColor: widget.borderColor,
-          widget: _imageWidgetWithOnTap());
+          child: _imageWidgetWithOnTap());
     } else {
       return _imageWidgetWithOnTap();
     }

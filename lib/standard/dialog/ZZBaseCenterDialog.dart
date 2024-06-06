@@ -4,6 +4,7 @@ library zzkit;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zzkit_flutter/standard/widget/ZZOuterRadiusWidget.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
@@ -120,17 +121,17 @@ abstract class ZZBaseCenterDialog {
               radius() > 0 ? Colors.transparent : backgroundColor(),
           surfaceTintColor:
               radius() > 0 ? Colors.transparent : backgroundColor(),
-          content: ZZ.outerBorderRadious(
+          content: ZZOuterRadiusWidget(
               radiusTopLeft: radius(),
               radiusTopRight: radius(),
-              widget: Container(
+              child: Container(
                   color: contentBackgroundColor(), child: contentWidget())),
           actionsAlignment: MainAxisAlignment.spaceAround,
           actions: [
-            ZZ.outerBorderRadious(
+            ZZOuterRadiusWidget(
                 radiusBottomLeft: radius(),
                 radiusBottomRight: radius(),
-                widget: Container(
+                child: Container(
                     color: actionsBackgroundColor(),
                     height: buttonHeight(),
                     child: Stack(

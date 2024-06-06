@@ -152,141 +152,6 @@ extension ZZLibUI on ZZManager {
     }
   }
 
-  Widget outerBorderRadious(
-      {required Widget widget,
-      double? borderWidth,
-      Color? borderColor,
-      double? radius,
-      double? radiusTopLeft,
-      double? radiusTopRight,
-      double? radiusBottomLeft,
-      double? radiusBottomRight,
-      EdgeInsetsGeometry? margin,
-      EdgeInsetsGeometry? padding,
-      Color? color,
-      AlignmentGeometry? alignment,
-      bool? enableShadow,
-      Color? shadowColor,
-      Offset? shadowOffset,
-      double? spreadRadius,
-      double? blurRadius,
-      VoidCallback? onTap,
-      bool debug = false}) {
-    if (onTap != null) {
-      return GestureDetector(
-        onTap: onTap,
-        child: _outerBorderRadious(
-            widget: widget,
-            borderWidth: borderWidth,
-            borderColor: borderColor,
-            radius: radius,
-            radiusTopLeft: radiusTopLeft,
-            radiusTopRight: radiusTopRight,
-            radiusBottomLeft: radiusBottomLeft,
-            radiusBottomRight: radiusBottomRight,
-            margin: margin,
-            padding: padding,
-            color: color,
-            alignment: alignment,
-            enableShadow: enableShadow,
-            shadowColor: shadowColor,
-            shadowOffset: shadowOffset,
-            spreadRadius: spreadRadius,
-            blurRadius: blurRadius,
-            debug: debug),
-      );
-    } else {
-      return _outerBorderRadious(
-          widget: widget,
-          borderWidth: borderWidth,
-          borderColor: borderColor,
-          radius: radius,
-          radiusTopLeft: radiusTopLeft,
-          radiusTopRight: radiusTopRight,
-          radiusBottomLeft: radiusBottomLeft,
-          radiusBottomRight: radiusBottomRight,
-          margin: margin,
-          padding: padding,
-          color: color,
-          alignment: alignment,
-          enableShadow: enableShadow,
-          shadowColor: shadowColor,
-          shadowOffset: shadowOffset,
-          spreadRadius: spreadRadius,
-          blurRadius: blurRadius,
-          debug: debug);
-    }
-  }
-
-  Widget _outerBorderRadious(
-      {required Widget widget,
-      double? borderWidth = 0,
-      Color? borderColor = Colors.transparent,
-      double? radius,
-      double? radiusTopLeft,
-      double? radiusTopRight,
-      double? radiusBottomLeft,
-      double? radiusBottomRight,
-      EdgeInsetsGeometry? margin,
-      EdgeInsetsGeometry? padding,
-      Color? color,
-      AlignmentGeometry? alignment,
-      bool? enableShadow,
-      Color? shadowColor,
-      Offset? shadowOffset,
-      double? spreadRadius,
-      double? blurRadius,
-      bool debug = false}) {
-    return Container(
-      alignment: alignment,
-      decoration: BoxDecoration(
-          boxShadow: enableShadow == true
-              ? [
-                  BoxShadow(
-                    color: shadowColor ?? Colors.black.withAlpha(10),
-                    spreadRadius: spreadRadius ?? 5.0, // 阴影的大小
-                    blurRadius: blurRadius ?? 7.0, // 阴影的模糊程度
-                    offset: shadowOffset ?? const Offset(2, 2),
-                  )
-                ]
-              : null,
-          color: color ?? Colors.transparent,
-          borderRadius: radius != null
-              ? BorderRadius.all(Radius.circular(radius))
-              : ((radiusTopLeft != null ||
-                      radiusTopRight != null ||
-                      radiusBottomLeft != null ||
-                      radiusBottomRight != null)
-                  ? BorderRadius.only(
-                      topLeft: Radius.circular(radiusTopLeft ?? 0),
-                      topRight: Radius.circular(radiusTopRight ?? 0),
-                      bottomLeft: Radius.circular(radiusBottomLeft ?? 0),
-                      bottomRight: Radius.circular(radiusBottomRight ?? 0),
-                    )
-                  : null),
-          border: (borderColor != null && borderWidth != null)
-              ? Border.all(color: borderColor, width: borderWidth)
-              : null),
-      margin: margin,
-      padding: padding,
-      child: ClipRRect(
-        borderRadius: radius != null
-            ? BorderRadius.all(Radius.circular(radius - 2.w))
-            : (BorderRadius.only(
-                topLeft: Radius.circular(radiusTopLeft ?? 0),
-                topRight: Radius.circular(radiusTopRight ?? 0),
-                bottomLeft: Radius.circular(radiusBottomLeft ?? 0),
-                bottomRight: Radius.circular(radiusBottomRight ?? 0),
-              )),
-        child: Container(
-          color: debug ? Colors.amber : Colors.transparent,
-          margin: EdgeInsets.zero,
-          child: widget,
-        ),
-      ),
-    );
-  }
-
   Widget enabledButton(
       {String? title,
       EdgeInsetsGeometry? margin,
@@ -638,9 +503,9 @@ extension ZZLibUI on ZZManager {
     if (items != null && items.isNotEmpty) {
       for (var element in items) {
         if (element == items.first && element == items.last) {
-          widgets.add(ZZ.outerBorderRadious(
+          widgets.add(ZZOuterRadiusWidget(
               radius: 12.w,
-              widget: Container(
+              child: Container(
                 alignment: Alignment.center,
                 height: 64.w,
                 color: Colors.white,
@@ -661,10 +526,10 @@ extension ZZLibUI on ZZManager {
                 ),
               )));
         } else if (element == items.first) {
-          widgets.add(ZZ.outerBorderRadious(
+          widgets.add(ZZOuterRadiusWidget(
               radiusTopLeft: 12.w,
               radiusTopRight: 12.w,
-              widget: Container(
+              child: Container(
                 alignment: Alignment.center,
                 height: 64.w,
                 color: Colors.white,
@@ -689,10 +554,10 @@ extension ZZLibUI on ZZManager {
             height: .5,
             color: Colors.grey[300],
           ));
-          widgets.add(ZZ.outerBorderRadious(
+          widgets.add(ZZOuterRadiusWidget(
               radiusBottomLeft: 12.w,
               radiusBottomRight: 12.w,
-              widget: Container(
+              child: Container(
                 alignment: Alignment.center,
                 height: 64.w,
                 color: Colors.white,
@@ -745,10 +610,10 @@ extension ZZLibUI on ZZManager {
       color: Colors.transparent,
     ));
 
-    widgets.add(ZZ.outerBorderRadious(
+    widgets.add(ZZOuterRadiusWidget(
         margin: EdgeInsets.only(bottom: zzBottomBarHeight),
         radius: 12.w,
-        widget: Container(
+        child: Container(
           alignment: Alignment.center,
           height: 64.w,
           color: Colors.white,
