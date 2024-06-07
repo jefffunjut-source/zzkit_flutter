@@ -52,7 +52,7 @@ extension ZZExtensionString on String {
 
   bool isToday() {
     return this ==
-            "${DateTime.now().month}/${DateTime.now().day.parse2MonthString()}" ||
+            "${DateTime.now().month}/${DateTime.now().day.parse2String(digit: 2)}" ||
         this == "${DateTime.now().month}/${DateTime.now().day}";
   }
 
@@ -420,9 +420,9 @@ extension ZZExtensionInt on int {
     return this < 0;
   }
 
-  String parse2MonthString() {
+  String parse2String({int digit = 2}) {
     String result = toString();
-    if (result.length == 1) {
+    while (result.length < digit) {
       result = "0$result";
     }
     return result;

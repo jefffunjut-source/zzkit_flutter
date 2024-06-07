@@ -6,13 +6,15 @@ part of 'ZZManager.dart';
 const kAppPrefsAppVersion = "kAppPrefsAppVersion";
 
 class ZZPhoto {
+  static toBase64(Uint8List? mem) {
+    if (mem == null) return null;
+    String base64Str = base64Encode(mem);
+    return "data:image/png;base64," + base64Str;
+  }
+
   Future<String?> base64() async {
     Uint8List? mem = await memory;
-    if (mem != null) {
-      String base64Str = base64Encode(mem);
-      return "data:image/png;base64," + base64Str;
-    }
-    return null;
+    return ZZPhoto.toBase64(mem);
   }
 
   Uint8List? actualMemory;
