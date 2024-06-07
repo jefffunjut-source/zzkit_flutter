@@ -79,14 +79,14 @@ class ZZNoDataWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            color: Colors.white,
+            color: bgColor ?? Colors.white,
             padding: placeholderImagePadding,
             child: placeholderImage ??
                 ZZ.image(R.assetsImgIcPlaceholderNoData,
                     bundleName: zzBundleName, fit: BoxFit.fitWidth),
           ),
           Container(
-            color: Colors.white,
+            color: bgColor ?? Colors.white,
             alignment: Alignment.center,
             padding: hintTextPadding,
             child: Text(
@@ -96,7 +96,7 @@ class ZZNoDataWidget extends StatelessWidget {
           ),
           onReloadTap != null
               ? Container(
-                  color: Colors.white,
+                  color: bgColor ?? Colors.white,
                   padding: reloadPadding,
                   child: GestureDetector(
                     onTap: onReloadTap,

@@ -83,6 +83,8 @@ class ZZBaseListController extends GetxController {
   bool? safeAreaBottom;
   // Bottom Bar
   Widget? bottomWidget;
+  // No Data background Color
+  Color? nodataBgColor;
 
   // RefreshType == PullToRefresh时候，NestedScrollPage的name
   String? parentName;
@@ -121,6 +123,7 @@ class ZZBaseListController extends GetxController {
     this.secondBackgroundColor,
     this.safeAreaBottom,
     this.bottomWidget,
+    this.nodataBgColor,
     this.parentName,
     this.enableTab,
     this.tabLength = 0,
@@ -271,6 +274,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     return Obx(() => controller.nodata.value
         ? Center(
             child: ZZNoDataWidget(
+              bgColor: controller.nodataBgColor ?? Colors.white,
               onReloadTap: () {
                 ZZ.show();
                 _retrieveData(false);

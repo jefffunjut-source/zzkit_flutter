@@ -49,6 +49,7 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.secondBackgroundColor,
     super.safeAreaBottom,
     super.bottomWidget,
+    super.nodataBgColor,
     super.parentName,
     super.enableTab,
     super.tabLength,
@@ -123,6 +124,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     return Obx(() => controller.nodata.value
         ? Center(
             child: ZZNoDataWidget(
+              bgColor: controller.nodataBgColor ?? Colors.white,
               onReloadTap: () {
                 ZZ.show();
                 _retrieveData(false);
