@@ -210,10 +210,10 @@ extension ZZExtensionString on String {
     return "${parse2Int() - number}";
   }
 
-  Color toColor() {
+  Color? toColor() {
     try {
       if (isEmpty) {
-        return Colors.white;
+        return null;
       }
 
       // 移除可能的前缀
@@ -232,7 +232,7 @@ extension ZZExtensionString on String {
     } catch (e) {
       debugPrint(e.toString());
     }
-    return Colors.white;
+    return null;
   }
 
   String? desensitize({int keepPrefixLength = 3, int keepSuffixLength = 2}) {

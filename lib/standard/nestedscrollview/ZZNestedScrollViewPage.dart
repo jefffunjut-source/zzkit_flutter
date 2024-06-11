@@ -21,6 +21,7 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   List<Widget>? topWidgets;
   List<ZZTabItem>? tabs;
   List<Widget>? pages;
+  AppBar? appBar;
   int? initialPageIndex;
   ZZCallback1Int? pageSelected;
   // 设置自定义的Tabbar
@@ -54,6 +55,7 @@ class ZZNestedScrollViewPage extends StatefulWidget {
     required this.topWidgets,
     required this.tabs,
     required this.pages,
+    this.appBar,
     this.initialPageIndex,
     this.pageSelected,
     this.customizedTabs,
@@ -123,6 +125,7 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
   Widget build(BuildContext context) {
     _check();
     return ZZBaseScaffold(
+      appBar: widget.appBar,
       safeAreaBottom: false,
       backgroundColor: widget.backgroundColor,
       body: _buildScaffoldBody(),
