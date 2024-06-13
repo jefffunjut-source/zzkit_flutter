@@ -43,13 +43,15 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   AlignmentGeometry? tabContainerAlignment;
   // Tabbar Body滚动控制器
   ScrollController? scrollController;
-
   // NestedScrollView的global key
   GlobalKey<NestedScrollViewState>? globalKey;
   // ScrollTop
   bool? scrollTop;
   // OnRefresh
   VoidCallback? onRefresh;
+  // Bottom Widget
+  Widget? bottomWidget;
+  bool? safeAreaBottom;
 
   ZZNestedScrollViewPage({
     super.key,
@@ -79,6 +81,8 @@ class ZZNestedScrollViewPage extends StatefulWidget {
     this.globalKey,
     this.scrollTop,
     this.onRefresh,
+    this.bottomWidget,
+    this.safeAreaBottom,
   });
 
   @override
@@ -131,7 +135,7 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
     _check();
     return ZZBaseScaffold(
       appBar: widget.appBar,
-      safeAreaBottom: false,
+      safeAreaBottom: widget.safeAreaBottom ?? false,
       backgroundColor: widget.backgroundColor,
       body: _buildScaffoldBody(),
       floatingActionButtonLocation:
@@ -229,7 +233,8 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
               Container(color: Colors.white, child: _tabbar()),
               Expanded(
                 child: _tabBarView(),
-              )
+              ),
+              widget.bottomWidget ?? Container()
             ],
           ),
         ),
