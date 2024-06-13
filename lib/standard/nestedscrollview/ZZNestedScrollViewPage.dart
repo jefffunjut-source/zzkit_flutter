@@ -37,10 +37,13 @@ class ZZNestedScrollViewPage extends StatefulWidget {
   TextStyle? tabUnselectedLabelStyle;
   bool? tabIsScrollable;
   TabAlignment? tabAlignment;
-  // Tabbar Body滚动控制器
-  ScrollController? scrollController;
   // Tabbar额外顶部高度
   RxDouble? tabBarExtraHeight;
+  Widget? tabRightWidget;
+  AlignmentGeometry? tabContainerAlignment;
+  // Tabbar Body滚动控制器
+  ScrollController? scrollController;
+
   // NestedScrollView的global key
   GlobalKey<NestedScrollViewState>? globalKey;
   // ScrollTop
@@ -69,8 +72,10 @@ class ZZNestedScrollViewPage extends StatefulWidget {
     this.tabUnselectedLabelStyle,
     this.tabIsScrollable,
     this.tabAlignment,
-    this.scrollController,
     this.tabBarExtraHeight,
+    this.tabRightWidget,
+    this.tabContainerAlignment = Alignment.centerLeft,
+    this.scrollController,
     this.globalKey,
     this.scrollTop,
     this.onRefresh,
@@ -262,11 +267,37 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
             width: 414.w,
             height: widget.tabBarExtraHeight!.value,
           ),
-          _bar
+          widget.tabRightWidget == null
+              ? _bar
+              : Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      alignment: widget.tabContainerAlignment,
+                      child: _bar,
+                    )),
+                    Container(
+                      child: widget.tabRightWidget,
+                    )
+                  ],
+                )
         ],
       );
     }
-    return _bar;
+    return widget.tabRightWidget == null
+        ? _bar
+        : Row(
+            children: [
+              Expanded(
+                  child: Container(
+                alignment: widget.tabContainerAlignment,
+                child: _bar,
+              )),
+              Container(
+                child: widget.tabRightWidget,
+              )
+            ],
+          );
   }
 
   TabBar _customizedTabBar() {
