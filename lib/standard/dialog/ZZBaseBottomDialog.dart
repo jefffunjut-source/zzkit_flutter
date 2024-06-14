@@ -27,7 +27,7 @@ abstract class ZZBaseBottomDialog {
 
   TextStyle? titleTextStyle() {
     return ZZ.textStyle(
-        color: zzColorBlack, fontSize: 16.sp, fontWeight: FontWeight.bold);
+        color: ZZColor.dark, fontSize: 16.sp, fontWeight: FontWeight.bold);
   }
 
   double? titleHeight() {
@@ -43,7 +43,7 @@ abstract class ZZBaseBottomDialog {
   }
 
   Color? separatorColor() {
-    return zzColorGreyCC;
+    return ZZColor.greyCC;
   }
 
   double radius() {

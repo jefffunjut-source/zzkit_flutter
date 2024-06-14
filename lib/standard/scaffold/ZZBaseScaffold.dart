@@ -3,9 +3,9 @@ library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zzkit_flutter/standard/widget/ZZEmptyWidget.dart';
 import 'package:zzkit_flutter/standard/widget/ZZPlaceholderWidget.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
-import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 // ignore: must_be_immutable
 class ZZBaseScaffold extends Scaffold {
@@ -125,7 +125,7 @@ class ZZBaseScaffoldState extends ScaffoldState {
                     child: ZZNoDataWidget(
                       hintText: nodataHintText,
                     ))
-                : ZZ.empty()
+                : ZZEmptyWidget()
           ])),
     );
   }

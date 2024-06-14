@@ -491,7 +491,7 @@ class ZZProgressBarWidgetState extends State<ZZProgressBarWidget> {
                         zzWebViewController.progressBarWidth,
                     zzWebViewController.progressBarWidth),
                 decoration: BoxDecoration(
-                    color: zzWebViewController.progressTintColor ?? zzColorRed,
+                    color: zzWebViewController.progressTintColor ?? ZZColor.red,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(
                             zzWebViewController.progressBarHeight / 2.0),

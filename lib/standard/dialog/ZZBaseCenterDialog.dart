@@ -61,16 +61,16 @@ abstract class ZZBaseCenterDialog {
 
   TextStyle leftButtonTextStyle() {
     return ZZ.textStyle(
-        color: zzColorRed, fontSize: 16.sp, fontWeight: FontWeight.bold);
+        color: ZZColor.red, fontSize: 16.sp, fontWeight: FontWeight.bold);
   }
 
   TextStyle rightButtonTextStyle() {
     return ZZ.textStyle(
-        color: zzColorWhite, fontSize: 16.sp, fontWeight: FontWeight.bold);
+        color: ZZColor.white, fontSize: 16.sp, fontWeight: FontWeight.bold);
   }
 
   Color? leftButtonBackgroundColor() {
-    return zzColorRed.withAlpha(25);
+    return ZZColor.red.withAlpha(25);
   }
 
   Color? rightButtonBackgroundColor() {
@@ -82,7 +82,7 @@ abstract class ZZBaseCenterDialog {
   }
 
   Gradient? rightButtonBackgroundGradient() {
-    return zzColorGradientOrangeRed;
+    return ZZColor.gradientOrangeEnabled;
   }
 
   EdgeInsetsGeometry leftButtonMargin() {
@@ -102,7 +102,7 @@ abstract class ZZBaseCenterDialog {
   }
 
   Color? buttonSeparatorColor() {
-    return zzColorGreyCC;
+    return ZZColor.greyCC;
   }
 
   Future<dynamic> show() async {

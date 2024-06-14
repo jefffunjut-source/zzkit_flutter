@@ -21,7 +21,7 @@ class XXStoreCardBrick extends ZZBaseBrick<XXStoreCardBrickObject> {
               Text(
                 object?.title ?? "",
                 style: ZZ.textStyle(
-                    color: zzColorWhite,
+                    color: ZZColor.white,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                     height: 1.8),
@@ -29,7 +29,7 @@ class XXStoreCardBrick extends ZZBaseBrick<XXStoreCardBrickObject> {
               Text(
                 object?.desc ?? "",
                 style: ZZ.textStyle(
-                    color: zzColorWhite, fontSize: 14.sp, height: 1.5),
+                    color: ZZColor.white, fontSize: 14.sp, height: 1.5),
               ),
             ]),
           )),

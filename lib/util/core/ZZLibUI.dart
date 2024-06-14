@@ -52,43 +52,6 @@ extension ZZLibUI on ZZManager {
         decoration: decoration);
   }
 
-  List<TextSpan> changeBackText(
-      List<String> text, TextStyle highlightedStyle, TextStyle normalStyle) {
-    List<TextSpan> widgetArr = [];
-    // 返利数值
-    widgetArr.add(textSpan(text[0], highlightedStyle));
-    // 空格
-    widgetArr.add(textSpan(" ", normalStyle));
-    // 返利
-    widgetArr.add(textSpan(text[1], normalStyle));
-    widgetArr.add(textSpan(text[2], normalStyle));
-
-    return widgetArr;
-  }
-
-  List<TextSpan> changeBackText2(List<String?> cashBack,
-      TextStyle highlightedStyle, TextStyle normalStyle) {
-    List<TextSpan> widgetArr = [];
-    // List<String> result = splitRebateDesc(text);
-    // 返利数值
-    if (cashBack[0] != null && cashBack[0]!.isNotEmpty) {
-      widgetArr.add(textSpan(cashBack[0]!, highlightedStyle));
-      // 空格
-      widgetArr.add(textSpan(" ", normalStyle));
-    }
-    // max
-    if (cashBack[1] != null && cashBack[1]!.isNotEmpty) {
-      widgetArr.add(textSpan(cashBack[1]!, normalStyle));
-      // 空格
-      widgetArr.add(textSpan(" ", normalStyle));
-    }
-    // cash back
-    if (cashBack[2] != null && cashBack[2]!.isNotEmpty) {
-      widgetArr.add(textSpan(cashBack[2]!, normalStyle));
-    }
-    return widgetArr;
-  }
-
   TextSpan textSpan(String text, TextStyle textStyle) {
     return TextSpan(text: text, style: textStyle);
   }
@@ -100,27 +63,7 @@ extension ZZLibUI on ZZManager {
     }
   }
 
-  /// 空格控件
-  Widget space(
-      {Color color = Colors.transparent,
-      double width = 10,
-      double height = 10}) {
-    return Container(
-      width: width,
-      height: height,
-      color: color,
-    );
-  }
-
-  Widget empty() {
-    return const SizedBox(width: 0, height: 0);
-  }
-
-  Widget line({double? width}) {
-    return Container(
-        height: 1.w / 2, width: width, color: const Color(0xFFE6E6E6));
-  }
-
+  /// 图片
   Image? image(String? asset,
       {String? bundleName,
       double? width,
@@ -150,39 +93,6 @@ extension ZZLibUI on ZZManager {
         alignment: alignment,
       );
     }
-  }
-
-  Widget enabledButton(
-      {String? title,
-      EdgeInsetsGeometry? margin,
-      double? width,
-      double? height,
-      bool enabled = true,
-      VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: () {
-        if (onTap != null) {
-          onTap();
-        }
-      },
-      child: Container(
-        width: width,
-        height: height,
-        margin: margin,
-        alignment: Alignment.center,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Center(
-              child: Text(
-                title ?? "",
-                style: textStyle(color: Colors.white, fontSize: 16.sp),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   String? appbarIconString(ZZNavBarIcon? icon) {
@@ -268,7 +178,7 @@ extension ZZLibUI on ZZManager {
     required List<String> tabs,
     required TabController? controller,
     ValueChanged<int>? onTap,
-    Color? indicatorColor = zzColorRed,
+    Color? indicatorColor = ZZColor.red,
     double? indicatorRadius,
     Gradient? indicatorGradient,
     EdgeInsetsGeometry? indicatorPadding,
@@ -303,13 +213,13 @@ extension ZZLibUI on ZZManager {
           color: indicatorColor,
           borderRadius: BorderRadius.circular(indicatorRadius ?? 22.w),
           gradient: indicatorColor == null
-              ? (indicatorGradient ?? zzColorGradientOrangeRed)
+              ? (indicatorGradient ?? ZZColor.gradientOrangeEnabled)
               : null),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 6.w, bottom: 10.w, left: 0.w, right: 0.w),
       labelColor: labelColor ?? (labelStyle == null ? Colors.white : null),
       unselectedLabelColor: unselectedLabelColor ??
-          (unselectedLabelStyle == null ? zzColorBlack : null),
+          (unselectedLabelStyle == null ? ZZColor.dark : null),
       labelStyle: labelColor == null
           ? (labelStyle ??
               ZZ.textStyle(
@@ -329,7 +239,7 @@ extension ZZLibUI on ZZManager {
     required List<String> tabs,
     required TabController? controller,
     ValueChanged<int>? onTap,
-    Color? indicatorColor = zzColorRed,
+    Color? indicatorColor = ZZColor.red,
     double? indicatorRadius,
     Gradient? indicatorGradient,
     EdgeInsetsGeometry? indicatorPadding,
@@ -359,15 +269,15 @@ extension ZZLibUI on ZZManager {
           color: indicatorGradient == null ? indicatorColor : Colors.red,
           borderRadius: BorderRadius.circular(indicatorRadius ?? 6.w),
           gradient: indicatorColor == null
-              ? (indicatorGradient ?? zzColorGradientOrangeRed)
+              ? (indicatorGradient ?? ZZColor.gradientOrangeEnabled)
               : null),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 35.w, bottom: 8.w, left: 2.w, right: 2.w),
       indicatorWeight: indicatorWeight ?? 4.w,
       indicatorSize: TabBarIndicatorSize.label,
-      labelColor: labelColor ?? (labelStyle == null ? zzColorBlack : null),
+      labelColor: labelColor ?? (labelStyle == null ? ZZColor.dark : null),
       unselectedLabelColor: unselectedLabelColor ??
-          (unselectedLabelStyle == null ? zzColorGrey99 : null),
+          (unselectedLabelStyle == null ? ZZColor.grey99 : null),
       labelStyle: labelColor == null
           ? (labelStyle ??
               ZZ.textStyle(

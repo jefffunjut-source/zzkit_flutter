@@ -91,7 +91,7 @@ class ZZNoDataWidget extends StatelessWidget {
             padding: hintTextPadding,
             child: Text(
               hintText ?? "没有数据",
-              style: ZZ.textStyle(color: zzColorGrey99, fontSize: 14.sp),
+              style: ZZ.textStyle(color: ZZColor.grey99, fontSize: 14.sp),
             ),
           ),
           onReloadTap != null
@@ -102,7 +102,7 @@ class ZZNoDataWidget extends StatelessWidget {
                     onTap: onReloadTap,
                     child: Container(
                       alignment: Alignment.center,
-                      color: zzColorRed.withAlpha(10),
+                      color: ZZColor.red.withAlpha(10),
                       width: 96.w,
                       height: 36.w,
                       child: Text(

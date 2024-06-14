@@ -52,22 +52,6 @@ double zzBottomBarHeight = ScreenUtil().bottomBarHeight; // 下巴高度 底部�
 double zzZero = 0.0001;
 const String zzCenterDot = "·";
 
-/// 颜色常量
-const zzColorClear = Color(0x00000000);
-const zzColorBlack = Color(0xFF000000);
-const zzColorWhite = Color(0xFFFFFFFF);
-const zzColorGrey33 = Color(0xFF333333);
-const zzColorGrey66 = Color(0xFF666666);
-const zzColorGrey99 = Color(0xFF999999);
-const zzColorGreyCC = Color(0xFFCCCCCC);
-const zzColorGreyF5 = Color(0xFFF5F5F5);
-const zzColorRed = Colors.red;
-Gradient zzColorGradientOrangeRed = ZZ.grandientColor(
-    beginColor: Colors.orange,
-    endColor: Colors.red,
-    beginAlign: Alignment.centerLeft,
-    endAlign: Alignment.centerRight);
-
 /// EventBug
 EventBus zzEventBus = EventBus();
 
@@ -76,3 +60,46 @@ EventBus zzEventBus = EventBus();
  ************************/
 bool zzIsKeyboardVisible = false;
 bool zzIsHomeInit = false;
+
+class ZZColor {
+  /// 颜色常量
+  static const transparent = Color(0x00000000);
+  static const dark = Color(0xFF000000);
+  static const white = Color(0xFFFFFFFF);
+  static const orange = Color(0xFFFF604B);
+  static const red = Color(0xFFFF4E4E);
+  static const blue = Color(0xFF27A1FF);
+  static const yellow = Color(0xFFFDAB19);
+
+  static const grey1F = Color(0xFF1F1F1F);
+  static const grey33 = Color(0xFF333333);
+  static const grey66 = Color(0xFF666666);
+  static const grey99 = Color(0xFF999999);
+  static const greyCC = Color(0xFFCCCCCC);
+  static const greyDD = Color(0xFFDDDDDD);
+  static const greyE1 = Color(0xFFE1E1E1);
+  static const greyE6 = Color(0xFFE6E6E6);
+  static const greyEE = Color(0xFFEEEEEE);
+  static const greyEF = Color(0xFFEFEFEF);
+  static const greyF3 = Color(0xFFF3F3F3);
+  static const greyF9 = Color(0xFFF9F9F9);
+
+  static const background = greyF3;
+  static const lightBackground = greyF9;
+  static const disable = greyDD;
+  static const border = greyE1;
+  static const line = greyE6;
+  static const seperate = greyEF;
+
+  static Gradient gradientOrangeEnabled = ZZ.grandientColor(
+      beginColor: orange,
+      endColor: red,
+      beginAlign: Alignment.centerLeft,
+      endAlign: Alignment.centerRight);
+
+  static Gradient gradientOrangeDisabled = ZZ.grandientColor(
+      beginColor: orange.withAlpha(100),
+      endColor: orange.withAlpha(100),
+      beginAlign: Alignment.centerLeft,
+      endAlign: Alignment.centerRight);
+}

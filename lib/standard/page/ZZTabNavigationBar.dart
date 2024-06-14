@@ -86,10 +86,10 @@ class TabIconsState extends State<ZZTabIconWidget> {
                   widget.tabIconData.label!,
                   style: widget.isSelected
                       ? ZZ.textStyle(
-                          color: zzColorRed,
+                          color: ZZColor.red,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.bold)
-                      : ZZ.textStyle(color: zzColorBlack, fontSize: 12.sp),
+                      : ZZ.textStyle(color: ZZColor.dark, fontSize: 12.sp),
                 ),
               )
           ],
