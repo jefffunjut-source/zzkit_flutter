@@ -178,7 +178,7 @@ extension ZZLibUI on ZZManager {
     required List<String> tabs,
     required TabController? controller,
     ValueChanged<int>? onTap,
-    Color? indicatorColor = ZZColor.red,
+    Color? indicatorColor = ZZColor.orange,
     double? indicatorRadius,
     Gradient? indicatorGradient,
     EdgeInsetsGeometry? indicatorPadding,
@@ -189,6 +189,9 @@ extension ZZLibUI on ZZManager {
     bool? isScrollable,
     TabAlignment? tabAlignment,
   }) {
+    if (indicatorColor == null && indicatorGradient == null) {
+      indicatorGradient = ZZColor.gradientOrangeEnabled;
+    }
     return TabBar(
       onTap: onTap,
       dividerHeight: 0,
@@ -210,11 +213,10 @@ extension ZZLibUI on ZZManager {
               ))
           .toList(),
       indicator: BoxDecoration(
-          color: indicatorColor,
-          borderRadius: BorderRadius.circular(indicatorRadius ?? 22.w),
-          gradient: indicatorColor == null
-              ? (indicatorGradient ?? ZZColor.gradientOrangeEnabled)
-              : null),
+        borderRadius: BorderRadius.circular(indicatorRadius ?? 22.w),
+        color: indicatorColor,
+        gradient: indicatorGradient,
+      ),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 6.w, bottom: 10.w, left: 0.w, right: 0.w),
       labelColor: labelColor ?? (labelStyle == null ? Colors.white : null),
@@ -224,7 +226,7 @@ extension ZZLibUI on ZZManager {
           ? (labelStyle ??
               ZZ.textStyle(
                   color: Colors.white,
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.bold))
           : null,
       unselectedLabelStyle: unselectedLabelColor == null
@@ -239,7 +241,7 @@ extension ZZLibUI on ZZManager {
     required List<String> tabs,
     required TabController? controller,
     ValueChanged<int>? onTap,
-    Color? indicatorColor = ZZColor.red,
+    Color? indicatorColor = ZZColor.orange,
     double? indicatorRadius,
     Gradient? indicatorGradient,
     EdgeInsetsGeometry? indicatorPadding,
@@ -250,7 +252,11 @@ extension ZZLibUI on ZZManager {
     TextStyle? unselectedLabelStyle,
     bool? isScrollable,
     TabAlignment? tabAlignment,
+    List<String>? redTabs,
   }) {
+    if (indicatorColor == null && indicatorGradient == null) {
+      indicatorGradient = ZZColor.gradientOrangeEnabled;
+    }
     return TabBar(
       onTap: onTap,
       dividerHeight: 0,
@@ -262,27 +268,42 @@ extension ZZLibUI on ZZManager {
       isScrollable: isScrollable ?? true,
       tabs: tabs
           .map((e) => Tab(
-                text: e,
+                child: IntrinsicWidth(
+                  child: Row(
+                    children: [
+                      Text(e),
+                      redTabs?.contains(e) == true
+                          ? ZZOuterRadiusWidget(
+                              margin: const EdgeInsets.only(left: 6),
+                              radius: 6,
+                              child: Container(
+                                width: 6,
+                                height: 6,
+                                color: ZZColor.red,
+                              ))
+                          : Container()
+                    ],
+                  ),
+                ),
               ))
           .toList(),
       indicator: BoxDecoration(
-          color: indicatorGradient == null ? indicatorColor : Colors.red,
-          borderRadius: BorderRadius.circular(indicatorRadius ?? 6.w),
-          gradient: indicatorColor == null
-              ? (indicatorGradient ?? ZZColor.gradientOrangeEnabled)
-              : null),
+        borderRadius: BorderRadius.circular(indicatorRadius ?? 6.w),
+        color: indicatorColor,
+        gradient: indicatorGradient,
+      ),
       indicatorPadding: indicatorPadding ??
           EdgeInsets.only(top: 35.w, bottom: 8.w, left: 2.w, right: 2.w),
       indicatorWeight: indicatorWeight ?? 4.w,
       indicatorSize: TabBarIndicatorSize.label,
       labelColor: labelColor ?? (labelStyle == null ? ZZColor.dark : null),
       unselectedLabelColor: unselectedLabelColor ??
-          (unselectedLabelStyle == null ? ZZColor.grey99 : null),
+          (unselectedLabelStyle == null ? ZZColor.grey66 : null),
       labelStyle: labelColor == null
           ? (labelStyle ??
               ZZ.textStyle(
                   color: Colors.white,
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.bold))
           : null,
       unselectedLabelStyle: unselectedLabelColor == null
