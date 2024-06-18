@@ -18,11 +18,11 @@ class ZZVerticalLineWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.zero,
+      alignment: Alignment.center,
+      margin: margin,
       width: width ?? 0.5,
       color: color ?? Colors.white,
       child: Container(
-        margin: margin,
         color: lineColor ?? const Color(0xFFE6E6E6),
       ),
     );
