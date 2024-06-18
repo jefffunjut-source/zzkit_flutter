@@ -97,6 +97,9 @@ class ZZBaseListController extends GetxController {
   int tabLength;
   TabController? tabController;
 
+  // reverse
+  bool reverse;
+
   ZZBaseListController({
     this.refreshType = ZZRefreshType.smartrefresh,
     this.enablePulldown = true,
@@ -127,6 +130,7 @@ class ZZBaseListController extends GetxController {
     this.parentName,
     this.enableTab,
     this.tabLength = 0,
+    this.reverse = false,
   });
 
   void initialize() {}
@@ -334,6 +338,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   Widget _customScrollView() {
     ZZBaseListController controller = widget.controller;
     return CustomScrollView(
+        reverse: controller.reverse,
         controller: controller.scrollController,
         slivers: <Widget>[
           SliverList(

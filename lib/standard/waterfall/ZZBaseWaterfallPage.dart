@@ -53,6 +53,7 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.parentName,
     super.enableTab,
     super.tabLength,
+    super.reverse,
   }) : super();
 }
 
@@ -251,6 +252,7 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     return CustomScrollView(
       slivers: slivers,
       physics: physics,
+      reverse: controller.reverse,
       controller: controller.scrollController,
     );
   }
