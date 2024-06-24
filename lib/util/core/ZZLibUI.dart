@@ -539,4 +539,29 @@ extension ZZLibUI on ZZManager {
       },
     );
   }
+
+  /// 全屏截图
+  Future<Uint8List?> captureFullScreen({
+    required GlobalKey globalKey,
+    double pixelRatio = 3.0,
+  }) async {
+    try {
+      // 获取 RepaintBoundary 的 RenderRepaintBoundary
+      RenderRepaintBoundary boundary =
+          globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
+
+      // 将 RenderRepaintBoundary 转换为图像
+      ui.Image image = await boundary.toImage(pixelRatio: pixelRatio);
+
+      // 将图像转换为字节数据
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+
+      // 返回字节数据
+      return byteData?.buffer.asUint8List();
+    } catch (e) {
+      debugPrint("Error capturing screenshot: $e");
+      return null;
+    }
+  }
 }
