@@ -264,4 +264,17 @@ extension ZZLibUtil on ZZManager {
       }
     }
   }
+
+  /// throttle时间阈值
+  void throttle(
+      {required Timer? debounce,
+      int milliseconds = 500,
+      void Function()? callback}) async {
+    if (debounce?.isActive ?? false) debounce?.cancel();
+    debounce = Timer(Duration(milliseconds: milliseconds), () {
+      if (callback != null) {
+        callback();
+      }
+    });
+  }
 }

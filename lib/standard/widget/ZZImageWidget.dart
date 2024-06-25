@@ -18,9 +18,6 @@ enum ZZImageResize {
 
 class ZZImageWidget extends StatefulWidget {
   final dynamic source;
-  final String? imageUrl;
-  final String? imagePath;
-  final Uint8List? imageBytes;
   final Color? backgroundColor;
   final Widget? placeholderImage;
   final Widget? errorPlaceholderImage;
@@ -38,10 +35,7 @@ class ZZImageWidget extends StatefulWidget {
 
   const ZZImageWidget({
     super.key,
-    this.source,
-    this.imageUrl,
-    this.imagePath,
-    this.imageBytes,
+    required this.source,
     this.backgroundColor,
     this.placeholderImage,
     this.errorPlaceholderImage,
@@ -117,20 +111,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   @override
   void initState() {
     super.initState();
-    if (widget.source != null &&
-        (widget.imageUrl == null &&
-            widget.imageBytes == null &&
-            widget.imagePath == null)) {
-      if (widget.source is String) {
-        if (widget.source.contains("http")) {
-          imageUrl = widget.source;
-        } else {
-          imagePath = widget.source;
-        }
-      } else if (widget.source is Int8List) {
-        imageBytes = widget.source;
-      }
-    }
+    _prepare();
     if (imageUrl != null &&
         imageUrl!.isNotEmpty &&
         imageUrl!.startsWith("http")) {
@@ -166,7 +147,24 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _prepare();
     return _imageWidgetWithRadius();
+  }
+
+  void _prepare() {
+    if (imageUrl == null && imagePath == null && imageBytes == null) {
+      if (widget.source != null) {
+        if (widget.source is String) {
+          if (widget.source.contains("http")) {
+            imageUrl = widget.source;
+          } else {
+            imagePath = widget.source;
+          }
+        } else if (widget.source is Int8List) {
+          imageBytes = widget.source;
+        }
+      }
+    }
   }
 
   Widget _placehoderWidget() {
