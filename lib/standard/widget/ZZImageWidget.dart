@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, library_private_types_in_public_api, file_names
+// ignore_for_file: unused_field, library_private_types_in_public_api, file_names, must_be_immutable
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
@@ -17,8 +17,10 @@ enum ZZImageResize {
 }
 
 class ZZImageWidget extends StatefulWidget {
+  final dynamic source;
   final String? imageUrl;
-  final Uint8List? imageBase64;
+  final String? imagePath;
+  final Uint8List? imageBytes;
   final Color? backgroundColor;
   final Widget? placeholderImage;
   final Widget? errorPlaceholderImage;
@@ -36,8 +38,10 @@ class ZZImageWidget extends StatefulWidget {
 
   const ZZImageWidget({
     super.key,
-    required this.imageUrl,
-    this.imageBase64,
+    this.source,
+    this.imageUrl,
+    this.imagePath,
+    this.imageBytes,
     this.backgroundColor,
     this.placeholderImage,
     this.errorPlaceholderImage,
@@ -106,17 +110,34 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   ZZCustomImageInfo? customImageInfo;
   double? adjustedHeight;
   double? adjustedWidth;
+  String? imageUrl;
+  String? imagePath;
+  Uint8List? imageBytes;
 
   @override
   void initState() {
     super.initState();
-    if (widget.imageUrl != null &&
-        widget.imageUrl!.isNotEmpty &&
-        widget.imageUrl!.startsWith("http")) {
+    if (widget.source != null &&
+        (widget.imageUrl == null &&
+            widget.imageBytes == null &&
+            widget.imagePath == null)) {
+      if (widget.source is String) {
+        if (widget.source.contains("http")) {
+          imageUrl = widget.source;
+        } else {
+          imagePath = widget.source;
+        }
+      } else if (widget.source is Int8List) {
+        imageBytes = widget.source;
+      }
+    }
+    if (imageUrl != null &&
+        imageUrl!.isNotEmpty &&
+        imageUrl!.startsWith("http")) {
       if (widget.onImageInfoChange != null ||
           widget.resize != ZZImageResize.none) {
         ZZImageWidget.getImageInfoFromUrl(
-          imageUrl: widget.imageUrl,
+          imageUrl: imageUrl,
           onImageInfoChange: (imageInfo) {
             if (widget.resize != ZZImageResize.none) {
               _resize() == true ? null : widget.onImageInfoChange!(imageInfo);
@@ -126,11 +147,11 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
           },
         );
       }
-    } else if (widget.imageBase64 != null) {
+    } else if (imageBytes != null) {
       if (widget.onImageInfoChange != null ||
           widget.resize != ZZImageResize.none) {
         ZZImageWidget.getImageInfoFromBase64(
-          bytes: widget.imageBase64,
+          bytes: imageBytes,
           onImageInfoChange: (imageInfo) {
             if (widget.resize != ZZImageResize.none) {
               _resize() == true ? null : widget.onImageInfoChange!(imageInfo);
@@ -198,11 +219,11 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   }
 
   Widget _imageWidget() {
-    if (widget.imageUrl != null &&
-        widget.imageUrl!.isNotEmpty &&
-        widget.imageUrl!.startsWith("http")) {
+    if (imageUrl != null &&
+        imageUrl!.isNotEmpty &&
+        imageUrl!.startsWith("http")) {
       return CachedNetworkImage(
-        imageUrl: widget.imageUrl!,
+        imageUrl: imageUrl!,
         width: adjustedWidth ?? widget.width,
         height: adjustedHeight ?? widget.height,
         color: widget.backgroundColor,
@@ -214,9 +235,11 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
           return _errorWidget();
         },
       );
-    } else if (widget.imageBase64 != null) {
+    } else if (imagePath != null && imagePath!.isNotEmpty) {
+      return Image(image: AssetImage(imagePath!));
+    } else if (imageBytes != null) {
       return Image.memory(
-        widget.imageBase64!,
+        imageBytes!,
         width: adjustedWidth ?? widget.width,
         height: adjustedHeight ?? widget.height,
         color: widget.backgroundColor,
