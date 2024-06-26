@@ -390,60 +390,46 @@ extension ZZLibUI on ZZManager {
 
   /// iOS风格的底部弹框
   Future<String?> showBottomSheet({
+    String? title,
     List<String>? items,
+    TextStyle? titleStyle,
     TextStyle? itemTextStyle,
     TextStyle? cancelTextStyle,
   }) {
     List<Widget> widgets = [];
+    if (!ZZ.isNullOrEmpty(title)) {
+      widgets.add(ZZOuterRadiusWidget(
+          radiusTopLeft: 12.w,
+          radiusTopRight: 12.w,
+          child: _bottomSheetItemWidget(title!, titleStyle, () {})));
+      widgets.add(Container(
+        height: .5,
+        color: Colors.grey[300],
+      ));
+    }
+
     if (items != null && items.isNotEmpty) {
       for (var element in items) {
         if (element == items.first && element == items.last) {
-          widgets.add(ZZOuterRadiusWidget(
-              radius: 12.w,
-              child: Container(
-                alignment: Alignment.center,
-                height: 64.w,
-                color: Colors.white,
-                child: ListTile(
-                  title: Text(
-                    textAlign: TextAlign.center,
-                    element,
-                    style: itemTextStyle ??
-                        TextStyle(
-                          fontWeight: ui.FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: Colors.black87,
-                        ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(zzContext, element);
-                  },
-                ),
-              )));
+          if (!ZZ.isNullOrEmpty(title)) {
+            widgets.add(ZZOuterRadiusWidget(
+                radiusBottomLeft: 12.w,
+                radiusBottomRight: 12.w,
+                child: _bottomSheetItemWidget(element, itemTextStyle, null)));
+          } else {
+            widgets.add(ZZOuterRadiusWidget(
+                radius: 12.w,
+                child: _bottomSheetItemWidget(element, itemTextStyle, null)));
+          }
         } else if (element == items.first) {
-          widgets.add(ZZOuterRadiusWidget(
-              radiusTopLeft: 12.w,
-              radiusTopRight: 12.w,
-              child: Container(
-                alignment: Alignment.center,
-                height: 64.w,
-                color: Colors.white,
-                child: ListTile(
-                  title: Text(
-                    textAlign: TextAlign.center,
-                    element,
-                    style: itemTextStyle ??
-                        TextStyle(
-                          fontWeight: ui.FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: Colors.black87,
-                        ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(zzContext, element);
-                  },
-                ),
-              )));
+          if (!ZZ.isNullOrEmpty(title)) {
+            widgets.add(_bottomSheetItemWidget(element, itemTextStyle, null));
+          } else {
+            widgets.add(ZZOuterRadiusWidget(
+                radiusTopLeft: 12.w,
+                radiusTopRight: 12.w,
+                child: _bottomSheetItemWidget(element, itemTextStyle, null)));
+          }
         } else if (element == items.last) {
           widgets.add(Container(
             height: .5,
@@ -452,51 +438,13 @@ extension ZZLibUI on ZZManager {
           widgets.add(ZZOuterRadiusWidget(
               radiusBottomLeft: 12.w,
               radiusBottomRight: 12.w,
-              child: Container(
-                alignment: Alignment.center,
-                height: 64.w,
-                color: Colors.white,
-                child: ListTile(
-                  title: Text(
-                    textAlign: TextAlign.center,
-                    element,
-                    style: itemTextStyle ??
-                        TextStyle(
-                          fontWeight: ui.FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: Colors.black87,
-                        ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(zzContext, element);
-                  },
-                ),
-              )));
+              child: _bottomSheetItemWidget(element, itemTextStyle, null)));
         } else {
           widgets.add(Container(
             height: .5,
             color: Colors.grey[300],
           ));
-          widgets.add(Container(
-            alignment: Alignment.center,
-            height: 64.w,
-            color: Colors.white,
-            child: ListTile(
-              title: Text(
-                textAlign: TextAlign.center,
-                element,
-                style: itemTextStyle ??
-                    TextStyle(
-                      fontWeight: ui.FontWeight.w500,
-                      fontSize: 16.sp,
-                      color: Colors.black87,
-                    ),
-              ),
-              onTap: () {
-                Navigator.pop(zzContext, element);
-              },
-            ),
-          ));
+          widgets.add(_bottomSheetItemWidget(element, itemTextStyle, null));
         }
       }
     }
@@ -508,26 +456,7 @@ extension ZZLibUI on ZZManager {
     widgets.add(ZZOuterRadiusWidget(
         margin: EdgeInsets.only(bottom: zzBottomBarHeight),
         radius: 12.w,
-        child: Container(
-          alignment: Alignment.center,
-          height: 64.w,
-          color: Colors.white,
-          child: ListTile(
-            title: Text(
-              textAlign: TextAlign.center,
-              "取消",
-              style: cancelTextStyle ??
-                  TextStyle(
-                    fontWeight: ui.FontWeight.normal,
-                    fontSize: 16.sp,
-                    color: Colors.black87,
-                  ),
-            ),
-            onTap: () {
-              Navigator.pop(zzContext, "取消");
-            },
-          ),
-        )));
+        child: _bottomSheetItemWidget("取消", itemTextStyle, null)));
 
     return showCupertinoModalPopup(
       context: zzContext,
@@ -537,6 +466,34 @@ extension ZZLibUI on ZZManager {
           child: Wrap(alignment: WrapAlignment.center, children: widgets),
         );
       },
+    );
+  }
+
+  Widget _bottomSheetItemWidget(
+      String element, TextStyle? textStyle, GestureTapCallback? onTap) {
+    return Container(
+      alignment: Alignment.center,
+      height: 64.w,
+      color: Colors.white,
+      child: ListTile(
+        title: Text(
+          textAlign: TextAlign.center,
+          element,
+          style: textStyle ??
+              TextStyle(
+                fontWeight: ui.FontWeight.w500,
+                fontSize: 16.sp,
+                color: Colors.black87,
+              ),
+        ),
+        onTap: () {
+          if (onTap != null) {
+            onTap();
+          } else {
+            Navigator.pop(zzContext, element);
+          }
+        },
+      ),
     );
   }
 
