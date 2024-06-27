@@ -59,6 +59,7 @@ class ZZAPIRequest {
   bool enableErrorToast;
   bool enableDetailedError;
   CancelToken? cancelToken;
+  bool checkCode;
 
   ZZAPIRequest({
     required this.provider,
@@ -70,6 +71,7 @@ class ZZAPIRequest {
     this.enableErrorToast = true,
     this.enableDetailedError = true,
     this.cancelToken,
+    this.checkCode = true,
   });
 
   Future<ZZAPIResponse> request() async {
@@ -170,20 +172,25 @@ class ZZAPIRequest {
 
       assert(resp != null, "请在process方法中加入映射代码，将返回反射成model");
 
-      if ((resp.code is String && resp.code == "0") ||
-          ((resp.code is int || resp.code is Int) && resp.code == 0)) {
-        debugInfo = "$debugInfo[请求成功]";
-      } else {
-        debugInfo = "$debugInfo[请求失败]";
-        if (resp.msg != null && resp.msg is String) {
-          if (enableErrorToast) {
-            ZZ.toast(resp.msg);
+      if (checkCode) {
+        if ((resp.code is String && resp.code == "0") ||
+            ((resp.code is int || resp.code is Int) && resp.code == 0)) {
+          debugInfo = "$debugInfo[请求成功]";
+        } else {
+          debugInfo = "$debugInfo[请求失败]";
+          if (resp.msg != null && resp.msg is String) {
+            if (enableErrorToast) {
+              ZZ.toast(resp.msg);
+            }
           }
+          error = ZZAPIError(
+              code: resp.code is String ? resp.code : resp.code.toString(),
+              errorMessage:
+                  resp.msg is String ? resp.msg : resp.msg.toString());
+          resp = null;
         }
-        error = ZZAPIError(
-            code: resp.code is String ? resp.code : resp.code.toString(),
-            errorMessage: resp.msg is String ? resp.msg : resp.msg.toString());
-        resp = null;
+      } else {
+        debugInfo = "$debugInfo[请求成功]";
       }
     } catch (e) {
       if (e is DioException && e.type == DioExceptionType.cancel) {
