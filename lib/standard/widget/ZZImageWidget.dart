@@ -55,23 +55,6 @@ class ZZImageWidget extends StatefulWidget {
   @override
   _ZZImageWidgetState createState() => _ZZImageWidgetState();
 
-  static Future<void> getImageInfoFromBase64(
-      {required Uint8List? bytes,
-      required ZZImageInfoCallback onImageInfoChange}) async {
-    if (bytes != null) {
-      try {
-        final image = await decodeImageFromList(bytes);
-        ZZCustomImageInfo imageInfo = ZZCustomImageInfo();
-        imageInfo.imageWidth = image.width;
-        imageInfo.imageHeight = image.height;
-        imageInfo.ratio = image.height / image.width;
-        onImageInfoChange(imageInfo);
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    }
-  }
-
   static Future<void> getImageInfoFromUrl(
       {required String? imageUrl,
       required ZZImageInfoCallback onImageInfoChange}) async {
@@ -98,6 +81,44 @@ class ZZImageWidget extends StatefulWidget {
       }
     }
   }
+
+  static Future<void> getImageInfoFromMemory(
+      {required Uint8List? bytes,
+      required ZZImageInfoCallback onImageInfoChange}) async {
+    if (bytes != null) {
+      try {
+        final image = await decodeImageFromList(bytes);
+        ZZCustomImageInfo imageInfo = ZZCustomImageInfo();
+        imageInfo.imageWidth = image.width;
+        imageInfo.imageHeight = image.height;
+        imageInfo.ratio = image.height / image.width;
+        onImageInfoChange(imageInfo);
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+  }
+
+  static Future<void> getImageInfoFromPath(
+      {required String? path,
+      required ZZImageInfoCallback onImageInfoChange}) async {
+    if (path != null) {
+      try {
+        final image = Image.asset(path);
+        ZZCustomImageInfo imageInfo = ZZCustomImageInfo();
+        imageInfo.imageWidth = image.width as int?;
+        imageInfo.imageHeight = image.height as int?;
+        if (image.width == null || image.height == null) {
+          imageInfo.ratio = null;
+        } else {
+          imageInfo.ratio = image.height! / image.width!;
+        }
+        onImageInfoChange(imageInfo);
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+  }
 }
 
 class _ZZImageWidgetState extends State<ZZImageWidget> {
@@ -112,11 +133,9 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   void initState() {
     super.initState();
     _prepare();
-    if (imageUrl != null &&
-        imageUrl!.isNotEmpty &&
-        imageUrl!.startsWith("http")) {
-      if (widget.onImageInfoChange != null ||
-          widget.resize != ZZImageResize.none) {
+    if (widget.onImageInfoChange != null ||
+        widget.resize != ZZImageResize.none) {
+      if (imageUrl != null) {
         ZZImageWidget.getImageInfoFromUrl(
           imageUrl: imageUrl,
           onImageInfoChange: (imageInfo) {
@@ -127,11 +146,19 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
             }
           },
         );
-      }
-    } else if (imageBytes != null) {
-      if (widget.onImageInfoChange != null ||
-          widget.resize != ZZImageResize.none) {
-        ZZImageWidget.getImageInfoFromBase64(
+      } else if (imagePath != null) {
+        ZZImageWidget.getImageInfoFromPath(
+          path: imagePath,
+          onImageInfoChange: (imageInfo) {
+            if (widget.resize != ZZImageResize.none) {
+              _resize() == true ? null : widget.onImageInfoChange!(imageInfo);
+            } else {
+              widget.onImageInfoChange!(imageInfo);
+            }
+          },
+        );
+      } else if (imageBytes != null) {
+        ZZImageWidget.getImageInfoFromMemory(
           bytes: imageBytes,
           onImageInfoChange: (imageInfo) {
             if (widget.resize != ZZImageResize.none) {
@@ -152,17 +179,18 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   }
 
   void _prepare() {
-    if (imageUrl == null && imagePath == null && imageBytes == null) {
-      if (widget.source != null) {
-        if (widget.source is String) {
-          if (widget.source.contains("http")) {
-            imageUrl = widget.source;
-          } else {
-            imagePath = widget.source;
-          }
-        } else if (widget.source is Int8List) {
-          imageBytes = widget.source;
+    imageUrl = null;
+    imagePath = null;
+    imageBytes = null;
+    if (widget.source != null) {
+      if (widget.source is String) {
+        if (widget.source.contains("http")) {
+          imageUrl = widget.source;
+        } else {
+          imagePath = widget.source;
         }
+      } else if (widget.source is Int8List) {
+        imageBytes = widget.source;
       }
     }
   }
