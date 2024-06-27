@@ -6,33 +6,30 @@ part of 'ZZManager.dart';
 const kAppPrefsAppVersion = "kAppPrefsAppVersion";
 
 class ZZPhoto {
-  static toBase64(Uint8List? mem) {
+  static String? toBase64FromMemory(Uint8List? mem) {
     if (mem == null) return null;
     String base64Str = base64Encode(mem);
     return "data:image/png;base64," + base64Str;
   }
 
-  Future<String?> base64() async {
-    Uint8List? mem = await memory;
-    return ZZPhoto.toBase64(mem);
-  }
-
-  Uint8List? actualMemory;
-  Future<Uint8List?>? memory;
   String? image;
   String? is_cover;
   int? index;
   int? width;
   int? height;
 
-  ZZPhoto(
-      {this.memory,
-      this.actualMemory,
-      this.image,
-      this.is_cover,
-      this.index,
-      this.width,
-      this.height});
+  Uint8List? memory;
+  String? base64;
+
+  ZZPhoto({
+    this.image,
+    this.is_cover,
+    this.index,
+    this.width,
+    this.height,
+    this.memory,
+    this.base64,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -97,13 +94,19 @@ extension ZZLibUtil on ZZManager {
             );
           },
         ));
-    return results?.map((entity) {
-      return ZZPhoto(
-        width: entity.width,
-        height: entity.height,
-        memory: entity.thumbnailDataWithSize(size, quality: quality),
-      );
-    }).toList();
+    List<ZZPhoto> list = [];
+    if (results != null && results.isNotEmpty) {
+      for (AssetEntity element in results) {
+        Uint8List? mem =
+            await element.thumbnailDataWithSize(size, quality: quality);
+        list.add(ZZPhoto(
+          width: element.width,
+          height: element.height,
+          memory: mem,
+        ));
+      }
+    }
+    return list;
   }
 
   /// 收回键盘
