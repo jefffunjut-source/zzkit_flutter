@@ -6,47 +6,128 @@ part of 'ZZManager.dart';
 const kAppPrefsAppVersion = "kAppPrefsAppVersion";
 
 class ZZPhoto {
-  static String? toBase64FromMemory(Uint8List? mem) {
-    if (mem == null) return null;
-    String base64Str = base64Encode(mem);
-    return "data:image/png;base64," + base64Str;
-  }
-
   String? image;
-  String? is_cover;
-  int? index;
   int? width;
   int? height;
+  String? isCover;
+  List<ZZImageTag>? tags;
+  int? index;
 
   Uint8List? memory;
   String? base64;
 
   ZZPhoto({
     this.image,
-    this.is_cover,
-    this.index,
     this.width,
     this.height,
+    this.isCover,
+    this.tags,
+    this.index,
     this.memory,
     this.base64,
   });
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['image'] = image;
-    data['is_cover'] = is_cover;
-    data['index'] = index;
-    data['width'] = width;
-    data['height'] = height;
-    return data;
+  static String? toBase64FromMemory(Uint8List? mem) {
+    if (mem == null) return null;
+    String base64Str = base64Encode(mem);
+    return "data:image/png;base64," + base64Str;
   }
 
-  ZZPhoto.fromJson(dynamic json) {
-    image = json['image'];
-    is_cover = json['is_cover'];
-    index = json['index'];
-    width = json['width'];
-    height = json['height'];
+  ZZPhoto.fromJson(Map<String, dynamic> json) {
+    if (json["image"] is String) {
+      image = json["image"];
+    }
+    if (json["width"] is int) {
+      width = json["width"];
+    }
+    if (json["height"] is int) {
+      height = json["height"];
+    }
+    if (json["is_cover"] is String) {
+      isCover = json["is_cover"];
+    }
+    if (json["tags"] is List) {
+      tags = json["tags"] == null
+          ? null
+          : (json["tags"] as List).map((e) => ZZImageTag.fromJson(e)).toList();
+    }
+    if (json["index"] is int) {
+      index = json["index"];
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["image"] = image;
+    data["width"] = width;
+    data["height"] = height;
+    data["is_cover"] = isCover;
+    if (tags != null) {
+      data["tags"] = tags?.map((e) => e.toJson()).toList();
+    }
+    data["index"] = index;
+    return data;
+  }
+}
+
+class ZZImageTag {
+  int? direction;
+  String? id;
+  String? name;
+  String? status;
+  String? type;
+  String? v;
+  double? x;
+  double? y;
+
+  ZZImageTag(
+      {this.direction,
+      this.id,
+      this.name,
+      this.status,
+      this.type,
+      this.v,
+      this.x,
+      this.y});
+
+  ZZImageTag.fromJson(Map<String, dynamic> json) {
+    if (json["direction"] is int) {
+      direction = json["direction"];
+    }
+    if (json["id"] is String) {
+      id = json["id"];
+    }
+    if (json["name"] is String) {
+      name = json["name"];
+    }
+    if (json["status"] is String) {
+      status = json["status"];
+    }
+    if (json["type"] is String) {
+      type = json["type"];
+    }
+    if (json["v"] is String) {
+      v = json["v"];
+    }
+    if (json["x"] is double) {
+      x = json["x"];
+    }
+    if (json["y"] is double) {
+      y = json["y"];
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["direction"] = direction;
+    data["id"] = id;
+    data["name"] = name;
+    data["status"] = status;
+    data["type"] = type;
+    data["v"] = v;
+    data["x"] = x;
+    data["y"] = y;
+    return data;
   }
 }
 
