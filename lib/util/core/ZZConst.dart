@@ -66,8 +66,9 @@ class ZZColor {
   static const transparent = Color(0x00000000);
   static const dark = Color(0xFF000000);
   static const white = Color(0xFFFFFFFF);
-  static const orange = Color(0xFFFF604B);
+  static const orange = Color(0xFFFF9869);
   static const red = Color(0xFFFF4E4E);
+  static const reddishOrange = Color(0xFFFF604B);
   static const blue = Color(0xFF27A1FF);
   static const yellow = Color(0xFFFDAB19);
 
@@ -92,14 +93,14 @@ class ZZColor {
   static const seperate = greyEF;
 
   static Gradient gradientOrangeEnabled = ZZ.grandientColor(
-      beginColor: orange,
-      endColor: red,
-      beginAlign: Alignment.centerLeft,
-      endAlign: Alignment.centerRight);
+      beginColor: red,
+      endColor: orange,
+      beginAlign: Alignment.topLeft,
+      endAlign: Alignment.bottomRight);
 
   static Gradient gradientOrangeDisabled = ZZ.grandientColor(
-      beginColor: orange.withAlpha(100),
+      beginColor: red.withAlpha(100),
       endColor: orange.withAlpha(100),
-      beginAlign: Alignment.centerLeft,
-      endAlign: Alignment.centerRight);
+      beginAlign: Alignment.topLeft,
+      endAlign: Alignment.bottomRight);
 }
