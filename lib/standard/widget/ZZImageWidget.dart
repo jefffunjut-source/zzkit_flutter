@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, library_private_types_in_public_api, file_names, must_be_immutable
+// ignore_for_file: unused_field, library_private_types_in_public_api, file_names, must_be_immutable, empty_catches
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
@@ -139,6 +139,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
         ZZImageWidget.getImageInfoFromUrl(
           imageUrl: imageUrl,
           onImageInfoChange: (imageInfo) {
+            customImageInfo = imageInfo;
             if (widget.resize != ZZImageResize.none) {
               _resize() == true ? null : widget.onImageInfoChange!(imageInfo);
             } else {
@@ -150,6 +151,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
         ZZImageWidget.getImageInfoFromPath(
           path: imagePath,
           onImageInfoChange: (imageInfo) {
+            customImageInfo = imageInfo;
             if (widget.resize != ZZImageResize.none) {
               _resize() == true ? null : widget.onImageInfoChange!(imageInfo);
             } else {
@@ -161,6 +163,7 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
         ZZImageWidget.getImageInfoFromMemory(
           bytes: imageBytes,
           onImageInfoChange: (imageInfo) {
+            customImageInfo = imageInfo;
             if (widget.resize != ZZImageResize.none) {
               _resize() == true ? null : widget.onImageInfoChange!(imageInfo);
             } else {
@@ -280,35 +283,40 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
   }
 
   bool _resize() {
-    if (widget.resize == ZZImageResize.adjustHeight) {
-      if (widget.width != null) {
-        double h = widget.width! *
-            (customImageInfo!.imageHeight! / customImageInfo!.imageWidth!);
-        setState(() {
-          adjustedHeight = h;
-        });
-        customImageInfo?.widgetWidth = widget.width;
-        customImageInfo?.widgetHeight = h;
-        if (widget.onImageInfoChange != null) {
-          widget.onImageInfoChange!(customImageInfo);
+    try {
+      if (widget.resize == ZZImageResize.adjustHeight) {
+        if (widget.width != null) {
+          double h = widget.width! *
+              (customImageInfo!.imageHeight! / customImageInfo!.imageWidth!);
+          setState(() {
+            adjustedHeight = h;
+          });
+          customImageInfo?.widgetWidth = widget.width;
+          customImageInfo?.widgetHeight = h;
+          if (widget.onImageInfoChange != null) {
+            widget.onImageInfoChange!(customImageInfo);
+          }
+          return true;
         }
-        return true;
-      }
-    } else if (widget.resize == ZZImageResize.adjustWidth) {
-      if (widget.height != null) {
-        double w = widget.height! *
-            (customImageInfo!.imageWidth! / customImageInfo!.imageHeight!);
-        setState(() {
-          adjustedWidth = w;
-        });
-        customImageInfo?.widgetWidth = w;
-        customImageInfo?.widgetHeight = widget.height;
-        if (widget.onImageInfoChange != null) {
-          widget.onImageInfoChange!(customImageInfo);
+      } else if (widget.resize == ZZImageResize.adjustWidth) {
+        if (widget.height != null) {
+          double w = widget.height! *
+              (customImageInfo!.imageWidth! / customImageInfo!.imageHeight!);
+          setState(() {
+            adjustedWidth = w;
+          });
+          customImageInfo?.widgetWidth = w;
+          customImageInfo?.widgetHeight = widget.height;
+          if (widget.onImageInfoChange != null) {
+            widget.onImageInfoChange!(customImageInfo);
+          }
+          return true;
         }
-        return true;
       }
+    } catch (e) {
+      debugPrint(e.toString());
     }
+
     return false;
   }
 }
