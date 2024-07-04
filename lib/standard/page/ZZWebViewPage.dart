@@ -192,7 +192,7 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
           onPageStarted: (String url) {
             _updateContentHeight();
           },
-          onPageFinished: (String url) {
+          onPageFinished: (String url) async {
             _updateContentHeight();
             controller.canGoBack().then((value) {
               zzWebViewController._canBack.value = value;
@@ -201,6 +201,13 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
             controller.canGoForward().then((value) {
               zzWebViewController._canForward.value = value;
               // debugPrint("canForward:$value");
+            });
+            controller
+                .runJavaScriptReturningResult("document.title")
+                .then((value) {
+              if (value is String) {
+                zzWebViewController.title.value = value;
+              }
             });
           },
           onWebResourceError: (WebResourceError error) {},
@@ -277,128 +284,130 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
   @override
   Widget build(BuildContext context) {
     ZZWebViewController zzWebViewController = Get.find();
-    if (widget.hideNavigationBar ?? false) {
-      return _mainWidget();
-    } else {
-      return ZZBaseScaffold(
-        backgroundColor: widget.backgroundColor,
-        safeAreaBottom: widget.safeAreaBottom,
-        appBar: AppBar(
-          backgroundColor: widget.appBarBackgroundColor,
-          automaticallyImplyLeading: false,
-          title: Container(
-            color: widget.appBarBackgroundColor,
-            height: 54.w,
-            child: Stack(
-              children: [
-                Positioned(
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    top: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            // Back
-                            GestureDetector(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 24.w),
-                                child: ZZ.image(R.assetsImgIcNavBackBlack,
-                                    bundleName: zzBundleName),
-                              ),
-                              onTap: () {
-                                Future<bool> can = controller.canGoBack();
-                                can.then((value) {
-                                  if (value) {
-                                    controller.goBack().then((value) {
-                                      if (Platform.isIOS) {
-                                        // 处理302跳转返回白屏
-                                        Future<String?>? currentUrl =
-                                            controller.currentUrl();
-                                        currentUrl.then((value) {
-                                          if (value ==
-                                                  zzWebViewController
-                                                      .url.value &&
-                                              zzWebViewController
-                                                  .url.value.isNotEmpty) {
-                                            controller.reload();
-                                          }
-                                        });
-                                      }
-                                    });
-                                  } else {
-                                    Get.back();
-                                  }
-                                });
-                              },
-                            ),
-                            // Forwards
-                            Obx(() => GestureDetector(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 24.w),
-                                    child: ZZ.image(
-                                        zzWebViewController._canForward.value
-                                            ? R.assetsImgIcNavForwardBlack
-                                            : R.assetsImgIcNavForwardGray,
-                                        bundleName: zzBundleName),
-                                  ),
-                                  onTap: () {
-                                    if (zzWebViewController._canForward.value) {
-                                      controller.goForward();
+    return Obx(() {
+      if (widget.hideNavigationBar ?? false) {
+        return _mainWidget();
+      } else {
+        return ZZBaseScaffold(
+          backgroundColor: widget.backgroundColor,
+          safeAreaBottom: widget.safeAreaBottom,
+          appBar: AppBar(
+            backgroundColor: widget.appBarBackgroundColor,
+            automaticallyImplyLeading: false,
+            title: Container(
+              color: widget.appBarBackgroundColor,
+              height: 54.w,
+              child: Stack(
+                children: [
+                  Positioned(
+                      left: 0,
+                      bottom: 0,
+                      right: 0,
+                      top: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              // Back
+                              GestureDetector(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 24.w),
+                                  child: ZZ.image(R.assetsImgIcNavBackBlack,
+                                      bundleName: zzBundleName),
+                                ),
+                                onTap: () {
+                                  Future<bool> can = controller.canGoBack();
+                                  can.then((value) {
+                                    if (value) {
+                                      controller.goBack().then((value) {
+                                        if (Platform.isIOS) {
+                                          // 处理302跳转返回白屏
+                                          Future<String?>? currentUrl =
+                                              controller.currentUrl();
+                                          currentUrl.then((value) {
+                                            if (value ==
+                                                    zzWebViewController
+                                                        .url.value &&
+                                                zzWebViewController
+                                                    .url.value.isNotEmpty) {
+                                              controller.reload();
+                                            }
+                                          });
+                                        }
+                                      });
+                                    } else {
+                                      Get.back();
                                     }
-                                  },
-                                )),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            // Close
-                            GestureDetector(
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 24.w),
-                                child: ZZ.image(R.assetsImgIcNavCloseBlack,
-                                    bundleName: zzBundleName),
+                                  });
+                                },
                               ),
-                              onTap: () {
-                                Get.back();
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    )),
-                widget.appBar ??
-                    Container(
-                      margin: widget.titleView == null
-                          ? ((zzWebViewController.title.value
-                                          .calculateTextLength() ??
-                                      0) <=
-                                  16
-                              ? EdgeInsets.only(left: 100.w, right: 100.w)
-                              : EdgeInsets.only(left: 100.w, right: 60.w))
-                          : EdgeInsets.only(left: 100.w, right: 100.w),
-                      child: Container(
-                        // color: Colors.amber,
-                        alignment: Alignment.center,
-                        child: widget.titleView ??
-                            Text(
-                              zzWebViewController.title.value,
-                              style: widget.titleTextStyle,
-                            ),
-                      ),
-                    )
-              ],
+                              // Forwards
+                              GestureDetector(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 24.w),
+                                  child: ZZ.image(
+                                      zzWebViewController._canForward.value
+                                          ? R.assetsImgIcNavForwardBlack
+                                          : R.assetsImgIcNavForwardGray,
+                                      bundleName: zzBundleName),
+                                ),
+                                onTap: () {
+                                  if (zzWebViewController._canForward.value) {
+                                    controller.goForward();
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              // Close
+                              GestureDetector(
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 24.w),
+                                  child: ZZ.image(R.assetsImgIcNavCloseBlack,
+                                      bundleName: zzBundleName),
+                                ),
+                                onTap: () {
+                                  Get.back();
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
+                  widget.appBar ??
+                      Container(
+                        margin: widget.titleView == null
+                            ? ((zzWebViewController.title.value
+                                            .calculateTextLength() ??
+                                        0) <=
+                                    16
+                                ? EdgeInsets.only(left: 100.w, right: 100.w)
+                                : EdgeInsets.only(left: 100.w, right: 60.w))
+                            : EdgeInsets.only(left: 100.w, right: 100.w),
+                        child: Container(
+                          // color: Colors.amber,
+                          alignment: Alignment.center,
+                          child: widget.titleView ??
+                              Text(
+                                zzWebViewController.title.value,
+                                style: widget.titleTextStyle,
+                              ),
+                        ),
+                      )
+                ],
+              ),
             ),
+            titleSpacing: widget.titleSpacing,
+            centerTitle: widget.centerTitle,
+            elevation: widget.elevation,
           ),
-          titleSpacing: widget.titleSpacing,
-          centerTitle: widget.centerTitle,
-          elevation: widget.elevation,
-        ),
-        body: _mainWidget(),
-      );
-    }
+          body: _mainWidget(),
+        );
+      }
+    });
   }
 
   Widget _mainWidget() {
@@ -411,9 +420,9 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
         Expanded(child: WebViewWidget(controller: controller)),
         widget.hideBottomViewScrollingDown == true
             ? // 底部控件向下滚动时消失，网上滑动显示底部控件
-            Obx(() => (zzWebViewController._scrollingDown.value
+            (zzWebViewController._scrollingDown.value
                 ? Container()
-                : widget.bottomView ?? Container()))
+                : widget.bottomView ?? Container())
             // 底部控件常显
             : (widget.bottomView ?? Container())
       ],
@@ -472,8 +481,8 @@ class ZZProgressBarWidgetState extends State<ZZProgressBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    ZZWebViewController zzWebViewController = Get.find();
     return Obx(() {
+      ZZWebViewController zzWebViewController = Get.find();
       if (zzWebViewController.enableProgress &&
           (zzWebViewController._progress.value > 0 &&
               zzWebViewController._progress.value < 1.0)) {
