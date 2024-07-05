@@ -154,7 +154,7 @@ class ZZBaseListController extends GetxController {
       _page = _page + 1;
     }
     if (apiRequest != null) {
-      ZZAPIResponse response = await apiRequest();
+      ZZAPIResponse? response = await apiRequest();
       return response;
     } else {
       return null;
