@@ -115,6 +115,7 @@ class ZZWebViewPage extends StatefulWidget {
 
 class ZZWebViewPageState extends State<ZZWebViewPage> {
   late WebViewController controller;
+  String? title;
   double lastY = 0;
 
   @override
@@ -131,6 +132,7 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
   void initState() {
     super.initState();
     ZZWebViewController zzWebViewController = Get.find();
+    title = zzWebViewController.title.value;
 
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
@@ -202,13 +204,15 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
               zzWebViewController._canForward.value = value;
               // debugPrint("canForward:$value");
             });
-            controller
-                .runJavaScriptReturningResult("document.title")
-                .then((value) {
-              if (value is String) {
-                zzWebViewController.title.value = value;
-              }
-            });
+            if (ZZ.isNullOrEmpty(title)) {
+              controller
+                  .runJavaScriptReturningResult("document.title")
+                  .then((value) {
+                if (value is String) {
+                  zzWebViewController.title.value = value;
+                }
+              });
+            }
           },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
