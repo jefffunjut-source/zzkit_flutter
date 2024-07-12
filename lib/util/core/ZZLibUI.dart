@@ -157,8 +157,12 @@ extension ZZLibUI on ZZManager {
       leading: appbarIconString(leftIcon) == null
           ? Container()
           : GestureDetector(
-              child: ZZ.image(appbarIconString(leftIcon)!,
-                  bundleName: zzBundleName),
+              child: Container(
+                alignment: Alignment.center,
+                color: Colors.white,
+                child: ZZ.image(appbarIconString(leftIcon)!,
+                    bundleName: zzBundleName, width: 48.w),
+              ),
               onTap: () {
                 if (onLeftIconTap != null) {
                   onLeftIconTap();
