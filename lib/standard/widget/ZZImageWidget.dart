@@ -255,7 +255,6 @@ class _ZZImageWidgetState extends State<ZZImageWidget> {
         imageUrl: imageUrl!,
         width: adjustedWidth ?? widget.width,
         height: adjustedHeight ?? widget.height,
-        color: widget.backgroundColor,
         fit: widget.fit,
         placeholder: (context, url) {
           return _placehoderWidget();

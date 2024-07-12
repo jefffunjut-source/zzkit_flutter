@@ -67,8 +67,8 @@ class ZZColor {
   static const dark = Color(0xFF000000);
   static const white = Color(0xFFFFFFFF);
   static const orange = Color(0xFFFF9869);
+  static const reddishOrange = Color(0xFFFF6600);
   static const red = Color(0xFFFF4E4E);
-  static const reddishOrange = Color(0xFFFF604B);
   static const blue = Color(0xFF27A1FF);
   static const yellow = Color(0xFFFDAB19);
 
