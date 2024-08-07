@@ -71,9 +71,9 @@ class ZZBootupController extends GetxController {
   /// 闪页结束跳转广告或主页
   void offAdOrMainPage() {
     if (triedAd) {
-      Get.offAll(const ZZHomePage());
+      Get.offAll(() => const ZZHomePage());
     } else {
-      Get.offAll(ZZAdPage());
+      Get.offAll(() => ZZAdPage());
     }
   }
 }
