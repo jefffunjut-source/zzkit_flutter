@@ -382,23 +382,26 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                       ],
                     )),
                 widget.appBar ??
+                    (widget.titleView != null
+                        ? Container(
+                            margin: EdgeInsets.only(left: 2.w, right: 2.w),
+                            child: widget.titleView,
+                          )
+                        : null) ??
                     Obx(() => Container(
-                          margin: widget.titleView == null
-                              ? ((zzWebViewController.title.value
-                                              .calculateTextLength() ??
-                                          0) <=
-                                      16
-                                  ? EdgeInsets.only(left: 100.w, right: 100.w)
-                                  : EdgeInsets.only(left: 100.w, right: 60.w))
-                              : EdgeInsets.only(left: 100.w, right: 100.w),
+                          margin: ((zzWebViewController.title.value
+                                          .calculateTextLength() ??
+                                      0) <=
+                                  16
+                              ? EdgeInsets.only(left: 100.w, right: 100.w)
+                              : EdgeInsets.only(left: 100.w, right: 60.w)),
                           child: Container(
                             // color: Colors.amber,
                             alignment: Alignment.center,
-                            child: widget.titleView ??
-                                Text(
-                                  zzWebViewController.title.value,
-                                  style: widget.titleTextStyle,
-                                ),
+                            child: Text(
+                              zzWebViewController.title.value,
+                              style: widget.titleTextStyle,
+                            ),
                           ),
                         ))
               ],
