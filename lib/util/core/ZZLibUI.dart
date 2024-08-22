@@ -57,9 +57,18 @@ extension ZZLibUI on ZZManager {
   }
 
   /// Toast
-  void toast(String? msg, {int duration = 2}) {
+  void toast(String? msg, {int duration = 2, bool fromSnackBar = false}) {
     if (msg != null && msg != "") {
-      EasyLoading.showToast(msg, duration: Duration(seconds: duration));
+      if (fromSnackBar) {
+        ScaffoldMessenger.of(zzContext).showSnackBar(
+          SnackBar(
+            content: Text(msg),
+            duration: Duration(seconds: duration),
+          ),
+        );
+      } else {
+        EasyLoading.showToast(msg, duration: Duration(seconds: duration));
+      }
     }
   }
 
