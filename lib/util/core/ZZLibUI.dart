@@ -414,7 +414,14 @@ extension ZZLibUI on ZZManager {
       widgets.add(ZZOuterRadiusWidget(
           radiusTopLeft: 12.w,
           radiusTopRight: 12.w,
-          child: _bottomSheetItemWidget(title!, titleStyle, () {})));
+          child: _bottomSheetItemWidget(
+              title!,
+              titleStyle ??
+                  textStyle(
+                      color: ZZColor.dark,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600),
+              () {})));
       widgets.add(Container(
         height: .5,
         color: Colors.grey[300],
