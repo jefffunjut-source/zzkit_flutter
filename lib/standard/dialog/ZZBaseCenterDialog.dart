@@ -9,6 +9,8 @@ import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 abstract class ZZBaseCenterDialog {
+  Future<void> init() async {}
+
   Widget contentWidget();
 
   bool barrierDismissible() {
@@ -106,6 +108,7 @@ abstract class ZZBaseCenterDialog {
   }
 
   Future<dynamic> show() async {
+    await init();
     var ret = await showDialog(
       context: zzContext,
       barrierDismissible: barrierDismissible(),

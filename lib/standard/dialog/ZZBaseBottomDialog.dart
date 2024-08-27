@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 library zzkit;
 
 import 'dart:math';
@@ -11,6 +11,8 @@ import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
 abstract class ZZBaseBottomDialog {
+  Future<void> init() async {}
+
   List<Widget> contentWidgets();
 
   double maxHeight() {
@@ -79,6 +81,7 @@ abstract class ZZBaseBottomDialog {
   }
 
   Future<dynamic> show() async {
+    await init();
     var ret = await showModalBottomSheet(
         context: zzContext,
         useSafeArea: true,
