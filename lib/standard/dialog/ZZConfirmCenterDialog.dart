@@ -45,7 +45,7 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
                     child: Text(
                       title!,
                       style: titleStyle ??
-                          ZZ.textStyle(color: ZZColor.dark, fontSize: 18.sp),
+                          ZZ.textStyle(color: ZZColor.dark, fontSize: 16.sp),
                     ),
                   ),
             ZZ.isNullOrEmpty(content)
@@ -61,7 +61,7 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
                         style: contentStyle ??
                             ZZ.textStyle(
                                 color: ZZColor.grey33,
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 height: 1.6),
                         children: [
