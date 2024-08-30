@@ -96,11 +96,11 @@ abstract class ZZBaseCenterDialog {
   }
 
   void leftButtonTap() {
-    Get.back();
+    Get.back(result: leftButtonString());
   }
 
   void rightButtonTap() {
-    Get.back();
+    Get.back(result: rightButtonString());
   }
 
   Color? buttonSeparatorColor() {

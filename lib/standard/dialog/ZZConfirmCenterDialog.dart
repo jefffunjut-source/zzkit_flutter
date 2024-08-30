@@ -108,11 +108,6 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
   }
 
   @override
-  void rightButtonTap() {
-    Get.back(result: "ok");
-  }
-
-  @override
   bool barrierDismissible() {
     return dismissible ?? false;
   }
