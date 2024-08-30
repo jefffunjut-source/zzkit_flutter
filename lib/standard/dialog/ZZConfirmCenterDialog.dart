@@ -17,6 +17,7 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
   TextStyle? rightStyle;
   String? leftText;
   String? rightText;
+  bool? dismissible;
   ZZConfirmCenterDialog({
     required this.title,
     required this.content,
@@ -26,6 +27,7 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
     this.rightStyle,
     this.leftText,
     this.rightText,
+    this.dismissible,
   });
   @override
   int buttonCount() {
@@ -49,7 +51,11 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
                     child: Text(
                       title!,
                       style: titleStyle ??
-                          ZZ.textStyle(color: ZZColor.dark, fontSize: 16.sp),
+                          ZZ.textStyle(
+                            color: ZZColor.dark,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                   ),
             ZZ.isNullOrEmpty(content)
@@ -108,7 +114,7 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
 
   @override
   bool barrierDismissible() {
-    return false;
+    return dismissible ?? false;
   }
 
   @override
