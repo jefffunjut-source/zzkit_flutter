@@ -13,15 +13,19 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
   String? content;
   TextStyle? titleStyle;
   TextStyle? contentStyle;
-  TextStyle? cancelStyle;
-  TextStyle? okStyle;
+  TextStyle? leftStyle;
+  TextStyle? rightStyle;
+  String? leftText;
+  String? rightText;
   ZZConfirmCenterDialog({
     required this.title,
     required this.content,
     this.titleStyle,
     this.contentStyle,
-    this.cancelStyle,
-    this.okStyle,
+    this.leftStyle,
+    this.rightStyle,
+    this.leftText,
+    this.rightText,
   });
   @override
   int buttonCount() {
@@ -108,8 +112,13 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
   }
 
   @override
+  String leftButtonString() {
+    return leftText ?? "取消";
+  }
+
+  @override
   String rightButtonString() {
-    return "确定";
+    return rightText ?? "确定";
   }
 
   @override
@@ -124,12 +133,12 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
 
   @override
   TextStyle leftButtonTextStyle() {
-    return cancelStyle ?? ZZ.textStyle(color: ZZColor.grey99, fontSize: 14.sp);
+    return leftStyle ?? ZZ.textStyle(color: ZZColor.grey99, fontSize: 14.sp);
   }
 
   @override
   TextStyle rightButtonTextStyle() {
-    return okStyle ??
+    return rightStyle ??
         ZZ.textStyle(color: ZZColor.reddishOrange, fontSize: 14.sp);
   }
 }
