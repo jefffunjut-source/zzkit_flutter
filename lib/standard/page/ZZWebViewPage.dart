@@ -382,12 +382,6 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                       ],
                     )),
                 widget.appBar ??
-                    (widget.titleView != null
-                        ? Container(
-                            margin: EdgeInsets.only(left: 2.w, right: 2.w),
-                            child: widget.titleView,
-                          )
-                        : null) ??
                     Obx(() => Container(
                           margin: ((zzWebViewController.title.value
                                           .calculateTextLength() ??
@@ -396,12 +390,13 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
                               ? EdgeInsets.only(left: 100.w, right: 100.w)
                               : EdgeInsets.only(left: 100.w, right: 60.w)),
                           child: Container(
-                            // color: Colors.amber,
+                            color: Colors.white,
                             alignment: Alignment.center,
-                            child: Text(
-                              zzWebViewController.title.value,
-                              style: widget.titleTextStyle,
-                            ),
+                            child: widget.titleView ??
+                                Text(
+                                  zzWebViewController.title.value,
+                                  style: widget.titleTextStyle,
+                                ),
                           ),
                         ))
               ],
