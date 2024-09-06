@@ -462,11 +462,15 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                       ZZNoticeWidget(
                         width: 44.w,
                         height: 64.w,
+                        noticeImage: null,
+                        highlightedNoticeImage: null,
+                        pointBackgroundColor: null,
+                        highlightedPointBackgroundColor: null,
+                        textStyle: null,
+                        highlightedTextStyle: null,
+                        borderColor: null,
+                        highlightedBorderColor: null,
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      ZZNoticeWidget(),
                       const SizedBox(
                         width: 8,
                       ),

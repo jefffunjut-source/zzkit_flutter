@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/dialog/ZZBaseCenterDialog.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';

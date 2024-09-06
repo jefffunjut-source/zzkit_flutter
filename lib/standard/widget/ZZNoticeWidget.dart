@@ -15,33 +15,33 @@ class ZZNoticeController extends GetxController {
 }
 
 class ZZNoticeWidget extends StatefulWidget {
-  double? width;
-  double? height;
   Image? noticeImage;
   Image? highlightedNoticeImage;
-  double? noticeXFromCenter;
-  double? noticeYFromCenter;
-  Color? backgroundColor;
   Color? pointBackgroundColor;
   Color? highlightedPointBackgroundColor;
   TextStyle? textStyle;
   TextStyle? highlightedTextStyle;
   Color? borderColor;
   Color? highlightedBorderColor;
+  double? width;
+  double? height;
+  Color? backgroundColor;
+  double? noticeXFromCenter;
+  double? noticeYFromCenter;
   ZZNoticeWidget({
+    required this.noticeImage,
+    required this.highlightedNoticeImage,
+    required this.pointBackgroundColor,
+    required this.highlightedPointBackgroundColor,
+    required this.textStyle,
+    required this.highlightedTextStyle,
+    required this.borderColor,
+    required this.highlightedBorderColor,
     this.width,
     this.height,
-    this.noticeImage,
-    this.highlightedNoticeImage,
+    this.backgroundColor,
     this.noticeXFromCenter,
     this.noticeYFromCenter,
-    this.backgroundColor,
-    this.pointBackgroundColor,
-    this.highlightedPointBackgroundColor,
-    this.textStyle,
-    this.highlightedTextStyle,
-    this.borderColor,
-    this.highlightedBorderColor,
     super.key,
   });
 
