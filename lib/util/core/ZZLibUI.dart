@@ -408,6 +408,7 @@ extension ZZLibUI on ZZManager {
     TextStyle? titleStyle,
     TextStyle? itemTextStyle,
     TextStyle? cancelTextStyle,
+    bool? disableCancel,
   }) {
     List<Widget> widgets = [];
     if (!ZZ.isNullOrEmpty(title)) {
@@ -473,10 +474,16 @@ extension ZZLibUI on ZZManager {
       color: Colors.transparent,
     ));
 
-    widgets.add(ZZOuterRadiusWidget(
-        margin: EdgeInsets.only(bottom: zzBottomBarHeight),
-        radius: 12.w,
-        child: _bottomSheetItemWidget("取消", itemTextStyle, null)));
+    if (disableCancel == true) {
+      widgets.add(Container(
+        height: zzBottomBarHeight,
+      ));
+    } else {
+      widgets.add(ZZOuterRadiusWidget(
+          margin: EdgeInsets.only(bottom: zzBottomBarHeight),
+          radius: 12.w,
+          child: _bottomSheetItemWidget("取消", itemTextStyle, null)));
+    }
 
     return showCupertinoModalPopup(
       context: zzContext,
