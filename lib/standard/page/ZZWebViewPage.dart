@@ -283,6 +283,8 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
         debugPrint("WebView Flutter UserAgent:$value");
       },
     );
+
+    zzWebViewController._controller = controller;
   }
 
   @override
