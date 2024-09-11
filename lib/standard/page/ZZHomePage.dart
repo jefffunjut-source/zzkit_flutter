@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/page/ZZTabNavigationBar.dart';
+import 'package:zzkit_flutter/util/ZZEvent.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class ZZHomePage extends StatefulWidget {
@@ -56,6 +57,7 @@ class ZZHomePageState extends State<ZZHomePage> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     ZZBootupController controller = Get.find();
     controller.state.value = state;
+    zzEventBus.fire(ZZEventAppLife()..state = state);
     switch (state) {
       //进入应用时候不会触发该状态 应用程序处于可见状态，并且可以响应用户的输入事件。它相当于 Android 中Activity的onResume
       case AppLifecycleState.resumed:
