@@ -33,11 +33,19 @@ ZZManager ZZ = ZZManager();
 const String zzBundleName = "packages/zzkit_flutter/";
 const String zzRefreshingIdleText = "下拉刷新";
 const String zzRefreshingReleaseText = "释放刷新";
-const String zzRefreshingText = "正在加载";
+const String zzRefreshingText = "正在加载中...";
 const String zzRefreshingCompleteText = "完成";
 const String zzRefreshingCancelRefreshText = "取消刷新";
 const String zzRefreshingLoadingText = "正在加载中...";
-const String zzRefreshingNoDataText = "已经到底";
+const String zzRefreshingNoDataText = "已经到底了";
+
+const String zzRefreshingIdleReverseText = "";
+const String zzRefreshingReleaseReverseText = "";
+const String zzRefreshingReverseText = "正在加载中...";
+const String zzRefreshingCompleteReverseText = "";
+const String zzRefreshingCancelRefreshReverseText = "";
+const String zzRefreshingLoadingReverseText = "正在加载中...";
+const String zzRefreshingNoDataReverseText = "已经到头了";
 
 /// Context
 GlobalKey<NavigatorState> zzNavigatorKey = GlobalKey<NavigatorState>();
