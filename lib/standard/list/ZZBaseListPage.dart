@@ -135,6 +135,8 @@ class ZZBaseListController extends GetxController {
 
   void initialize() {}
 
+  void deInitialize() {}
+
   void fetchData({required bool nextPage}) async {}
 
   Future<ZZAPIResponse?> begin({
@@ -229,6 +231,13 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    ZZBaseListController controller = widget.controller;
+    controller.deInitialize();
+    super.dispose();
+  }
 
   @override
   void initState() {

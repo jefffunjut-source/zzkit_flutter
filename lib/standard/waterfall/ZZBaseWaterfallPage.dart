@@ -79,6 +79,13 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
   bool get wantKeepAlive => true;
 
   @override
+  void dispose() {
+    ZZBaseWaterfallController controller = widget.controller;
+    controller.deInitialize();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     ZZBaseWaterfallController controller = widget.controller;
