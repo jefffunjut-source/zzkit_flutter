@@ -31,21 +31,21 @@ ZZManager ZZ = ZZManager();
  ************************/
 /// ZZKit Package名称
 const String zzBundleName = "packages/zzkit_flutter/";
-const String zzRefreshingIdleText = "下拉刷新";
-const String zzRefreshingReleaseText = "释放刷新";
-const String zzRefreshingText = "正在加载中...";
-const String zzRefreshingCompleteText = "完成";
-const String zzRefreshingCancelRefreshText = "取消刷新";
-const String zzRefreshingLoadingText = "正在加载中...";
-const String zzRefreshingNoDataText = "已经到底了";
+const String zzHeaderIdleText = "下拉刷新";
+const String zzHeaderReleaseText = "释放刷新";
+const String zzHeaderRefreshingText = "正在加载中...";
+const String zzHeaderCompleteText = "完成";
+const String zzHeaderCancelRefreshText = "取消刷新";
+const String zzFooterLoadingText = "正在加载中...";
+const String zzFooterNoDataText = "已经到底了";
 
-const String zzRefreshingIdleReverseText = "";
-const String zzRefreshingReleaseReverseText = "";
-const String zzRefreshingReverseText = "正在加载中...";
-const String zzRefreshingCompleteReverseText = "";
-const String zzRefreshingCancelRefreshReverseText = "";
-const String zzRefreshingLoadingReverseText = "正在加载中...";
-const String zzRefreshingNoDataReverseText = "已经到头了";
+const String zzReversedHeaderIdleText = "";
+const String zzReversedHeaderReleaseText = "";
+const String zzReversedHeaderRefreshingText = "正在加载中...";
+const String zzReversedHeaderCompleteText = "";
+const String zzReversedHeaderCancelRefreshText = "";
+const String zzReversedFooterLoadingText = "正在加载中...";
+const String zzReversedFooterNoDataText = "已经到头了";
 
 /// Context
 GlobalKey<NavigatorState> zzNavigatorKey = GlobalKey<NavigatorState>();

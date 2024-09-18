@@ -45,7 +45,7 @@ class XXSampleTabListPageState extends State<XXSampleTabListPage>
         children: List.generate(7, (index) {
           return XXSampleListPage(
               controller: XXSampleListController()
-                ..refreshingText = "loading now"
+                ..headerRefreshingText = "loading now"
                 ..shimmer = true
                 ..shimmerBrickHeight = 300
                 ..brickMargin =

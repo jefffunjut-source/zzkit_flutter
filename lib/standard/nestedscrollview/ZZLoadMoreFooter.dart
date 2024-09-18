@@ -87,10 +87,9 @@ class ZZLoadMoreFooterState extends State<ZZLoadMoreFooter> {
                     child: Text(
                       widget.controller.status.value ==
                               ZZLoadMoreStatus.noMoreData
-                          ? (widget.refreshingNoDataText ??
-                              zzRefreshingNoDataText)
+                          ? (widget.refreshingNoDataText ?? zzFooterNoDataText)
                           : (widget.refreshingLoadingText ??
-                              zzRefreshingLoadingText),
+                              zzFooterLoadingText),
                       style: ZZ.textStyle(color: Colors.grey, fontSize: 12.sp),
                     ),
                   ),

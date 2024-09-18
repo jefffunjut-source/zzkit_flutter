@@ -342,7 +342,7 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                           );
                           Get.to(XXSampleListPage(
                             controller: XXSampleListController()
-                              ..refreshingText = "loading now"
+                              ..headerRefreshingText = "loading now"
                               ..shimmer = true
                               ..shimmerBrickHeight = 320
                               ..shimmerCustomWidget = widget

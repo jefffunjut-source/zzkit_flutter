@@ -62,7 +62,7 @@ class XXTestNestedScrollTabPageState extends State<XXTestNestedScrollTabPage> {
             children: [
               XXSampleListPage(
                 controller: XXSampleListController()
-                  ..refreshingText = "loading now"
+                  ..headerRefreshingText = "loading now"
                   ..shimmer = true
                   ..shimmerBrickHeight = 320
                   ..shimmerCustomWidget = widget
@@ -71,7 +71,7 @@ class XXTestNestedScrollTabPageState extends State<XXTestNestedScrollTabPage> {
               ),
               XXSampleListPage(
                 controller: XXSampleListController()
-                  ..refreshingText = "loading now"
+                  ..headerRefreshingText = "loading now"
                   ..shimmer = true
                   ..shimmerBrickHeight = 320
                   ..shimmerCustomWidget = widget

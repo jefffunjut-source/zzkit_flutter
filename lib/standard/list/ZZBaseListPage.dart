@@ -57,12 +57,13 @@ class ZZBaseListController extends GetxController {
   Widget? shimmerCustomWidget;
 
   // Refresh描述
-  String? refreshingIdleText;
-  String? refreshingReleaseText;
-  String? refreshingText;
-  String? refreshingCompleteText;
-  String? refreshingLoadingText;
-  String? refreshingNoDataText;
+  String? headerIdleText;
+  String? headerReleaseText;
+  String? headerRefreshingText;
+  String? headerCompleteText;
+  String? headerCancelRefreshText;
+  String? footerLoadingText;
+  String? footerNoDataText;
 
   // UI描述
   // Scaffold的margin padding
@@ -110,12 +111,13 @@ class ZZBaseListController extends GetxController {
     this.shimmer = false,
     this.shimmerBrickHeight,
     this.shimmerCustomWidget,
-    this.refreshingIdleText = zzRefreshingIdleText,
-    this.refreshingReleaseText = zzRefreshingReleaseText,
-    this.refreshingText = zzRefreshingText,
-    this.refreshingCompleteText = zzRefreshingCompleteText,
-    this.refreshingLoadingText = zzRefreshingLoadingText,
-    this.refreshingNoDataText = zzRefreshingNoDataText,
+    this.headerIdleText,
+    this.headerReleaseText,
+    this.headerRefreshingText,
+    this.headerCompleteText,
+    this.headerCancelRefreshText,
+    this.footerLoadingText,
+    this.footerNoDataText,
     this.margin,
     this.padding,
     this.brickMargin,
@@ -244,6 +246,49 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     super.initState();
     ZZBaseListController controller = widget.controller;
 
+    if (controller.reverse == true) {
+      controller.headerIdleText =
+          controller.headerIdleText ?? zzReversedHeaderIdleText;
+
+      controller.headerReleaseText =
+          controller.headerReleaseText ?? zzReversedHeaderReleaseText;
+
+      controller.headerRefreshingText =
+          controller.headerRefreshingText ?? zzReversedHeaderRefreshingText;
+
+      controller.headerCompleteText =
+          controller.headerCompleteText ?? zzReversedHeaderCompleteText;
+
+      controller.headerCancelRefreshText = controller.headerCancelRefreshText ??
+          zzReversedHeaderCancelRefreshText;
+
+      controller.footerLoadingText =
+          controller.footerLoadingText ?? zzReversedFooterLoadingText;
+
+      controller.footerNoDataText =
+          controller.footerNoDataText ?? zzReversedFooterNoDataText;
+    } else {
+      controller.headerIdleText = controller.headerIdleText ?? zzHeaderIdleText;
+
+      controller.headerReleaseText =
+          controller.headerReleaseText ?? zzHeaderReleaseText;
+
+      controller.headerRefreshingText =
+          controller.headerRefreshingText ?? zzHeaderRefreshingText;
+
+      controller.headerCompleteText =
+          controller.headerCompleteText ?? zzHeaderCompleteText;
+
+      controller.headerCancelRefreshText =
+          controller.headerCancelRefreshText ?? zzHeaderCancelRefreshText;
+
+      controller.footerLoadingText =
+          controller.footerLoadingText ?? zzFooterLoadingText;
+
+      controller.footerNoDataText =
+          controller.footerNoDataText ?? zzFooterNoDataText;
+    }
+
     if (controller.enableTab == true && controller.tabController == null) {
       controller.tabController =
           TabController(length: controller.tabLength, vsync: this);
@@ -320,14 +365,14 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           refreshingIcon: null,
           completeIcon: null,
           releaseIcon: null,
-          idleText: controller.refreshingIdleText,
-          releaseText: controller.refreshingReleaseText,
-          refreshingText: controller.refreshingText,
-          completeText: controller.refreshingCompleteText,
+          idleText: controller.headerIdleText,
+          releaseText: controller.headerReleaseText,
+          refreshingText: controller.headerRefreshingText,
+          completeText: controller.headerCompleteText,
         ),
         footer: ClassicFooter(
-          loadingText: controller.refreshingLoadingText,
-          noDataText: controller.refreshingNoDataText,
+          loadingText: controller.footerLoadingText,
+          noDataText: controller.footerNoDataText,
         ),
         onRefresh: () async {
           controller.refreshController.resetNoData();

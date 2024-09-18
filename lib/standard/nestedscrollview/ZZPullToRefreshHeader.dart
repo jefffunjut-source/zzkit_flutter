@@ -20,18 +20,20 @@ class ZZPullToRefreshHeader extends StatelessWidget {
     this.info, {
     super.key,
     this.color,
-    this.refreshingIdleText,
-    this.refreshingReleaseText,
-    this.refreshingText,
-    this.refreshingCompleteText,
+    this.headerIdleText,
+    this.headerReleaseText,
+    this.headerRefreshingText,
+    this.headerCompleteText,
+    this.headerCancelRefreshText,
   });
 
   final PullToRefreshScrollNotificationInfo? info;
   final Color? color;
-  final String? refreshingIdleText;
-  final String? refreshingReleaseText;
-  final String? refreshingText;
-  final String? refreshingCompleteText;
+  final String? headerIdleText;
+  final String? headerReleaseText;
+  final String? headerRefreshingText;
+  final String? headerCompleteText;
+  final String? headerCancelRefreshText;
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +43,16 @@ class ZZPullToRefreshHeader extends StatelessWidget {
     }
     String text = '';
     if (_info.mode == PullToRefreshIndicatorMode.armed) {
-      text = refreshingReleaseText ?? zzRefreshingReleaseText;
+      text = headerReleaseText ?? zzHeaderReleaseText;
     } else if (_info.mode == PullToRefreshIndicatorMode.refresh ||
         _info.mode == PullToRefreshIndicatorMode.snap) {
-      text = refreshingText ?? zzRefreshingText;
+      text = headerRefreshingText ?? zzHeaderRefreshingText;
     } else if (_info.mode == PullToRefreshIndicatorMode.done) {
-      text = refreshingCompleteText ?? zzRefreshingCompleteText;
+      text = headerCompleteText ?? zzHeaderCompleteText;
     } else if (_info.mode == PullToRefreshIndicatorMode.drag) {
-      text = refreshingIdleText ?? zzRefreshingIdleText;
+      text = headerIdleText ?? zzHeaderIdleText;
     } else if (_info.mode == PullToRefreshIndicatorMode.canceled) {
-      text = zzRefreshingCancelRefreshText;
+      text = headerCancelRefreshText ?? zzHeaderCancelRefreshText;
     }
 
     final double dragOffset = info?.dragOffset ?? 0.0;
