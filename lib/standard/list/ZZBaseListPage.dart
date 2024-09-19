@@ -64,6 +64,7 @@ class ZZBaseListController extends GetxController {
   String? headerCancelRefreshText;
   String? footerLoadingText;
   String? footerNoDataText;
+  String? footerCanLoadingText;
 
   // UI描述
   // Scaffold的margin padding
@@ -118,6 +119,7 @@ class ZZBaseListController extends GetxController {
     this.headerCancelRefreshText,
     this.footerLoadingText,
     this.footerNoDataText,
+    this.footerCanLoadingText,
     this.margin,
     this.padding,
     this.brickMargin,
@@ -267,6 +269,9 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
 
       controller.footerNoDataText =
           controller.footerNoDataText ?? zzReversedFooterNoDataText;
+
+      controller.footerCanLoadingText =
+          controller.footerCanLoadingText ?? zzReversedFooterCanLoadingText;
     } else {
       controller.headerIdleText = controller.headerIdleText ?? zzHeaderIdleText;
 
@@ -287,6 +292,9 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
 
       controller.footerNoDataText =
           controller.footerNoDataText ?? zzFooterNoDataText;
+
+      controller.footerCanLoadingText =
+          controller.footerCanLoadingText ?? zzFooterCanLoadingText;
     }
 
     if (controller.enableTab == true && controller.tabController == null) {
@@ -373,6 +381,9 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
         footer: ClassicFooter(
           loadingText: controller.footerLoadingText,
           noDataText: controller.footerNoDataText,
+          canLoadingText: controller.footerCanLoadingText,
+          idleText: "",
+          failedText: "",
         ),
         onRefresh: () async {
           controller.refreshController.resetNoData();
