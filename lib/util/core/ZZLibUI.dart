@@ -489,8 +489,10 @@ extension ZZLibUI on ZZManager {
       context: zzContext,
       builder: (BuildContext context) {
         return Container(
-          margin: EdgeInsets.only(left: 12.w, right: 12.w),
-          child: Wrap(alignment: WrapAlignment.center, children: widgets),
+          margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 160.w),
+          child: SingleChildScrollView(
+            child: Wrap(alignment: WrapAlignment.center, children: widgets),
+          ),
         );
       },
     );
