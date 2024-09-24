@@ -5,8 +5,113 @@ part of 'ZZManager.dart';
 /// App版本Key
 const kAppPrefsAppVersion = "kAppPrefsAppVersion";
 
+class ZZDraft {
+  String? title;
+  String? content;
+  List<ZZPhoto>? imageList;
+  List<ZZTag>? tagList;
+  ZZActivity? activity;
+
+  ZZDraft(
+      {this.imageList, this.title, this.tagList, this.content, this.activity});
+
+  ZZDraft.fromJson(Map<String, dynamic> json) {
+    if (json["imageList"] is List) {
+      imageList = json["imageList"] == null
+          ? null
+          : (json["imageList"] as List)
+              .map((e) => ZZPhoto.fromJson(e))
+              .toList();
+    }
+    if (json["title"] is String) {
+      title = json["title"];
+    }
+    if (json["tagList"] is List) {
+      tagList = json["tagList"] == null
+          ? null
+          : (json["tagList"] as List).map((e) => ZZTag.fromJson(e)).toList();
+    }
+    if (json["content"] is String) {
+      content = json["content"];
+    }
+    if (json["activity"] is Map) {
+      activity = json["activity"] == null
+          ? null
+          : ZZActivity.fromJson(json["activity"]);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (imageList != null) {
+      data["imageList"] = imageList?.map((e) => e.toJson()).toList();
+    }
+    data["title"] = title;
+    if (tagList != null) {
+      data["tagList"] = tagList?.map((e) => e.toJson()).toList();
+    }
+    data["content"] = content;
+    if (activity != null) {
+      data["activity"] = activity?.toJson();
+    }
+    return data;
+  }
+}
+
+class ZZActivity {
+  String? id;
+  String? name;
+
+  ZZActivity({this.id, this.name});
+
+  ZZActivity.fromJson(Map<String, dynamic> json) {
+    if (json["id"] is String) {
+      id = json["id"];
+    }
+    if (json["name"] is String) {
+      name = json["name"];
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["id"] = id;
+    data["name"] = name;
+    return data;
+  }
+}
+
+class ZZTag {
+  String? tagName;
+  String? tagId;
+  String? tagType;
+
+  ZZTag({this.tagName, this.tagId, this.tagType});
+
+  ZZTag.fromJson(Map<String, dynamic> json) {
+    if (json["tag_name"] is String) {
+      tagName = json["tag_name"];
+    }
+    if (json["tag_id"] is String) {
+      tagId = json["tag_id"];
+    }
+    if (json["tag_type"] is String) {
+      tagType = json["tag_type"];
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["tag_name"] = tagName;
+    data["tag_id"] = tagId;
+    data["tag_type"] = tagType;
+    return data;
+  }
+}
+
 class ZZPhoto {
   String? image;
+  String? url;
   int? width;
   int? height;
   String? isCover;
@@ -18,6 +123,7 @@ class ZZPhoto {
 
   ZZPhoto({
     this.image,
+    this.url,
     this.width,
     this.height,
     this.isCover,
@@ -36,6 +142,9 @@ class ZZPhoto {
   ZZPhoto.fromJson(Map<String, dynamic> json) {
     if (json["image"] is String) {
       image = json["image"];
+    }
+    if (json["url"] is String) {
+      url = json["url"];
     }
     if (json["width"] is int) {
       width = json["width"];
@@ -59,6 +168,7 @@ class ZZPhoto {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data["image"] = image;
+    data["url"] = url;
     data["width"] = width;
     data["height"] = height;
     data["is_cover"] = isCover;
