@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 // Import for Android & iOS features.
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -65,6 +66,11 @@ class ZZWebViewController extends GetxController {
   // WebViewController
   WebViewController? _controller;
   WebViewController? get controller => _controller;
+
+  // 白名单
+  List<String> whiteList = [];
+  // 黑名单
+  List<String> blackList = [];
 }
 
 class ZZWebViewPage extends StatefulWidget {
@@ -215,7 +221,7 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
             }
           },
           onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
+          onNavigationRequest: (NavigationRequest request) async {
             controller.canGoBack().then((value) {
               zzWebViewController._canBack.value = value;
               // debugPrint("canBack:$value");
@@ -224,19 +230,54 @@ class ZZWebViewPageState extends State<ZZWebViewPage> {
               zzWebViewController._canForward.value = value;
               // debugPrint("canForward:$value");
             });
-            if (zzWebViewController.forbiddenHosts.isNotEmpty) {
-              Uri uri = Uri.parse(request.url);
-              String h = uri.host;
-              for (String host in zzWebViewController.forbiddenHosts) {
-                if (host == h) {
-                  return NavigationDecision.prevent;
+            if (request.url.startsWith("http") ||
+                request.url.startsWith("https")) {
+              if (zzWebViewController.forbiddenHosts.isNotEmpty) {
+                Uri uri = Uri.parse(request.url);
+                String h = uri.host;
+                for (String host in zzWebViewController.forbiddenHosts) {
+                  if (host == h) {
+                    return NavigationDecision.prevent;
+                  }
                 }
               }
-            }
-            if (zzWebViewController.forbiddenUrls.isNotEmpty) {
-              for (String url in zzWebViewController.forbiddenHosts) {
-                if (url == request.url) {
+              if (zzWebViewController.forbiddenUrls.isNotEmpty) {
+                for (String url in zzWebViewController.forbiddenHosts) {
+                  if (url == request.url) {
+                    return NavigationDecision.prevent;
+                  }
+                }
+              }
+            } else {
+              Uri uri = Uri.parse(request.url);
+              if (zzWebViewController.whiteList.isNotEmpty) {
+                if (zzWebViewController.whiteList.contains(uri.scheme)) {
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                    return NavigationDecision.prevent;
+                  } else {
+                    return NavigationDecision.navigate;
+                  }
+                } else {
                   return NavigationDecision.prevent;
+                }
+              } else if (zzWebViewController.blackList.isNotEmpty) {
+                if (zzWebViewController.blackList.contains(uri.scheme)) {
+                  return NavigationDecision.prevent;
+                } else {
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                    return NavigationDecision.prevent;
+                  } else {
+                    return NavigationDecision.navigate;
+                  }
+                }
+              } else {
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri);
+                  return NavigationDecision.prevent;
+                } else {
+                  return NavigationDecision.navigate;
                 }
               }
             }

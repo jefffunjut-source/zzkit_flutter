@@ -46,6 +46,7 @@ dependencies:
   # 列表和加载相关 End
   video_player: ^2.9.1
   image_gallery_saver: ^2.0.3
+  url_launcher: ^6.2.6
 
 
 dev_dependencies:
