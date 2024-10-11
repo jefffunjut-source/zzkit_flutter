@@ -209,7 +209,7 @@ extension ZZLibUI on ZZManager {
     if (indicatorColor == null && indicatorGradient == null) {
       indicatorGradient = ZZColor.gradientOrangeEnabled;
     }
-    indicatorRadius ??= 22.w;
+    indicatorRadius ??= 16.w;
     indicatorPadding ??=
         EdgeInsets.only(top: 6.w, bottom: 10.w, left: 0.w, right: 0.w);
     return PreferredSize(
