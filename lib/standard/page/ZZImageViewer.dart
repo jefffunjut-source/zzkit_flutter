@@ -6,14 +6,23 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:dio/dio.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
+import 'package:get/get.dart';
 
 class ZZImageViewer extends StatefulWidget {
   final List<String> imageUrls; // 传入网络图片URL列表
-
-  const ZZImageViewer({super.key, required this.imageUrls});
+  final int index;
+  const ZZImageViewer(
+      {super.key, required this.imageUrls, required this.index});
 
   @override
   ZZImageViewerState createState() => ZZImageViewerState();
+
+  static void show({required List<String>? images, int index = 0}) {
+    Get.to(ZZImageViewer(
+      imageUrls: images ?? [],
+      index: index,
+    ));
+  }
 }
 
 class ZZImageViewerState extends State<ZZImageViewer> {
