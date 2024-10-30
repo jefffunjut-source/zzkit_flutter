@@ -360,32 +360,34 @@ class ZZNestedScrollViewPageState extends State<ZZNestedScrollViewPage>
   }
 
   void _checkScrollTop() {
-    if (!inAnimating) {
-      inAnimating = true;
-      int lastPage = primaryTC!.previousIndex;
-      int currentPage = primaryTC!.index;
-      int index = 0;
-      double currentPagePixel = 0;
-      key.currentState?.innerController.positions.forEach((element) {
-        if (lastPage == index) {
-          currentPagePixel = element.pixels;
+    if (primaryTC != null) {
+      if (!inAnimating) {
+        inAnimating = true;
+        int lastPage = primaryTC!.previousIndex;
+        int currentPage = primaryTC!.index;
+        int index = 0;
+        double currentPagePixel = 0;
+        key.currentState?.innerController.positions.forEach((element) {
+          if (lastPage == index) {
+            currentPagePixel = element.pixels;
+          }
+          index++;
+        });
+        if (currentPagePixel > 2000) {
+          if (showScrollTop != true) {
+            setState(() {
+              showScrollTop = true;
+            });
+          }
+        } else {
+          if (showScrollTop != false) {
+            setState(() {
+              showScrollTop = false;
+            });
+          }
         }
-        index++;
-      });
-      if (currentPagePixel > 2000) {
-        if (showScrollTop != true) {
-          setState(() {
-            showScrollTop = true;
-          });
-        }
-      } else {
-        if (showScrollTop != false) {
-          setState(() {
-            showScrollTop = false;
-          });
-        }
+        inAnimating = false;
       }
-      inAnimating = false;
     }
     Future.delayed(const Duration(seconds: 3))
         .then((value) => _checkScrollTop());
