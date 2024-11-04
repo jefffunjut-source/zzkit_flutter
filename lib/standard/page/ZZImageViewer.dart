@@ -18,9 +18,9 @@ class ZZImageViewer extends StatefulWidget {
   ZZImageViewerState createState() => ZZImageViewerState();
 
   static void show({required List<String>? images, int index = 0}) {
-    if (images == null || images.length == 0) return;
+    if (images == null || images.isEmpty) return;
     Get.to(ZZImageViewer(
-      imageUrls: images ?? [],
+      imageUrls: images,
       index: index,
     ));
   }
