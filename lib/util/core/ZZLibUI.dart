@@ -2,18 +2,6 @@
 
 part of 'ZZManager.dart';
 
-class ZZUrlAnalysisResult {
-  final String category;
-  final String value;
-
-  ZZUrlAnalysisResult(this.category, this.value);
-
-  @override
-  String toString() {
-    return 'Category: $category, Value: $value';
-  }
-}
-
 extension ZZLibUI on ZZManager {
   /// 渐变颜色
   Gradient grandientColor(
@@ -358,33 +346,8 @@ extension ZZLibUI on ZZManager {
         ));
   }
 
-  ZZUrlAnalysisResult _analyzeUrl(String url) {
-    if (url.contains("https://www.55haitaoshop.com/store/")) {
-      String v = url.replaceFirst("https://www.55haitaoshop.com/store/", "");
-      v = v.replaceFirst(".html", "");
-      v = v.replaceFirst("/", "");
-      if (v.isNotEmpty) {
-        return ZZUrlAnalysisResult("store", v);
-      }
-    } else if (url.contains("https://www.55haitaoshop.com/topic/")) {
-      String v = url.replaceFirst("https://www.55haitaoshop.com/topic/", "");
-      v = v.replaceFirst(".html", "");
-      v = v.replaceFirst("/", "");
-      if (v.isNotEmpty) {
-        return ZZUrlAnalysisResult("topic", v);
-      }
-    } else if (url.contains("https://www.55haitaoshop.com/deals/")) {
-      String v = url.replaceFirst("https://www.55haitaoshop.com/deals/", "");
-      v = v.replaceFirst(".html", "");
-      v = v.replaceFirst("/", "");
-      if (v.isNotEmpty) {
-        return ZZUrlAnalysisResult("deals", v);
-      }
-    }
-    return ZZUrlAnalysisResult("", ""); // 处理不匹配的情况
-  }
-
-  Widget customMarkdownBody(String content) {
+  Widget customMarkdownBody(
+      {required String content, MarkdownTapLinkCallback? onTapLink}) {
     return MarkdownBody(
       styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(zzContext)).copyWith(
         a: const TextStyle(
@@ -401,19 +364,7 @@ extension ZZLibUI on ZZManager {
       ),
       styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
       data: content,
-      onTapLink: (text, href, title) {
-        if (href != null) {
-          ZZUrlAnalysisResult res = _analyzeUrl(href);
-          if (res.category == "deals") {
-          } else if (res.category == "topic") {
-          } else if (res.category == "store") {
-          } else {
-            if (!href.contains("http")) {
-              href = "https://$href";
-            }
-          }
-        }
-      },
+      onTapLink: onTapLink,
     );
   }
 
