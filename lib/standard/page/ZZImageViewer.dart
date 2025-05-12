@@ -2,7 +2,8 @@
 
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
@@ -43,10 +44,8 @@ class ZZImageViewerState extends State<ZZImageViewer> {
     String currentImageUrl = widget.imageUrls[currentIndex];
     var response = await Dio().get(currentImageUrl,
         options: Options(responseType: ResponseType.bytes));
-    await ImageGallerySaver.saveImage(
-      Uint8List.fromList(response.data),
-      quality: 80,
-    );
+    await ImageGallerySaverPlus.saveImage(Uint8List.fromList(response.data),
+        quality: 80);
     ZZ.toast("保存成功", fromSnackBar: true);
   }
 

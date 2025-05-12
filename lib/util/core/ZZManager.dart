@@ -1,4 +1,4 @@
-// ignore_for_file: implementation_imports, library_prefixes, file_names, library_names
+// ignore_for_file: implementation_imports, library_prefixes, file_names, library_names, unnecessary_library_name
 // ignore_for_file: non_constant_identifier_names, avoid_single_cascade_in_expression_statements, use_build_context_synchronously, depend_on_referenced_packages
 
 library zzkit;
@@ -8,7 +8,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui' as ui;
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

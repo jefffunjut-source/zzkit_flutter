@@ -1,4 +1,4 @@
-// ignore_for_file: use_string_in_part_of_directives, prefer_interpolation_to_compose_strings, implementation_imports, library_prefixes, file_names
+// ignore_for_file: use_string_in_part_of_directives, prefer_interpolation_to_compose_strings, implementation_imports, library_prefixes, file_names, unnecessary_library_name
 library zzkit;
 
 import 'dart:convert';
@@ -84,78 +84,109 @@ class ZZAPIRequest {
     String? responseStr;
     try {
       // 支持Charles抓包
+      // Dio 6.0之前的设置
       // ignore: deprecated_member_use
-      (zzDio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (HttpClient client) {
-        client.findProxy = provider.proxy;
-        client.badCertificateCallback = (cert, host, port) {
-          return true;
-        };
-        return null;
-      };
+      // (zzDio.httpClientAdapter as DefaultHttpClientAdapter)
+      //     .onHttpClientCreate = (HttpClient client) {
+      //   client.findProxy = provider.proxy;
+      //   client.badCertificateCallback = (cert, host, port) {
+      //     return true;
+      //   };
+      //   return null;
+      // };
+      // Dio 6.0的抓包方式
+      // zzDio.httpClientAdapter = IOHttpClientAdapter(
+      //   createHttpClient: () {
+      //     final client = HttpClient();
+      //     client.findProxy = (uri) {
+      //       // 设置代理，例如：
+      //       return "PROXY localhost:8888";
+      //     };
+      //     client.badCertificateCallback =
+      //         (X509Certificate cert, String host, int port) => true;
+      //     return client;
+      //   },
+      // );
 
       // url中包含{id}这样的需要替换
       String originalUrl = url;
       if (url.contains("{id}")) {
         assert(
-            (datas != null && datas!["id"] != null) ||
-                (params != null && params!["id"] != null),
-            "请检查输入datas或者params中必须传入一个{\"id\":\"xxx\"}的参数");
+          (datas != null && datas!["id"] != null) ||
+              (params != null && params!["id"] != null),
+          "请检查输入datas或者params中必须传入一个{\"id\":\"xxx\"}的参数",
+        );
         var id = datas?["id"] != null ? datas!["id"] : params!["id"];
         url = url.replaceAll("{id}", id.toString());
       }
       // url中包含{type}这样的需要替换
       if (url.contains("{type}")) {
         assert(
-            (datas != null && datas!["type"] != null) ||
-                (params != null && params!["type"] != null),
-            "请检查输入datas或者params中必须传入一个{\"type\":\"xxx\"}的参数");
+          (datas != null && datas!["type"] != null) ||
+              (params != null && params!["type"] != null),
+          "请检查输入datas或者params中必须传入一个{\"type\":\"xxx\"}的参数",
+        );
         var type = datas?["type"] != null ? datas!["type"] : params!["type"];
         url = url.replaceAll("{type}", type.toString());
       }
       // url中包含{name}这样的需要替换
       if (url.contains("{name}")) {
         assert(
-            (datas != null && datas!["name"] != null) ||
-                (params != null && params!["name"] != null),
-            "请检查输入datas或者params中必须传入一个{\"name\":\"xxx\"}的参数");
+          (datas != null && datas!["name"] != null) ||
+              (params != null && params!["name"] != null),
+          "请检查输入datas或者params中必须传入一个{\"name\":\"xxx\"}的参数",
+        );
         var name = datas?["name"] != null ? datas!["name"] : params!["name"];
         url = url.replaceAll("{name}", name.toString());
       }
 
       // 打印请求参数
       debugPrint(
-          '[[[ZZAPI Request==[url = $url][headers =  ${zzDio.options.headers}][baseUrl = ${zzDio.options.baseUrl}][params = $params][datas = $datas][enableFormData = $enableFormData][enableErrorToast = $enableErrorToast]',
-          wrapWidth: null);
+        '[[[ZZAPI Request==[url = $url][headers =  ${zzDio.options.headers}][baseUrl = ${zzDio.options.baseUrl}][params = $params][datas = $datas][enableFormData = $enableFormData][enableErrorToast = $enableErrorToast]',
+        wrapWidth: null,
+      );
 
       dynamic response;
       switch (httpMethod) {
         case ZZHTTPMethod.post:
           {
-            response = await zzDio.post(url,
-                data: enableFormData
-                    ? DioFormData.FormData.fromMap(datas ?? {})
-                    : datas,
-                queryParameters: params,
-                cancelToken: cancelToken);
+            response = await zzDio.post(
+              url,
+              data:
+                  enableFormData
+                      ? DioFormData.FormData.fromMap(datas ?? {})
+                      : datas,
+              queryParameters: params,
+              cancelToken: cancelToken,
+            );
             break;
           }
         case ZZHTTPMethod.get:
           {
-            response = await zzDio.get(url,
-                queryParameters: params, cancelToken: cancelToken);
+            response = await zzDio.get(
+              url,
+              queryParameters: params,
+              cancelToken: cancelToken,
+            );
             break;
           }
         case ZZHTTPMethod.delete:
           {
-            response = await zzDio.delete(url,
-                queryParameters: params, cancelToken: cancelToken);
+            response = await zzDio.delete(
+              url,
+              queryParameters: params,
+              cancelToken: cancelToken,
+            );
             break;
           }
         case ZZHTTPMethod.put:
           {
-            response = await zzDio.put(url,
-                data: datas, queryParameters: params, cancelToken: cancelToken);
+            response = await zzDio.put(
+              url,
+              data: datas,
+              queryParameters: params,
+              cancelToken: cancelToken,
+            );
             break;
           }
       }
@@ -184,9 +215,9 @@ class ZZAPIRequest {
             }
           }
           error = ZZAPIError(
-              code: resp.code is String ? resp.code : resp.code.toString(),
-              errorMessage:
-                  resp.msg is String ? resp.msg : resp.msg.toString());
+            code: resp.code is String ? resp.code : resp.code.toString(),
+            errorMessage: resp.msg is String ? resp.msg : resp.msg.toString(),
+          );
           resp = null;
         }
       } else {
@@ -213,18 +244,21 @@ class ZZAPIRequest {
         debugInfo =
             "$debugInfo[请求Type异常 error:${e.toString()} stackTrace:${e.stackTrace}]";
         ZZ.toast(
-            (enableDetailedError
-                ? "Something around type goes wrong with server.Please try again later.\n\n$e\n\n${e.stackTrace}"
-                : "Something around type goes wrong with server.Please try again later."),
-            duration: enableDetailedError ? 3 : 1);
+          (enableDetailedError
+              ? "Something around type goes wrong with server.Please try again later.\n\n$e\n\n${e.stackTrace}"
+              : "Something around type goes wrong with server.Please try again later."),
+          duration: enableDetailedError ? 3 : 1,
+        );
         error = ZZAPIError(code: "-3", errorMessage: e.toString());
         resp = null;
       } else {
         String errorString = e.toString();
         debugInfo = "$debugInfo[请求其它异常 error:$errorString]";
-        ZZ.toast(enableDetailedError
-            ? "Something goes wrong with server.Please try again later.\n\n$errorString"
-            : "Something goes wrong with server.Please try again later.");
+        ZZ.toast(
+          enableDetailedError
+              ? "Something goes wrong with server.Please try again later.\n\n$errorString"
+              : "Something goes wrong with server.Please try again later.",
+        );
         error = ZZAPIError(code: "-4", errorMessage: errorString);
         resp = null;
       }

@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, must_be_immutable, file_names
+// ignore_for_file: use_key_in_widget_constructors, must_be_immutable, file_names, unnecessary_library_name
 library zzkit;
 
 import 'package:flutter/material.dart';

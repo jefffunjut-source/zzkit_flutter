@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, non_constant_identifier_names, slash_for_doc_comments, dead_code
+// ignore_for_file: file_names, non_constant_identifier_names, slash_for_doc_comments, dead_code, unnecessary_library_name
 library zzkit;
 
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, empty_catches
+// ignore_for_file: file_names, empty_catches, unnecessary_library_name
 library zzkit;
 
 import 'dart:convert';

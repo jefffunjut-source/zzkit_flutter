@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, file_names
+// ignore_for_file: must_be_immutable, file_names, unnecessary_library_name
 library zzkit;
 
 import 'package:flutter/material.dart';
@@ -29,17 +29,9 @@ class ZZNoDataWidget extends StatelessWidget {
       top: 24,
       bottom: 24,
     ),
-    this.placeholderImagePadding = const EdgeInsets.only(
-      left: 36,
-      right: 36,
-    ),
-    this.hintTextPadding = const EdgeInsets.only(
-      top: 36,
-    ),
-    this.reloadPadding = const EdgeInsets.only(
-      top: 36,
-      bottom: 24,
-    ),
+    this.placeholderImagePadding = const EdgeInsets.only(left: 36, right: 36),
+    this.hintTextPadding = const EdgeInsets.only(top: 36),
+    this.reloadPadding = const EdgeInsets.only(top: 36, bottom: 24),
     this.onReloadTap,
     this.mainAxisSize = MainAxisSize.max,
   });
@@ -54,15 +46,9 @@ class ZZNoDataWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.max,
         children: [
-          const SizedBox(
-            width: 1,
-            height: 1,
-          ),
+          const SizedBox(width: 1, height: 1),
           minWidget(),
-          const SizedBox(
-            width: 1,
-            height: 1,
-          ),
+          const SizedBox(width: 1, height: 1),
         ],
       );
     }
@@ -81,9 +67,13 @@ class ZZNoDataWidget extends StatelessWidget {
           Container(
             color: bgColor ?? Colors.white,
             padding: placeholderImagePadding,
-            child: placeholderImage ??
-                ZZ.image(R.assetsImgIcPlaceholderNoData,
-                    bundleName: zzBundleName, fit: BoxFit.fitWidth),
+            child:
+                placeholderImage ??
+                ZZ.image(
+                  R.assetsImgIcPlaceholderNoData,
+                  bundleName: zzBundleName,
+                  fit: BoxFit.fitWidth,
+                ),
           ),
           Container(
             color: bgColor ?? Colors.white,
@@ -96,27 +86,28 @@ class ZZNoDataWidget extends StatelessWidget {
           ),
           onReloadTap != null
               ? Container(
-                  color: bgColor ?? Colors.white,
-                  padding: reloadPadding,
-                  child: GestureDetector(
-                    onTap: onReloadTap,
-                    child: Container(
-                      alignment: Alignment.center,
-                      color: ZZColor.red.withAlpha(10),
-                      width: 96.w,
-                      height: 36.w,
-                      child: Text(
-                        "重新加载",
-                        style: ZZ.textStyle(
-                            color: Colors.red,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
+                color: bgColor ?? Colors.white,
+                padding: reloadPadding,
+                child: GestureDetector(
+                  onTap: onReloadTap,
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: ZZColor.red.withAlpha(10),
+                    width: 96.w,
+                    height: 36.w,
+                    child: Text(
+                      "重新加载",
+                      style: ZZ.textStyle(
+                        color: Colors.red,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                )
-              : Container()
+                ),
+              )
+              : Container(),
         ],
       ),
     );

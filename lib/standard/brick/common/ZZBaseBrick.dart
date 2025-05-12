@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, unnecessary_library_name
 // ignore_for_file: file_names, use_key_in_widget_constructors, must_be_immutable
 library zzkit;
 
@@ -31,10 +31,11 @@ class ZZBrickList {
   double? mainAxisSpacing;
   double? crossAxisSpacing;
   EdgeInsetsGeometry? padding;
-  ZZBrickList(
-      {required this.dataSource,
-      this.crossAxisCount,
-      this.mainAxisSpacing,
-      this.crossAxisSpacing,
-      this.padding});
+  ZZBrickList({
+    required this.dataSource,
+    this.crossAxisCount,
+    this.mainAxisSpacing,
+    this.crossAxisSpacing,
+    this.padding,
+  });
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: overridden_fields, annotate_overrides, unnecessary_overrides, file_names
+// ignore_for_file: overridden_fields, annotate_overrides, unnecessary_overrides, file_names, unnecessary_library_name
 library zzkit;
 
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class ZZBaseScaffold extends Scaffold {
   VoidCallback? retryCallback;
 
   // 监听返回键
-  PopInvokedCallback? popInvokedCallback;
+  PopInvokedWithResultCallback? popInvokedCallback;
 
   // 无数据状态
   bool? nodata;
@@ -54,13 +54,13 @@ class ZZBaseScaffold extends Scaffold {
     this.safeAreaBottom = true,
     this.isHomePage,
   }) : super(
-          appBar: appBar,
-          body: body,
-          backgroundColor: backgroundColor,
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          floatingActionButton: floatingActionButton,
-          floatingActionButtonLocation: floatingActionButtonLocation,
-        );
+         appBar: appBar,
+         body: body,
+         backgroundColor: backgroundColor,
+         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+         floatingActionButton: floatingActionButton,
+         floatingActionButtonLocation: floatingActionButtonLocation,
+       );
 
   @override
   ScaffoldState createState() {
@@ -72,7 +72,7 @@ class ZZBaseScaffoldState extends ScaffoldState {
   bool? nodata;
   bool? nodataNavigatorHidden;
   String? nodataHintText;
-  PopInvokedCallback? popInvokedCallback;
+  PopInvokedWithResultCallback? popInvokedCallback;
   VoidCallback? retryCallback;
   bool? safeAreaBottom;
   bool? hiddenBackbtn;
@@ -109,24 +109,28 @@ class ZZBaseScaffoldState extends ScaffoldState {
     return Container(
       color: widget.backgroundColor,
       child: SafeArea(
-          top: false,
-          bottom: safeAreaBottom ?? false,
-          child: Stack(alignment: Alignment.center, children: [
+        top: false,
+        bottom: safeAreaBottom ?? false,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
             PopScope(
-                canPop: true,
-                onPopInvoked: popInvokedCallback,
-                child: super.build(context)),
+              canPop: true,
+              onPopInvokedWithResult: popInvokedCallback,
+              child: super.build(context),
+            ),
             nodata ?? false
                 ? Positioned(
-                    left: 0,
-                    top: nodataNavigatorHidden! ? 0 : zzStatusBarHeight + 48.w,
-                    right: 0,
-                    bottom: 0,
-                    child: ZZNoDataWidget(
-                      hintText: nodataHintText,
-                    ))
-                : ZZEmptyWidget()
-          ])),
+                  left: 0,
+                  top: nodataNavigatorHidden! ? 0 : zzStatusBarHeight + 48.w,
+                  right: 0,
+                  bottom: 0,
+                  child: ZZNoDataWidget(hintText: nodataHintText),
+                )
+                : ZZEmptyWidget(),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -140,7 +144,8 @@ class ZZFloatingActionButtonLocation extends FloatingActionButtonLocation {
   @override
   Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
     final double x = scaffoldGeometry.scaffoldSize.width - offsetX;
-    final double y = scaffoldGeometry.scaffoldSize.height -
+    final double y =
+        scaffoldGeometry.scaffoldSize.height -
         scaffoldGeometry.bottomSheetSize.height -
         offsetY;
     return Offset(x, y);

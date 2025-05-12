@@ -23,11 +23,6 @@ class XXTestPageState extends State<XXTestPage> {
   ScrollController scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return _scaffold();
   }

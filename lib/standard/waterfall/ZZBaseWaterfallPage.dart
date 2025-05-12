@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides
+// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_library_name
 library zzkit;
 
 import 'package:flutter/material.dart';
@@ -60,10 +60,7 @@ class ZZBaseWaterfallController extends ZZBaseListController {
 class ZZBaseWaterfallPage<T> extends StatefulWidget {
   // 列表页控制器
   T controller;
-  ZZBaseWaterfallPage({
-    super.key,
-    required this.controller,
-  });
+  ZZBaseWaterfallPage({super.key, required this.controller});
 
   @override
   ZZBaseWaterfallState createState() => ZZBaseWaterfallState<T>();
@@ -90,8 +87,10 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     super.initState();
     ZZBaseWaterfallController controller = widget.controller;
     if (controller.enableTab == true && controller.tabController == null) {
-      controller.tabController =
-          TabController(length: controller.tabLength, vsync: this);
+      controller.tabController = TabController(
+        length: controller.tabLength,
+        vsync: this,
+      );
     }
     controller.initialize();
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
@@ -111,42 +110,50 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     return ZZBaseScaffold(
       backgroundColor: controller.backgroundColor,
       safeAreaBottom: controller.safeAreaBottom,
-      appBar: controller.appBar ??
+      appBar:
+          controller.appBar ??
           (controller.title != null
               ? ZZ.appbar(
-                  title: controller.title, leftIcon: ZZNavBarIcon.backblack)
+                title: controller.title,
+                leftIcon: ZZNavBarIcon.backblack,
+              )
               : null),
-      body: controller.bottomWidget != null
-          ? Column(
-              children: [
-                Expanded(child: _obxBodyWidget()),
-                controller.bottomWidget!,
-              ],
-            )
-          : _obxBodyWidget(),
+      body:
+          controller.bottomWidget != null
+              ? Column(
+                children: [
+                  Expanded(child: _obxBodyWidget()),
+                  controller.bottomWidget!,
+                ],
+              )
+              : _obxBodyWidget(),
     );
   }
 
   Widget _obxBodyWidget() {
     ZZBaseWaterfallController controller = widget.controller;
-    return Obx(() => controller.nodata.value
-        ? Center(
-            child: ZZNoDataWidget(
-              bgColor: controller.nodataBgColor ?? Colors.white,
-              onReloadTap: () {
-                ZZ.show();
-                _retrieveData(false);
-                Future.delayed(const Duration(seconds: 1))
-                    .then((value) => ZZ.dismiss());
-              },
-            ),
-          )
-        : Container(
-            color: controller.secondBackgroundColor,
-            margin: controller.margin,
-            padding: controller.padding,
-            child: _homeBody(),
-          ));
+    return Obx(
+      () =>
+          controller.nodata.value
+              ? Center(
+                child: ZZNoDataWidget(
+                  bgColor: controller.nodataBgColor ?? Colors.white,
+                  onReloadTap: () {
+                    ZZ.show();
+                    _retrieveData(false);
+                    Future.delayed(
+                      const Duration(seconds: 1),
+                    ).then((value) => ZZ.dismiss());
+                  },
+                ),
+              )
+              : Container(
+                color: controller.secondBackgroundColor,
+                margin: controller.margin,
+                padding: controller.padding,
+                child: _homeBody(),
+              ),
+    );
   }
 
   Widget _homeBody() {
@@ -187,73 +194,82 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
 
   Widget _customScrollView(ZZRefreshType refreshType) {
     ZZBaseWaterfallController controller = widget.controller;
-    ScrollPhysics? physics = refreshType == ZZRefreshType.pulltorefresh
-        ? const ClampingScrollPhysics()
-        : null;
+    ScrollPhysics? physics =
+        refreshType == ZZRefreshType.pulltorefresh
+            ? const ClampingScrollPhysics()
+            : null;
     late List<Widget> slivers = [];
     if (controller.dataSource.safeObjectAtIndex(0) is ZZBrickList) {
       controller.isWaterfallMultipleType = true;
       for (var element in controller.dataSource) {
         ZZBrickList list = element;
-        slivers.add(SliverPadding(
-          padding: list.padding ?? EdgeInsets.zero,
-          sliver: SliverMasonryGrid.count(
-            crossAxisCount: list.crossAxisCount ?? controller.crossAxisCount,
-            mainAxisSpacing:
-                list.mainAxisSpacing ?? controller.mainAxisSpacing ?? 0,
-            crossAxisSpacing:
-                list.crossAxisSpacing ?? controller.crossAxisSpacing ?? 0,
-            childCount: list.dataSource.length,
-            itemBuilder: (context, index) {
-              ZZBaseBrickObject object = list.dataSource[index];
-              return object.widget;
-            },
+        slivers.add(
+          SliverPadding(
+            padding: list.padding ?? EdgeInsets.zero,
+            sliver: SliverMasonryGrid.count(
+              crossAxisCount: list.crossAxisCount ?? controller.crossAxisCount,
+              mainAxisSpacing:
+                  list.mainAxisSpacing ?? controller.mainAxisSpacing ?? 0,
+              crossAxisSpacing:
+                  list.crossAxisSpacing ?? controller.crossAxisSpacing ?? 0,
+              childCount: list.dataSource.length,
+              itemBuilder: (context, index) {
+                ZZBaseBrickObject object = list.dataSource[index];
+                return object.widget;
+              },
+            ),
           ),
-        ));
+        );
       }
       if (refreshType == ZZRefreshType.pulltorefresh) {
-        slivers.add(SliverMasonryGrid.count(
-          crossAxisCount: 1,
-          childCount: 1,
-          itemBuilder: (context, i) {
-            return ZZLoadMoreFooter(
-              controller: controller,
-              loadMoreBlock: () async {
-                if (noMore) return ZZLoadMoreStatus.noMoreData;
-                _retrieveData(true);
-                return ZZLoadMoreStatus.finishLoad;
-              },
-            );
-          },
-        ));
+        slivers.add(
+          SliverMasonryGrid.count(
+            crossAxisCount: 1,
+            childCount: 1,
+            itemBuilder: (context, i) {
+              return ZZLoadMoreFooter(
+                controller: controller,
+                loadMoreBlock: () async {
+                  if (noMore) return ZZLoadMoreStatus.noMoreData;
+                  _retrieveData(true);
+                  return ZZLoadMoreStatus.finishLoad;
+                },
+              );
+            },
+          ),
+        );
       }
     } else {
       controller.isWaterfallMultipleType = false;
-      slivers.add(SliverMasonryGrid.count(
-        crossAxisCount: controller.crossAxisCount,
-        mainAxisSpacing: controller.mainAxisSpacing ?? 0,
-        crossAxisSpacing: controller.crossAxisSpacing ?? 0,
-        childCount: controller.dataSource.length,
-        itemBuilder: (context, index) {
-          ZZBaseBrickObject object = controller.dataSource[index];
-          return object.widget;
-        },
-      ));
-      if (refreshType == ZZRefreshType.pulltorefresh) {
-        slivers.add(SliverMasonryGrid.count(
-          crossAxisCount: 1,
-          childCount: 1,
-          itemBuilder: (context, i) {
-            return ZZLoadMoreFooter(
-              controller: controller,
-              loadMoreBlock: () async {
-                if (noMore) return ZZLoadMoreStatus.noMoreData;
-                _retrieveData(true);
-                return ZZLoadMoreStatus.finishLoad;
-              },
-            );
+      slivers.add(
+        SliverMasonryGrid.count(
+          crossAxisCount: controller.crossAxisCount,
+          mainAxisSpacing: controller.mainAxisSpacing ?? 0,
+          crossAxisSpacing: controller.crossAxisSpacing ?? 0,
+          childCount: controller.dataSource.length,
+          itemBuilder: (context, index) {
+            ZZBaseBrickObject object = controller.dataSource[index];
+            return object.widget;
           },
-        ));
+        ),
+      );
+      if (refreshType == ZZRefreshType.pulltorefresh) {
+        slivers.add(
+          SliverMasonryGrid.count(
+            crossAxisCount: 1,
+            childCount: 1,
+            itemBuilder: (context, i) {
+              return ZZLoadMoreFooter(
+                controller: controller,
+                loadMoreBlock: () async {
+                  if (noMore) return ZZLoadMoreStatus.noMoreData;
+                  _retrieveData(true);
+                  return ZZLoadMoreStatus.finishLoad;
+                },
+              );
+            },
+          ),
+        );
       }
     }
     return CustomScrollView(
