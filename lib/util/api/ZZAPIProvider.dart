@@ -3,8 +3,6 @@ library zzkit;
 
 import 'dart:convert';
 import 'dart:ffi';
-import 'dart:io';
-import 'package:dio/io.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart' as DioFormData;
 import 'package:flutter/foundation.dart';

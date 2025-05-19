@@ -17,7 +17,7 @@ enum ZZTranslationType {
   Dutch,
   Russian,
   Korean,
-  Japanese
+  Japanese,
 }
 
 const String kLanguage = "language";
@@ -42,45 +42,35 @@ abstract class ZZTranslations extends Translations {
     Get.updateLocale(newLocale);
   }
 
-  Map<String, String>? wordsMapForDifferentLanguage(
-      ZZTranslationType languageType);
+  Map<String, String>? mapLanguage(ZZTranslationType languageType) {
+    return {'1': 'Hello', 'welcome': 'Welcome to our app!'};
+  }
 
   @override
   Map<String, Map<String, String>> get keys => {
-        'zh_CN':
-            wordsMapForDifferentLanguage(ZZTranslationType.SimpleChinese) ?? {},
-        'zh_TW': wordsMapForDifferentLanguage(
-                ZZTranslationType.TriditionalChinese) ??
-            {},
-        'zh_HK': wordsMapForDifferentLanguage(
-                ZZTranslationType.TriditionalChinese) ??
-            {},
-        'zh_MO': wordsMapForDifferentLanguage(
-                ZZTranslationType.TriditionalChinese) ??
-            {},
-        'zh_SG': wordsMapForDifferentLanguage(
-                ZZTranslationType.TriditionalChinese) ??
-            {},
-        'en_AU': wordsMapForDifferentLanguage(ZZTranslationType.English) ?? {},
-        'en_CA': wordsMapForDifferentLanguage(ZZTranslationType.English) ?? {},
-        'en_US': wordsMapForDifferentLanguage(ZZTranslationType.English) ?? {},
-        'en_GB': wordsMapForDifferentLanguage(ZZTranslationType.English) ?? {},
-        'fr_CA': wordsMapForDifferentLanguage(ZZTranslationType.French) ?? {},
-        'fr_FR': wordsMapForDifferentLanguage(ZZTranslationType.French) ?? {},
-        'de_DE': wordsMapForDifferentLanguage(ZZTranslationType.Germany) ?? {},
-        'de_CH': wordsMapForDifferentLanguage(ZZTranslationType.Germany) ?? {},
-        'de_AT': wordsMapForDifferentLanguage(ZZTranslationType.Germany) ?? {},
-        'de_LU': wordsMapForDifferentLanguage(ZZTranslationType.Germany) ?? {},
-        'es_ES': wordsMapForDifferentLanguage(ZZTranslationType.Spanish) ?? {},
-        'es_LA': wordsMapForDifferentLanguage(ZZTranslationType.Spanish) ?? {},
-        'pt_PT':
-            wordsMapForDifferentLanguage(ZZTranslationType.Portuguese) ?? {},
-        'pt_BR':
-            wordsMapForDifferentLanguage(ZZTranslationType.Portuguese) ?? {},
-        'nl_NL': wordsMapForDifferentLanguage(ZZTranslationType.Dutch) ?? {},
-        'nl_BE': wordsMapForDifferentLanguage(ZZTranslationType.Dutch) ?? {},
-        'ru_RU': wordsMapForDifferentLanguage(ZZTranslationType.Russian) ?? {},
-        'ja_JP': wordsMapForDifferentLanguage(ZZTranslationType.Japanese) ?? {},
-        'ko_KR': wordsMapForDifferentLanguage(ZZTranslationType.Korean) ?? {},
-      };
+    'zh_CN': mapLanguage(ZZTranslationType.SimpleChinese) ?? {},
+    'zh_TW': mapLanguage(ZZTranslationType.TriditionalChinese) ?? {},
+    'zh_HK': mapLanguage(ZZTranslationType.TriditionalChinese) ?? {},
+    'zh_MO': mapLanguage(ZZTranslationType.TriditionalChinese) ?? {},
+    'zh_SG': mapLanguage(ZZTranslationType.TriditionalChinese) ?? {},
+    'en_AU': mapLanguage(ZZTranslationType.English) ?? {},
+    'en_CA': mapLanguage(ZZTranslationType.English) ?? {},
+    'en_US': mapLanguage(ZZTranslationType.English) ?? {},
+    'en_GB': mapLanguage(ZZTranslationType.English) ?? {},
+    'fr_CA': mapLanguage(ZZTranslationType.French) ?? {},
+    'fr_FR': mapLanguage(ZZTranslationType.French) ?? {},
+    'de_DE': mapLanguage(ZZTranslationType.Germany) ?? {},
+    'de_CH': mapLanguage(ZZTranslationType.Germany) ?? {},
+    'de_AT': mapLanguage(ZZTranslationType.Germany) ?? {},
+    'de_LU': mapLanguage(ZZTranslationType.Germany) ?? {},
+    'es_ES': mapLanguage(ZZTranslationType.Spanish) ?? {},
+    'es_LA': mapLanguage(ZZTranslationType.Spanish) ?? {},
+    'pt_PT': mapLanguage(ZZTranslationType.Portuguese) ?? {},
+    'pt_BR': mapLanguage(ZZTranslationType.Portuguese) ?? {},
+    'nl_NL': mapLanguage(ZZTranslationType.Dutch) ?? {},
+    'nl_BE': mapLanguage(ZZTranslationType.Dutch) ?? {},
+    'ru_RU': mapLanguage(ZZTranslationType.Russian) ?? {},
+    'ja_JP': mapLanguage(ZZTranslationType.Japanese) ?? {},
+    'ko_KR': mapLanguage(ZZTranslationType.Korean) ?? {},
+  };
 }
