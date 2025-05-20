@@ -42,9 +42,8 @@ abstract class ZZTranslations extends Translations {
     Get.updateLocale(newLocale);
   }
 
-  Map<String, String>? mapLanguage(ZZTranslationType languageType) {
-    return {'1': 'Hello', 'welcome': 'Welcome to our app!'};
-  }
+  // 子类继承ZZTranslations后重写该方法
+  Map<String, String>? mapLanguage(ZZTranslationType languageType);
 
   @override
   Map<String, Map<String, String>> get keys => {

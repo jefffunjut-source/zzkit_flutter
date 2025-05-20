@@ -32,7 +32,7 @@ class ZZBootupController extends GetxController {
   Locale? fallbackLocale;
 
   /// 开屏闪页介绍页面
-  StatefulWidget? onboardPage;
+  Widget? onboardPage;
 
   bool debugOnboardPage = false;
 
