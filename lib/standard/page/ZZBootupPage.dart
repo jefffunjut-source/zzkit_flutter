@@ -28,16 +28,20 @@ class ZZBootupPageState extends State<ZZBootupPage> {
     ZZBootupController controller = Get.find();
     _checkPrivacy();
     return ScreenUtilInit(
-        designSize: Size(
-            controller.canvasWidth ?? 414.0, controller.canvasHeight ?? 896.0),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return _mainMaterialApp(child);
-        },
-        child: controller.debugOnboardPage
-            ? controller.onboardPage
-            : Obx(() => _whichPage()));
+      designSize: Size(
+        controller.canvasWidth ?? 414.0,
+        controller.canvasHeight ?? 896.0,
+      ),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return _mainMaterialApp(child);
+      },
+      child:
+          controller.debugOnboardPage
+              ? controller.onboardPage
+              : Obx(() => _whichPage()),
+    );
   }
 
   Widget _whichPage() {
@@ -50,7 +54,9 @@ class ZZBootupPageState extends State<ZZBootupPage> {
           return controller.onboardPage!;
         }
       }
-      if (controller.triedAd || controller.disableAd) {
+      if (controller.adBlockCompleted ||
+          controller.disableAd ||
+          controller.adBlock == null) {
         return const ZZHomePage();
       } else {
         return ZZAdPage();
@@ -81,29 +87,35 @@ class ZZBootupPageState extends State<ZZBootupPage> {
       navigatorKey: zzNavigatorKey,
       debugShowCheckedModeBanner: false,
       //关掉模拟器右上角debug图标
-      builder: EasyLoading.init(builder: (context, child) {
-        return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
-          if (isKeyboardVisible != zzIsKeyboardVisible) {
-            zzIsKeyboardVisible = isKeyboardVisible;
-            zzEventBus.fire(ZZEventKeyboard()..visible = isKeyboardVisible);
-          }
-          return Scaffold(
-            // Global GestureDetector that will dismiss the keyboard
-            resizeToAvoidBottomInset: false,
-            body: GestureDetector(
-              onTap: () {
-                ZZ.collapseKeyboard();
-              },
-              child: child,
-            ),
+      builder: EasyLoading.init(
+        builder: (context, child) {
+          return KeyboardVisibilityBuilder(
+            builder: (context, isKeyboardVisible) {
+              if (isKeyboardVisible != zzIsKeyboardVisible) {
+                zzIsKeyboardVisible = isKeyboardVisible;
+                zzEventBus.fire(ZZEventKeyboard()..visible = isKeyboardVisible);
+              }
+              return Scaffold(
+                // Global GestureDetector that will dismiss the keyboard
+                resizeToAvoidBottomInset: false,
+                body: GestureDetector(
+                  onTap: () {
+                    ZZ.collapseKeyboard();
+                  },
+                  child: child,
+                ),
+              );
+            },
           );
-        });
-      }),
+        },
+      ),
       home: child,
       onUnknownRoute: (settings) {
-        return MaterialPageRoute(builder: (context) {
-          return const ZZ404Page();
-        });
+        return MaterialPageRoute(
+          builder: (context) {
+            return const ZZ404Page();
+          },
+        );
       },
     );
   }

@@ -21,8 +21,9 @@ class ZZBootupController extends GetxController {
 
   /// 广告阻塞
   bool disableAd = false;
-  bool triedAd = false;
   Future<ZZAdData?> Function()? adBlock;
+  // 请求Ad接口成功
+  bool adBlockCompleted = false;
   double adCountdown = 5;
   ZZCallbackAd? onTapAd;
 
@@ -70,7 +71,7 @@ class ZZBootupController extends GetxController {
 
   /// 闪页结束跳转广告或主页
   void offAdOrMainPage() {
-    if (triedAd) {
+    if (adBlockCompleted) {
       Get.offAll(() => const ZZHomePage());
     } else {
       Get.offAll(() => ZZAdPage());

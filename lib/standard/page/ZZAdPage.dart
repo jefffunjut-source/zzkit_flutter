@@ -22,7 +22,7 @@ class ZZAdPageState extends State<ZZAdPage> {
     ZZBootupController controller = Get.find();
     if (controller.adBlock != null) {
       controller.adBlock!().then((value) {
-        controller.triedAd = true;
+        controller.adBlockCompleted = true;
         if (value != null) {
           setState(() {
             adData = value;
@@ -39,44 +39,46 @@ class ZZAdPageState extends State<ZZAdPage> {
     ZZBootupController controller = Get.find();
 
     return ZZBaseScaffold(
-        safeAreaBottom: false,
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            GestureDetector(
-              onTap: () async {
-                if (controller.onTapAd != null) {
-                  controller.offAdOrMainPage();
-                  Future.delayed(const Duration(milliseconds: 1000))
-                      .then((value) => controller.onTapAd!(adData));
-                }
-              },
-              child: Container(
+      safeAreaBottom: false,
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          GestureDetector(
+            onTap: () async {
+              if (controller.onTapAd != null) {
+                controller.offAdOrMainPage();
+                Future.delayed(
+                  const Duration(milliseconds: 1000),
+                ).then((value) => controller.onTapAd!(adData));
+              }
+            },
+            child: Container(
+              width: zzScreenWidth,
+              height: zzScreenHeight,
+              color: Colors.white,
+              child: ZZImageWidget(
                 width: zzScreenWidth,
                 height: zzScreenHeight,
-                color: Colors.white,
-                child: ZZImageWidget(
-                  width: zzScreenWidth,
-                  height: zzScreenHeight,
-                  fit: BoxFit.cover,
-                  source: adData?.pic,
-                ),
+                fit: BoxFit.cover,
+                source: adData?.pic,
               ),
             ),
-            adData != null
-                ? Positioned(
-                    right: 30,
-                    top: 30 + zzStatusBarHeight,
-                    child: GestureDetector(
-                      onTap: () {
-                        ZZBootupController controller = Get.find();
-                        controller.offAdOrMainPage();
-                      },
-                      child: ZZCountdownWidget(),
-                    ),
-                  )
-                : Container()
-          ],
-        ));
+          ),
+          adData != null
+              ? Positioned(
+                right: 30,
+                top: 30 + zzStatusBarHeight,
+                child: GestureDetector(
+                  onTap: () {
+                    ZZBootupController controller = Get.find();
+                    controller.offAdOrMainPage();
+                  },
+                  child: ZZCountdownWidget(),
+                ),
+              )
+              : Container(),
+        ],
+      ),
+    );
   }
 }
