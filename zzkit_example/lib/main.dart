@@ -1,105 +1,210 @@
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
 
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:zzkit_example/XXTranslations.dart';
 import 'package:zzkit_example/xtemplete/xtest/XXTestPage.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
+import 'package:zzkit_flutter/standard/page/ZZBootupPage.dart';
+import 'package:zzkit_flutter/standard/page/ZZWebViewPage.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoticeWidget.dart';
+import 'package:zzkit_flutter/util/ZZTranslations.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_example/r.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await _initializeImmediately();
+
+  Future.delayed(Duration(milliseconds: 500)).then((value) {
+    _initializeWithDelay();
+  });
+
+  /// 主程序启动
+  SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ])
+      .then((value) {
+        if (kDebugMode) {
+          runZonedGuarded(() => runApp(const ZZBootupPage()), (error, stack) {
+            debugPrint("FlutterError: ${stack.toString()}");
+          });
+        } else {
+          runApp(const ZZBootupPage());
+        }
+      })
+      .catchError((error) {
+        if (kDebugMode) {
+          runZonedGuarded(() => runApp(const ZZBootupPage()), (error, stack) {
+            debugPrint("FlutterError: ${stack.toString()}");
+          });
+        } else {
+          runApp(const ZZBootupPage());
+        }
+      });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+Future<void> _initializeImmediately() async {
+  /// 异常捕获
+  if (kDebugMode) {
+    FlutterError.onError = (FlutterErrorDetails details) {
+      // 检查错误是否为资源加载错误
+      if (details.exception is FlutterError) {
+        debugPrint("FlutterError: ${details.exception}");
+      } else {
+        // 其他类型的错误，使用默认处理方式
+        FlutterError.presentError(details);
+      }
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const ScreenUtilInit(
-        designSize: Size(414, 896),
-        child: MyHomePage(title: 'Flutter Demo Home Page'),
-      ),
+      // PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+      //   // 豁免该崩溃
+      //   return true;
+      // };
+    };
+  }
+
+  if (Platform.isAndroid) {
+    SystemUiOverlayStyle dark = const SystemUiOverlayStyle(
+      systemNavigationBarColor: Color(0xFF000000),
+      systemNavigationBarDividerColor: null,
+      statusBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  void initState() {
-    super.initState();
-    Get.put(ZZNoticeController(), permanent: true);
+    SystemChrome.setSystemUIOverlayStyle(dark);
   }
 
-  void _incrementCounter() {
-    Get.to(const XXTestPage());
+  bool finishedInitSomething = await ZZ.initSomething();
+  // bool finishedInitDio = await ApiProvider.initDio();
+  if (!finishedInitSomething) {
+    debugPrint("APP initSomething failed");
   }
+  // if (!finishedInitDio) {
+  //   debugPrint("APIProvider initialDio failed");
+  // }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+  /// 配置ZZBootupController
+  List<Widget> pages = [
+    // Center(child: Text("Page 1")),
+    XXTestPage(),
+    Center(child: Text("Page 2")),
+    Center(child: Text("Page 3")),
+  ];
+
+  List<BottomNavigationBarItem> bottoms =
+      [
+            ["优惠", R.assetsImgIcTabDeal, R.assetsImgIcTabDealSelected],
+            ["社区", R.assetsImgIcTabSns, R.assetsImgIcTabSnsSelected],
+            ["我的", R.assetsImgIcTabMe, R.assetsImgIcTabMeSelected],
+          ]
+          .map(
+            (e) => BottomNavigationBarItem(
+              icon: Image(image: AssetImage(e[1]), width: 24, height: 24),
+              activeIcon: Image(image: AssetImage(e[2]), width: 24, height: 24),
+              label: e[0],
             ),
-            Text(
-              '',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
+          )
+          .toList();
+
+  /// Device Controller
+  // HTDeviceController deviceController = HTDeviceController()..initialize();
+  // Get.put(deviceController, permanent: true);
+
+  /// User Controller
+  // HTUserController userController = HTUserController()..initialize();
+  // Get.put(userController, permanent: true);
+
+  /// Golbal Controller
+  // HTGlobalController globalController = HTGlobalController();
+  // Get.put(globalController, permanent: true);
+
+  /// Notice
+  Get.put(ZZNoticeController(), permanent: true);
+
+  /// Bootup Controller
+  ZZBootupController bootupController = ZZBootupController();
+  bootupController.appVersion = "8.5.4";
+  bootupController.translations = XXTranslations();
+  bootupController.locale = ZZTranslations.locale;
+  bootupController.fallbackLocale = ZZTranslations.fallbackLocaleEn;
+  bootupController.tabPages = pages;
+  bootupController.bottomNavigationbarItems = bottoms;
+  // bootupController.debugOnboardPage = false;
+  // bootupController.onboardPage = const HTOnBoardingPage();
+  // bootupController.enablePrivacyPrompt.value = true;
+  // bootupController.agreePrivacyBlock = () async {
+  //   bool? hasAgreedLicense = ZZ.prefs.getBool("hasAgreedLicense");
+  //   if (hasAgreedLicense == null || hasAgreedLicense == false) {
+  //     zzEventBus.on<HTEventCanInit3rd>().listen((event) {
+  //       _init3rdWithAgreedLicences();
+  //     });
+  //     await HTLicenseCenterDialog().show();
+  //   } else {
+  //     _init3rdWithAgreedLicences();
+  //   }
+  // };
+  // bootupController.disableAd = false;
+  // bootupController.adCountdown = 5;
+  // bootupController.adBlock = () async {
+  //   ZZAPIResponse value =
+  //       await ZZAPIRequest(
+  //         provider: ApiProvider,
+  //         apiUrl: HTAPIUrl.iflyad,
+  //         httpMethod: ZZHTTPMethod.get,
+  //       ).request();
+  //   HtResponseLflyAd? resp = value.resp;
+  //   if (resp != null) {
+  //     ZZAdData adData = ZZAdData();
+  //     if (resp.data?.haitaoAd != null) {
+  //       adData.id = resp.data?.haitaoAd?.id;
+  //       adData.linkData = resp.data?.haitaoAd?.linkData;
+  //       adData.needLogin = resp.data?.haitaoAd?.needLogin;
+  //       adData.pic = resp.data?.haitaoAd?.pic;
+  //       adData.title = resp.data?.haitaoAd?.title;
+  //       adData.type = resp.data?.haitaoAd?.type;
+  //       return adData;
+  //     }
+  //   }
+  //   return null;
+  // };
+  // bootupController.onTapAd = (adData) {
+  //   HTConst.forward(
+  //     type: adData?.type,
+  //     value: adData?.linkData,
+  //     title: adData?.title,
+  //   );
+  // };
+  Get.put(bootupController, permanent: true);
 }
+
+void _initializeWithDelay() {
+  ZZBootupController bootupController = Get.find();
+
+  /// WebView
+  ZZWebViewController zzWebViewController = ZZWebViewController();
+  // Web白名单和黑名单
+  zzWebViewController.userAgentAddon =
+      Platform.isAndroid
+          ? " (WWHT,Android,${bootupController.appVersion})"
+          : " (WWHT,iOS,${bootupController.appVersion})";
+  zzWebViewController.defaultAction = (name, message, extra) {
+    debugPrint(name);
+    debugPrint(message);
+  };
+  // TODO: 测试Actions
+  zzWebViewController.actions = {
+    // 验证码
+    "appNvc": (message, extra) {},
+  };
+  Get.put(zzWebViewController, permanent: true);
+}
+
+void _init3rdWithAgreedLicences() async {}

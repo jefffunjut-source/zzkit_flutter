@@ -34,12 +34,7 @@ class XXTestPageState extends State<XXTestPage> {
   Widget _scaffold() {
     return ZZBaseScaffold(
       backgroundColor: Colors.white,
-      appBar: ZZ.appbar(
-        title: "Test",
-        onLeftIconTap: () {
-          Get.back();
-        },
-      ),
+      appBar: ZZ.appbar(title: "Test"),
       body: SingleChildScrollView(
         controller: scrollController,
         child: Column(
@@ -68,7 +63,7 @@ class XXTestPageState extends State<XXTestPage> {
                 ),
               ),
               onTap: () {
-                Get.off(() => XXTest3rdPage());
+                Get.to(() => XXTest3rdPage());
               },
             ),
           ],
