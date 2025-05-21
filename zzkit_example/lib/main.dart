@@ -134,7 +134,7 @@ Future<void> _initializeImmediately() async {
   bootupController.appVersion = "8.5.4";
   bootupController.translations = XXTranslations();
   bootupController.locale = ZZTranslations.locale;
-  bootupController.fallbackLocale = ZZTranslations.fallbackLocaleEn;
+  bootupController.fallbackLocale = ZZTranslations.localeEn;
   bootupController.tabPages = pages;
   bootupController.bottomNavigationbarItems = bottoms;
   // bootupController.debugOnboardPage = false;

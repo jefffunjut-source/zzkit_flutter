@@ -24,6 +24,10 @@ const String kLanguage = "language";
 const String kHello = 'hello';
 
 abstract class ZZTranslations extends Translations {
+  static const localeEn = Locale('en', 'US');
+  static const localeZhSimple = Locale('zh', 'CN');
+  static const localeZhTradtion = Locale('zh', 'TW');
+
   static Locale? get locale {
     String? languageCode = ZZ.prefs.getString("kPrefsLanguageCode");
     String? countryCode = ZZ.prefs.getString("kPrefsCountryCode");
@@ -32,9 +36,6 @@ abstract class ZZTranslations extends Translations {
     }
     return Get.deviceLocale;
   }
-
-  static const fallbackLocaleEn = Locale('en', 'US');
-  static const fallbackLocaleCn = Locale('zh', 'CN');
 
   static void changeLocale(Locale newLocale) {
     ZZ.prefs.setString("kPrefsLanguageCode", newLocale.languageCode);
