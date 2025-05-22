@@ -34,13 +34,51 @@ class ZZBootupPageState extends State<ZZBootupPage> {
       ),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) {
-        return _mainMaterialApp(child);
-      },
-      child:
-          controller.debugOnboardPage
-              ? controller.onboardPage
-              : Obx(() => _whichPage()),
+      child: GetMaterialApp(
+        translations: controller.translations,
+        locale: controller.locale,
+        fallbackLocale: controller.fallbackLocale,
+        theme: ThemeData(brightness: Brightness.light),
+        themeMode: ThemeMode.light,
+        navigatorKey: zzNavigatorKey,
+        debugShowCheckedModeBanner: false,
+        //关掉模拟器右上角debug图标
+        builder: EasyLoading.init(
+          builder: (context, child) {
+            return KeyboardVisibilityBuilder(
+              builder: (context, isKeyboardVisible) {
+                if (isKeyboardVisible != zzIsKeyboardVisible) {
+                  zzIsKeyboardVisible = isKeyboardVisible;
+                  zzEventBus.fire(
+                    ZZEventKeyboard()..visible = isKeyboardVisible,
+                  );
+                }
+                return Scaffold(
+                  // Global GestureDetector that will dismiss the keyboard
+                  resizeToAvoidBottomInset: false,
+                  body: GestureDetector(
+                    onTap: () {
+                      ZZ.collapseKeyboard();
+                    },
+                    child: child,
+                  ),
+                );
+              },
+            );
+          },
+        ),
+        home:
+            controller.debugOnboardPage
+                ? controller.onboardPage
+                : Obx(() => _whichPage()),
+        onUnknownRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (context) {
+              return const ZZ404Page();
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -74,49 +112,5 @@ class ZZBootupPageState extends State<ZZBootupPage> {
         controller.enablePrivacyPrompt.value = false;
       });
     });
-  }
-
-  GetMaterialApp _mainMaterialApp(Widget? child) {
-    ZZBootupController controller = Get.find();
-    return GetMaterialApp(
-      translations: controller.translations,
-      locale: controller.locale,
-      fallbackLocale: controller.fallbackLocale,
-      theme: ThemeData(brightness: Brightness.light),
-      themeMode: ThemeMode.light,
-      navigatorKey: zzNavigatorKey,
-      debugShowCheckedModeBanner: false,
-      //关掉模拟器右上角debug图标
-      builder: EasyLoading.init(
-        builder: (context, child) {
-          return KeyboardVisibilityBuilder(
-            builder: (context, isKeyboardVisible) {
-              if (isKeyboardVisible != zzIsKeyboardVisible) {
-                zzIsKeyboardVisible = isKeyboardVisible;
-                zzEventBus.fire(ZZEventKeyboard()..visible = isKeyboardVisible);
-              }
-              return Scaffold(
-                // Global GestureDetector that will dismiss the keyboard
-                resizeToAvoidBottomInset: false,
-                body: GestureDetector(
-                  onTap: () {
-                    ZZ.collapseKeyboard();
-                  },
-                  child: child,
-                ),
-              );
-            },
-          );
-        },
-      ),
-      home: child,
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (context) {
-            return const ZZ404Page();
-          },
-        );
-      },
-    );
   }
 }

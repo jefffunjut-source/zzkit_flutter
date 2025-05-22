@@ -1,11 +1,28 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: slash_for_doc_comments, file_names
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:zzkit_flutter/standard/page/ZZAdPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZHomePage.dart';
 
 typedef ZZCallbackAd = void Function(ZZAdData?);
+
+class ZZBottomNavigationBarItem {
+  String? label;
+  String? labelKey;
+  Widget icon;
+  Widget? activeIcon;
+  Color? backgroundColor;
+  ZZBottomNavigationBarItem({
+    this.label,
+    this.labelKey,
+    required this.icon,
+    this.activeIcon,
+    this.backgroundColor,
+  });
+}
 
 class ZZBootupController extends GetxController {
   /// canvas画布的宽高（设计稿的宽高）
@@ -58,7 +75,7 @@ class ZZBootupController extends GetxController {
       ),
       label: "优惠"),
    */
-  late List<BottomNavigationBarItem> bottomNavigationbarItems;
+  late List<ZZBottomNavigationBarItem> bottomNavigationbarItems;
 
   /// 主页底部tabbar类型
   BottomNavigationBarType? bottomNavigationBarType;

@@ -33,23 +33,35 @@ class ZZHomePageState extends State<ZZHomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     ZZBootupController controller = Get.find();
-    return Obx(() => Scaffold(
-          bottomNavigationBar: ZZTabNavigationBar(
-            items: controller.bottomNavigationbarItems,
-            onTap: (value) {
-              debugPrint("value:$value");
-              controller.tabIndex.value = value;
-            },
-            type: controller.bottomNavigationBarType ??
-                BottomNavigationBarType.fixed,
-            currentIndex: controller.tabIndex.value,
-            backgroundColor: controller.tabbarBackgroundColor ?? Colors.white,
-          ),
-          body: IndexedStack(
-            index: controller.tabIndex.value,
-            children: controller.tabPages,
-          ),
-        ));
+    return Obx(
+      () => Scaffold(
+        bottomNavigationBar: ZZTabNavigationBar(
+          items:
+              controller.bottomNavigationbarItems
+                  .map(
+                    (e) => BottomNavigationBarItem(
+                      icon: e.icon,
+                      activeIcon: e.activeIcon,
+                      label: e.labelKey?.tr ?? e.label,
+                    ),
+                  )
+                  .toList(),
+          onTap: (value) {
+            debugPrint("value:$value");
+            controller.tabIndex.value = value;
+          },
+          type:
+              controller.bottomNavigationBarType ??
+              BottomNavigationBarType.fixed,
+          currentIndex: controller.tabIndex.value,
+          backgroundColor: controller.tabbarBackgroundColor ?? Colors.white,
+        ),
+        body: IndexedStack(
+          index: controller.tabIndex.value,
+          children: controller.tabPages,
+        ),
+      ),
+    );
   }
 
   @override

@@ -99,20 +99,43 @@ Future<void> _initializeImmediately() async {
     Center(child: Text("Page 3")),
   ];
 
-  List<BottomNavigationBarItem> bottoms =
-      [
-            ["优惠", R.assetsImgIcTabDeal, R.assetsImgIcTabDealSelected],
-            ["社区", R.assetsImgIcTabSns, R.assetsImgIcTabSnsSelected],
-            ["我的", R.assetsImgIcTabMe, R.assetsImgIcTabMeSelected],
-          ]
-          .map(
-            (e) => BottomNavigationBarItem(
-              icon: Image(image: AssetImage(e[1]), width: 24, height: 24),
-              activeIcon: Image(image: AssetImage(e[2]), width: 24, height: 24),
-              label: e[0],
-            ),
-          )
-          .toList();
+  List<ZZBottomNavigationBarItem> bottoms = [
+    ZZBottomNavigationBarItem(
+      icon: Image(
+        image: AssetImage(R.assetsImgIcTabDeal),
+        width: 24,
+        height: 24,
+      ),
+      activeIcon: Image(
+        image: AssetImage(R.assetsImgIcTabDealSelected),
+        width: 24,
+        height: 24,
+      ),
+      labelKey: "优惠",
+    ),
+    ZZBottomNavigationBarItem(
+      icon: Image(
+        image: AssetImage(R.assetsImgIcTabSns),
+        width: 24,
+        height: 24,
+      ),
+      activeIcon: Image(
+        image: AssetImage(R.assetsImgIcTabSnsSelected),
+        width: 24,
+        height: 24,
+      ),
+      label: "社区",
+    ),
+    ZZBottomNavigationBarItem(
+      icon: Image(image: AssetImage(R.assetsImgIcTabMe), width: 24, height: 24),
+      activeIcon: Image(
+        image: AssetImage(R.assetsImgIcTabMeSelected),
+        width: 24,
+        height: 24,
+      ),
+      label: "我的",
+    ),
+  ];
 
   /// Device Controller
   // HTDeviceController deviceController = HTDeviceController()..initialize();
