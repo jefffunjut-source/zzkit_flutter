@@ -26,7 +26,7 @@ const String kHello = 'hello';
 abstract class ZZTranslations extends Translations {
   static const localeEn = Locale('en', 'US');
   static const localeZhSimple = Locale('zh', 'CN');
-  static const localeZhTradtion = Locale('zh', 'TW');
+  static const localeZhTradition = Locale('zh', 'TW');
 
   static Locale? get locale {
     String? languageCode = ZZ.prefs.getString("kPrefsLanguageCode");
