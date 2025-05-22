@@ -1,11 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 // ignore_for_file: file_names, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
+import 'package:get/get.dart';
 
 class ZZTabNavigationBar extends StatefulWidget {
+  final BottomNavigationBarType type;
+  final Color backgroundColor;
   final List<BottomNavigationBarItem> items;
   final int currentIndex;
 
@@ -13,11 +18,11 @@ class ZZTabNavigationBar extends StatefulWidget {
 
   const ZZTabNavigationBar({
     super.key,
+    required this.type,
+    required this.backgroundColor,
     required this.items,
-    this.onTap,
     required this.currentIndex,
-    required BottomNavigationBarType type,
-    required Color backgroundColor,
+    this.onTap,
   });
 
   @override
@@ -30,15 +35,20 @@ class ZZTabNavigationBarState extends State<ZZTabNavigationBar> {
     return SizedBox(
       height: 60.w + zzBottomBarHeight,
       child: Row(
-        children: widget.items
-            .map((e) => Expanded(
-                child: ZZTabIconWidget(
-                    tabIconData: e,
-                    isSelected: e == widget.items[widget.currentIndex],
-                    onSelect: () {
-                      widget.onTap?.call(widget.items.indexOf(e));
-                    })))
-            .toList(),
+        children:
+            widget.items
+                .map(
+                  (e) => Expanded(
+                    child: ZZTabIconWidget(
+                      tabIconData: e,
+                      isSelected: e == widget.items[widget.currentIndex],
+                      onSelect: () {
+                        widget.onTap?.call(widget.items.indexOf(e));
+                      },
+                    ),
+                  ),
+                )
+                .toList(),
       ),
     );
   }
@@ -57,12 +67,13 @@ class ZZTabIconWidget extends StatefulWidget {
   final bool isSelected;
 
   @override
-  TabIconsState createState() => TabIconsState();
+  ZZTabIconWidgetState createState() => ZZTabIconWidgetState();
 }
 
-class TabIconsState extends State<ZZTabIconWidget> {
+class ZZTabIconWidgetState extends State<ZZTabIconWidget> {
   @override
   Widget build(BuildContext context) {
+    ZZBootupController bootupController = Get.find();
     return GestureDetector(
       onTap: () {
         if (!widget.isSelected) {
@@ -84,14 +95,21 @@ class TabIconsState extends State<ZZTabIconWidget> {
                 padding: EdgeInsets.only(top: 4.w),
                 child: Text(
                   widget.tabIconData.label!,
-                  style: widget.isSelected
-                      ? ZZ.textStyle(
-                          color: ZZColor.red,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold)
-                      : ZZ.textStyle(color: ZZColor.dark, fontSize: 12.sp),
+                  style:
+                      widget.isSelected
+                          ? bootupController.tabbarItemSelectedTextStyle ??
+                              ZZ.textStyle(
+                                color: ZZColor.red,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                              )
+                          : bootupController.tabbarItemNormalTextStyle ??
+                              ZZ.textStyle(
+                                color: ZZColor.dark,
+                                fontSize: 12.sp,
+                              ),
                 ),
-              )
+              ),
           ],
         ),
       ),

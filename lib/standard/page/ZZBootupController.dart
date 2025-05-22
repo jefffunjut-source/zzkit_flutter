@@ -83,6 +83,10 @@ class ZZBootupController extends GetxController {
   /// 主页底部tabbar背景色
   Color? tabbarBackgroundColor;
 
+  /// 文字正常和选择高亮的TextStyle
+  TextStyle? tabbarItemSelectedTextStyle;
+  TextStyle? tabbarItemNormalTextStyle;
+
   /// app生命周期状态
   Rx<AppLifecycleState> state = AppLifecycleState.hidden.obs;
 
