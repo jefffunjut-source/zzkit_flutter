@@ -254,8 +254,9 @@ extension ZZExtensionString on String {
 
     // 身份证号码正则表达式
     final RegExp idCardRegExp = RegExp(
-        r'^([1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}(\d|X|x))|'
-        r'([1-9]\d{5}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3})$');
+      r'^([1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}(\d|X|x))|'
+      r'([1-9]\d{5}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3})$',
+    );
 
     // 校验身份证号码格式
     if (!idCardRegExp.hasMatch(trimmedCardNumber)) {
@@ -282,7 +283,7 @@ extension ZZExtensionString on String {
         5,
         8,
         4,
-        2
+        2,
       ];
       const List<String> checkCodes = [
         '1',
@@ -295,7 +296,7 @@ extension ZZExtensionString on String {
         '5',
         '4',
         '3',
-        '2'
+        '2',
       ];
 
       for (int i = 0; i < 17; i++) {
@@ -379,10 +380,7 @@ extension ZZExtensionString on String {
     if (isEmpty) {
       return 0;
     }
-    final TextSpan textSpan = TextSpan(
-      text: this,
-      style: textStyle,
-    );
+    final TextSpan textSpan = TextSpan(text: this, style: textStyle);
 
     final TextPainter textPainter = TextPainter(
       text: textSpan,
@@ -505,13 +503,11 @@ extension ZZExtensionArrays<T> on List<T> {
 
   void safeAdd(T? object) {
     if (object == null) return;
-    if (isEmpty) return;
     add(object);
   }
 
   void safeAddAll(List<T>? objects) {
     if (objects == null || objects.isEmpty) return;
-    if (isEmpty) return;
     addAll(objects);
   }
 
@@ -543,8 +539,11 @@ extension ZZExtensionArrays<T> on List<T> {
     return array;
   }
 
-  List<T>? multiple(
-      {int times = 3, int leastTims = 3, int maxCapacity = 1000}) {
+  List<T>? multiple({
+    int times = 3,
+    int leastTims = 3,
+    int maxCapacity = 1000,
+  }) {
     if (isEmpty) return null;
     List<T> array = [];
     for (int i = 0; i < max(times, leastTims); i++) {
@@ -559,7 +558,7 @@ extension ZZExtensionArrays<T> on List<T> {
   }
 
   List? reshape() {
-    if (isEmpty) return null;
+    if (isEmpty) return this;
     return [this];
   }
 }

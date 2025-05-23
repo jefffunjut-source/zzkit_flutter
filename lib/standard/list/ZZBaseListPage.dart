@@ -15,6 +15,7 @@ import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:get/get.dart';
 
 typedef ZZApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse> Function();
 
@@ -63,6 +64,22 @@ class ZZBaseListController extends GetxController {
   String? footerLoadingText;
   String? footerNoDataText;
   String? footerCanLoadingText;
+  String? reversedHeaderRefreshingText;
+  String? reversedFooterLoadingText;
+  String? reversedFooterNoDataText;
+  String? reversedFooterCanLoadingText;
+  String? headerIdleTextKey;
+  String? headerReleaseTextKey;
+  String? headerRefreshingTextKey;
+  String? headerCompleteTextKey;
+  String? headerCancelRefreshTextKey;
+  String? footerLoadingTextKey;
+  String? footerNoDataTextKey;
+  String? footerCanLoadingTextKey;
+  String? reversedHeaderRefreshingTextKey;
+  String? reversedFooterLoadingTextKey;
+  String? reversedFooterNoDataTextKey;
+  String? reversedFooterCanLoadingTextKey;
 
   // UI描述
   // Scaffold的margin padding
@@ -118,6 +135,22 @@ class ZZBaseListController extends GetxController {
     this.footerLoadingText,
     this.footerNoDataText,
     this.footerCanLoadingText,
+    this.reversedHeaderRefreshingText,
+    this.reversedFooterLoadingText,
+    this.reversedFooterNoDataText,
+    this.reversedFooterCanLoadingText,
+    this.headerIdleTextKey,
+    this.headerReleaseTextKey,
+    this.headerRefreshingTextKey,
+    this.headerCompleteTextKey,
+    this.headerCancelRefreshTextKey,
+    this.footerLoadingTextKey,
+    this.footerNoDataTextKey,
+    this.footerCanLoadingTextKey,
+    this.reversedHeaderRefreshingTextKey,
+    this.reversedFooterLoadingTextKey,
+    this.reversedFooterNoDataTextKey,
+    this.reversedFooterCanLoadingTextKey,
     this.margin,
     this.padding,
     this.brickMargin,
@@ -244,53 +277,71 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     ZZBaseListController controller = widget.controller;
 
     if (controller.reverse == true) {
-      controller.headerIdleText =
-          controller.headerIdleText ?? zzReversedHeaderIdleText;
+      controller.headerIdleText = "";
 
-      controller.headerReleaseText =
-          controller.headerReleaseText ?? zzReversedHeaderReleaseText;
+      controller.headerReleaseText = "";
 
       controller.headerRefreshingText =
-          controller.headerRefreshingText ?? zzReversedHeaderRefreshingText;
+          controller.reversedHeaderRefreshingTextKey?.tr ??
+          controller.reversedHeaderRefreshingText ??
+          zzReversedHeaderRefreshingText;
 
-      controller.headerCompleteText =
-          controller.headerCompleteText ?? zzReversedHeaderCompleteText;
-
-      controller.headerCancelRefreshText =
-          controller.headerCancelRefreshText ??
-          zzReversedHeaderCancelRefreshText;
+      controller.headerCancelRefreshText = "";
 
       controller.footerLoadingText =
-          controller.footerLoadingText ?? zzReversedFooterLoadingText;
+          controller.reversedFooterLoadingTextKey?.tr ??
+          controller.reversedFooterLoadingText ??
+          zzReversedFooterLoadingText;
 
       controller.footerNoDataText =
-          controller.footerNoDataText ?? zzReversedFooterNoDataText;
+          controller.reversedFooterNoDataTextKey?.tr ??
+          controller.reversedFooterNoDataText ??
+          zzReversedFooterNoDataText;
 
       controller.footerCanLoadingText =
-          controller.footerCanLoadingText ?? zzReversedFooterCanLoadingText;
+          controller.reversedFooterCanLoadingTextKey?.tr ??
+          controller.reversedFooterCanLoadingText ??
+          zzReversedFooterCanLoadingText;
     } else {
-      controller.headerIdleText = controller.headerIdleText ?? zzHeaderIdleText;
+      controller.headerIdleText =
+          controller.headerIdleTextKey?.tr ??
+          controller.headerIdleText ??
+          zzHeaderIdleText;
 
       controller.headerReleaseText =
-          controller.headerReleaseText ?? zzHeaderReleaseText;
+          controller.headerReleaseTextKey?.tr ??
+          controller.headerReleaseText ??
+          zzHeaderReleaseText;
 
       controller.headerRefreshingText =
-          controller.headerRefreshingText ?? zzHeaderRefreshingText;
+          controller.headerRefreshingTextKey?.tr ??
+          controller.headerRefreshingText ??
+          zzHeaderRefreshingText;
 
       controller.headerCompleteText =
-          controller.headerCompleteText ?? zzHeaderCompleteText;
+          controller.headerCompleteTextKey?.tr ??
+          controller.headerCompleteText ??
+          zzHeaderCompleteText;
 
       controller.headerCancelRefreshText =
-          controller.headerCancelRefreshText ?? zzHeaderCancelRefreshText;
+          controller.headerCancelRefreshTextKey?.tr ??
+          controller.headerCancelRefreshText ??
+          zzHeaderCancelRefreshText;
 
       controller.footerLoadingText =
-          controller.footerLoadingText ?? zzFooterLoadingText;
+          controller.footerLoadingTextKey?.tr ??
+          controller.footerLoadingText ??
+          zzFooterLoadingText;
 
       controller.footerNoDataText =
-          controller.footerNoDataText ?? zzFooterNoDataText;
+          controller.footerNoDataTextKey?.tr ??
+          controller.footerNoDataText ??
+          zzFooterNoDataText;
 
       controller.footerCanLoadingText =
-          controller.footerCanLoadingText ?? zzFooterCanLoadingText;
+          controller.footerCanLoadingTextKey?.tr ??
+          controller.footerCanLoadingText ??
+          zzFooterCanLoadingText;
     }
 
     if (controller.enableTab == true && controller.tabController == null) {

@@ -17,12 +17,7 @@ typedef ZZCallback1Int1String = void Function(int?, String?);
 typedef ZZCallback1Int1Object = void Function(int?, Object?);
 typedef ZZCallback3String = void Function(String?, String?, String?);
 
-enum ZZNavBarIcon {
-  none,
-  backblack,
-  backwhite,
-  closeblack,
-}
+enum ZZNavBarIcon { none, backblack, backwhite, closeblack }
 
 ZZManager ZZ = ZZManager();
 
@@ -40,11 +35,11 @@ const String zzFooterLoadingText = "正在加载中...";
 const String zzFooterNoDataText = "已经到底了";
 const String zzFooterCanLoadingText = "释放加载";
 
-const String zzReversedHeaderIdleText = "";
-const String zzReversedHeaderReleaseText = "";
+// const String zzReversedHeaderIdleText = "";
+// const String zzReversedHeaderReleaseText = "";
 const String zzReversedHeaderRefreshingText = "正在加载中...";
-const String zzReversedHeaderCompleteText = "";
-const String zzReversedHeaderCancelRefreshText = "";
+// const String zzReversedHeaderCompleteText = "";
+// const String zzReversedHeaderCancelRefreshText = "";
 const String zzReversedFooterLoadingText = "正在加载中...";
 const String zzReversedFooterNoDataText = "已经到头了";
 const String zzReversedFooterCanLoadingText = "释放加载";
@@ -103,14 +98,16 @@ class ZZColor {
   static const seperate = greyEF;
 
   static Gradient gradientOrangeEnabled = ZZ.grandientColor(
-      beginColor: red,
-      endColor: orange,
-      beginAlign: Alignment.topLeft,
-      endAlign: Alignment.bottomRight);
+    beginColor: red,
+    endColor: orange,
+    beginAlign: Alignment.topLeft,
+    endAlign: Alignment.bottomRight,
+  );
 
   static Gradient gradientOrangeDisabled = ZZ.grandientColor(
-      beginColor: red.withAlpha(100),
-      endColor: orange.withAlpha(100),
-      beginAlign: Alignment.topLeft,
-      endAlign: Alignment.bottomRight);
+    beginColor: red.withAlpha(100),
+    endColor: orange.withAlpha(100),
+    beginAlign: Alignment.topLeft,
+    endAlign: Alignment.bottomRight,
+  );
 }
