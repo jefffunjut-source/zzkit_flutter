@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, empty_catches, unnecessary_library_name
+// ignore_for_file: file_names, empty_catches, unnecessary_library_name, deprecated_member_use
 library zzkit;
 
 import 'dart:convert';
@@ -405,7 +405,7 @@ extension ZZExtensionString on String {
   }
 }
 
-extension ZZExtensionInt on int {
+extension ZZExtensionInt on num {
   bool isPositive() {
     return this > 0;
   }
@@ -436,9 +436,7 @@ extension ZZExtensionInt on int {
     }
     return "- - ${toString()}%";
   }
-}
 
-extension ZZExtensionDouble on double {
   double? parse2FixedRound({int decimal = 2}) {
     decimal = pow(10, decimal).toInt();
     int tempValue = (this * decimal).round();

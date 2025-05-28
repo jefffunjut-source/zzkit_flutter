@@ -1,21 +1,15 @@
-// ignore_for_file: file_names, unnecessary_library_name
+// ignore_for_file: file_names, unnecessary_library_name, deprecated_member_use
 library zzkit;
 
 import 'dart:io';
+import 'dart:ui';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 const zzKeyUserToken = "zzKeyUserToken";
 
 class ZZDevice {
-  static double scale() {
-    MediaQueryData mediaQuery = MediaQueryData.fromView(View.of(zzContext));
-    double screenScale = mediaQuery.devicePixelRatio;
-    return screenScale;
-  }
-
   static String platform() {
     return Platform.isAndroid ? "android" : (Platform.isIOS ? "ios" : "other");
   }
@@ -59,8 +53,9 @@ class ZZDevice {
 
   static Future<String> getUserAgent() async {
     final WebViewController controller = WebViewController();
-    Object value =
-        await controller.runJavaScriptReturningResult("navigator.userAgent");
+    Object value = await controller.runJavaScriptReturningResult(
+      "navigator.userAgent",
+    );
     if (Platform.isAndroid) {
       return "$value (WWHT,Android,V1.2)";
     } else {
@@ -77,4 +72,19 @@ class ZZDevice {
     String? token = ZZ.prefs.getString(zzKeyUserToken);
     return token;
   }
+
+  static double safeW(num w) => w * scaleWidth;
+
+  static double safeH(num h) => h * scaleHeight;
+
+  static double safeSp(num sp) => sp * scaleText;
+
+  static const double designWidth = 414.0;
+  static const double designHeight = 896.0;
+  static double get scale => window.devicePixelRatio;
+  static double get deviceWidth => window.physicalSize.width / scale;
+  static double get deviceHeight => window.physicalSize.height / scale;
+  static double get scaleWidth => deviceWidth / designWidth;
+  static double get scaleHeight => deviceHeight / designHeight;
+  static double get scaleText => scaleWidth;
 }

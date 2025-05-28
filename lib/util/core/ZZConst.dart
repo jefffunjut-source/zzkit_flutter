@@ -1,10 +1,11 @@
-// ignore_for_file: file_names, non_constant_identifier_names, slash_for_doc_comments, dead_code, unnecessary_library_name
+// ignore_for_file: file_names, non_constant_identifier_names, slash_for_doc_comments, dead_code, unnecessary_library_name, deprecated_member_use
 library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:ui' as ui;
 
 typedef ZZCallbackVoid = void Function(void);
 typedef ZZCallback1String = void Function(String?);
@@ -49,10 +50,27 @@ GlobalKey<NavigatorState> zzNavigatorKey = GlobalKey<NavigatorState>();
 BuildContext zzContext = zzNavigatorKey.currentState!.overlay!.context;
 
 /// Geometry常量
-double zzScreenWidth = ScreenUtil().screenWidth;
-double zzScreenHeight = ScreenUtil().screenHeight;
-double zzStatusBarHeight = ScreenUtil().statusBarHeight; // 状态栏高度 刘海屏会更高 dp
-double zzBottomBarHeight = ScreenUtil().bottomBarHeight; // 下巴高度 底部安全区距离 dp
+double zzScreenUtilWidth = ScreenUtil().screenWidth;
+double zzScreenUtilHeight = ScreenUtil().screenHeight;
+double zzScreenUtilStatusBarHeight =
+    ScreenUtil().statusBarHeight; // 状态栏高度 刘海屏会更高 dp
+double zzScreenUtilBottomBarHeight =
+    ScreenUtil().bottomBarHeight; // 下巴高度 底部安全区距离 dp
+
+/// Geometry常量（全局安全访问）
+double get zzScreenWidth =>
+    ui.window.physicalSize.width / ui.window.devicePixelRatio;
+
+double get zzScreenHeight =>
+    ui.window.physicalSize.height / ui.window.devicePixelRatio;
+
+/// 状态栏高度
+double get zzStatusBarHeight =>
+    ui.window.padding.top / ui.window.devicePixelRatio;
+
+/// 底部安全区高度（比如 iPhone 的 Home 指示器区域）
+double get zzBottomBarHeight =>
+    ui.window.padding.bottom / ui.window.devicePixelRatio;
 
 double zzZero = 0.0001;
 const String zzCenterDot = "·";

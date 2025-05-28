@@ -15,7 +15,6 @@ import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:get/get.dart';
 
 typedef ZZApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse> Function();
 
