@@ -35,12 +35,7 @@ const String zzHeaderCancelRefreshText = "取消刷新";
 const String zzFooterLoadingText = "正在加载中...";
 const String zzFooterNoDataText = "已经到底了";
 const String zzFooterCanLoadingText = "释放加载";
-
-// const String zzReversedHeaderIdleText = "";
-// const String zzReversedHeaderReleaseText = "";
 const String zzReversedHeaderRefreshingText = "正在加载中...";
-// const String zzReversedHeaderCompleteText = "";
-// const String zzReversedHeaderCancelRefreshText = "";
 const String zzReversedFooterLoadingText = "正在加载中...";
 const String zzReversedFooterNoDataText = "已经到头了";
 const String zzReversedFooterCanLoadingText = "释放加载";
