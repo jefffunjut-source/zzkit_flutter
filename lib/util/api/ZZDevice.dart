@@ -10,6 +10,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 const zzKeyUserToken = "zzKeyUserToken";
 
 class ZZDevice {
+  static double designWidth = 414.0;
+  static double designHeight = 896.0;
+
   static String platform() {
     return Platform.isAndroid ? "android" : (Platform.isIOS ? "ios" : "other");
   }
@@ -79,8 +82,6 @@ class ZZDevice {
 
   static double safeSp(num sp) => sp * scaleText;
 
-  static const double designWidth = 414.0;
-  static const double designHeight = 896.0;
   static double get scale => window.devicePixelRatio;
   static double get deviceWidth => window.physicalSize.width / scale;
   static double get deviceHeight => window.physicalSize.height / scale;

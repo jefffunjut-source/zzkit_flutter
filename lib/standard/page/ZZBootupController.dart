@@ -26,8 +26,8 @@ class ZZBottomNavigationBarItem {
 
 class ZZBootupController extends GetxController {
   /// canvas画布的宽高（设计稿的宽高）
-  double? canvasWidth;
-  double? canvasHeight;
+  double? designWidth;
+  double? designHeight;
 
   /// 当前app版本号
   late String appVersion;

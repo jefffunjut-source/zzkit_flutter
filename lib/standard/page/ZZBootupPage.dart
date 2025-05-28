@@ -29,8 +29,8 @@ class ZZBootupPageState extends State<ZZBootupPage> {
     _checkPrivacy();
     return ScreenUtilInit(
       designSize: Size(
-        controller.canvasWidth ?? 414.0,
-        controller.canvasHeight ?? 896.0,
+        controller.designWidth ?? 414.0,
+        controller.designHeight ?? 896.0,
       ),
       minTextAdapt: true,
       splitScreenMode: true,

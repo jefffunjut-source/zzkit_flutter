@@ -14,6 +14,7 @@ import 'package:zzkit_flutter/standard/page/ZZBootupPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZWebViewPage.dart';
 import 'package:zzkit_flutter/standard/widget/ZZNoticeWidget.dart';
 import 'package:zzkit_flutter/util/ZZTranslations.dart';
+import 'package:zzkit_flutter/util/api/ZZDevice.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_example/r.dart';
 
@@ -152,6 +153,9 @@ Future<void> _initializeImmediately() async {
   /// Notice
   Get.put(ZZNoticeController(), permanent: true);
 
+  ZZDevice.designWidth = 414.0;
+  ZZDevice.designHeight = 896.0;
+
   /// Bootup Controller
   ZZBootupController bootupController = ZZBootupController();
   bootupController.appVersion = "8.5.4";
@@ -160,6 +164,8 @@ Future<void> _initializeImmediately() async {
   bootupController.fallbackLocale = ZZTranslations.localeEn;
   bootupController.tabPages = pages;
   bootupController.bottomNavigationbarItems = bottoms;
+  bootupController.designWidth = 414.0;
+  bootupController.designHeight = 896.0;
   // bootupController.debugOnboardPage = false;
   // bootupController.onboardPage = const HTOnBoardingPage();
   // bootupController.enablePrivacyPrompt.value = true;
