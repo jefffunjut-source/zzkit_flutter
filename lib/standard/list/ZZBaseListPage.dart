@@ -79,6 +79,7 @@ class ZZBaseListController extends GetxController {
   String? reversedFooterLoadingTextKey;
   String? reversedFooterNoDataTextKey;
   String? reversedFooterCanLoadingTextKey;
+  bool? disableFooterNoData;
 
   // UI描述
   // Scaffold的margin padding
@@ -116,6 +117,9 @@ class ZZBaseListController extends GetxController {
   // reverse
   bool reverse;
 
+  // BuildContext
+  late BuildContext context;
+
   ZZBaseListController({
     this.refreshType = ZZRefreshType.smartrefresh,
     this.enablePulldown = true,
@@ -150,6 +154,7 @@ class ZZBaseListController extends GetxController {
     this.reversedFooterLoadingTextKey,
     this.reversedFooterNoDataTextKey,
     this.reversedFooterCanLoadingTextKey,
+    this.disableFooterNoData,
     this.margin,
     this.padding,
     this.brickMargin,
@@ -177,6 +182,7 @@ class ZZBaseListController extends GetxController {
     required bool nextPage,
     required ZZApiRequestCallback? apiRequest,
   }) async {
+    debugPrint("ZZBaseListPage begin @time: ${DateTime.now()}");
     status.value = ZZLoadMoreStatus.loading;
     if (nextPage == false) {
       _page = 1;
@@ -273,7 +279,10 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   @override
   void initState() {
     super.initState();
+    debugPrint("ZZBaseListPage initState @time: ${DateTime.now()}");
+
     ZZBaseListController controller = widget.controller;
+    controller.context = context;
 
     if (controller.reverse == true) {
       controller.headerIdleText = "";
@@ -332,10 +341,14 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           controller.footerLoadingText ??
           zzFooterLoadingText;
 
-      controller.footerNoDataText =
-          controller.footerNoDataTextKey?.tr ??
-          controller.footerNoDataText ??
-          zzFooterNoDataText;
+      if (controller.disableFooterNoData == true) {
+        controller.footerNoDataText = "";
+      } else {
+        controller.footerNoDataText =
+            controller.footerNoDataTextKey?.tr ??
+            controller.footerNoDataText ??
+            zzFooterNoDataText;
+      }
 
       controller.footerCanLoadingText =
           controller.footerCanLoadingTextKey?.tr ??
@@ -353,11 +366,13 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
     if (controller.refreshType == ZZRefreshType.pulltorefresh) {
       zzEventBus.on<ZZEventNestedScrollViewRefresh>().listen((event) {
         if (event.name == controller.parentName) {
+          debugPrint("ZZBaseListPage retrieve data 1 @time: ${DateTime.now()}");
           _retrieveData(false);
         }
       });
     }
-    _retrieveData(false);
+    debugPrint("ZZBaseListPage retrieve data 2 @time: ${DateTime.now()}");
+    // _retrieveData(false);
   }
 
   @override
@@ -397,6 +412,9 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
                   bgColor: controller.nodataBgColor ?? Colors.white,
                   onReloadTap: () {
                     ZZ.show();
+                    debugPrint(
+                      "ZZBaseListPage retrieve data 3 @time: ${DateTime.now()}",
+                    );
                     _retrieveData(false);
                     Future.delayed(
                       const Duration(seconds: 1),
@@ -443,9 +461,11 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
         ),
         onRefresh: () async {
           controller.refreshController.resetNoData();
+          debugPrint("ZZBaseListPage retrieve data 4 @time: ${DateTime.now()}");
           _retrieveData(false);
         },
         onLoading: () async {
+          debugPrint("ZZBaseListPage retrieve data 5 @time: ${DateTime.now()}");
           _retrieveData(true);
         },
         child: _customScrollView(),
@@ -519,6 +539,9 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
             controller: controller,
             loadMoreBlock: () async {
               if (noMore) return ZZLoadMoreStatus.noMoreData;
+              debugPrint(
+                "ZZBaseListPage retrieve data 6 @time: ${DateTime.now()}",
+              );
               _retrieveData(true);
               return ZZLoadMoreStatus.finishLoad;
             },
@@ -532,6 +555,7 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
   }
 
   void _retrieveData(bool nextPage) async {
+    debugPrint("ZZBaseListPage _retrieveData @time: ${DateTime.now()}");
     ZZBaseListController controller = widget.controller;
 
     /// Shimmer

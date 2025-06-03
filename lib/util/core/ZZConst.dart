@@ -4,7 +4,6 @@ library zzkit;
 import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 import 'package:event_bus/event_bus.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui' as ui;
 
 typedef ZZCallbackVoid = void Function(void);
@@ -43,14 +42,6 @@ const String zzReversedFooterCanLoadingText = "释放加载";
 /// Context
 GlobalKey<NavigatorState> zzNavigatorKey = GlobalKey<NavigatorState>();
 BuildContext zzContext = zzNavigatorKey.currentState!.overlay!.context;
-
-/// Geometry常量
-double zzScreenUtilWidth = ScreenUtil().screenWidth;
-double zzScreenUtilHeight = ScreenUtil().screenHeight;
-double zzScreenUtilStatusBarHeight =
-    ScreenUtil().statusBarHeight; // 状态栏高度 刘海屏会更高 dp
-double zzScreenUtilBottomBarHeight =
-    ScreenUtil().bottomBarHeight; // 下巴高度 底部安全区距离 dp
 
 /// Geometry常量（全局安全访问）
 double get zzScreenWidth =>
