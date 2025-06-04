@@ -24,6 +24,7 @@ import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/standard/widget/ZZOuterRadiusWidget.dart';
 import 'package:zzkit_flutter/util/ZZExtension.dart';
+import 'package:zzkit_flutter/util/api/ZZDevice.dart';
 import 'ZZConst.dart';
 
 part 'ZZLibUI.dart';
