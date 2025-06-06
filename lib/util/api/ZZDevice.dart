@@ -2,6 +2,7 @@
 library zzkit;
 
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
@@ -17,16 +18,38 @@ class ZZDevice {
     return Platform.isAndroid ? "android" : (Platform.isIOS ? "ios" : "other");
   }
 
-  static Future<String?> deviceId() async {
+  static Future<String> deviceId() async {
+    String? deviceId = ZZ.prefs.getString("device_id_key");
+    if (deviceId != null) {
+      return deviceId;
+    }
+
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isIOS) {
       IosDeviceInfo info = await deviceInfo.iosInfo;
-      return info.identifierForVendor;
+      deviceId = info.identifierForVendor;
     } else if (Platform.isAndroid) {
       AndroidDeviceInfo info = await deviceInfo.androidInfo;
-      return info.id;
+      deviceId = info.id;
     }
-    return null;
+
+    if (deviceId != null) {
+      return deviceId;
+    } else {
+      deviceId = _generateRandomString(32);
+      ZZ.prefs.setString("device_id_key", deviceId);
+      return deviceId;
+    }
+  }
+
+  static String _generateRandomString(int length) {
+    const chars =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final rand = Random.secure();
+    return List.generate(
+      length,
+      (_) => chars[rand.nextInt(chars.length)],
+    ).join();
   }
 
   static Future<String?> os() async {

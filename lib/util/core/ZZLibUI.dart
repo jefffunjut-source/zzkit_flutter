@@ -405,12 +405,11 @@ extension ZZLibUI on ZZManager {
 
   /// 隐藏
   void dismiss({VoidCallback? finished}) {
-    EasyLoading.dismiss();
-    if (finished != null) {
-      Future.delayed(const Duration(milliseconds: 200), () {
+    EasyLoading.dismiss().then((v) {
+      if (finished != null) {
         finished();
-      });
-    }
+      }
+    });
   }
 
   /// iOS风格的底部弹框
