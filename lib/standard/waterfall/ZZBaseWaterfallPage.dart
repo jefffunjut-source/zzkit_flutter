@@ -110,6 +110,8 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
     return ZZBaseScaffold(
       backgroundColor: controller.backgroundColor,
       safeAreaBottom: controller.safeAreaBottom,
+      nodata: controller.nodata.value,
+      nodataHintText: controller.nodataHintText,
       appBar:
           controller.appBar ??
           (controller.title != null

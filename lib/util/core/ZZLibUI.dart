@@ -158,7 +158,7 @@ extension ZZLibUI on ZZManager {
               : GestureDetector(
                 child: Container(
                   alignment: Alignment.center,
-                  color: Colors.white,
+                  color: Colors.transparent,
                   child: ZZ.image(
                     appbarIconString(leftIcon)!,
                     bundleName: zzBundleName,

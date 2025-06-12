@@ -33,15 +33,12 @@ class ZZBaseListController extends GetxController {
   bool? enablePullup;
 
   // 数据
-  int _page = 1;
-  int get page => _page;
+  RxInt page = 1.obs;
   int pageSize = 20;
-  final RxBool _nodata = false.obs;
-  RxBool get nodata => _nodata;
-  final RxList<dynamic> _dataSource = <dynamic>[].obs;
-  RxList<dynamic> get dataSource => _dataSource;
-  Rx<ZZLoadMoreStatus> _status = ZZLoadMoreStatus.notStart.obs;
-  Rx<ZZLoadMoreStatus> get status => _status;
+  RxBool nodata = false.obs;
+  String? nodataHintText;
+  RxList<dynamic> dataSource = <dynamic>[].obs;
+  Rx<ZZLoadMoreStatus> status = ZZLoadMoreStatus.notStart.obs;
 
   // 滑动控制器
   ScrollController? scrollController;
@@ -124,6 +121,7 @@ class ZZBaseListController extends GetxController {
     this.refreshType = ZZRefreshType.smartrefresh,
     this.enablePulldown = true,
     this.enablePullup = true,
+    this.nodataHintText,
     this.pageSize = 20,
     this.scrollController,
     this.showLoadingFirstPage = false,
@@ -185,7 +183,7 @@ class ZZBaseListController extends GetxController {
     debugPrint("ZZBaseListPage begin @time: ${DateTime.now()}");
     status.value = ZZLoadMoreStatus.loading;
     if (nextPage == false) {
-      _page = 1;
+      page.value = 1;
       nodata.value = false;
       if (dataSource.isEmpty) {
         if (shimmer == false && showLoadingFirstPage == true) {
@@ -193,7 +191,7 @@ class ZZBaseListController extends GetxController {
         }
       }
     } else {
-      _page = _page + 1;
+      page.value = page.value + 1;
     }
     if (apiRequest != null) {
       ZZAPIResponse? response = await apiRequest();
@@ -211,7 +209,10 @@ class ZZBaseListController extends GetxController {
     int pageSize = currentPageSize ?? this.pageSize;
     response?.rows = rows;
     nodata.value = false;
-    if (page == 1) {
+    if (page.value == 1) {
+      if (rows == null || rows.isEmpty) {
+        nodata.value = true;
+      }
       if (shimmer == false && showLoadingFirstPage == true) {
         ZZ.dismiss();
       }
@@ -229,17 +230,17 @@ class ZZBaseListController extends GetxController {
         }
         return false;
       });
-      if (page == 1) {
+      if (page.value == 1) {
         dataSource.clear();
         if (rows?.isEmpty ?? true) {
           nodata.value = true;
         }
       }
       if (rows == null || rows.isEmpty || rows.length < pageSize) {
-        if (page == 1) {
+        if (page.value == 1) {
           refreshController.refreshCompleted();
         }
-        if (page == 1) {
+        if (page.value == 1) {
         } else {
           refreshController.loadNoData();
         }
