@@ -32,11 +32,16 @@ class ZZBaseListController extends GetxController {
   bool? enablePulldown;
   bool? enablePullup;
 
+  // No Data
+  RxBool nodata = false.obs;
+  String? nodataHintText;
+  // No Data Relative
+  String? nodataButtonText;
+  Color? nodataBgColor;
+
   // 数据
   RxInt page = 1.obs;
   int pageSize = 20;
-  RxBool nodata = false.obs;
-  String? nodataHintText;
   RxList<dynamic> dataSource = <dynamic>[].obs;
   Rx<ZZLoadMoreStatus> status = ZZLoadMoreStatus.notStart.obs;
 
@@ -97,8 +102,6 @@ class ZZBaseListController extends GetxController {
   bool? safeAreaBottom;
   // Bottom Bar
   Widget? bottomWidget;
-  // No Data background Color
-  Color? nodataBgColor;
 
   // RefreshType == PullToRefresh时候，NestedScrollPage的name
   String? parentName;
@@ -122,6 +125,8 @@ class ZZBaseListController extends GetxController {
     this.enablePulldown = true,
     this.enablePullup = true,
     this.nodataHintText,
+    this.nodataButtonText,
+    this.nodataBgColor,
     this.pageSize = 20,
     this.scrollController,
     this.showLoadingFirstPage = false,
@@ -163,7 +168,6 @@ class ZZBaseListController extends GetxController {
     this.secondBackgroundColor,
     this.safeAreaBottom,
     this.bottomWidget,
-    this.nodataBgColor,
     this.parentName,
     this.enableTab,
     this.tabLength = 0,
@@ -410,6 +414,8 @@ class ZZBaseListState<T> extends State<ZZBaseListPage>
           controller.nodata.value
               ? Center(
                 child: ZZNoDataWidget(
+                  hintText: controller.nodataHintText,
+                  buttonText: controller.nodataButtonText,
                   bgColor: controller.nodataBgColor ?? Colors.white,
                   onReloadTap: () {
                     ZZ.show();

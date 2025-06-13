@@ -10,6 +10,10 @@ import 'package:zzkit_flutter/util/core/ZZManager.dart';
 class ZZNoDataWidget extends StatelessWidget {
   Image? placeholderImage;
   String? hintText;
+  TextStyle? hintTextStyle;
+  String? buttonText;
+  Color? buttonBgColor;
+  TextStyle? buttonTextStyle;
   Color? bgColor;
   EdgeInsetsGeometry? padding;
   EdgeInsetsGeometry? placeholderImagePadding;
@@ -22,6 +26,10 @@ class ZZNoDataWidget extends StatelessWidget {
     super.key,
     this.placeholderImage,
     this.hintText,
+    this.hintTextStyle,
+    this.buttonText,
+    this.buttonBgColor,
+    this.buttonTextStyle,
     this.bgColor,
     this.padding = const EdgeInsets.only(
       left: 24,
@@ -81,7 +89,13 @@ class ZZNoDataWidget extends StatelessWidget {
             padding: hintTextPadding,
             child: Text(
               hintText ?? "没有数据",
-              style: ZZ.textStyle(color: ZZColor.grey99, fontSize: 14.sp),
+              style:
+                  hintTextStyle ??
+                  ZZ.textStyle(
+                    color: ZZColor.grey99,
+                    fontSize: 14.sp,
+                    height: 1.5,
+                  ),
             ),
           ),
           onReloadTap != null
@@ -92,16 +106,18 @@ class ZZNoDataWidget extends StatelessWidget {
                   onTap: onReloadTap,
                   child: Container(
                     alignment: Alignment.center,
-                    color: ZZColor.red.withAlpha(10),
+                    color: buttonBgColor ?? ZZColor.red.withAlpha(10),
                     width: 96.w,
                     height: 36.w,
                     child: Text(
-                      "重新加载",
-                      style: ZZ.textStyle(
-                        color: Colors.red,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      buttonText ?? "重新加载",
+                      style:
+                          buttonTextStyle ??
+                          ZZ.textStyle(
+                            color: Colors.red,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                       textAlign: TextAlign.center,
                     ),
                   ),

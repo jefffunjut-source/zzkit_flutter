@@ -29,6 +29,9 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.refreshType,
     super.enablePulldown,
     super.enablePullup,
+    super.nodataHintText,
+    super.nodataButtonText,
+    super.nodataBgColor,
     super.pageSize = 20,
     super.scrollController,
     super.showLoadingFirstPage,
@@ -49,7 +52,6 @@ class ZZBaseWaterfallController extends ZZBaseListController {
     super.secondBackgroundColor,
     super.safeAreaBottom,
     super.bottomWidget,
-    super.nodataBgColor,
     super.parentName,
     super.enableTab,
     super.tabLength,
@@ -139,6 +141,8 @@ class ZZBaseWaterfallState<T> extends State<ZZBaseWaterfallPage>
           controller.nodata.value
               ? Center(
                 child: ZZNoDataWidget(
+                  hintText: controller.nodataHintText,
+                  buttonText: controller.nodataButtonText,
                   bgColor: controller.nodataBgColor ?? Colors.white,
                   onReloadTap: () {
                     ZZ.show();
