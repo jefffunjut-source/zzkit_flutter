@@ -210,7 +210,7 @@ class ZZBaseListController extends GetxController {
     required List? rows,
     int? currentPageSize,
   }) {
-    int pageSize = currentPageSize ?? this.pageSize;
+    // int pageSize = currentPageSize ?? this.pageSize;
     response?.rows = rows;
     nodata.value = false;
     if (page.value == 1) {
@@ -240,7 +240,7 @@ class ZZBaseListController extends GetxController {
           nodata.value = true;
         }
       }
-      if (rows == null || rows.isEmpty || rows.length < pageSize) {
+      if (rows == null || rows.isEmpty) {
         if (page.value == 1) {
           refreshController.refreshCompleted();
         }
