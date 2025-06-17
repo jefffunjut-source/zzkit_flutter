@@ -227,6 +227,11 @@ class ZZBaseListController extends GetxController {
       refreshController.loadComplete();
       refreshController.refreshCompleted();
       status.value = ZZLoadMoreStatus.finishLoad;
+      if (page.value == 1) {
+        page.value = 1;
+      } else {
+        page.value = page.value - 1;
+      }
     } else {
       dataSource.removeWhere((element) {
         if (element is ZZShimmerBrickObject) {
@@ -242,10 +247,10 @@ class ZZBaseListController extends GetxController {
       }
       if (rows == null || rows.isEmpty) {
         if (page.value == 1) {
+          page.value = 1;
           refreshController.refreshCompleted();
-        }
-        if (page.value == 1) {
         } else {
+          page.value = page.value - 1;
           refreshController.loadNoData();
         }
         status.value = ZZLoadMoreStatus.noMoreData;
