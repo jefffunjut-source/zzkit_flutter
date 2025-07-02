@@ -48,11 +48,11 @@ abstract class ZZTranslations extends Translations {
 
   @override
   Map<String, Map<String, String>> get keys => {
-    'zh_CN': mapLanguage(ZZTranslationType.SimpleChinese) ?? {},
     'zh_TW': mapLanguage(ZZTranslationType.TriditionalChinese) ?? {},
     'zh_HK': mapLanguage(ZZTranslationType.TriditionalChinese) ?? {},
     'zh_MO': mapLanguage(ZZTranslationType.TriditionalChinese) ?? {},
     'zh_SG': mapLanguage(ZZTranslationType.TriditionalChinese) ?? {},
+    'zh_CN': mapLanguage(ZZTranslationType.SimpleChinese) ?? {},
     'en_AU': mapLanguage(ZZTranslationType.English) ?? {},
     'en_CA': mapLanguage(ZZTranslationType.English) ?? {},
     'en_US': mapLanguage(ZZTranslationType.English) ?? {},
