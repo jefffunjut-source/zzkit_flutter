@@ -3,7 +3,9 @@ library zzkit;
 
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:dio/src/form_data.dart' as DioFormData;
 import 'package:flutter/foundation.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
@@ -93,18 +95,18 @@ class ZZAPIRequest {
       //   return null;
       // };
       // Dio 6.0的抓包方式
-      // zzDio.httpClientAdapter = IOHttpClientAdapter(
-      //   createHttpClient: () {
-      //     final client = HttpClient();
-      //     client.findProxy = (uri) {
-      //       // 设置代理，例如：
-      //       return "PROXY localhost:8888";
-      //     };
-      //     client.badCertificateCallback =
-      //         (X509Certificate cert, String host, int port) => true;
-      //     return client;
-      //   },
-      // );
+      zzDio.httpClientAdapter = IOHttpClientAdapter(
+        createHttpClient: () {
+          final client = HttpClient();
+          // client.findProxy = (uri) {
+          //   // 设置代理，例如：
+          //   return "PROXY localhost:8888";
+          // };
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
+          return client;
+        },
+      );
 
       // url中包含{id}这样的需要替换
       String originalUrl = url;
