@@ -13,34 +13,36 @@ dependencies:
     sdk: flutter
   cached_network_image: ^3.4.1
   characters: ^1.4.0
-  crypto: ^3.0.6
+  crypto: ^3.0.7
   cupertino_icons: ^1.0.8
-  device_info_plus: 9.1.2 # Gradle指定Java11
-  dio: ^5.8.0+1
+  # device_info_plus: 9.1.2 # Gradle指定Java11
+  device_info_plus: ^12.3.0
+  dio: ^5.9.0
   easy_refresh: ^3.4.0 # 列表组件相关
   event_bus: ^2.0.1
   extended_nested_scroll_view: ^6.2.1 # 列表组件相关
   flutter_easyloading: ^3.0.5
   flutter_keyboard_visibility: ^6.0.0
-  flutter_markdown: ^0.7.7
+  # flutter_markdown: ^0.7.7
+  flutter_markdown_plus: ^1.0.6
   flutter_screenutil: ^5.9.3
   flutter_staggered_grid_view: ^0.7.0
-  get: ^4.7.2
+  get: ^4.7.3
   image_gallery_saver_plus: ^4.0.1
   loading_more_list: ^7.1.0 # 列表组件相关
   path_provider: ^2.1.5
-  photo_manager: ^3.6.4  # 需要Android、iOS权限配置的相机相册
+  photo_manager: ^3.8.3  # 需要Android、iOS权限配置的相机相册
   pull_to_refresh: ^2.0.0
-  pull_to_refresh_notification: ^3.1.0 # 列表组件相关
+  pull_to_refresh_notification: ^3.1.1 # 列表组件相关
   sensors_plus: 4.0.2  # 需要Android、iOS权限配置的相机相册
-  shared_preferences: ^2.5.3
+  shared_preferences: ^2.5.4
   shimmer: ^3.0.0
-  url_launcher: ^6.3.1
-  video_player: ^2.9.5
+  url_launcher: ^6.3.2
+  video_player: ^2.10.1
   visibility_detector: ^0.4.0+2 # 列表组件相关
   webview_flutter: ^4.13.0
-  wechat_assets_picker: ^9.5.0  # 需要Android、iOS权限配置的相机相册
-  wechat_camera_picker: ^4.3.7   # 需要Android、iOS权限配置的相机相册
+  wechat_assets_picker: ^10.1.0  # 需要Android、iOS权限配置的相机相册
+  wechat_camera_picker: ^4.4.0   # 需要Android、iOS权限配置的相机相册
 
 dev_dependencies:
   flutter_test:

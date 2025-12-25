@@ -12,32 +12,42 @@ class ZZDraft {
   List<ZZTag>? tagList;
   ZZActivity? activity;
 
-  ZZDraft(
-      {this.imageList, this.title, this.tagList, this.content, this.activity});
+  ZZDraft({
+    this.imageList,
+    this.title,
+    this.tagList,
+    this.content,
+    this.activity,
+  });
 
   ZZDraft.fromJson(Map<String, dynamic> json) {
     if (json["imageList"] is List) {
-      imageList = json["imageList"] == null
-          ? null
-          : (json["imageList"] as List)
-              .map((e) => ZZPhoto.fromJson(e))
-              .toList();
+      imageList =
+          json["imageList"] == null
+              ? null
+              : (json["imageList"] as List)
+                  .map((e) => ZZPhoto.fromJson(e))
+                  .toList();
     }
     if (json["title"] is String) {
       title = json["title"];
     }
     if (json["tagList"] is List) {
-      tagList = json["tagList"] == null
-          ? null
-          : (json["tagList"] as List).map((e) => ZZTag.fromJson(e)).toList();
+      tagList =
+          json["tagList"] == null
+              ? null
+              : (json["tagList"] as List)
+                  .map((e) => ZZTag.fromJson(e))
+                  .toList();
     }
     if (json["content"] is String) {
       content = json["content"];
     }
     if (json["activity"] is Map) {
-      activity = json["activity"] == null
-          ? null
-          : ZZActivity.fromJson(json["activity"]);
+      activity =
+          json["activity"] == null
+              ? null
+              : ZZActivity.fromJson(json["activity"]);
     }
   }
 
@@ -156,9 +166,12 @@ class ZZPhoto {
       isCover = json["is_cover"];
     }
     if (json["tags"] is List) {
-      tags = json["tags"] == null
-          ? null
-          : (json["tags"] as List).map((e) => ZZImageTag.fromJson(e)).toList();
+      tags =
+          json["tags"] == null
+              ? null
+              : (json["tags"] as List)
+                  .map((e) => ZZImageTag.fromJson(e))
+                  .toList();
     }
     if (json["index"] is int) {
       index = json["index"];
@@ -190,15 +203,16 @@ class ZZImageTag {
   double? x;
   double? y;
 
-  ZZImageTag(
-      {this.direction,
-      this.id,
-      this.name,
-      this.status,
-      this.type,
-      this.v,
-      this.x,
-      this.y});
+  ZZImageTag({
+    this.direction,
+    this.id,
+    this.name,
+    this.status,
+    this.type,
+    this.v,
+    this.x,
+    this.y,
+  });
 
   ZZImageTag.fromJson(Map<String, dynamic> json) {
     if (json["direction"] is int) {
@@ -243,58 +257,59 @@ class ZZImageTag {
 
 extension ZZLibUtil on ZZManager {
   /// Camera
-  Future<List<ZZPhoto>?> selectPhoto(
-      {int maxAssets = 3,
-      int quality = 70,
-      ThumbnailSize size = const ThumbnailSize(1000, 1000)}) async {
-    final List<AssetEntity>? results = await AssetPicker.pickAssets(zzContext,
-        pickerConfig: AssetPickerConfig(
-          maxAssets: maxAssets,
-          requestType: RequestType.image,
-          textDelegate: const EnglishAssetPickerTextDelegate(),
-          specialItemPosition: SpecialItemPosition.prepend,
-          // textDelegate:  AssetPickerTextDelegate(),
-          specialItemBuilder: (context, path, length) {
-            return GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () async {
-                final AssetEntity? result = await CameraPicker.pickFromCamera(
-                  context,
-                  pickerConfig: const CameraPickerConfig(
-                      textDelegate: CameraPickerTextDelegate()),
-                );
+  Future<List<ZZPhoto>?> selectPhoto({
+    int maxAssets = 3,
+    int quality = 70,
+    ThumbnailSize size = const ThumbnailSize(1000, 1000),
+  }) async {
+    final List<AssetEntity>? results = await AssetPicker.pickAssets(
+      zzContext,
+      pickerConfig: AssetPickerConfig(
+        maxAssets: maxAssets,
+        requestType: RequestType.image,
+        textDelegate: const EnglishAssetPickerTextDelegate(),
+        /*
+        specialItemBuilder: (context, path, length) {
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () async {
+              final AssetEntity? result = await CameraPicker.pickFromCamera(
+                context,
+                pickerConfig: const CameraPickerConfig(
+                  textDelegate: CameraPickerTextDelegate(),
+                ),
+              );
 
-                if (result == null) {
-                  return;
-                }
-                final AssetPicker<AssetEntity, AssetPathEntity> picker =
-                    context.findAncestorWidgetOfExactType()!;
-                final DefaultAssetPickerBuilderDelegate builder =
-                    picker.builder as DefaultAssetPickerBuilderDelegate;
-                final DefaultAssetPickerProvider p = builder.provider;
-                await p.switchPath(
-                  PathWrapper<AssetPathEntity>(
-                    path: await p.currentPath!.path.obtainForNewProperties(),
-                  ),
-                );
-                p.selectAsset(result);
-              },
-              child: const Center(
-                child: Icon(Icons.camera_enhance, size: 42.0),
-              ),
-            );
-          },
-        ));
+              if (result == null) {
+                return;
+              }
+              final AssetPicker<AssetEntity, AssetPathEntity> picker =
+                  context.findAncestorWidgetOfExactType()!;
+              final DefaultAssetPickerBuilderDelegate builder =
+                  picker.builder as DefaultAssetPickerBuilderDelegate;
+              final DefaultAssetPickerProvider p = builder.provider;
+              await p.switchPath(
+                PathWrapper<AssetPathEntity>(
+                  path: await p.currentPath!.path.obtainForNewProperties(),
+                ),
+              );
+              p.selectAsset(result);
+            },
+            child: const Center(child: Icon(Icons.camera_enhance, size: 42.0)),
+          );
+        },*/
+      ),
+    );
     List<ZZPhoto> list = [];
     if (results != null && results.isNotEmpty) {
       for (AssetEntity element in results) {
-        Uint8List? mem =
-            await element.thumbnailDataWithSize(size, quality: quality);
-        list.add(ZZPhoto(
-          width: element.width,
-          height: element.height,
-          memory: mem,
-        ));
+        Uint8List? mem = await element.thumbnailDataWithSize(
+          size,
+          quality: quality,
+        );
+        list.add(
+          ZZPhoto(width: element.width, height: element.height, memory: mem),
+        );
       }
     }
     return list;
@@ -310,8 +325,9 @@ extension ZZLibUtil on ZZManager {
 
   /// 拷贝文本到粘贴板
   void copyToClipboard(String content) {
-    Clipboard.setData(ClipboardData(text: content))
-        .then((value) => toast("复制成功"));
+    Clipboard.setData(
+      ClipboardData(text: content),
+    ).then((value) => toast("复制成功"));
   }
 
   /// 随机字符串
@@ -319,17 +335,20 @@ extension ZZLibUtil on ZZManager {
     final random = Random();
     const availableChars =
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    final randomString = List.generate(length,
-            (index) => availableChars[random.nextInt(availableChars.length)])
-        .join();
+    final randomString =
+        List.generate(
+          length,
+          (index) => availableChars[random.nextInt(availableChars.length)],
+        ).join();
     return randomString;
   }
 
   /// 返利
   List<String> splitRebateDesc(String? rebateDesc) {
     List<String> result = ["", ""];
-    RegExp regExp =
-        RegExp(r"((\SGD)?\$?\A?\C?\￡?\$?\€?(INR)?\d+(?:\.\d+)?\%?)");
+    RegExp regExp = RegExp(
+      r"((\SGD)?\$?\A?\C?\￡?\$?\€?(INR)?\d+(?:\.\d+)?\%?)",
+    );
     String? rebate;
     String? cashBack;
 
@@ -375,7 +394,8 @@ extension ZZLibUtil on ZZManager {
   /// 打印Log
   void debugPrintTime({String? keyword}) {
     debugPrint(
-        "keyword=$keyword  ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}:${DateTime.now().millisecond}");
+      "keyword=$keyword  ${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}:${DateTime.now().millisecond}",
+    );
   }
 
   /// 指针空或空字符串
@@ -460,10 +480,11 @@ extension ZZLibUtil on ZZManager {
   }
 
   /// throttle时间阈值
-  void throttle(
-      {required Timer? debounce,
-      int milliseconds = 500,
-      void Function()? callback}) async {
+  void throttle({
+    required Timer? debounce,
+    int milliseconds = 500,
+    void Function()? callback,
+  }) async {
     if (debounce?.isActive ?? false) debounce?.cancel();
     debounce = Timer(Duration(milliseconds: milliseconds), () {
       if (callback != null) {
