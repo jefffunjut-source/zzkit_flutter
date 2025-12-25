@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zzkit_example/xtemplete/xallinone/allinone_example.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXSamplePullToRefreshOuterPage.dart';
 import 'package:zzkit_example/xtemplete/xcomplex/XXTabDealPage.dart';
 import 'package:zzkit_example/xtemplete/xdialog/XXSampleBottomDialog.dart';
@@ -705,7 +706,9 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                           ),
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(GoodsPage());
+                      },
                     ),
                     const SizedBox(width: 8),
                     GestureDetector(
@@ -715,7 +718,7 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                         color: Colors.blueAccent,
                         child: Center(
                           child: Text(
-                            "reserve",
+                            "All in one",
                             style: ZZ.textStyle(
                               color: Colors.white,
                               fontSize: 14.sp,
