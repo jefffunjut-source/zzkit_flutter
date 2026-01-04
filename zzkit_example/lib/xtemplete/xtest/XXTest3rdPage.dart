@@ -698,7 +698,7 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                         color: Colors.blueAccent,
                         child: Center(
                           child: Text(
-                            "reserve",
+                            "in",
                             style: ZZ.textStyle(
                               color: Colors.white,
                               fontSize: 14.sp,
@@ -718,7 +718,7 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                         color: Colors.blueAccent,
                         child: Center(
                           child: Text(
-                            "All in one",
+                            "reserve",
                             style: ZZ.textStyle(
                               color: Colors.white,
                               fontSize: 14.sp,

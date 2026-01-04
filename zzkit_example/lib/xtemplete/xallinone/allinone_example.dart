@@ -1,10 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/standard/allinone/zz_base_list_controller.dart';
-import 'package:zzkit_flutter/standard/allinone/zz_base_sliver_page.dart';
-import 'package:zzkit_flutter/standard/allinone/zz_brick.dart';
-import 'package:zzkit_flutter/standard/allinone/zz_list_delegate.dart';
+import 'package:zzkit_flutter/standard/allinone/ZZAllinoneList.dart';
 import 'package:get/get.dart';
 
 class Goods {
