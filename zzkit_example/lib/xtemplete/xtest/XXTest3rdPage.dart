@@ -698,7 +698,7 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                         color: Colors.blueAccent,
                         child: Center(
                           child: Text(
-                            "in",
+                            "allinone list",
                             style: ZZ.textStyle(
                               color: Colors.white,
                               fontSize: 14.sp,
@@ -707,7 +707,7 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                         ),
                       ),
                       onTap: () {
-                        Get.to(GoodsPage());
+                        Get.to(MultiTypeFeedListPage());
                       },
                     ),
                     const SizedBox(width: 8),
@@ -718,7 +718,7 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                         color: Colors.blueAccent,
                         child: Center(
                           child: Text(
-                            "reserve",
+                            "allinone waterfall",
                             style: ZZ.textStyle(
                               color: Colors.white,
                               fontSize: 14.sp,
@@ -726,7 +726,9 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                           ),
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(MultiTypeFeedWaterfallPage());
+                      },
                     ),
                     const SizedBox(width: 8),
                     GestureDetector(
