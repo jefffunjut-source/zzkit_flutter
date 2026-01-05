@@ -6,19 +6,12 @@ import 'package:get/get.dart';
 enum PageState { loading, success, empty, error, loadingMore, noMore }
 
 /// 基础Feed项接口，所有Feed类型都需要实现此接口
-abstract class ZZFeedItem {}
-
-abstract class ZZBrick<T> extends StatefulWidget {
-  final T data;
-  const ZZBrick(this.data, {super.key});
-}
-
-abstract class ZZBrickState<T, B extends ZZBrick<T>> extends State<B> {
-  T get data => widget.data;
+abstract class ZZFeed {
+  Widget get widget;
 }
 
 abstract class ZZBaseListController extends GetxController {
-  final data = <ZZFeedItem>[].obs;
+  final data = <ZZFeed>[].obs;
   final state = PageState.loading.obs;
   final isRefreshing = false.obs;
 
@@ -82,15 +75,15 @@ abstract class ZZBaseListController extends GetxController {
   }
 
   /// 子类实现，返回多类型Feed列表
-  Future<List<ZZFeedItem>> loadData(int page);
+  Future<List<ZZFeed>> loadData(int page);
 }
 
 abstract class ZZBaseSliverPage<C extends ZZBaseListController>
     extends StatelessWidget {
-  const ZZBaseSliverPage({super.key});
+  ZZBaseSliverPage({super.key});
 
   C get controller;
-  ZZListDelegate get delegate;
+  late final ZZListDelegate delegate = ZZListDelegate();
 
   /// 1 = List, >1 = 瀑布流
   int get crossAxisCount => 1;
@@ -185,8 +178,14 @@ abstract class ZZBaseSliverPage<C extends ZZBaseListController>
   }
 }
 
-abstract class ZZListDelegate {
-  Widget buildItem(ZZFeedItem item, int index);
+class ZZListDelegate {
+  ZZListDelegate() {
+    debugPrint('ZZListDelegate initialized');
+  }
+
+  Widget buildItem(ZZFeed item, int index) {
+    return item.widget;
+  }
 
   /// Loading
   Widget buildLoadingSliver() {
