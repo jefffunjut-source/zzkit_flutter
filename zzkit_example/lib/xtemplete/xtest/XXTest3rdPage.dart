@@ -8,7 +8,7 @@ import 'package:zzkit_example/xtemplete/xcomplex/XXSamplePullToRefreshOuterPage.
 import 'package:zzkit_example/xtemplete/xcomplex/XXTabDealPage.dart';
 import 'package:zzkit_example/xtemplete/xdialog/XXSampleBottomDialog.dart';
 import 'package:zzkit_example/xtemplete/xdialog/XXSampleCenterDialog.dart';
-import 'package:zzkit_example/xtemplete/xlist/XXSampleListPage.dart';
+import 'package:zzkit_example/xtemplete/xlist/store_card_list_page.dart';
 import 'package:zzkit_example/xtemplete/xlist/XXSampleTabListPage.dart';
 import 'package:zzkit_example/xtemplete/xtest/XXTestNestedScrollTab2Page.dart';
 import 'package:zzkit_example/xtemplete/xtest/XXTestNestedScrollTabPage.dart';
@@ -361,21 +361,7 @@ class XXTest3rdPageState extends State<XXTest3rdPage> {
                             ),
                           ],
                         );
-                        Get.to(
-                          XXSampleListPage(
-                            controller:
-                                XXSampleListController()
-                                  ..headerRefreshingText = "loading now"
-                                  ..shimmer = true
-                                  ..shimmerBrickHeight = 320
-                                  ..shimmerCustomWidget = widget
-                                  ..brickMargin = const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 5,
-                                  )
-                                  ..title = "测试List",
-                          ),
-                        );
+                        Get.to(StoreCardListPage());
                       },
                     ),
                     const SizedBox(width: 8),

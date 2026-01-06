@@ -25,12 +25,12 @@ String _formatDuration(Duration duration) {
   return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
 }
 
-class TextFeedItem implements ZZFeed {
+class TextFeed implements ZZFeed {
   final String content;
   final String author;
   final DateTime timestamp;
 
-  TextFeedItem({
+  TextFeed({
     required this.content,
     required this.author,
     required this.timestamp,
@@ -137,13 +137,13 @@ class TextFeedItem implements ZZFeed {
   }
 }
 
-class ImageFeedItem implements ZZFeed {
+class ImageFeed implements ZZFeed {
   final String imageUrl;
   final String caption;
   final String author;
   final DateTime timestamp;
 
-  ImageFeedItem({
+  ImageFeed({
     required this.imageUrl,
     required this.caption,
     required this.author,
@@ -291,14 +291,14 @@ class ImageFeedItem implements ZZFeed {
   }
 }
 
-class VideoFeedItem implements ZZFeed {
+class VideoFeed implements ZZFeed {
   final String videoUrl;
   final String title;
   final String author;
   final Duration duration;
   final DateTime timestamp;
 
-  VideoFeedItem({
+  VideoFeed({
     required this.videoUrl,
     required this.title,
     required this.author,
@@ -477,7 +477,7 @@ class MultiTypeFeedController extends ZZBaseListController {
       switch (itemIndex % 3) {
         case 0:
           feeds.add(
-            TextFeedItem(
+            TextFeed(
               content:
                   '这是第${itemIndex + 1}条文本Feed内容。Flutter是一个优秀的跨平台UI框架，可以帮助开发者快速构建美观的应用界面。',
               author: '用户${itemIndex + 1}',
@@ -487,7 +487,7 @@ class MultiTypeFeedController extends ZZBaseListController {
           break;
         case 1:
           feeds.add(
-            ImageFeedItem(
+            ImageFeed(
               imageUrl: 'https://picsum.photos/400/300?random=${itemIndex + 1}',
               caption: '美丽的风景图片 #${itemIndex + 1} - 这是来自网络的随机图片',
               author: '摄影师${itemIndex + 1}',
@@ -497,7 +497,7 @@ class MultiTypeFeedController extends ZZBaseListController {
           break;
         case 2:
           feeds.add(
-            VideoFeedItem(
+            VideoFeed(
               videoUrl:
                   'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
               title: '精彩视频内容 #${itemIndex + 1}',
@@ -533,6 +533,18 @@ class MultiTypeFeedListPage extends ZZBaseSliverPage<MultiTypeFeedController> {
   late final ZZListDelegate _delegate = MultiTypeFeedListDelegate();
 }
 
+// 示例页面 - 瀑布流模式
+class MultiTypeFeedWaterfallPage
+    extends ZZBaseSliverPage<MultiTypeFeedController> {
+  MultiTypeFeedWaterfallPage({super.key});
+
+  @override
+  MultiTypeFeedController get controller => Get.put(MultiTypeFeedController());
+
+  @override
+  int get crossAxisCount => 2; // 瀑布流模式
+}
+
 class MultiTypeFeedListDelegate extends ZZListDelegate {
   MultiTypeFeedListDelegate() {
     debugPrint('MultiTypeFeedListDelegate initialized');
@@ -559,16 +571,4 @@ class MultiTypeFeedListDelegate extends ZZListDelegate {
       ),
     );
   }
-}
-
-// 示例页面 - 瀑布流模式
-class MultiTypeFeedWaterfallPage
-    extends ZZBaseSliverPage<MultiTypeFeedController> {
-  MultiTypeFeedWaterfallPage({super.key});
-
-  @override
-  MultiTypeFeedController get controller => Get.put(MultiTypeFeedController());
-
-  @override
-  int get crossAxisCount => 2; // 瀑布流模式
 }

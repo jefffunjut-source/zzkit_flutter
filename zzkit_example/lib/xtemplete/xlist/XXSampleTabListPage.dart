@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/xtemplete/xlist/XXSampleListPage.dart';
+import 'package:zzkit_example/xtemplete/xlist/store_card_list_page.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
@@ -30,8 +30,9 @@ class XXSampleTabListPageState extends State<XXSampleTabListPage>
     return ZZBaseScaffold(
       safeAreaBottom: false,
       appBar: ZZ.appbar(
-          title: "Tab List",
-          bottom: ZZ.tabbarUnderline(tabs: const [
+        title: "Tab List",
+        bottom: ZZ.tabbarUnderline(
+          tabs: const [
             'Tab11111',
             'Tab2',
             'Tab33333',
@@ -39,17 +40,14 @@ class XXSampleTabListPageState extends State<XXSampleTabListPage>
             'Tab55555',
             'Tab66666',
             'Tab77777',
-          ], controller: tabController)),
+          ],
+          controller: tabController,
+        ),
+      ),
       body: TabBarView(
         controller: tabController,
         children: List.generate(7, (index) {
-          return XXSampleListPage(
-              controller: XXSampleListController()
-                ..headerRefreshingText = "loading now"
-                ..shimmer = true
-                ..shimmerBrickHeight = 300
-                ..brickMargin =
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5));
+          return StoreCardListPage();
         }),
       ),
     );

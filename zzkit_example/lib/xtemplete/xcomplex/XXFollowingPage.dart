@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zzkit_example/xtemplete/xbrick/XXStoreCardBrick.dart';
-import 'package:zzkit_example/xtemplete/xlist/XXSampleListResponse.dart';
+import 'package:zzkit_example/xtemplete/xlist/store_card_response.dart';
 import 'package:zzkit_flutter/standard/list/ZZBaseListPage.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 
