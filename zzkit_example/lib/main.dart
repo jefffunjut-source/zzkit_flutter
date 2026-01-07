@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_example/XXTranslations.dart';
-import 'package:zzkit_example/sample/test/XXTestPage.dart';
+import 'package:zzkit_example/sample/testportal/XXTestPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZWebViewPage.dart';

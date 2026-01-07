@@ -1,21 +1,21 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/sample/waterfall/XXSampleWaterfallPage.dart';
+import 'package:zzkit_example/sample/list/store_card_waterfall_page.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
-class XXSampleTabWaterfallPage extends StatefulWidget {
-  const XXSampleTabWaterfallPage({super.key});
+class TabWaterfallPage extends StatefulWidget {
+  const TabWaterfallPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return XXSampleTabWaterfallPageState();
+    return TabWaterfallPageState();
   }
 }
 
-class XXSampleTabWaterfallPageState extends State<XXSampleTabWaterfallPage>
+class TabWaterfallPageState extends State<TabWaterfallPage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
@@ -47,13 +47,13 @@ class XXSampleTabWaterfallPageState extends State<XXSampleTabWaterfallPage>
       body: TabBarView(
         controller: tabController,
         children: [
-          XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
-          XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
-          XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
-          XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
-          XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
-          XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
-          XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
+          StoreCardWaterfallPage(),
+          StoreCardWaterfallPage(),
+          StoreCardWaterfallPage(),
+          StoreCardWaterfallPage(),
+          StoreCardWaterfallPage(),
+          StoreCardWaterfallPage(),
+          StoreCardWaterfallPage(),
         ],
       ),
     );
