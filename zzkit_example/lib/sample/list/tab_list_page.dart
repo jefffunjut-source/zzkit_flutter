@@ -1,21 +1,21 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/xtemplete/xlist/store_card_list_page.dart';
+import 'package:zzkit_example/sample/list/store_card_list_page.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
-class XXSampleTabListPage extends StatefulWidget {
-  const XXSampleTabListPage({super.key});
+class TabListPage extends StatefulWidget {
+  const TabListPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return XXSampleTabListPageState();
+    return TabListPageState();
   }
 }
 
-class XXSampleTabListPageState extends State<XXSampleTabListPage>
+class TabListPageState extends State<TabListPage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 

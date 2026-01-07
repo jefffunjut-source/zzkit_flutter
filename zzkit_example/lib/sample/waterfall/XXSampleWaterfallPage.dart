@@ -1,28 +1,38 @@
-// ignore_for_file: library_private_types_in_public_api, invalid_use_of_protected_member, must_be_immutable, use_key_in_widget_constructors, file_names, depend_on_referenced_packages
+// ignore_for_file: file_names, use_key_in_widget_constructors, must_be_immutable, depend_on_referenced_packages
 
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zzkit_example/xtemplete/xbrick/XXStoreCardBrick.dart';
-import 'package:zzkit_example/xtemplete/xlist/store_card_response.dart';
-import 'package:zzkit_flutter/standard/list/ZZBaseListPage.dart';
+import 'package:zzkit_example/sample/brick/XXStoreCardBrick.dart';
+import 'package:zzkit_example/sample/list/store_card_response.dart';
+import 'package:zzkit_flutter/standard/waterfall/ZZBaseWaterfallPage.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 
-class XXHotSubPageController extends ZZBaseListController {
+class XXSampleWaterfallController extends ZZBaseWaterfallController {
+  XXSampleWaterfallController()
+    : super(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        margin: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
+      );
+
   @override
   Future fetchData({required bool nextPage}) async {
     await begin(
           nextPage: nextPage,
           apiRequest: () {
             // 标准API Request调用
+            debugPrint("page: $page  nextPage: $nextPage");
             return _fakeGetRequest();
           },
         )
         .then((value) {
           // 必须调用endTransaction
-          XXSampleListResponse? resp = value?.resp;
-          end(response: value, rows: resp?.data?.rows, currentPageSize: 5);
+          StoreCardResponse? resp = value?.resp;
+          end(response: value, rows: resp?.data?.rows, currentPageSize: 10);
           return value;
         })
         .then((value) {
@@ -47,19 +57,19 @@ class XXHotSubPageController extends ZZBaseListController {
 
   Future<ZZAPIResponse> _fakeGetRequest() async {
     await Future.delayed(const Duration(seconds: 1));
-    XXSampleListResponse? response;
+    StoreCardResponse? response;
     ZZAPIError? error;
     if (page.value <= 3) {
-      response = XXSampleListResponse();
+      response = StoreCardResponse();
       response.code = "0";
       response.msg = "success";
       response.data = Data();
       List<Rows>? rows = await _fakeRandomRows(
-        page.value == 1 || page.value == 2 ? 5 : 4,
+        page.value == 1 || page.value == 2 ? 10 : 4,
       );
       response.data?.rows = rows;
     } else {
-      response = XXSampleListResponse();
+      response = StoreCardResponse();
       response.code = "0";
       response.msg = "success";
       response.data = Data();
@@ -101,8 +111,10 @@ class XXHotSubPageController extends ZZBaseListController {
   }
 }
 
-class XXHotSubPage extends ZZBaseListPage<XXHotSubPageController> {
-  XXHotSubPage({required super.controller});
+class XXSampleWaterfallPage
+    extends ZZBaseWaterfallPage<XXSampleWaterfallController> {
+  XXSampleWaterfallPage({required super.controller});
 }
 
-class XXHotSubPageState extends ZZBaseListState<XXHotSubPageController> {}
+class XXSampleWaterfallPageState
+    extends ZZBaseWaterfallState<XXSampleWaterfallController> {}

@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/xtemplete/xwaterfall/XXSampleWaterfallPage.dart';
+import 'package:zzkit_example/sample/waterfall/XXSampleWaterfallPage.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
@@ -30,8 +30,9 @@ class XXSampleTabWaterfallPageState extends State<XXSampleTabWaterfallPage>
     return ZZBaseScaffold(
       safeAreaBottom: false,
       appBar: ZZ.appbar(
-          title: "Tab Waterfall",
-          bottom: ZZ.tabbarRoundedRectangle(tabs: const [
+        title: "Tab Waterfall",
+        bottom: ZZ.tabbarRoundedRectangle(
+          tabs: const [
             'Tab11111',
             'Tab2',
             'Tab33333',
@@ -39,7 +40,10 @@ class XXSampleTabWaterfallPageState extends State<XXSampleTabWaterfallPage>
             'Tab55555',
             'Tab66666',
             'Tab77777',
-          ], controller: tabController)),
+          ],
+          controller: tabController,
+        ),
+      ),
       body: TabBarView(
         controller: tabController,
         children: [
@@ -49,7 +53,7 @@ class XXSampleTabWaterfallPageState extends State<XXSampleTabWaterfallPage>
           XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
           XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
           XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
-          XXSampleWaterfallPage(controller: XXSampleWaterfallController())
+          XXSampleWaterfallPage(controller: XXSampleWaterfallController()),
         ],
       ),
     );

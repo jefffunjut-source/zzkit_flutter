@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zzkit_example/xtemplete/xbrick/XXStoreCardBrick.dart';
-import 'package:zzkit_example/xtemplete/xlist/store_card_response.dart';
+import 'package:zzkit_example/sample/brick/XXStoreCardBrick.dart';
+import 'package:zzkit_example/sample/list/store_card_response.dart';
 import 'package:zzkit_flutter/standard/brick/common/ZZBaseBrick.dart';
 import 'package:zzkit_flutter/standard/waterfall/ZZBaseWaterfallPage.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
@@ -34,7 +34,7 @@ class XXSampleMultiTypesWaterfallPageController
         )
         .then((value) {
           // 必须调用endTransaction
-          XXSampleListResponse? resp = value?.resp;
+          StoreCardResponse? resp = value?.resp;
           List? a = resp?.data?.rows?.reshape();
           end(response: value, rows: a, currentPageSize: 1);
           return value;
@@ -66,10 +66,10 @@ class XXSampleMultiTypesWaterfallPageController
 
   Future<ZZAPIResponse> _fakeGetRequest() async {
     await Future.delayed(const Duration(seconds: 1));
-    XXSampleListResponse? response;
+    StoreCardResponse? response;
     ZZAPIError? error;
     if (page.value <= 3) {
-      response = XXSampleListResponse();
+      response = StoreCardResponse();
       response.code = "0";
       response.msg = "success";
       response.data = Data();
@@ -78,7 +78,7 @@ class XXSampleMultiTypesWaterfallPageController
       );
       response.data?.rows = rows;
     } else {
-      response = XXSampleListResponse();
+      response = StoreCardResponse();
       response.code = "0";
       response.msg = "success";
       response.data = Data();

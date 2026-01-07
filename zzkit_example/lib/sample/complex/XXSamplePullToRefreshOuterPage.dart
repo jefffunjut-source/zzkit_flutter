@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXPullToRefreshHeader.dart';
+import 'package:zzkit_example/sample/complex/XXPullToRefreshHeader.dart';
 
 class XXSamplePullToRefreshOuterPage extends StatefulWidget {
   const XXSamplePullToRefreshOuterPage({super.key});
@@ -37,9 +37,7 @@ class XXSamplePullToRefreshOuterPageState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildScaffoldBody(),
-    );
+    return Scaffold(body: _buildScaffoldBody());
   }
 
   Widget _buildScaffoldBody() {
@@ -47,18 +45,19 @@ class XXSamplePullToRefreshOuterPageState
     final double pinnedHeaderHeight =
         //statusBar height
         statusBarHeight +
-            //pinned SliverAppBar height in header
-            kToolbarHeight -
-            kToolbarHeight;
+        //pinned SliverAppBar height in header
+        kToolbarHeight -
+        kToolbarHeight;
     return PullToRefreshNotification(
       color: Colors.blue,
-      onRefresh: () => Future<bool>.delayed(const Duration(seconds: 1), () {
-        setState(() {
-          _length1 += 10;
-          lastRefreshTime = DateTime.now();
-        });
-        return true;
-      }),
+      onRefresh:
+          () => Future<bool>.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              _length1 += 10;
+              lastRefreshTime = DateTime.now();
+            });
+            return true;
+          }),
       maxDragOffset: maxDragOffset,
       child: GlowNotificationWidget(
         ExtendedNestedScrollView(
@@ -68,13 +67,13 @@ class XXSamplePullToRefreshOuterPageState
               //   pinned: true,
               //   title: Text('pull to refresh in header'),
               // ),
-              PullToRefreshContainer(
-                (PullToRefreshScrollNotificationInfo? info) {
-                  return SliverToBoxAdapter(
-                    child: XXPullToRefreshHeader(info, lastRefreshTime),
-                  );
-                },
-              ),
+              PullToRefreshContainer((
+                PullToRefreshScrollNotificationInfo? info,
+              ) {
+                return SliverToBoxAdapter(
+                  child: XXPullToRefreshHeader(info, lastRefreshTime),
+                );
+              }),
               SliverToBoxAdapter(
                 child: Container(
                   color: Colors.red,
@@ -145,7 +144,7 @@ class XXSamplePullToRefreshOuterPageState
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

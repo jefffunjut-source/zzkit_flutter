@@ -5,8 +5,8 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zzkit_example/xtemplete/xlist/store_card_response.dart';
-import 'package:zzkit_example/xtemplete/xlist/store_card_feed.dart';
+import 'package:zzkit_example/sample/list/store_card_response.dart';
+import 'package:zzkit_example/sample/list/store_card_feed.dart';
 import 'package:zzkit_flutter/standard/allinone/ZZAllinoneList.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 
@@ -15,10 +15,10 @@ class StoreCardListPageController extends ZZBaseListController {
   Future<List<ZZFeed>> loadData(int page) async {
     final feeds = <ZZFeed>[];
     await _fakeGetRequest().then((value) {
-      ZZAPIResponse<XXSampleListResponse>? resp =
-          value as ZZAPIResponse<XXSampleListResponse>?;
+      ZZAPIResponse<StoreCardResponse>? resp =
+          value as ZZAPIResponse<StoreCardResponse>?;
       if (resp?.error == null) {
-        XXSampleListResponse? response = resp?.resp;
+        StoreCardResponse? response = resp?.resp;
         feeds.addAll(
           response?.data?.rows?.map(
                 (e) => StoreCardFeed(
@@ -38,22 +38,20 @@ class StoreCardListPageController extends ZZBaseListController {
 
   Future<ZZAPIResponse> _fakeGetRequest() async {
     await Future.delayed(const Duration(seconds: 1));
-    XXSampleListResponse? response;
+    StoreCardResponse? response;
     ZZAPIError? error;
-    response = XXSampleListResponse();
+    response = StoreCardResponse();
     response.code = "0";
     response.msg = "success";
     response.data = Data();
     List<Rows>? rows = await _fakeRandomRows(20);
     response.data?.rows = rows;
-    return ZZAPIResponse(response, error);
+    return ZZAPIResponse<StoreCardResponse>(response, error);
   }
 
   Future<List<Rows>?> _fakeRandomRows(int count) async {
     try {
-      String jsonData = await rootBundle.loadString(
-        'assets/json/testrows.json',
-      );
+      String jsonData = await rootBundle.loadString('assets/json/stores.json');
       List<dynamic> jsonList = json.decode(jsonData);
       // 使用Random类生成随机数
       Random random = Random();

@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXHotSubPage.dart';
+import 'package:zzkit_example/sample/complex/XXHotSubPage.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
@@ -29,24 +29,31 @@ class XXHotPageState extends State<XXHotPage>
   Widget build(BuildContext context) {
     return ZZBaseScaffold(
       safeAreaBottom: false,
-      appBar: ZZ.tabbarUnderline(tabs: const [
-        'Tab11111',
-        'Tab2',
-        'Tab33333',
-        'Tab44444',
-        'Tab55555',
-        'Tab66666',
-        'Tab77777',
-      ], controller: tabController),
+      appBar: ZZ.tabbarUnderline(
+        tabs: const [
+          'Tab11111',
+          'Tab2',
+          'Tab33333',
+          'Tab44444',
+          'Tab55555',
+          'Tab66666',
+          'Tab77777',
+        ],
+        controller: tabController,
+      ),
       body: TabBarView(
         controller: tabController,
         children: List.generate(7, (index) {
           return XXHotSubPage(
-              controller: XXHotSubPageController()
-                ..shimmer = true
-                ..shimmerBrickHeight = 300
-                ..brickMargin =
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5));
+            controller:
+                XXHotSubPageController()
+                  ..shimmer = true
+                  ..shimmerBrickHeight = 300
+                  ..brickMargin = const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+          );
         }),
       ),
     );

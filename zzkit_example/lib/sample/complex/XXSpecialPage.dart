@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXPullToRefreshHeader.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXSpecialSubPage.dart';
+import 'package:zzkit_example/sample/complex/XXPullToRefreshHeader.dart';
+import 'package:zzkit_example/sample/complex/XXSpecialSubPage.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class XXScrollToTopEvent {}
@@ -66,17 +66,18 @@ class XXSpecialPageState extends State<XXSpecialPage>
     final double pinnedHeaderHeight =
         //statusBar height
         statusBarHeight +
-            //pinned SliverAppBar height in header
-            kToolbarHeight -
-            kToolbarHeight;
+        //pinned SliverAppBar height in header
+        kToolbarHeight -
+        kToolbarHeight;
     return PullToRefreshNotification(
       color: Colors.blue,
-      onRefresh: () => Future<bool>.delayed(const Duration(seconds: 1), () {
-        setState(() {
-          lastRefreshTime = DateTime.now();
-        });
-        return true;
-      }),
+      onRefresh:
+          () => Future<bool>.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              lastRefreshTime = DateTime.now();
+            });
+            return true;
+          }),
       maxDragOffset: maxDragOffset,
       child: GlowNotificationWidget(
         ExtendedNestedScrollView(
@@ -87,13 +88,13 @@ class XXSpecialPageState extends State<XXSpecialPage>
               //   pinned: true,
               //   title: Text('pull to refresh in header'),
               // ),
-              PullToRefreshContainer(
-                (PullToRefreshScrollNotificationInfo? info) {
-                  return SliverToBoxAdapter(
-                    child: XXPullToRefreshHeader(info, lastRefreshTime),
-                  );
-                },
-              ),
+              PullToRefreshContainer((
+                PullToRefreshScrollNotificationInfo? info,
+              ) {
+                return SliverToBoxAdapter(
+                  child: XXPullToRefreshHeader(info, lastRefreshTime),
+                );
+              }),
               SliverToBoxAdapter(
                 child: Container(
                   color: Colors.cyan,
@@ -128,15 +129,15 @@ class XXSpecialPageState extends State<XXSpecialPage>
             children: <Widget>[
               TabBar(
                 onTap: (value) {},
-                controller: primaryTC
-                  ..addListener(() {
-                    if (!primaryTC.indexIsChanging) {
-                      _key.currentState?.innerController.jumpTo(0.01);
-                      setState(() {
-                        currentPage = primaryTC.index;
-                      });
-                    }
-                  }),
+                controller:
+                    primaryTC..addListener(() {
+                      if (!primaryTC.indexIsChanging) {
+                        _key.currentState?.innerController.jumpTo(0.01);
+                        setState(() {
+                          currentPage = primaryTC.index;
+                        });
+                      }
+                    }),
                 labelColor: Colors.blue,
                 indicatorColor: Colors.blue,
                 indicatorSize: TabBarIndicatorSize.label,
@@ -145,9 +146,7 @@ class XXSpecialPageState extends State<XXSpecialPage>
                 unselectedLabelColor: Colors.grey,
                 tabs: tabs.map((txt) => Tab(text: txt)).toList(),
               ),
-              Expanded(
-                child: singleView(tabs[currentPage]),
-              )
+              Expanded(child: singleView(tabs[currentPage])),
             ],
           ),
         ),

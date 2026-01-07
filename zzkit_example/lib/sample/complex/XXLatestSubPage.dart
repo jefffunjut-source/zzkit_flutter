@@ -2,12 +2,10 @@
 // ignore_for_file: depend_on_referenced_packages, must_be_immutable, invalid_use_of_protected_member, file_names
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXLoadMoreFooter.dart';
+import 'package:zzkit_example/sample/complex/XXLoadMoreFooter.dart';
 
 class XXLatestSubPage extends StatefulWidget {
-  const XXLatestSubPage({
-    super.key,
-  });
+  const XXLatestSubPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -36,9 +34,7 @@ class XXLatestSubPageState extends State<XXLatestSubPage>
           return Container(
             alignment: Alignment.center,
             height: 80.0,
-            child: Text(
-              'ListView${i + 1} of $length',
-            ),
+            child: Text('ListView${i + 1} of $length'),
           );
         } else if (i == length) {
           return XXLoadMoreFooter(

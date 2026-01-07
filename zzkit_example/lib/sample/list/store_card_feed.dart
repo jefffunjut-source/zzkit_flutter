@@ -24,7 +24,9 @@ class StoreCardFeed implements ZZFeed {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        color: Colors.red,
+        margin: EdgeInsets.all(10.r),
+        padding: EdgeInsets.all(10.r),
+        color: Colors.green,
         child: IntrinsicHeight(
           child: Column(
             children: [

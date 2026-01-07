@@ -66,3 +66,4 @@ flutter:
     - assets/img/ic_tab_store_selected.png
     - assets/img/ic_transparent.png
     # assets-generator-end
+    - assets/json/stores.json

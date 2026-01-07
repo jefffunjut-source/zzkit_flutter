@@ -1,15 +1,15 @@
-// ignore_for_file: must_be_immutable, use_key_in_widget_constructors, file_names
+// ignore_for_file: library_private_types_in_public_api, invalid_use_of_protected_member, must_be_immutable, use_key_in_widget_constructors, file_names, depend_on_referenced_packages
 
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zzkit_example/xtemplete/xbrick/XXStoreCardBrick.dart';
-import 'package:zzkit_example/xtemplete/xlist/store_card_response.dart';
+import 'package:zzkit_example/sample/brick/XXStoreCardBrick.dart';
+import 'package:zzkit_example/sample/list/store_card_response.dart';
 import 'package:zzkit_flutter/standard/list/ZZBaseListPage.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 
-class XXFollowingController extends ZZBaseListController {
+class XXHotSubPageController extends ZZBaseListController {
   @override
   Future fetchData({required bool nextPage}) async {
     await begin(
@@ -21,7 +21,7 @@ class XXFollowingController extends ZZBaseListController {
         )
         .then((value) {
           // 必须调用endTransaction
-          XXSampleListResponse? resp = value?.resp;
+          StoreCardResponse? resp = value?.resp;
           end(response: value, rows: resp?.data?.rows, currentPageSize: 5);
           return value;
         })
@@ -47,10 +47,10 @@ class XXFollowingController extends ZZBaseListController {
 
   Future<ZZAPIResponse> _fakeGetRequest() async {
     await Future.delayed(const Duration(seconds: 1));
-    XXSampleListResponse? response;
+    StoreCardResponse? response;
     ZZAPIError? error;
     if (page.value <= 3) {
-      response = XXSampleListResponse();
+      response = StoreCardResponse();
       response.code = "0";
       response.msg = "success";
       response.data = Data();
@@ -59,7 +59,7 @@ class XXFollowingController extends ZZBaseListController {
       );
       response.data?.rows = rows;
     } else {
-      response = XXSampleListResponse();
+      response = StoreCardResponse();
       response.code = "0";
       response.msg = "success";
       response.data = Data();
@@ -101,8 +101,8 @@ class XXFollowingController extends ZZBaseListController {
   }
 }
 
-class XXFollowingPage extends ZZBaseListPage<XXFollowingController> {
-  XXFollowingPage({required super.controller});
+class XXHotSubPage extends ZZBaseListPage<XXHotSubPageController> {
+  XXHotSubPage({required super.controller});
 }
 
-class XXFollowingState extends ZZBaseListState<XXFollowingController> {}
+class XXHotSubPageState extends ZZBaseListState<XXHotSubPageController> {}

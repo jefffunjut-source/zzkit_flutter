@@ -1,13 +1,13 @@
 // ignore_for_file: file_names
 
-class XXSampleListResponse {
+class StoreCardResponse {
   String? code;
   String? msg;
   Data? data;
 
-  XXSampleListResponse({this.code, this.msg, this.data});
+  StoreCardResponse({this.code, this.msg, this.data});
 
-  XXSampleListResponse.fromJson(Map<String, dynamic> json) {
+  StoreCardResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     msg = json['msg'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;

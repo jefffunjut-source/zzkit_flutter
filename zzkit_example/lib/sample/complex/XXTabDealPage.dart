@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, depend_on_referenced_packages, unused_import
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXFollowingPage.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXHotPage.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXLatestPage.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXSpecialPage.dart';
+import 'package:zzkit_example/sample/complex/XXFollowingPage.dart';
+import 'package:zzkit_example/sample/complex/XXHotPage.dart';
+import 'package:zzkit_example/sample/complex/XXLatestPage.dart';
+import 'package:zzkit_example/sample/complex/XXSpecialPage.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
@@ -38,24 +38,29 @@ class XXTabDealPageState extends State<XXTabDealPage>
       appBar: AppBar(
         backgroundColor: Colors.white,
         bottom: ZZ.tabbarUnderline(
-            tabAlignment: TabAlignment.fill,
-            isScrollable: false,
-            labelStyle: ZZ.textStyle(
-                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-            unselectedLabelStyle: ZZ.textStyle(
-                color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold),
-            tabs: ['关注', '最新', '热门', '专区'],
-            controller: _tabController),
+          tabAlignment: TabAlignment.fill,
+          isScrollable: false,
+          labelStyle: ZZ.textStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          unselectedLabelStyle: ZZ.textStyle(
+            color: Colors.grey,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          tabs: ['关注', '最新', '热门', '专区'],
+          controller: _tabController,
+        ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          XXFollowingPage(
-            controller: XXFollowingController(),
-          ),
+          XXFollowingPage(controller: XXFollowingController()),
           const XXLatestPage(),
           const XXHotPage(),
-          const XXSpecialPage()
+          const XXSpecialPage(),
         ],
       ),
     );

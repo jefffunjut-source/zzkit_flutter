@@ -1,17 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, unnecessary_overrides
 // ignore_for_file: depend_on_referenced_packages, must_be_immutable, invalid_use_of_protected_member, file_names
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXLoadMoreFooter.dart';
+import 'package:zzkit_example/sample/complex/XXLoadMoreFooter.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class XXScrollToTopEvent {}
 
 class XXSpecialSubPage extends StatefulWidget {
   String name;
-  XXSpecialSubPage({
-    required this.name,
-    super.key,
-  });
+  XXSpecialSubPage({required this.name, super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -45,9 +42,7 @@ class XXSpecialSubPageState extends State<XXSpecialSubPage> {
           return Container(
             alignment: Alignment.center,
             height: 80.0,
-            child: Text(
-              'ListView$i of $length',
-            ),
+            child: Text('ListView$i of $length'),
           );
         } else if (i == length - 1) {
           return XXLoadMoreFooter(

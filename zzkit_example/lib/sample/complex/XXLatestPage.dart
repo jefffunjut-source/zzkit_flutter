@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXLatestSubPage.dart';
-import 'package:zzkit_example/xtemplete/xcomplex/XXPullToRefreshHeader.dart';
+import 'package:zzkit_example/sample/complex/XXLatestSubPage.dart';
+import 'package:zzkit_example/sample/complex/XXPullToRefreshHeader.dart';
 
 class XXLatestPage extends StatefulWidget {
   const XXLatestPage({super.key});
@@ -36,7 +36,8 @@ class XXLatestPageState extends State<XXLatestPage>
     int lastPage = primaryTC.previousIndex;
     int currentPage = primaryTC.index;
     debugPrint(
-        "outterPositions: ${_key.currentState?.outerController.positions}");
+      "outterPositions: ${_key.currentState?.outerController.positions}",
+    );
     debugPrint("innerPositions: ${_key.currentState?.innerPositions}");
     int index = 0;
     _key.currentState?.innerPositions.forEach((element) {
@@ -63,10 +64,10 @@ class XXLatestPageState extends State<XXLatestPage>
       cachePixels.putIfAbsent(index, () => 0.0);
       index++;
     }
-    scrollController = ScrollController()
-      ..addListener(() {
-        debugPrint("scroll:${scrollController.offset}");
-      });
+    scrollController =
+        ScrollController()..addListener(() {
+          debugPrint("scroll:${scrollController.offset}");
+        });
   }
 
   @override
@@ -77,9 +78,7 @@ class XXLatestPageState extends State<XXLatestPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildScaffoldBody(),
-    );
+    return Scaffold(body: _buildScaffoldBody());
   }
 
   Widget _buildScaffoldBody() {
@@ -87,17 +86,18 @@ class XXLatestPageState extends State<XXLatestPage>
     final double pinnedHeaderHeight =
         //statusBar height
         statusBarHeight +
-            //pinned SliverAppBar height in header
-            kToolbarHeight -
-            kToolbarHeight;
+        //pinned SliverAppBar height in header
+        kToolbarHeight -
+        kToolbarHeight;
     return PullToRefreshNotification(
       color: Colors.blue,
-      onRefresh: () => Future<bool>.delayed(const Duration(seconds: 1), () {
-        setState(() {
-          lastRefreshTime = DateTime.now();
-        });
-        return true;
-      }),
+      onRefresh:
+          () => Future<bool>.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              lastRefreshTime = DateTime.now();
+            });
+            return true;
+          }),
       maxDragOffset: maxDragOffset,
       child: GlowNotificationWidget(
         // 这里的ExtendedNestedScrollView完全可以改成NestedScrollView
@@ -106,13 +106,13 @@ class XXLatestPageState extends State<XXLatestPage>
           key: _key,
           headerSliverBuilder: (BuildContext c, bool f) {
             return <Widget>[
-              PullToRefreshContainer(
-                (PullToRefreshScrollNotificationInfo? info) {
-                  return SliverToBoxAdapter(
-                    child: XXPullToRefreshHeader(info, lastRefreshTime),
-                  );
-                },
-              ),
+              PullToRefreshContainer((
+                PullToRefreshScrollNotificationInfo? info,
+              ) {
+                return SliverToBoxAdapter(
+                  child: XXPullToRefreshHeader(info, lastRefreshTime),
+                );
+              }),
               SliverToBoxAdapter(
                 child: Container(
                   color: Colors.tealAccent,
@@ -160,7 +160,7 @@ class XXLatestPageState extends State<XXLatestPage>
               Expanded(
                 child: tabBarView(),
                 // child: singleView(name),
-              )
+              ),
             ],
           ),
         ),
@@ -172,11 +172,10 @@ class XXLatestPageState extends State<XXLatestPage>
     return TabBarView(
       physics: const NeverScrollableScrollPhysics(),
       controller: primaryTC,
-      children: tabs
-          .map((txt) => XXLatestSubPage(
-                key: PageStorageKey<String>(txt),
-              ))
-          .toList(),
+      children:
+          tabs
+              .map((txt) => XXLatestSubPage(key: PageStorageKey<String>(txt)))
+              .toList(),
     );
   }
 }
