@@ -5,15 +5,14 @@ import 'package:zzkit_flutter/standard/page/ZZKeepAliveWidget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 
-class XXTestNestedScrollTab2Page extends StatefulWidget {
-  const XXTestNestedScrollTab2Page({super.key});
+class NestedScrollTabPage2 extends StatefulWidget {
+  const NestedScrollTabPage2({super.key});
 
   @override
-  XXTestNestedScrollTab2PageState createState() =>
-      XXTestNestedScrollTab2PageState();
+  NestedScrollTabPage2State createState() => NestedScrollTabPage2State();
 }
 
-class XXTestNestedScrollTab2PageState extends State<XXTestNestedScrollTab2Page>
+class NestedScrollTabPage2State extends State<NestedScrollTabPage2>
     with SingleTickerProviderStateMixin {
   RefreshController refreshController = RefreshController();
   @override
@@ -32,26 +31,14 @@ class XXTestNestedScrollTab2PageState extends State<XXTestNestedScrollTab2Page>
                   collapseMode: CollapseMode.pin,
                   background: Column(
                     children: [
-                      Container(
-                        height: 200.0,
-                        color: Colors.red,
-                      ),
-                      Container(
-                        height: 200.0,
-                        color: Colors.black,
-                      ),
-                      Container(
-                        height: 200.0,
-                        color: Colors.purple,
-                      )
+                      Container(height: 200.0, color: Colors.red),
+                      Container(height: 200.0, color: Colors.black),
+                      Container(height: 200.0, color: Colors.purple),
                     ],
                   ),
                 ),
                 bottom: const TabBar(
-                  tabs: [
-                    Tab(text: 'Page 1'),
-                    Tab(text: 'Page 2'),
-                  ],
+                  tabs: [Tab(text: 'Page 1'), Tab(text: 'Page 2')],
                 ),
               ),
             ];
@@ -88,14 +75,12 @@ class Page1 extends StatelessWidget {
         //   ),
         // ),
         SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return ListTile(
-                title: Text('Item $index'),
-              );
-            },
-            childCount: 100,
-          ),
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return ListTile(title: Text('Item $index'));
+          }, childCount: 100),
         ),
       ],
     );
@@ -122,14 +107,12 @@ class Page2 extends StatelessWidget {
         //   ),
         // ),
         SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return ListTile(
-                title: Text('Item $index'),
-              );
-            },
-            childCount: 120,
-          ),
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return ListTile(title: Text('Item $index'));
+          }, childCount: 120),
         ),
       ],
     );
@@ -154,12 +137,7 @@ class MyApp extends StatelessWidget {
                 title: Text('TabBar Example'),
                 pinned: true,
                 floating: true,
-                bottom: TabBar(
-                  tabs: [
-                    Tab(text: 'Tab 1'),
-                    Tab(text: 'Tab 2'),
-                  ],
-                ),
+                bottom: TabBar(tabs: [Tab(text: 'Tab 1'), Tab(text: 'Tab 2')]),
               ),
             ];
           },

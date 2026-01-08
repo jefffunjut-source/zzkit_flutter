@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_example/XXTranslations.dart';
-import 'package:zzkit_example/sample/list/XXTestPage.dart';
+import 'package:zzkit_example/sample/home_page.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupPage.dart';
 import 'package:zzkit_flutter/standard/page/ZZWebViewPage.dart';
@@ -95,7 +95,7 @@ Future<void> _initializeImmediately() async {
   /// 配置ZZBootupController
   List<Widget> pages = [
     // Center(child: Text("Page 1")),
-    XXTestPage(),
+    HomePage(),
     Center(child: Text("Page 2")),
     Center(child: Text("Page 3")),
   ];

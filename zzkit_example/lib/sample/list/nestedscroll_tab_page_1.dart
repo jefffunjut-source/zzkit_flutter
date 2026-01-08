@@ -5,15 +5,14 @@ import 'package:zzkit_example/sample/list/store_card_list_page.dart';
 
 double TabHeight = 48.0;
 
-class XXTestNestedScrollTabPage extends StatefulWidget {
-  const XXTestNestedScrollTabPage({super.key});
+class NestedScrollTabPage1 extends StatefulWidget {
+  const NestedScrollTabPage1({super.key});
 
   @override
-  XXTestNestedScrollTabPageState createState() =>
-      XXTestNestedScrollTabPageState();
+  NestedScrollTabPage1State createState() => NestedScrollTabPage1State();
 }
 
-class XXTestNestedScrollTabPageState extends State<XXTestNestedScrollTabPage> {
+class NestedScrollTabPage1State extends State<NestedScrollTabPage1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -3,15 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:zzkit_flutter/standard/page/ZZKeepAliveWidget.dart';
 
-class XXTestTabNestedScrollPage extends StatefulWidget {
-  const XXTestTabNestedScrollPage({super.key});
+class NestedScrollTabPage3 extends StatefulWidget {
+  const NestedScrollTabPage3({super.key});
 
   @override
-  XXTestTabNestedScrollPageState createState() =>
-      XXTestTabNestedScrollPageState();
+  NestedScrollTabPage3State createState() => NestedScrollTabPage3State();
 }
 
-class XXTestTabNestedScrollPageState extends State<XXTestTabNestedScrollPage>
+class NestedScrollTabPage3State extends State<NestedScrollTabPage3>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -60,12 +59,7 @@ class Page1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [
-          const SliverAppBar(
-            title: Text('Page 1'),
-            pinned: true,
-          ),
-        ];
+        return [const SliverAppBar(title: Text('Page 1'), pinned: true)];
       },
       body: ListView.builder(
         itemCount: 100,
@@ -84,12 +78,7 @@ class Page2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [
-          const SliverAppBar(
-            title: Text('Page 2'),
-            pinned: true,
-          ),
-        ];
+        return [const SliverAppBar(title: Text('Page 2'), pinned: true)];
       },
       body: ListView.builder(
         itemCount: 100,
@@ -108,12 +97,7 @@ class Page3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [
-          const SliverAppBar(
-            title: Text('Page 3'),
-            pinned: true,
-          ),
-        ];
+        return [const SliverAppBar(title: Text('Page 3'), pinned: true)];
       },
       body: ListView.builder(
         itemCount: 100,

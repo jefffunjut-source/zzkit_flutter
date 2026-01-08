@@ -10,14 +10,14 @@ import 'package:get/get.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
-class XXTestPage extends StatefulWidget {
-  const XXTestPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  XXTestPageState createState() => XXTestPageState();
+  HomePageState createState() => HomePageState();
 }
 
-class XXTestPageState extends State<XXTestPage> {
+class HomePageState extends State<HomePage> {
   ScrollController scrollController = ScrollController();
 
   @override
@@ -45,7 +45,7 @@ class XXTestPageState extends State<XXTestPage> {
               height: 414.w,
               child: Center(
                 child: Text(
-                  "Test Page\n",
+                  "Home Page\n",
                   style: ZZ.textStyle(color: Colors.black, fontSize: 20.sp),
                 ),
               ),
@@ -57,7 +57,7 @@ class XXTestPageState extends State<XXTestPage> {
                 color: Colors.blueAccent,
                 child: Center(
                   child: Text(
-                    "To Test 3rd Page",
+                    "Test Portal Page",
                     style: ZZ.textStyle(color: Colors.white, fontSize: 14.sp),
                   ),
                 ),
