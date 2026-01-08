@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:zzkit_example/sample/allinone/multi_type_feed_allinone.dart';
 import 'package:zzkit_example/sample/complex/XXSamplePullToRefreshOuterPage.dart';
 import 'package:zzkit_example/sample/complex/XXTabDealPage.dart';
-import 'package:zzkit_example/sample/dialog/XXSampleBottomDialog.dart';
-import 'package:zzkit_example/sample/dialog/XXSampleCenterDialog.dart';
+import 'package:zzkit_example/sample/dialog/bottom_dialog.dart';
+import 'package:zzkit_example/sample/dialog/center_dialog.dart';
 import 'package:zzkit_example/sample/list/store_card_list_page.dart';
 import 'package:zzkit_example/sample/list/tab_list_page.dart';
 import 'package:zzkit_example/sample/list/nestedscroll_tab_page_2.dart';
@@ -216,14 +216,14 @@ class TestPortalPageState extends State<TestPortalPage> {
                 _buildButton(
                   title: "center dialog",
                   onTap: () {
-                    XXSampleCenterDialog().show();
+                    CenterDialog(context).show();
                   },
                 ),
 
                 _buildButton(
                   title: "bottom dialog",
                   onTap: () {
-                    XXSampleBottomDialog().show();
+                    BottomDialog(context).show();
                   },
                 ),
 

@@ -2,11 +2,10 @@
 
 import 'package:get/get.dart';
 import 'package:zzkit_example/sample/list/store_card_list_page.dart';
-import 'package:zzkit_flutter/standard/allinone/ZZAllinoneList.dart';
+import 'package:zzkit_flutter/allinone/zz_allinone_list.dart';
 
 // 示例页面 - 列表模式
-class StoreCardWaterfallPage
-    extends ZZBaseSliverPage<StoreCardListPageController> {
+class StoreCardWaterfallPage extends ZZListPage<StoreCardListPageController> {
   StoreCardWaterfallPage({super.key});
 
   @override

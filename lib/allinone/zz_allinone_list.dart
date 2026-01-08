@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,7 @@ abstract class ZZFeed {
   Widget get widget;
 }
 
-abstract class ZZBaseListController extends GetxController {
+abstract class ZZListController extends GetxController {
   final data = <ZZFeed>[].obs;
   final state = PageState.loading.obs;
   final isRefreshing = false.obs;
@@ -78,9 +77,8 @@ abstract class ZZBaseListController extends GetxController {
   Future<List<ZZFeed>> loadData(int page);
 }
 
-abstract class ZZBaseSliverPage<C extends ZZBaseListController>
-    extends StatelessWidget {
-  ZZBaseSliverPage({super.key});
+abstract class ZZListPage<C extends ZZListController> extends StatelessWidget {
+  ZZListPage({super.key});
 
   C get controller;
   late final ZZListDelegate delegate = ZZListDelegate();

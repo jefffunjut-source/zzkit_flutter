@@ -1,7 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/standard/allinone/ZZAllinoneList.dart';
+import 'package:zzkit_flutter/allinone/zz_allinone_list.dart';
 import 'package:get/get.dart';
 
 String _formatTime(DateTime timestamp) {
@@ -459,7 +459,7 @@ class VideoFeed implements ZZFeed {
 }
 
 // 示例Controller - 多类型Feed控制器
-class MultiTypeFeedController extends ZZBaseListController {
+class MultiTypeFeedController extends ZZListController {
   @override
   Future<List<ZZFeed>> loadData(int page) async {
     // 模拟网络请求延迟
@@ -519,7 +519,7 @@ class MultiTypeFeedController extends ZZBaseListController {
 }
 
 // 示例页面 - 列表模式
-class MultiTypeFeedListPage extends ZZBaseSliverPage<MultiTypeFeedController> {
+class MultiTypeFeedListPage extends ZZListPage<MultiTypeFeedController> {
   MultiTypeFeedListPage({super.key});
 
   @override
@@ -534,8 +534,7 @@ class MultiTypeFeedListPage extends ZZBaseSliverPage<MultiTypeFeedController> {
 }
 
 // 示例页面 - 瀑布流模式
-class MultiTypeFeedWaterfallPage
-    extends ZZBaseSliverPage<MultiTypeFeedController> {
+class MultiTypeFeedWaterfallPage extends ZZListPage<MultiTypeFeedController> {
   MultiTypeFeedWaterfallPage({super.key});
 
   @override

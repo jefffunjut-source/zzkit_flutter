@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
-import 'package:zzkit_flutter/standard/allinone/ZZAllinoneList.dart';
+import 'package:zzkit_flutter/allinone/zz_allinone_list.dart';
 
 class StoreCardFeed implements ZZFeed {
   final String id;

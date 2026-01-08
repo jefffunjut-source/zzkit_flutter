@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zzkit_example/sample/list/store_card_response.dart';
 import 'package:zzkit_example/sample/list/store_card_feed.dart';
-import 'package:zzkit_flutter/standard/allinone/ZZAllinoneList.dart';
+import 'package:zzkit_flutter/allinone/zz_allinone_list.dart';
 import 'package:zzkit_flutter/util/api/ZZAPIProvider.dart';
 
-class StoreCardListPageController extends ZZBaseListController {
+class StoreCardListPageController extends ZZListController {
   @override
   Future<List<ZZFeed>> loadData(int page) async {
     final feeds = <ZZFeed>[];
@@ -81,7 +81,7 @@ class StoreCardListPageController extends ZZBaseListController {
 }
 
 // 示例页面 - 列表模式
-class StoreCardListPage extends ZZBaseSliverPage<StoreCardListPageController> {
+class StoreCardListPage extends ZZListPage<StoreCardListPageController> {
   StoreCardListPage({super.key});
 
   @override
