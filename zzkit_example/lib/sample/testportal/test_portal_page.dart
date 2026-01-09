@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_example/sample/allinone/multi_type_feed_allinone.dart';
-import 'package:zzkit_example/sample/complex/XXSamplePullToRefreshOuterPage.dart';
-import 'package:zzkit_example/sample/complex/XXTabDealPage.dart';
+import 'package:zzkit_example/sample/complex/pull_to_refresh_outer_page.dart';
+import 'package:zzkit_example/sample/complex/tab_deal_page.dart';
 import 'package:zzkit_example/sample/dialog/bottom_dialog.dart';
 import 'package:zzkit_example/sample/dialog/center_dialog.dart';
 import 'package:zzkit_example/sample/list/store_card_list_page.dart';
@@ -280,13 +280,13 @@ class TestPortalPageState extends State<TestPortalPage> {
                 _buildButton(
                   title: "complex home page",
                   onTap: () {
-                    Get.to(const XXTabDealPage());
+                    Get.to(const TabDealPage());
                   },
                 ),
                 _buildButton(
                   title: "extendnestscroll",
                   onTap: () {
-                    Get.to(const XXSamplePullToRefreshOuterPage());
+                    Get.to(const PullToRefreshOuterPage());
                   },
                 ),
                 _buildButton(

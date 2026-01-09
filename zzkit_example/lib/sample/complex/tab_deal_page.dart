@@ -1,22 +1,22 @@
 // ignore_for_file: file_names, depend_on_referenced_packages, unused_import
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/sample/complex/XXFollowingPage.dart';
-import 'package:zzkit_example/sample/complex/XXHotPage.dart';
-import 'package:zzkit_example/sample/complex/XXLatestPage.dart';
-import 'package:zzkit_example/sample/complex/XXSpecialPage.dart';
+import 'package:zzkit_example/sample/complex/hot_page.dart';
+import 'package:zzkit_example/sample/complex/latest_page.dart';
+import 'package:zzkit_example/sample/complex/special_page.dart';
 import 'package:get/get.dart';
+import 'package:zzkit_example/sample/list/store_card_list_page.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
-class XXTabDealPage extends StatefulWidget {
-  const XXTabDealPage({super.key});
+class TabDealPage extends StatefulWidget {
+  const TabDealPage({super.key});
 
   @override
-  XXTabDealPageState createState() => XXTabDealPageState();
+  TabDealPageState createState() => TabDealPageState();
 }
 
-class XXTabDealPageState extends State<XXTabDealPage>
+class TabDealPageState extends State<TabDealPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -57,10 +57,10 @@ class XXTabDealPageState extends State<XXTabDealPage>
       body: TabBarView(
         controller: _tabController,
         children: [
-          XXFollowingPage(controller: XXFollowingController()),
-          const XXLatestPage(),
-          const XXHotPage(),
-          const XXSpecialPage(),
+          StoreCardListPage(),
+          const LatestPage(),
+          const HotPage(),
+          const SpecialPage(),
         ],
       ),
     );

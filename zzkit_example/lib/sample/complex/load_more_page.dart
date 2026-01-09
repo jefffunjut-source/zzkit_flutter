@@ -7,15 +7,14 @@ import 'package:zzkit_example/r.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
-class XXLoadMorePage extends StatefulWidget {
-  const XXLoadMorePage({super.key});
+class LoadMorePage extends StatefulWidget {
+  const LoadMorePage({super.key});
 
   @override
-  XXLoadMoreState createState() => XXLoadMoreState();
+  LoadMoreState createState() => LoadMoreState();
 }
 
-class XXLoadMoreState extends State<XXLoadMorePage>
-    with TickerProviderStateMixin {
+class LoadMoreState extends State<LoadMorePage> with TickerProviderStateMixin {
   late final TabController primaryTC;
   final GlobalKey<ExtendedNestedScrollViewState> _key =
       GlobalKey<ExtendedNestedScrollViewState>();
@@ -34,9 +33,7 @@ class XXLoadMoreState extends State<XXLoadMorePage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildScaffoldBody(),
-    );
+    return Scaffold(body: _buildScaffoldBody());
   }
 
   Widget _buildScaffoldBody() {
@@ -44,21 +41,22 @@ class XXLoadMoreState extends State<XXLoadMorePage>
     final double pinnedHeaderHeight =
         //statusBar height
         statusBarHeight +
-            //pinned SliverAppBar height in header
-            kToolbarHeight;
+        //pinned SliverAppBar height in header
+        kToolbarHeight;
     return ExtendedNestedScrollView(
       key: _key,
       headerSliverBuilder: (BuildContext c, bool f) {
         return <Widget>[
           SliverAppBar(
-              pinned: true,
-              expandedHeight: 200.0,
-              title: const Text('load more list'),
-              flexibleSpace: FlexibleSpaceBar(
-                  //centerTitle: true,
-                  collapseMode: CollapseMode.pin,
-                  background:
-                      ZZ.image(R.assetsImgIcTransparent, fit: BoxFit.fill)))
+            pinned: true,
+            expandedHeight: 200.0,
+            title: const Text('load more list'),
+            flexibleSpace: FlexibleSpaceBar(
+              //centerTitle: true,
+              collapseMode: CollapseMode.pin,
+              background: ZZ.image(R.assetsImgIcTransparent, fit: BoxFit.fill),
+            ),
+          ),
         ];
       },
       //1.[pinned sliver header issue](https://github.com/flutter/flutter/issues/22393)
@@ -77,27 +75,24 @@ class XXLoadMoreState extends State<XXLoadMorePage>
             indicatorWeight: 2.0,
             isScrollable: false,
             unselectedLabelColor: Colors.grey,
-            tabs: const <Tab>[
-              Tab(text: 'Tab0'),
-              Tab(text: 'Tab1'),
-            ],
+            tabs: const <Tab>[Tab(text: 'Tab0'), Tab(text: 'Tab1')],
           ),
           Expanded(
             child: TabBarView(
               controller: primaryTC,
               children: const <Widget>[
-                XXTabViewItem(Key('Tab0')),
-                XXTabViewItem(Key('Tab1')),
+                TabViewItem(Key('Tab0')),
+                TabViewItem(Key('Tab1')),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
 
-class XXLoadMoreListSource extends LoadingMoreBase<int> {
+class LoadMoreListSource extends LoadingMoreBase<int> {
   @override
   Future<bool> loadData([bool isLoadMoreAction = false]) {
     return Future<bool>.delayed(const Duration(seconds: 1), () {
@@ -110,16 +105,16 @@ class XXLoadMoreListSource extends LoadingMoreBase<int> {
   }
 }
 
-class XXTabViewItem extends StatefulWidget {
-  const XXTabViewItem(this.uniqueKey, {super.key});
+class TabViewItem extends StatefulWidget {
+  const TabViewItem(this.uniqueKey, {super.key});
   final Key uniqueKey;
   @override
-  XXTabViewItemState createState() => XXTabViewItemState();
+  TabViewItemState createState() => TabViewItemState();
 }
 
-class XXTabViewItemState extends State<XXTabViewItem>
+class TabViewItemState extends State<TabViewItem>
     with AutomaticKeepAliveClientMixin {
-  late final XXLoadMoreListSource source = XXLoadMoreListSource();
+  late final LoadMoreListSource source = LoadMoreListSource();
 
   @override
   void dispose() {
@@ -134,19 +129,20 @@ class XXTabViewItemState extends State<XXTabViewItem>
   Widget build(BuildContext context) {
     super.build(context);
     final Widget child = ExtendedVisibilityDetector(
-        uniqueKey: widget.uniqueKey,
-        child: LoadingMoreList<int>(
-          ListConfig<int>(
-            sourceList: source,
-            itemBuilder: (BuildContext c, int item, int index) {
-              return Container(
-                alignment: Alignment.center,
-                height: 60.0,
-                child: Text(': ListView$index'),
-              );
-            },
-          ),
-        ));
+      uniqueKey: widget.uniqueKey,
+      child: LoadingMoreList<int>(
+        ListConfig<int>(
+          sourceList: source,
+          itemBuilder: (BuildContext c, int item, int index) {
+            return Container(
+              alignment: Alignment.center,
+              height: 60.0,
+              child: Text(': ListView$index'),
+            );
+          },
+        ),
+      ),
+    );
     return child;
   }
 }

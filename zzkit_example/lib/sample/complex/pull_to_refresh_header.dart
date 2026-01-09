@@ -11,8 +11,8 @@ double get maxDragOffset => 100;
 double hideHeight = maxDragOffset / 2.3;
 double refreshHeight = maxDragOffset / 1.5;
 
-class XXPullToRefreshHeader extends StatelessWidget {
-  const XXPullToRefreshHeader(
+class PullToRefreshHeader extends StatelessWidget {
+  const PullToRefreshHeader(
     this.info,
     this.lastRefreshTime, {
     super.key,
@@ -69,26 +69,22 @@ class XXPullToRefreshHeader extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.centerRight,
                     margin: const EdgeInsets.only(right: 12.0),
-                    child: XXRefreshImage(top),
+                    child: RefreshImage(top),
                   ),
                 ),
-                Column(
-                  children: <Widget>[
-                    Text(text, style: ts),
-                  ],
-                ),
+                Column(children: <Widget>[Text(text, style: ts)]),
                 const Spacer(),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
 
-class XXRefreshImage extends StatelessWidget {
-  const XXRefreshImage(this.top, {super.key});
+class RefreshImage extends StatelessWidget {
+  const RefreshImage(this.top, {super.key});
 
   final double top;
 
@@ -109,11 +105,17 @@ class XXRefreshImage extends StatelessWidget {
         canvas.drawImageRect(
           image,
           Rect.fromLTWH(0.0, y, imageWidth, imageHeight - y),
-          Rect.fromLTWH(rect.left, rect.top + y / imageHeight * size.height,
-              size.width, (imageHeight - y) / imageHeight * size.height),
+          Rect.fromLTWH(
+            rect.left,
+            rect.top + y / imageHeight * size.height,
+            size.width,
+            (imageHeight - y) / imageHeight * size.height,
+          ),
           Paint()
-            ..colorFilter =
-                const ColorFilter.mode(Color(0xFFea5504), BlendMode.srcIn)
+            ..colorFilter = const ColorFilter.mode(
+              Color(0xFFea5504),
+              BlendMode.srcIn,
+            )
             ..isAntiAlias = false
             ..filterQuality = FilterQuality.low,
         );

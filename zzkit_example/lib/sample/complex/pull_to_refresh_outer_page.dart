@@ -5,18 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:zzkit_example/sample/complex/XXPullToRefreshHeader.dart';
+import 'package:zzkit_example/sample/complex/pull_to_refresh_header.dart';
 
-class XXSamplePullToRefreshOuterPage extends StatefulWidget {
-  const XXSamplePullToRefreshOuterPage({super.key});
+class PullToRefreshOuterPage extends StatefulWidget {
+  const PullToRefreshOuterPage({super.key});
 
   @override
-  XXSamplePullToRefreshOuterPageState createState() =>
-      XXSamplePullToRefreshOuterPageState();
+  PullToRefreshOuterPageState createState() => PullToRefreshOuterPageState();
 }
 
-class XXSamplePullToRefreshOuterPageState
-    extends State<XXSamplePullToRefreshOuterPage>
+class PullToRefreshOuterPageState extends State<PullToRefreshOuterPage>
     with TickerProviderStateMixin {
   late final TabController primaryTC;
   int _length1 = 50;
@@ -71,7 +69,7 @@ class XXSamplePullToRefreshOuterPageState
                 PullToRefreshScrollNotificationInfo? info,
               ) {
                 return SliverToBoxAdapter(
-                  child: XXPullToRefreshHeader(info, lastRefreshTime),
+                  child: PullToRefreshHeader(info, lastRefreshTime),
                 );
               }),
               SliverToBoxAdapter(

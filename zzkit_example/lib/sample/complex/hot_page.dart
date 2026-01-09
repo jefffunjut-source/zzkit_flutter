@@ -1,22 +1,21 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/sample/complex/XXHotSubPage.dart';
+import 'package:zzkit_example/sample/list/store_card_list_page.dart';
 import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
 import 'package:zzkit_flutter/util/core/ZZConst.dart';
 import 'package:zzkit_flutter/util/core/ZZManager.dart';
 
-class XXHotPage extends StatefulWidget {
-  const XXHotPage({super.key});
+class HotPage extends StatefulWidget {
+  const HotPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return XXHotPageState();
+    return HotPageState();
   }
 }
 
-class XXHotPageState extends State<XXHotPage>
-    with SingleTickerProviderStateMixin {
+class HotPageState extends State<HotPage> with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   @override
@@ -44,16 +43,7 @@ class XXHotPageState extends State<XXHotPage>
       body: TabBarView(
         controller: tabController,
         children: List.generate(7, (index) {
-          return XXHotSubPage(
-            controller:
-                XXHotSubPageController()
-                  ..shimmer = true
-                  ..shimmerBrickHeight = 300
-                  ..brickMargin = const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-          );
+          return StoreCardListPage();
         }),
       ),
     );

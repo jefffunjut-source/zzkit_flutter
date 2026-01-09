@@ -2,18 +2,18 @@
 // ignore_for_file: depend_on_referenced_packages, must_be_immutable, invalid_use_of_protected_member, file_names
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_example/sample/complex/XXLoadMoreFooter.dart';
+import 'package:zzkit_example/sample/complex/load_more_footer.dart';
 
-class XXLatestSubPage extends StatefulWidget {
-  const XXLatestSubPage({super.key});
+class LatestSubPage extends StatefulWidget {
+  const LatestSubPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return XXLatestSubPageState();
+    return LatestSubPageState();
   }
 }
 
-class XXLatestSubPageState extends State<XXLatestSubPage>
+class LatestSubPageState extends State<LatestSubPage>
     with AutomaticKeepAliveClientMixin {
   int length = 30;
   bool noMore = false;
@@ -37,15 +37,15 @@ class XXLatestSubPageState extends State<XXLatestSubPage>
             child: Text('ListView${i + 1} of $length'),
           );
         } else if (i == length) {
-          return XXLoadMoreFooter(
+          return LoadMoreFooter(
             loadMoreBlock: () async {
-              if (noMore) return XXLoadMoreStatus.noMoreData;
+              if (noMore) return LoadMoreStatus.noMoreData;
               await Future.delayed(const Duration(seconds: 1)).then((value) {
                 setState(() {
                   length = length + 20;
                 });
               });
-              return XXLoadMoreStatus.finishLoad;
+              return LoadMoreStatus.finishLoad;
             },
           );
         }

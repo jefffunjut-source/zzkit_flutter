@@ -1,73 +1,39 @@
-// ignore_for_file: file_names, depend_on_referenced_packages, non_constant_identifier_names, unused_local_variable
-import 'dart:math';
+// ignore_for_file: file_names, duplicate_import
+// ignore_for_file: depend_on_referenced_packages, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
-import 'package:zzkit_example/sample/complex/XXLatestSubPage.dart';
-import 'package:zzkit_example/sample/complex/XXPullToRefreshHeader.dart';
+import 'package:zzkit_example/sample/complex/pull_to_refresh_header.dart';
+import 'package:zzkit_example/sample/complex/special_sub_page.dart';
+import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
-class XXLatestPage extends StatefulWidget {
-  const XXLatestPage({super.key});
+class ScrollToTopEvent {}
+
+class SpecialPage extends StatefulWidget {
+  const SpecialPage({super.key});
 
   @override
-  XXLatestPageState createState() => XXLatestPageState();
+  SpecialPageState createState() => SpecialPageState();
 }
 
-class XXLatestPageState extends State<XXLatestPage>
+class SpecialPageState extends State<SpecialPage>
     with TickerProviderStateMixin {
   late final TabController primaryTC;
   final GlobalKey<ExtendedNestedScrollViewState> _key =
       GlobalKey<ExtendedNestedScrollViewState>();
-  final int length1 = 60;
-  final int length2 = 100;
   DateTime lastRefreshTime = DateTime.now();
-  Map<int, double> cachePixels = {};
   List<String> tabs = ["Tab0", "Tab1", "Tab2", "Tab3"];
-  static bool inAnimating = false;
-  late ScrollController scrollController;
-
-  void dealScroll() {
-    if (inAnimating) {
-      return;
-    }
-    inAnimating = true;
-    int lastPage = primaryTC.previousIndex;
-    int currentPage = primaryTC.index;
-    debugPrint(
-      "outterPositions: ${_key.currentState?.outerController.positions}",
-    );
-    debugPrint("innerPositions: ${_key.currentState?.innerPositions}");
-    int index = 0;
-    _key.currentState?.innerPositions.forEach((element) {
-      debugPrint("innerPositions: $index = ${element.pixels}");
-      if (lastPage == index) {
-        // save
-        cachePixels.update(lastPage, (value) => element.pixels);
-      }
-      index++;
-    });
-    double? currentPagePixel = cachePixels[currentPage];
-    if (currentPagePixel != null) {
-      _key.currentState?.innerController.jumpTo(max(currentPagePixel, 0.01));
-    }
-    inAnimating = false;
-  }
+  int currentPage = 0;
 
   @override
   void initState() {
     super.initState();
     primaryTC = TabController(length: tabs.length, vsync: this);
-    int index = 0;
-    for (var element in tabs) {
-      cachePixels.putIfAbsent(index, () => 0.0);
-      index++;
-    }
-    scrollController =
-        ScrollController()..addListener(() {
-          debugPrint("scroll:${scrollController.offset}");
-        });
+    zzEventBus.on<ScrollToTopEvent>().listen((event) {
+      _key.currentState?.innerController.jumpTo(1);
+    });
   }
 
   @override
@@ -78,7 +44,20 @@ class XXLatestPageState extends State<XXLatestPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _buildScaffoldBody());
+    return Scaffold(
+      body: _buildScaffoldBody(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.account_balance_outlined),
+        onPressed: () {
+          // _key.currentState?.outerController.animateTo(
+          //   0.0,
+          //   duration: const Duration(seconds: 0),
+          //   curve: Curves.easeIn,
+          // );
+          _key.currentState?.innerController.jumpTo(0.01);
+        },
+      ),
+    );
   }
 
   Widget _buildScaffoldBody() {
@@ -100,30 +79,32 @@ class XXLatestPageState extends State<XXLatestPage>
           }),
       maxDragOffset: maxDragOffset,
       child: GlowNotificationWidget(
-        // 这里的ExtendedNestedScrollView完全可以改成NestedScrollView
         ExtendedNestedScrollView(
-          controller: scrollController,
           key: _key,
           headerSliverBuilder: (BuildContext c, bool f) {
             return <Widget>[
+              // const SliverAppBar(
+              //   pinned: true,
+              //   title: Text('pull to refresh in header'),
+              // ),
               PullToRefreshContainer((
                 PullToRefreshScrollNotificationInfo? info,
               ) {
                 return SliverToBoxAdapter(
-                  child: XXPullToRefreshHeader(info, lastRefreshTime),
+                  child: PullToRefreshHeader(info, lastRefreshTime),
                 );
               }),
               SliverToBoxAdapter(
                 child: Container(
-                  color: Colors.tealAccent,
+                  color: Colors.cyan,
                   alignment: Alignment.center,
-                  height: 60,
+                  height: 100,
                   child: const Text('banner'),
                 ),
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  color: Colors.indigoAccent,
+                  color: Colors.deepPurple,
                   alignment: Alignment.center,
                   height: 140,
                   child: const Text('guider'),
@@ -131,24 +112,31 @@ class XXLatestPageState extends State<XXLatestPage>
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  color: Colors.green,
+                  color: Colors.orange,
                   alignment: Alignment.center,
-                  height: 90,
+                  height: 100,
                   child: const Text('icons'),
                 ),
               ),
             ];
           },
+          //1.[pinned sliver header issue](https://github.com/flutter/flutter/issues/22393)
           pinnedHeaderSliverHeightBuilder: () {
             return pinnedHeaderHeight;
           },
           body: Column(
             children: <Widget>[
               TabBar(
-                onTap: (value) {
-                  dealScroll();
-                },
-                controller: primaryTC,
+                onTap: (value) {},
+                controller:
+                    primaryTC..addListener(() {
+                      if (!primaryTC.indexIsChanging) {
+                        _key.currentState?.innerController.jumpTo(0.01);
+                        setState(() {
+                          currentPage = primaryTC.index;
+                        });
+                      }
+                    }),
                 labelColor: Colors.blue,
                 indicatorColor: Colors.blue,
                 indicatorSize: TabBarIndicatorSize.label,
@@ -157,10 +145,7 @@ class XXLatestPageState extends State<XXLatestPage>
                 unselectedLabelColor: Colors.grey,
                 tabs: tabs.map((txt) => Tab(text: txt)).toList(),
               ),
-              Expanded(
-                child: tabBarView(),
-                // child: singleView(name),
-              ),
+              Expanded(child: singleView(tabs[currentPage])),
             ],
           ),
         ),
@@ -168,14 +153,7 @@ class XXLatestPageState extends State<XXLatestPage>
     );
   }
 
-  TabBarView tabBarView() {
-    return TabBarView(
-      physics: const NeverScrollableScrollPhysics(),
-      controller: primaryTC,
-      children:
-          tabs
-              .map((txt) => XXLatestSubPage(key: PageStorageKey<String>(txt)))
-              .toList(),
-    );
+  Widget singleView(String name) {
+    return SpecialSubPage(name: name);
   }
 }
