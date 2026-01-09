@@ -23,12 +23,25 @@ class BottomDialog extends ZZDialog {
 
   @override
   List<Widget> get contentWidgets => [
-    ListTile(title: Text("相机")),
-    ListTile(title: Text("相册")),
+    ListTile(title: Text("Item1")),
+    ListTile(title: Text("Item2")),
+    ListTile(title: Text("Item3")),
+    ListTile(title: Text("Item4")),
+    ListTile(title: Text("Item5")),
+    ListTile(title: Text("Item6")),
+    ListTile(title: Text("Item7")),
+    ListTile(title: Text("Item8")),
+    ListTile(title: Text("Item9")),
+    ListTile(title: Text("Item10")),
+    ListTile(title: Text("Item11")),
+    ListTile(title: Text("Item12")),
+    ListTile(title: Text("Item13")),
+    ListTile(title: Text("Item14")),
+    ListTile(title: Text("Item15")),
   ];
 
   @override
-  Widget? get bottomBarWidget => Row(
+  Widget? get bottomWidget => Row(
     children: [
       TextButton(
         onPressed: () => Navigator.of(context).pop(),
@@ -42,8 +55,8 @@ class BottomDialog extends ZZDialog {
   );
 
   @override
-  double get bottomBarHeight => 50;
+  double get bottomHeight => 50;
 
   @override
-  double get contentHeight => 114;
+  double get contentHeight => 10000;
 }

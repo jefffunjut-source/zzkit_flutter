@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum ZZDialogType { bottomSheet, centerDialog }
@@ -19,12 +20,9 @@ abstract class ZZDialog {
   Color get backgroundColor => Colors.white;
   double get radius => 16;
   double get maxHeight => MediaQuery.of(context).size.height * 0.8;
-  double get width => MediaQuery.of(context).size.width * 0.8;
-
-  /// 内容 Widgets
-  List<Widget> get contentWidgets;
-  double get contentHeight;
-  Color get contentBackgroundColor => Colors.white;
+  @nonVirtual
+  double get maxWidth => MediaQuery.of(context).size.width * 0.8;
+  double get width => maxWidth;
 
   /// 如果使用自定义 title，则优先 titleWidget
   Widget? titleWidget;
@@ -35,9 +33,14 @@ abstract class ZZDialog {
   TextStyle get titleTextStyle =>
       const TextStyle(fontSize: 16, fontWeight: FontWeight.w600);
 
+  /// 内容 Widgets
+  List<Widget> get contentWidgets;
+  double get contentHeight;
+  Color get contentBackgroundColor => Colors.white;
+
   /// 底部栏
-  Widget? bottomBarWidget;
-  double get bottomBarHeight => 0;
+  Widget? bottomWidget;
+  double get bottomHeight => 0;
   Color get bottomBarBackgroundColor => Colors.white;
 
   /// ================= Show =================
@@ -76,7 +79,7 @@ abstract class ZZDialog {
               maxHeight,
               ((title != null || titleWidget != null) ? titleHeight : 0) +
                   contentHeight +
-                  bottomBarHeight,
+                  bottomHeight,
             ),
             child: Column(
               children: [
@@ -115,13 +118,13 @@ abstract class ZZDialog {
                 maxHeight,
                 ((title != null || titleWidget != null) ? titleHeight : 0) +
                     contentHeight +
-                    bottomBarHeight,
+                    bottomHeight,
               ),
               minHeight: min(
                 maxHeight,
                 ((title != null || titleWidget != null) ? titleHeight : 0) +
                     contentHeight +
-                    bottomBarHeight,
+                    bottomHeight,
               ),
             ),
             child: Column(
@@ -135,9 +138,9 @@ abstract class ZZDialog {
                   ),
                 ),
                 Container(
-                  height: bottomBarHeight,
+                  height: bottomHeight,
                   color: bottomBarBackgroundColor,
-                  child: bottomBarWidget,
+                  child: bottomWidget,
                 ),
               ],
             ),
@@ -192,15 +195,15 @@ abstract class ZZDialog {
 
     Widget list = SingleChildScrollView(child: Column(children: widgets));
 
-    if (bottomBarWidget == null) return list;
+    if (bottomWidget == null) return list;
 
     return Column(
       children: [
         Expanded(child: list),
         Container(
-          height: bottomBarHeight,
+          height: bottomHeight,
           color: bottomBarBackgroundColor,
-          child: bottomBarWidget,
+          child: bottomWidget,
         ),
       ],
     );

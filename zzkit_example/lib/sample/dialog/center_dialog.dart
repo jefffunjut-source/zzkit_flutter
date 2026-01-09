@@ -14,21 +14,21 @@ class CenterDialog extends ZZDialog {
   @override
   ZZDialogType get dialogType => ZZDialogType.centerDialog;
 
-  @override
-  String? get title => "温馨提示";
+  // @override
+  // String? get title => "温馨提示";
 
   @override
   List<Widget> get contentWidgets => [
     Container(
-      height: 100.w,
-      width: 300.w,
-      color: Colors.black,
-      child: ZZ.image(R.assetsImgIcBgRebateDialog),
+      width: width,
+      height: width * 134.0 / maxWidth,
+      color: Colors.transparent,
+      child: ZZ.image(R.assetsImgIcBgRebateDialog, fit: BoxFit.cover),
     ),
   ];
 
   @override
-  Widget? get bottomBarWidget => Row(
+  Widget? get bottomWidget => Row(
     children: [
       Expanded(
         child: TextButton(
@@ -50,16 +50,20 @@ class CenterDialog extends ZZDialog {
   );
 
   @override
+  double get width => 400;
+
+  @override
   double get radius => 4.0;
 
   @override
-  double get bottomBarHeight => 56;
+  double get bottomHeight => 52;
 
   @override
-  double get contentHeight => 120;
+  double get contentHeight => width * 134.0 / maxWidth;
 
   @override
-  // Color get backgroundColor => Colors.grey.withAlpha(128);
+  Color get backgroundColor => Colors.white;
+
   @override
   Color get titleBackgroundColor => Colors.white;
 
@@ -67,7 +71,7 @@ class CenterDialog extends ZZDialog {
   Color get titleSeparatorColor => Colors.white;
 
   @override
-  Color get contentBackgroundColor => Colors.amber;
+  Color get contentBackgroundColor => Colors.transparent;
 
   @override
   Color get bottomBarBackgroundColor => Colors.blue;
