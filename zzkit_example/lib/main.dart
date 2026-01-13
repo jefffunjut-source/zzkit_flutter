@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:zzkit_example/XXTranslations.dart';
+import 'package:zzkit_example/sample/sample_translations.dart';
 import 'package:zzkit_example/sample/home_page.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupController.dart';
 import 'package:zzkit_flutter/standard/page/ZZBootupPage.dart';
@@ -159,7 +159,7 @@ Future<void> _initializeImmediately() async {
   /// Bootup Controller
   ZZBootupController bootupController = ZZBootupController();
   bootupController.appVersion = "8.5.4";
-  bootupController.translations = XXTranslations();
+  bootupController.translations = SampleTranslations();
   bootupController.locale = ZZTranslations.locale;
   bootupController.fallbackLocale = ZZTranslations.localeEn;
   bootupController.tabPages = pages;

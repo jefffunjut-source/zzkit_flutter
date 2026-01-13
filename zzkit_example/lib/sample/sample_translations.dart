@@ -2,7 +2,7 @@
 
 import 'package:zzkit_flutter/util/ZZTranslations.dart';
 
-class XXTranslations extends ZZTranslations {
+class SampleTranslations extends ZZTranslations {
   @override
   Map<String, String>? mapLanguage(ZZTranslationType languageType) {
     switch (languageType) {

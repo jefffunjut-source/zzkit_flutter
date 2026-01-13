@@ -5,10 +5,7 @@ import 'package:zzkit_flutter/util/core/ZZConst.dart';
 
 class ZZBlankPage extends StatelessWidget {
   Color? color;
-  ZZBlankPage({
-    super.key,
-    this.color,
-  });
+  ZZBlankPage({super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
