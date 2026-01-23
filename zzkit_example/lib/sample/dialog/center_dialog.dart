@@ -2,10 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:zzkit_example/r.dart';
-import 'package:zzkit_flutter/allinone/zz_allinone_dialog.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zzkit_flutter/util/core/ZZConst.dart';
-import 'package:zzkit_flutter/util/core/ZZManager.dart';
+import 'package:zzkit_flutter/standard/widget/zz_dialog.dart';
+import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/core/zz_manager.dart';
 import 'package:get/get.dart';
 
 class CenterDialog extends ZZDialog {

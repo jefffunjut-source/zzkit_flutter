@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/standard/page/ZZKeepAliveWidget.dart';
+import 'package:zzkit_flutter/standard/page/zz_keep_alive_widget.dart';
 
 class NestedScrollTabPage3 extends StatefulWidget {
   const NestedScrollTabPage3({super.key});

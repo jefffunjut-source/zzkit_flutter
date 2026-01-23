@@ -1,14 +1,13 @@
 // ignore_for_file: file_names, use_build_context_synchronously, unnecessary_library_name
-library zzkit;
 
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/util/ZZExtension.dart';
-import 'package:zzkit_flutter/util/core/ZZConst.dart';
-import 'package:zzkit_flutter/util/core/ZZManager.dart';
+import 'package:zzkit_flutter/util/zz_extension.dart';
+import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/core/zz_manager.dart';
 
 abstract class ZZBaseBottomDialog {
   Future<void> init() async {}
@@ -29,7 +28,10 @@ abstract class ZZBaseBottomDialog {
 
   TextStyle? titleTextStyle() {
     return ZZ.textStyle(
-        color: ZZColor.dark, fontSize: 16.sp, fontWeight: FontWeight.bold);
+      color: ZZColor.dark,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.bold,
+    );
   }
 
   double? titleHeight() {
@@ -83,65 +85,71 @@ abstract class ZZBaseBottomDialog {
   Future<dynamic> show() async {
     await init();
     var ret = await showModalBottomSheet(
-        context: zzContext,
-        useSafeArea: true,
-        enableDrag: true,
-        isScrollControlled: true,
-        barrierColor: barrierColor(),
-        backgroundColor: backgroundColor(),
-        isDismissible: dismissible(),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(radius()), // 设置为0.0去除左上角圆角
-            topRight: Radius.circular(radius()), // 设置为0.0去除右上角圆角
-          ),
+      context: zzContext,
+      useSafeArea: true,
+      enableDrag: true,
+      isScrollControlled: true,
+      barrierColor: barrierColor(),
+      backgroundColor: backgroundColor(),
+      isDismissible: dismissible(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(radius()), // 设置为0.0去除左上角圆角
+          topRight: Radius.circular(radius()), // 设置为0.0去除右上角圆角
         ),
-        builder: (context) {
-          return SizedBox(
-            height: min(
-                maxHeight(),
-                contentHeight() != null
-                    ? (contentHeight()! +
-                        (titleHeight() ?? 0) +
-                        zzBottomBarHeight)
-                    : maxHeight()),
-            child: Column(
-              children: [
-                _titleWidget(),
-                Container(
-                    color: contentBackgroundColor(),
-                    height: contentHeight() != null
+      ),
+      builder: (context) {
+        return SizedBox(
+          height: min(
+            maxHeight(),
+            contentHeight() != null
+                ? (contentHeight()! + (titleHeight() ?? 0) + zzBottomBarHeight)
+                : maxHeight(),
+          ),
+          child: Column(
+            children: [
+              _titleWidget(),
+              Container(
+                color: contentBackgroundColor(),
+                height:
+                    contentHeight() != null
                         ? contentHeight()! + zzBottomBarHeight
                         : maxHeight() - (titleHeight() ?? 0),
-                    child: floatBottomBarWidget() == null
+                child:
+                    floatBottomBarWidget() == null
                         ? SingleChildScrollView(
-                            child: Column(
+                          child: Column(
                             children: contentWidgets().merge([
                               Container(
                                 height: zzBottomBarHeight,
                                 color: bottomBarBackgroundColor(),
-                              )
+                              ),
                             ]),
-                          ))
+                          ),
+                        )
                         : Column(
-                            children: [
-                              Expanded(
-                                  child: SingleChildScrollView(
-                                      child: Column(
-                                children: contentWidgets().merge([
-                                  Container(
-                                    height: zzBottomBarHeight,
-                                    color: bottomBarBackgroundColor(),
-                                  )
-                                ]),
-                              ))),
-                              floatBottomBarWidget()!
-                            ],
-                          ))
-              ],
-            ),
-          );
-        });
+                          children: [
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: contentWidgets().merge([
+                                    Container(
+                                      height: zzBottomBarHeight,
+                                      color: bottomBarBackgroundColor(),
+                                    ),
+                                  ]),
+                                ),
+                              ),
+                            ),
+                            floatBottomBarWidget()!,
+                          ],
+                        ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
     return ret;
   }
 
@@ -155,17 +163,16 @@ abstract class ZZBaseBottomDialog {
             width: 414.w,
             height: titleHeight()! - 1,
             decoration: BoxDecoration(
-                color: titleBackgroundColor(),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(radius()),
-                    topRight: Radius.circular(radius()))),
+              color: titleBackgroundColor(),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(radius()),
+                topRight: Radius.circular(radius()),
+              ),
+            ),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Text(
-                  title()!,
-                  style: titleTextStyle(),
-                ),
+                Text(title()!, style: titleTextStyle()),
                 Positioned(
                   right: 12.w,
                   child: GestureDetector(
@@ -173,19 +180,17 @@ abstract class ZZBaseBottomDialog {
                     child: SizedBox(
                       width: 20.w,
                       height: 20.w,
-                      child: ZZ.image(R.assetsImgIcNavCloseBlack,
-                          bundleName: zzBundleName),
+                      child: ZZ.image(
+                        R.assetsImgIcNavCloseBlack,
+                        bundleName: zzBundleName,
+                      ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
-          Container(
-            width: 414.w,
-            height: 0.5,
-            color: separatorColor(),
-          )
+          Container(width: 414.w, height: 0.5, color: separatorColor()),
         ],
       );
     }

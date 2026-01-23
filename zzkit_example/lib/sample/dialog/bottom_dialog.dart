@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/allinone/zz_allinone_dialog.dart';
+import 'package:zzkit_flutter/standard/widget/zz_dialog.dart';
 
 class BottomDialog extends ZZDialog {
   BottomDialog(super.context);

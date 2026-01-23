@@ -2,7 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:zzkit_example/sample/list/store_card_list_page.dart';
-import 'package:zzkit_flutter/allinone/zz_allinone_list.dart';
+import 'package:zzkit_flutter/standard/list/allinone/zz_list.dart';
 
 // 示例页面 - 列表模式
 class StoreCardWaterfallPage extends ZZListPage<StoreCardListPageController> {

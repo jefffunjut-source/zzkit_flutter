@@ -7,7 +7,7 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:zzkit_example/sample/complex/pull_to_refresh_header.dart';
 import 'package:zzkit_example/sample/complex/special_sub_page.dart';
-import 'package:zzkit_flutter/util/core/ZZConst.dart';
+import 'package:zzkit_flutter/util/core/zz_const.dart';
 
 class ScrollToTopEvent {}
 

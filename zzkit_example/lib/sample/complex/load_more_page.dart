@@ -4,8 +4,8 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:zzkit_example/r.dart';
-import 'package:zzkit_flutter/util/core/ZZConst.dart';
-import 'package:zzkit_flutter/util/core/ZZManager.dart';
+import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/core/zz_manager.dart';
 
 class LoadMorePage extends StatefulWidget {
   const LoadMorePage({super.key});

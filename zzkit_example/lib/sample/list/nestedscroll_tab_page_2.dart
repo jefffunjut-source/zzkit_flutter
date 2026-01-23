@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, depend_on_referenced_packages, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/standard/page/ZZKeepAliveWidget.dart';
+import 'package:zzkit_flutter/standard/page/zz_keep_alive_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 

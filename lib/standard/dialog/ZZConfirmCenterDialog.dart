@@ -4,8 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/standard/dialog/ZZBaseCenterDialog.dart';
-import 'package:zzkit_flutter/util/core/ZZConst.dart';
-import 'package:zzkit_flutter/util/core/ZZManager.dart';
+import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/core/zz_manager.dart';
 
 class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
   String? title;
@@ -43,43 +43,42 @@ class ZZConfirmCenterDialog extends ZZBaseCenterDialog {
             ZZ.isNullOrEmpty(title)
                 ? Container()
                 : Container(
-                    height: 30.w,
-                    margin: EdgeInsets.only(
-                      top: 20.w,
-                    ),
-                    child: Text(
-                      title!,
-                      style: titleStyle ??
-                          ZZ.textStyle(
-                            color: ZZColor.dark,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
+                  height: 30.w,
+                  margin: EdgeInsets.only(top: 20.w),
+                  child: Text(
+                    title!,
+                    style:
+                        titleStyle ??
+                        ZZ.textStyle(
+                          color: ZZColor.dark,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
+                ),
             ZZ.isNullOrEmpty(content)
                 ? Container()
                 : Container(
-                    margin: EdgeInsets.only(
-                        left: 10.w,
-                        right: 10.w,
-                        bottom: 20.w,
-                        top: ZZ.isNullOrEmpty(title) ? 24.w : 10.w),
-                    child: RichText(
-                      text: TextSpan(
-                        style: contentStyle ??
-                            ZZ.textStyle(
-                                color: ZZColor.grey33,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                                height: 1.6),
-                        children: [
-                          TextSpan(
-                            text: content,
+                  margin: EdgeInsets.only(
+                    left: 10.w,
+                    right: 10.w,
+                    bottom: 20.w,
+                    top: ZZ.isNullOrEmpty(title) ? 24.w : 10.w,
+                  ),
+                  child: RichText(
+                    text: TextSpan(
+                      style:
+                          contentStyle ??
+                          ZZ.textStyle(
+                            color: ZZColor.grey33,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            height: 1.6,
                           ),
-                        ],
-                      ),
-                    ))
+                      children: [TextSpan(text: content)],
+                    ),
+                  ),
+                ),
           ],
         ),
       ),

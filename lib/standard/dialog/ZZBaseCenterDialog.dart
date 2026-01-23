@@ -1,12 +1,11 @@
 // ignore_for_file: file_names, use_build_context_synchronously, unnecessary_library_name
-library zzkit;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zzkit_flutter/standard/widget/ZZOuterRadiusWidget.dart';
-import 'package:zzkit_flutter/util/core/ZZConst.dart';
-import 'package:zzkit_flutter/util/core/ZZManager.dart';
+import 'package:zzkit_flutter/standard/widget/zz_outer_radius_widget.dart';
+import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/core/zz_manager.dart';
 
 abstract class ZZBaseCenterDialog {
   Future<void> init() async {}
@@ -67,12 +66,18 @@ abstract class ZZBaseCenterDialog {
 
   TextStyle leftButtonTextStyle() {
     return ZZ.textStyle(
-        color: ZZColor.red, fontSize: 16.sp, fontWeight: FontWeight.bold);
+      color: ZZColor.red,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.bold,
+    );
   }
 
   TextStyle rightButtonTextStyle() {
     return ZZ.textStyle(
-        color: ZZColor.white, fontSize: 16.sp, fontWeight: FontWeight.bold);
+      color: ZZColor.white,
+      fontSize: 16.sp,
+      fontWeight: FontWeight.bold,
+    );
   }
 
   Color? leftButtonBackgroundColor() {
@@ -119,9 +124,7 @@ abstract class ZZBaseCenterDialog {
       barrierColor: barrierColor(),
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero,
-          ),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           contentPadding: contentPadding(),
           actionsPadding: actionsPadding(),
           backgroundColor:
@@ -129,106 +132,114 @@ abstract class ZZBaseCenterDialog {
           surfaceTintColor:
               radius() > 0 ? Colors.transparent : backgroundColor(),
           content: ZZOuterRadiusWidget(
-              radiusTopLeft: radius(),
-              radiusTopRight: radius(),
-              radiusBottomLeft: buttonCount() == 0 ? radius() : 0,
-              radiusBottomRight: buttonCount() == 0 ? radius() : 0,
-              child: Container(
-                  color: contentBackgroundColor(), child: contentWidget())),
+            radiusTopLeft: radius(),
+            radiusTopRight: radius(),
+            radiusBottomLeft: buttonCount() == 0 ? radius() : 0,
+            radiusBottomRight: buttonCount() == 0 ? radius() : 0,
+            child: Container(
+              color: contentBackgroundColor(),
+              child: contentWidget(),
+            ),
+          ),
           actionsAlignment: MainAxisAlignment.spaceAround,
-          actions: bottomWidget() != null
-              ? [bottomWidget()!]
-              : (buttonCount() == 0
-                  ? null
-                  : [
-                      ZZOuterRadiusWidget(
+          actions:
+              bottomWidget() != null
+                  ? [bottomWidget()!]
+                  : (buttonCount() == 0
+                      ? null
+                      : [
+                        ZZOuterRadiusWidget(
                           radiusBottomLeft: radius(),
                           radiusBottomRight: radius(),
                           child: Container(
-                              color: actionsBackgroundColor(),
-                              height: buttonHeight(),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      buttonCount() == 2
-                                          ? Expanded(
-                                              flex: 1,
-                                              child: GestureDetector(
-                                                  onTap: () {
-                                                    leftButtonTap();
-                                                  },
-                                                  child: Container(
-                                                    margin: leftButtonMargin(),
-                                                    height: buttonHeight(),
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          leftButtonBackgroundColor(),
-                                                      gradient:
-                                                          leftButtonBackgroundColor() !=
-                                                                  null
-                                                              ? null
-                                                              : leftButtonBackgroundGradient(),
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                          leftButtonString(),
-                                                          style:
-                                                              leftButtonTextStyle()),
-                                                    ),
-                                                  )),
-                                            )
-                                          : Container(),
-                                      Expanded(
-                                        flex: 1,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            rightButtonTap();
-                                          },
-                                          child: Container(
-                                            margin: rightButtonMargin(),
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  rightButtonBackgroundColor(),
-                                              gradient:
-                                                  rightButtonBackgroundColor() !=
-                                                          null
-                                                      ? null
-                                                      : rightButtonBackgroundGradient(),
+                            color: actionsBackgroundColor(),
+                            height: buttonHeight(),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    buttonCount() == 2
+                                        ? Expanded(
+                                          flex: 1,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              leftButtonTap();
+                                            },
+                                            child: Container(
+                                              margin: leftButtonMargin(),
+                                              height: buttonHeight(),
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    leftButtonBackgroundColor(),
+                                                gradient:
+                                                    leftButtonBackgroundColor() !=
+                                                            null
+                                                        ? null
+                                                        : leftButtonBackgroundGradient(),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  leftButtonString(),
+                                                  style: leftButtonTextStyle(),
+                                                ),
+                                              ),
                                             ),
-                                            child: Center(
-                                              child: Text(rightButtonString(),
-                                                  style:
-                                                      rightButtonTextStyle()),
+                                          ),
+                                        )
+                                        : Container(),
+                                    Expanded(
+                                      flex: 1,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          rightButtonTap();
+                                        },
+                                        child: Container(
+                                          margin: rightButtonMargin(),
+                                          decoration: BoxDecoration(
+                                            color: rightButtonBackgroundColor(),
+                                            gradient:
+                                                rightButtonBackgroundColor() !=
+                                                        null
+                                                    ? null
+                                                    : rightButtonBackgroundGradient(),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              rightButtonString(),
+                                              style: rightButtonTextStyle(),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  // 按钮分割线
-                                  Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: Container(
-                                      height: 0.5,
-                                      color: buttonSeparatorColor(),
                                     ),
+                                  ],
+                                ),
+                                // 按钮分割线
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    height: 0.5,
+                                    color: buttonSeparatorColor(),
                                   ),
-                                  buttonCount() == 2
-                                      ? Positioned(
-                                          top: 0.5,
-                                          bottom: 0,
-                                          child: Container(
-                                            width: 0.5,
-                                            color: buttonSeparatorColor(),
-                                          ))
-                                      : Container()
-                                ],
-                              )))
-                    ]),
+                                ),
+                                buttonCount() == 2
+                                    ? Positioned(
+                                      top: 0.5,
+                                      bottom: 0,
+                                      child: Container(
+                                        width: 0.5,
+                                        color: buttonSeparatorColor(),
+                                      ),
+                                    )
+                                    : Container(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ]),
         );
       },
     );

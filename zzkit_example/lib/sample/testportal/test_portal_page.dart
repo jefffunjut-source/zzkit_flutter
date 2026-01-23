@@ -15,11 +15,11 @@ import 'package:zzkit_example/sample/list/nestedscroll_tab_page_1.dart';
 import 'package:zzkit_example/sample/list/nestedscroll_tab_page_3.dart';
 import 'package:zzkit_example/sample/list/tab_waterfall_page.dart';
 import 'package:zzkit_example/sample/list/store_card_waterfall_page.dart';
-import 'package:zzkit_flutter/standard/scaffold/ZZBaseScaffold.dart';
-import 'package:zzkit_flutter/standard/widget/ZZNoticeWidget.dart';
-import 'package:zzkit_flutter/util/ZZTranslations.dart';
-import 'package:zzkit_flutter/util/core/ZZConst.dart';
-import 'package:zzkit_flutter/util/core/ZZManager.dart';
+import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
+import 'package:zzkit_flutter/standard/widget/zz_notice_widget.dart';
+import 'package:zzkit_flutter/util/zz_translations.dart';
+import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/core/zz_manager.dart';
 
 class TestPortalController extends GetxController {
   RxString name = "".obs;
