@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/standard/list/widget/zz_base_brick.dart';
+import 'package:zzkit_flutter/deprecated/list/widget/zz_base_brick.dart';
 
 class ZZEmptyBrick extends ZZBaseBrick<ZZEmptyBrickObject> {
   @override

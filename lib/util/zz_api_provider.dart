@@ -7,8 +7,8 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:dio/src/form_data.dart' as DioFormData;
 import 'package:flutter/foundation.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 
 enum ZZHTTPMethod { post, get, delete, put }
 

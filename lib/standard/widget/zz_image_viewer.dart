@@ -2,8 +2,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 import 'package:get/get.dart';
 
 class ZZImageViewer extends StatefulWidget {

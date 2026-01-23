@@ -20,7 +20,7 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/standard/widget/zz_outer_radius_widget.dart';
 import 'package:zzkit_flutter/util/zz_extension.dart';
-import 'package:zzkit_flutter/util/api/zz_device.dart';
+import 'package:zzkit_flutter/util/zz_device.dart';
 import 'zz_const.dart';
 
 part 'zz_manager_ui.dart';

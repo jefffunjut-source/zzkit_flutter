@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/standard/widget/zz_outer_radius_widget.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
 
 typedef ZZImageInfoCallback = void Function(ZZCustomImageInfo? imageInfo);
 

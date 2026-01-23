@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zzkit_flutter/standard/widget/zz_image.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 视频播放组件，支持播放/暂停、进度控制和封面图显示

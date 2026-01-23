@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable, file_names, unused_local_variable, no_leading_underscores_for_local_identifiers
-
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/standard/list/widget/zz_pulltorefresh_header.dart';
+import 'package:zzkit_flutter/deprecated/list/widget/zz_pulltorefresh_header.dart';
 import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
 import 'package:zzkit_flutter/util/zz_event.dart';
 import 'package:zzkit_flutter/util/zz_extension.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 
 class ZZTabItem {
   String? id;

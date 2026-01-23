@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, non_constant_identifier_names, slash_for_doc_comments, dead_code, unnecessary_library_name, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 import 'package:event_bus/event_bus.dart';
 import 'dart:ui' as ui;
 

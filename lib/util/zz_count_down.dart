@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
 
 /// 倒计时工具类
 class ZZCountdown {

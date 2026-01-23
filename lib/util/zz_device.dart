@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 const zzKeyUserToken = "zzKeyUserToken";

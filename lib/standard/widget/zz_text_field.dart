@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 
 typedef ZZTextFieldChanged = void Function(String text);
 

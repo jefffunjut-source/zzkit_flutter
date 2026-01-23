@@ -1,18 +1,16 @@
-// ignore_for_file: must_be_immutable, file_names, unnecessary_overrides, unnecessary_new, prefer_final_fields, unnecessary_import, unnecessary_library_name
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:zzkit_flutter/standard/list/widget/zz_shimmer_brick.dart';
-import 'package:zzkit_flutter/standard/list/widget/zz_loadmore_footer.dart';
+import 'package:zzkit_flutter/deprecated/list/widget/zz_shimmer_brick.dart';
+import 'package:zzkit_flutter/deprecated/list/widget/zz_loadmore_footer.dart';
 import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
-import 'package:zzkit_flutter/standard/list/widget/zz_base_brick.dart';
+import 'package:zzkit_flutter/deprecated/list/widget/zz_base_brick.dart';
 import 'package:zzkit_flutter/standard/widget/zz_no_data_widget.dart';
 import 'package:zzkit_flutter/util/zz_event.dart';
-import 'package:zzkit_flutter/util/api/zz_api_provider.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_api_provider.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 typedef ZZApiRequestCallback<ZZAPIResponse> = Future<ZZAPIResponse> Function();

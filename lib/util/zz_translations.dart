@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:get/get.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
 
 /// 支持的翻译类型
 enum ZZTranslationType {

@@ -1,10 +1,7 @@
-// ignore_for_file: file_names, empty_catches, unnecessary_library_name, deprecated_member_use
-
 import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:characters/characters.dart';
 
 /// 对象扩展
 extension ZZExtensionObject on Object {

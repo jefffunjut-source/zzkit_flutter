@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zzkit_flutter/standard/page/zz_bootup_page.dart';
+import 'package:zzkit_flutter/standard/bootup/zz_bootup_page.dart';
 import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
 import 'package:zzkit_flutter/standard/widget/zz_image.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
 import 'dart:async';
 import 'dart:math';
 

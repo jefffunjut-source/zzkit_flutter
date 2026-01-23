@@ -2,10 +2,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zzkit_flutter/standard/page/zz_bootup_page.dart';
-import 'package:zzkit_flutter/standard/page/zz_tab_navigation_bar.dart';
+import 'package:zzkit_flutter/standard/bootup/zz_bootup_page.dart';
+import 'package:zzkit_flutter/standard/bootup/zz_tab_navigation_bar.dart';
 import 'package:zzkit_flutter/util/zz_event.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
 
 class ZZHomePage extends StatefulWidget {
   const ZZHomePage({super.key});

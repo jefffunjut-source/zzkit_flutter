@@ -1,9 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, no_logic_in_create_state, file_names, unused_element, prefer_final_fields, unused_import
-// ignore_for_file: depend_on_referenced_packages
-
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,8 +11,8 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:zzkit_flutter/r.dart';
 import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
 import 'package:zzkit_flutter/util/zz_extension.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 
 class ZZWebViewController extends GetxController {
   // Progress bar

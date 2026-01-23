@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zzkit_flutter/standard/widget/zz_no_data_widget.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
 
 class ZZBaseScaffold extends Scaffold {
   // 不需要再重复声明 appBar、body、floatingActionButton 等
