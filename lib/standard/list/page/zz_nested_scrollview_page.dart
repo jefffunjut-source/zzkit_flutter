@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:zzkit_flutter/r.dart';
-import 'package:zzkit_flutter/standard/list/widget/ZZPullToRefreshHeader.dart';
+import 'package:zzkit_flutter/standard/list/widget/zz_pulltorefresh_header.dart';
 import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
 import 'package:zzkit_flutter/util/zz_event.dart';
 import 'package:zzkit_flutter/util/zz_extension.dart';
