@@ -18,8 +18,8 @@ import 'package:zzkit_example/sample/list/store_card_waterfall_page.dart';
 import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
 import 'package:zzkit_flutter/standard/widget/zz_notice_widget.dart';
 import 'package:zzkit_flutter/util/zz_translations.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 
 class TestPortalController extends GetxController {
   RxString name = "".obs;

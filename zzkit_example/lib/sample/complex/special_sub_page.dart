@@ -2,7 +2,7 @@
 // ignore_for_file: depend_on_referenced_packages, must_be_immutable, invalid_use_of_protected_member, file_names
 import 'package:flutter/material.dart';
 import 'package:zzkit_example/sample/complex/load_more_footer.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
 
 class ScrollToTopEvent {}
 

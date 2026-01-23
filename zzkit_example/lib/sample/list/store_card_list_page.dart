@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zzkit_example/sample/list/store_card_response.dart';
 import 'package:zzkit_example/sample/list/store_card_feed.dart';
-import 'package:zzkit_flutter/standard/list/allinone/zz_list.dart';
-import 'package:zzkit_flutter/util/api/zz_api_provider.dart';
+import 'package:zzkit_flutter/standard/list/zz_list_page.dart';
+import 'package:zzkit_flutter/util/zz_api_provider.dart';
 
 class StoreCardListPageController extends ZZListController {
   @override

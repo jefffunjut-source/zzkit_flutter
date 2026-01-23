@@ -1,7 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:zzkit_flutter/standard/list/allinone/zz_list.dart';
+import 'package:zzkit_flutter/standard/list/zz_list_page.dart';
 import 'package:get/get.dart';
 
 String _formatTime(DateTime timestamp) {

@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:zzkit_example/sample/list/store_card_waterfall_page.dart';
 import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 
 class TabWaterfallPage extends StatefulWidget {
   const TabWaterfallPage({super.key});

@@ -7,8 +7,8 @@ import 'package:get/route_manager.dart';
 import 'package:zzkit_flutter/standard/page/zz_base_scaffold.dart';
 import 'package:zzkit_example/sample/testportal/test_portal_page.dart';
 import 'package:get/get.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

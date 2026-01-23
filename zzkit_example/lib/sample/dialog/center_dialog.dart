@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:zzkit_example/r.dart';
 import 'package:zzkit_flutter/standard/widget/zz_dialog.dart';
-import 'package:zzkit_flutter/util/core/zz_const.dart';
-import 'package:zzkit_flutter/util/core/zz_manager.dart';
+import 'package:zzkit_flutter/util/zz_const.dart';
+import 'package:zzkit_flutter/util/zz_manager.dart';
 import 'package:get/get.dart';
 
 class CenterDialog extends ZZDialog {
